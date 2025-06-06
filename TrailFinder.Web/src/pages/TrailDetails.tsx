@@ -57,20 +57,65 @@ const TrailDetails: React.FC = () => {
                 <div className="bg-white rounded-lg shadow-lg p-6">
                     <h1 className="text-3xl font-bold mb-4">{trail.name}</h1>
 
-                    <div className="flex gap-6 mb-4">
-                        <div className="flex items-center">
-                            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    <div className="flex gap-4 mt-2 text-gray-600">
+                        <span className="flex items-center">
+                            <svg
+                                className="w-4 h-4 mr-1"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                />
                             </svg>
-                            <span className="text-lg">{trail.distanceKm.toFixed(1)} km</span>
-                        </div>
-                        <div className="flex items-center">
-                            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                            {trail.distanceKm.toFixed(1)} km
+                        </span>
+                                            <span className="flex items-center">
+                            <svg
+                                className="w-4 h-4 mr-1"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M5 10l7-7m0 0l7 7m-7-7v18"
+                                />
                             </svg>
-                            <span className="text-lg">{trail.elevationGainMeters}m elevation gain</span>
-                        </div>
-                    </div>
+                                                {trail.elevationGainMeters}m hækkun
+                        </span>
+                                            <span className="flex items-center">
+                            <svg
+                                className="w-4 h-4 mr-1"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                />
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                />
+                            </svg>
+                                                {trail.startLatitude.toFixed(6)}°, {trail.startLongitude.toFixed(6)}°
+                        </span>
+                                        </div>
 
                     <p className="text-gray-700 mb-6">{trail.description}</p>
 
