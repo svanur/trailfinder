@@ -1,25 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.tsx or wherever your router is configured
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import TrailDetails from './pages/TrailDetails';
+import NotFound from './components/NotFound';
+import Search from './pages/Search';
 
-function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-      </div>
-      <h1>Hlaupaleiðir</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        
-      </div>
-      
-    </>
-  )
-}
+const App: React.FC = () => {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/run/:normalizedName" element={<TrailDetails />} />
+                <Route path="*" element={<NotFound />} />
+                <Route path="/search" element={<Search />} />
+            </Routes>
+        </Router>
+    );
+};
 
-export default App
+export default App;
