@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Trail } from '../types';
 import Layout from '../components/layout/Layout';
 import { trails } from '../data'; // We'll import the mock data
+import NotFound from '../components/NotFound';
 
 const TrailDetails: React.FC = () => {
     const { normalizedName } = useParams<{ normalizedName: string }>();
@@ -31,8 +32,7 @@ const TrailDetails: React.FC = () => {
 
         findTrail();
     }, [normalizedName]);
-
-    // Rest of the component remains the same...
+    
     if (loading) {
         return (
             <Layout>
@@ -46,17 +46,9 @@ const TrailDetails: React.FC = () => {
             </Layout>
         );
     }
-
+    // In TrailDetails.tsx, update the error section:
     if (error || !trail) {
-        return (
-            <Layout>
-                <div className="container mx-auto p-4">
-                    <div className="bg-red-50 border-l-4 border-red-500 p-4">
-                        <p className="text-red-700">{error || 'Trail not found'}</p>
-                    </div>
-                </div>
-            </Layout>
-        );
+        return <NotFound />;
     }
 
     return (
