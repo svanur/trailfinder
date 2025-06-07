@@ -6,29 +6,21 @@ This directory contains all database migrations for the TrailFinder project.
 
 Migrations follow this structure:
 
-
-migrations/ 
-└── NNNN_description/ 
-    ├── up.sql # Forward migration 
-    └── down.sql # Rollback migration
-
+supabase/ 
+└── migrations/ 
+    └── YYYYMMDDHHMMSS_description/
 
 Where:
-- `NNNN` is a 4-digit sequential number (e.g., 0000, 0001, 0002)
+- `YYYYMMDDHHMMSS` is a timestamp of when the migration was created
 - `description` is a brief description of what the migration does
 
 ## Examples:
 
-1. To apply migrations (up):
+1. To apply migrations:
    ```bash
    supabase db reset
    ```
-
-2. To rollback a migration:
-   ```bash
-   supabase db reset --version NNNN
-   ```
-
+   
 3. Document any specific steps in the migration file if needed
 
 ## Important Notes
