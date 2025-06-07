@@ -10,7 +10,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Web", "TrailFin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Infrastructure", "TrailFinder.Infrastructure\TrailFinder.Infrastructure.csproj", "{70C45BAC-8178-4FD5-90E1-05F977749D31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Tests", "TrailFinder.Tests\TrailFinder.Tests.csproj", "{EBFE6E76-5D18-4DC3-9390-DF1B0BB60ADD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{296F7DD0-6A6B-44A1-8DF8-484091D935E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.UnitTests", "TrailFinder.UnitTests\TrailFinder.UnitTests.csproj", "{DDEA7B5F-F120-48B8-9B16-F0897EED0E58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.IntegrationTests", "TrailFinder.IntegrationTests\TrailFinder.IntegrationTests.csproj", "{6CE53C57-2894-46F3-8F61-163C07301C87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,9 +42,17 @@ Global
 		{70C45BAC-8178-4FD5-90E1-05F977749D31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70C45BAC-8178-4FD5-90E1-05F977749D31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70C45BAC-8178-4FD5-90E1-05F977749D31}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EBFE6E76-5D18-4DC3-9390-DF1B0BB60ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EBFE6E76-5D18-4DC3-9390-DF1B0BB60ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EBFE6E76-5D18-4DC3-9390-DF1B0BB60ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EBFE6E76-5D18-4DC3-9390-DF1B0BB60ADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDEA7B5F-F120-48B8-9B16-F0897EED0E58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDEA7B5F-F120-48B8-9B16-F0897EED0E58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDEA7B5F-F120-48B8-9B16-F0897EED0E58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDEA7B5F-F120-48B8-9B16-F0897EED0E58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CE53C57-2894-46F3-8F61-163C07301C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CE53C57-2894-46F3-8F61-163C07301C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CE53C57-2894-46F3-8F61-163C07301C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CE53C57-2894-46F3-8F61-163C07301C87}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DDEA7B5F-F120-48B8-9B16-F0897EED0E58} = {296F7DD0-6A6B-44A1-8DF8-484091D935E9}
+		{6CE53C57-2894-46F3-8F61-163C07301C87} = {296F7DD0-6A6B-44A1-8DF8-484091D935E9}
 	EndGlobalSection
 EndGlobal
