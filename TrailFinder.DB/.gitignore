@@ -44,3 +44,14 @@ appsettings.*.json
 
 # Migration backup files
 *.bak
+
+# Build outputs
+dist/
+/dist
+/build
+
+# Supabase
+supabase/.branches/
+supabase/.temp/
+supabase/.env
+.branches/

@@ -56,3 +56,18 @@ nunit-*.xml
 # env
 .env.development
 .env.local
+
+# node_modules
+node_modules/
+
+
+# IDE - JetBrains
+.idea/
+*.sln.iml
+*.iws
+*.iml
+*.ipr
+
+# IDE - VS Code
+.vscode/
+*.code-workspace
