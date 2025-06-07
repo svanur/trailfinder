@@ -1,3 +1,6 @@
+using TrailFinder.Api.Services;
+using TrailFinder.Api.Services.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -7,11 +10,11 @@ builder.Services.AddSwaggerGen();
 // Register services
 builder.Services.AddScoped<ITrailService, TrailService>();
 
-// CORS for Web client
+// CORS for the Web client
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowWeb", builder =>
-        builder.WithOrigins("http://localhost:5173") // Your Web client URL
+    options.AddPolicy("AllowWeb", policyBuilder =>
+        policyBuilder.WithOrigins("http://localhost:5173") // Your Web client URL
             .AllowAnyMethod()
             .AllowAnyHeader());
 });

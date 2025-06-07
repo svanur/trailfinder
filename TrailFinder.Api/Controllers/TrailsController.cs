@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Mvc;
+using TrailFinder.Api.Models;
+using TrailFinder.Api.Services.Interfaces;
+
 namespace TrailFinder.Api.Controllers;
 
 [ApiController]

@@ -47,10 +47,9 @@ Database project for the TrailFinder application.
 
 ## Conventions
 
-- Follow migration naming convention: `NNNN_description`
-- Always create both up and down migrations
-- Include seed data for new tables in `/seeds/development`
-- Update TypeScript types in `/types/database.d.ts`
+- Follow migration naming convention: `YYYYMMDDHHMMSS_description`
+- Include seed data for new tables in `/supabase/seed.sql`
+- Update TypeScript types in `/types/database.ts`
 
 ## Useful Commands
 

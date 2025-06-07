@@ -1,3 +1,5 @@
+using TrailFinder.Api.Models;
+
 namespace TrailFinder.Api.Services.Interfaces;
 
 public interface ITrailService

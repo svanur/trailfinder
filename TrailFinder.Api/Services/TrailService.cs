@@ -1,5 +1,7 @@
 using Npgsql;
 using Dapper;
+using TrailFinder.Api.Models;
+using TrailFinder.Api.Services.Interfaces;
 
 namespace TrailFinder.Api.Services;
 
@@ -32,6 +34,19 @@ public class TrailService : ITrailService
             FROM trails 
             WHERE slug = @Slug", new { Slug = slug });
     }
-    
-    // Implement other methods...
+
+    public Task<Trail> CreateTrailAsync(Trail trail)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Trail?> UpdateTrailAsync(string id, Trail trail)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> DeleteTrailAsync(string id)
+    {
+        throw new NotImplementedException();
+    }
 }

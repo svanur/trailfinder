@@ -30,14 +30,14 @@ const Search: React.FC = () => {
 
             // Distance filter
             const matchesDistance = (
-                (!filters.minDistance || trail.distanceKm >= parseFloat(filters.minDistance)) &&
-                (!filters.maxDistance || trail.distanceKm <= parseFloat(filters.maxDistance))
+                (!filters.minDistance || trail.distance_meters >= parseFloat(filters.minDistance)) &&
+                (!filters.maxDistance || trail.distance_meters <= parseFloat(filters.maxDistance))
             );
 
             // Elevation filter
             const matchesElevation = (
-                (!filters.minElevation || trail.elevationGainMeters >= parseFloat(filters.minElevation)) &&
-                (!filters.maxElevation || trail.elevationGainMeters <= parseFloat(filters.maxElevation))
+                (!filters.minElevation || trail.elevation_gain_meters >= parseFloat(filters.minElevation)) &&
+                (!filters.maxElevation || trail.elevation_gain_meters <= parseFloat(filters.maxElevation))
             );
 
             return matchesSearch && matchesDistance && matchesElevation;

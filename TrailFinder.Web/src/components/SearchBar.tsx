@@ -1,6 +1,6 @@
 // src/components/SearchBar.tsx
 import React, { useState, useEffect } from 'react';
-import { Trail } from '../types';
+import { Trail } from '@trailfinder/db-types/database';
 import { Link } from 'react-router-dom';
 
 interface SearchBarProps {
@@ -58,7 +58,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ trails }) => {
                             {searchResults.map((trail) => (
                                 <li key={trail.id}>
                                     <Link
-                                        to={`/run/${trail.normalizedName}`}
+                                        to={`/run/${trail.slug}`}
                                         className="block px-4 py-2 hover:bg-gray-100"
                                         onClick={() => {
                                             setSearchTerm('');
@@ -67,7 +67,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ trails }) => {
                                     >
                                         <div className="font-medium">{trail.name}</div>
                                         <div className="text-sm text-gray-600">
-                                            {trail.distanceKm.toFixed(1)} km • {trail.elevationGainMeters}m elevation
+                                            {trail.distance_meters.toFixed(1)} km • {trail.elevation_gain_meters}m elevation
                                         </div>
                                     </Link>
                                 </li>
