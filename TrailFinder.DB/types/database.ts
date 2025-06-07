@@ -21,6 +21,9 @@ export interface Trail {
     difficulty_level: string | null;
     route_geom: unknown;  // PostGIS type
     start_point: unknown;  // PostGIS type
+    start_point_latitude?: number;  // Added field
+    start_point_longitude?: number;  // Added field
+    web_url: string | null;
     gpx_file_path: string | null;
     created_at: string;
     updated_at: string;
@@ -36,6 +39,7 @@ export interface CreateTrailDTO {
     difficulty_level?: string;
     route_geom: unknown;
     start_point: unknown;
+    web_url?: string;
     gpx_file_path?: string;
     user_id: string;
 }

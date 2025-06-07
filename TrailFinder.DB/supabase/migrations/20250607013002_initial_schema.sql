@@ -15,6 +15,7 @@ CREATE TABLE trails (
                         difficulty_level difficulty_level,
                         route_geom geometry(LINESTRING, 4326),
                         start_point geometry(POINT, 4326),
+                        web_url TEXT,
                         gpx_file_path TEXT,
                         user_id UUID REFERENCES auth.users(id),
                         created_at TIMESTAMPTZ DEFAULT NOW(),

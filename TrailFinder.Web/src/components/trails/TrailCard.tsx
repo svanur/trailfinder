@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Trail } from '../../types';
-
+import { Trail } from '@trailfinder/db-types/database';
 interface TrailCardProps {
     trail: Trail;
 }
 
 const TrailCard: React.FC<TrailCardProps> = ({ trail }) => {
     return (
-        <Link to={`/run/${trail.normalizedName}`}>
+        <Link to={`/run/${trail.slug}`}>
             <div className="border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
                 <div className="p-4">
                     <h3 className="text-xl font-semibold">{trail.name}</h3>
@@ -28,7 +27,7 @@ const TrailCard: React.FC<TrailCardProps> = ({ trail }) => {
                                     d="M17 8l4 4m0 0l-4 4m4-4H3"
                                 />
                             </svg>
-                            {trail.distanceKm.toFixed(1)} km
+                            {trail.distance_meters.toFixed(1)} km
                         </span>
                         <span className="flex items-center">
                             <svg
@@ -45,7 +44,7 @@ const TrailCard: React.FC<TrailCardProps> = ({ trail }) => {
                                     d="M5 10l7-7m0 0l7 7m-7-7v18"
                                 />
                             </svg>
-                            {trail.elevationGainMeters}m hækkun
+                            {trail.elevation_gain_meters}m hækkun
                         </span>
                         <span className="flex items-center">
                             <svg
@@ -68,7 +67,7 @@ const TrailCard: React.FC<TrailCardProps> = ({ trail }) => {
                                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                                 />
                             </svg>
-                                                {trail.startLatitude.toFixed(6)}°, {trail.startLongitude.toFixed(6)}°
+                                                {trail.start_point_latitude && trail.start_point_latitude.toFixed(6)}°, {trail.start_point_longitude && trail.start_point_longitude.toFixed(6)}°
                         </span>
 
                     </div>

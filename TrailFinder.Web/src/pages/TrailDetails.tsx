@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Trail } from '../types';
+import { Trail } from '@trailfinder/db-types/database';
 import Layout from '../components/layout/Layout';
 import { trails } from '../data'; // We'll import the mock data
 import NotFound from '../components/NotFound';
@@ -16,7 +16,7 @@ const TrailDetails: React.FC = () => {
         const findTrail = () => {
             setTimeout(() => {
                 try {
-                    const foundTrail = trails.find(t => t.normalizedName === normalizedName);
+                    const foundTrail = trails.find(t => t.slug === normalizedName);
                     if (foundTrail) {
                         setTrail(foundTrail);
                     } else {
@@ -27,7 +27,7 @@ const TrailDetails: React.FC = () => {
                 } finally {
                     setLoading(false);
                 }
-            }, 500); // Add a small delay to simulate network request
+            }, 500); // Add a small delay to simulate the network request
         };
 
         findTrail();
@@ -73,9 +73,9 @@ const TrailDetails: React.FC = () => {
                                     d="M17 8l4 4m0 0l-4 4m4-4H3"
                                 />
                             </svg>
-                            {trail.distanceKm.toFixed(1)} km
+                            {trail.distance_meters}km
                         </span>
-                                            <span className="flex items-center">
+                        <span className="flex items-center">
                             <svg
                                 className="w-4 h-4 mr-1"
                                 fill="none"
@@ -90,9 +90,9 @@ const TrailDetails: React.FC = () => {
                                     d="M5 10l7-7m0 0l7 7m-7-7v18"
                                 />
                             </svg>
-                                                {trail.elevationGainMeters}m hækkun
+                            {trail.elevation_gain_meters}m
                         </span>
-                                            <span className="flex items-center">
+                        <span className="flex items-center">
                             <svg
                                 className="w-4 h-4 mr-1"
                                 fill="none"
@@ -113,9 +113,38 @@ const TrailDetails: React.FC = () => {
                                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                                 />
                             </svg>
-                                                {trail.startLatitude.toFixed(6)}°, {trail.startLongitude.toFixed(6)}°
+                                              
+                            {trail.start_point_latitude && trail.start_point_latitude}°, 
+                            {trail.start_point_longitude && trail.start_point_longitude}°
+                            
                         </span>
-                                        </div>
+
+                        {trail.web_url && (
+                            <a
+                                href={trail.web_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center text-blue-600 hover:text-blue-800"
+                            >
+                                <svg
+                                    className="w-4 h-4 mr-1"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                    />
+                                </svg>
+                                Skoða
+                            </a>
+                        )}
+                    </div>
+
 
                     <p className="text-gray-700 mb-6">{trail.description}</p>
 
@@ -129,9 +158,9 @@ const TrailDetails: React.FC = () => {
                         Elevation chart will go here
                     </div>
 
-                    {trail.gpxFileUrl && (
+                    {trail.gpx_file_path && (
                         <a
-                            href={trail.gpxFileUrl}
+                            href={trail.gpx_file_path}
                             download
                             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                         >
