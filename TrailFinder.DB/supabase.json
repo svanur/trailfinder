@@ -1,0 +1,17 @@
+{
+  "project_id": "csmpgyebwoypqpxzuuvg",
+  "migrations": {
+    "dir": "migrations"
+  },
+  "environments": {
+    "development": {
+      "db_url": "postgresql://postgres:postgres@localhost:54322/postgres"
+    },
+    "staging": {
+      "db_url": "your-staging-db-url"
+    },
+    "production": {
+      "db_url": "your-production-db-url"
+    }
+  }
+}

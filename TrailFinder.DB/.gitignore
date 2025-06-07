@@ -1,0 +1,57 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+
+# Visual Studio files
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.dbmdl
+*.jfm
+*.pfx
+*.publishsettings
+
+# Local development
+*.local.sql
+*.local.json
+
+# Environment files
+.env
+.env.*
+appsettings.*.json
+!appsettings.json
+!appsettings.Example.json
+
+# IDE
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# Temp files
+*.tmp
+*.temp
+
+# Database files
+*.mdf
+*.ldf
+*.ndf
+
+# Migration backup files
+*.bak
+
+# Build outputs
+dist/
+/dist
+/build
+
+# Supabase
+supabase/.branches/
+supabase/.temp/
+supabase/.env
+.branches/

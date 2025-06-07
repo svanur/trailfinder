@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>TrailFinder.DB</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="migrations\**\*" CopyToOutputDirectory="PreserveNewest" />
+        <None Include="scripts\**\*" CopyToOutputDirectory="PreserveNewest" />
+        <None Include="seeds\**\*" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="dbup-postgresql" Version="5.0.37" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
+        <PackageReference Include="Npgsql" Version="8.0.2" />
+    </ItemGroup>
+
+</Project>
