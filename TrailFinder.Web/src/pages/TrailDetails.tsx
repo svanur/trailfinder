@@ -1,54 +1,38 @@
-import React, { useEffect, useState } from 'react';
+// src/pages/TrailDetails.tsx
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Trail } from '@trailfinder/db-types/database';
 import Layout from '../components/layout/Layout';
-import { trails } from '../data'; // We'll import the mock data
-import NotFound from '../components/NotFound';
+import { useTrail } from '../hooks/useTrail';
+
 
 const TrailDetails: React.FC = () => {
-    const { normalizedName } = useParams<{ normalizedName: string }>();
-    const [trail, setTrail] = useState<Trail | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        // Simulate API call with mock data
-        const findTrail = () => {
-            setTimeout(() => {
-                try {
-                    const foundTrail = trails.find(t => t.slug === normalizedName);
-                    if (foundTrail) {
-                        setTrail(foundTrail);
-                    } else {
-                        setError('Trail not found');
-                    }
-                } catch (err) {
-                    setError(err instanceof Error ? err.message : 'Failed to load trail');
-                } finally {
-                    setLoading(false);
-                }
-            }, 500); // Add a small delay to simulate the network request
-        };
+    const { slug } = useParams<{ slug: string }>();
+    const { data: trail, isLoading, error } = useTrail(slug ?? '');
 
-        findTrail();
-    }, [normalizedName]);
-    
-    if (loading) {
+
+    if (isLoading) {
         return (
             <Layout>
-                <div className="container mx-auto p-4">
-                    <div className="animate-pulse">
-                        <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
-                        <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-                        <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-                    </div>
-                </div>
+                <div>Loading trail details...</div>
             </Layout>
         );
     }
-    // In TrailDetails.tsx, update the error section:
-    if (error || !trail) {
-        return <NotFound />;
+
+    if (error) {
+        return (
+            <Layout>
+                <div>Error loading trail: {error.message}</div>
+            </Layout>
+        );
+    }
+
+    if (!trail) {
+        return (
+            <Layout>
+                <div>Trail not found</div>
+            </Layout>
+        );
     }
 
     return (

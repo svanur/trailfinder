@@ -2,7 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import Layout from '../components/layout/Layout';
 import TrailCard from '../components/trails/TrailCard';
-import { trails } from '../data';
+import { useTrails } from '../hooks/useTrails.ts';
 
 interface FilterState {
     searchTerm: string;
@@ -13,6 +13,7 @@ interface FilterState {
 }
 
 const Search: React.FC = () => {
+    
     const [filters, setFilters] = useState<FilterState>({
         searchTerm: '',
         minDistance: '',
@@ -21,20 +22,33 @@ const Search: React.FC = () => {
         maxElevation: ''
     });
 
+    const { data: trails, isLoading, error } = useTrails();
+
+    if (isLoading) {
+        return <div>Loading trails...</div>;
+    }
+
+    if (error) {
+        return <div>Error loading trails: {error.message}</div>;
+    }
+
     const filteredTrails = useMemo(() => {
+        // If the 'trails' variable is undefined, return an empty array
+        if (!trails)
+        {
+            return [];   
+        }
+
         return trails.filter(trail => {
-            // Text search
-            const matchesSearch = !filters.searchTerm || 
+            const matchesSearch = !filters.searchTerm ||
                 trail.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
                 trail.description.toLowerCase().includes(filters.searchTerm.toLowerCase());
 
-            // Distance filter
             const matchesDistance = (
                 (!filters.minDistance || trail.distance_meters >= parseFloat(filters.minDistance)) &&
                 (!filters.maxDistance || trail.distance_meters <= parseFloat(filters.maxDistance))
             );
 
-            // Elevation filter
             const matchesElevation = (
                 (!filters.minElevation || trail.elevation_gain_meters >= parseFloat(filters.minElevation)) &&
                 (!filters.maxElevation || trail.elevation_gain_meters <= parseFloat(filters.maxElevation))
@@ -42,7 +56,8 @@ const Search: React.FC = () => {
 
             return matchesSearch && matchesDistance && matchesElevation;
         });
-    }, [filters]);
+    }, [filters, trails]); // Added trails to dependencies
+
 
     const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

@@ -67,7 +67,7 @@ const TrailCard: React.FC<TrailCardProps> = ({ trail }) => {
                                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                                 />
                             </svg>
-                                                {trail.start_point_latitude && trail.start_point_latitude.toFixed(6)}°, {trail.start_point_longitude && trail.start_point_longitude.toFixed(6)}°
+                            {trail.start_point_latitude && trail.start_point_latitude.toFixed(6)}°, {trail.start_point_longitude && trail.start_point_longitude.toFixed(6)}°
                         </span>
 
                     </div>
