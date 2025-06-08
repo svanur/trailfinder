@@ -4,7 +4,7 @@ CREATE EXTENSION IF NOT EXISTS postgis;
 -- Create enum for difficulty levels
 CREATE TYPE difficulty_level AS ENUM ('easy', 'moderate', 'hard', 'extreme');
 
--- Create trails table
+-- Create the trails table
 CREATE TABLE trails (
                         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                         name VARCHAR(255) NOT NULL,
@@ -16,7 +16,8 @@ CREATE TABLE trails (
                         route_geom geometry(LINESTRING, 4326),
                         start_point geometry(POINT, 4326),
                         web_url TEXT,
-                        gpx_file_path TEXT,
+                        has_gpx BOOLEAN
+,
                         user_id UUID REFERENCES auth.users(id),
                         created_at TIMESTAMPTZ DEFAULT NOW(),
                         updated_at TIMESTAMPTZ DEFAULT NOW()

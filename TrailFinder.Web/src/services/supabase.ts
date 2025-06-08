@@ -28,3 +28,19 @@ export async function testConnection() {
         return false
     }
 }
+
+// Setup storage for gpx files
+export async function setupStorageBucket() {
+    const { error } = await supabase
+        .storage
+        .createBucket('gpx-files', {
+            public: false, // Keep private for controlled access
+            fileSizeLimit: 10485760, // 10MB limit for GPX files
+        });
+
+    if (error) {
+        console.error('Error creating bucket:', error);
+        return false;
+    }
+    return true;
+}

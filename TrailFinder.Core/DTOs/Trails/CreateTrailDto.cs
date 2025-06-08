@@ -11,5 +11,6 @@ public record CreateTrailDto(
     double StartPointLatitude,
     double StartPointLongitude,
     string? WebUrl,
+    bool HasGpx,
     string UserId
 );

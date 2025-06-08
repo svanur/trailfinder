@@ -15,7 +15,7 @@ INSERT INTO trails (
     route_geom,
     start_point,
     web_url,
-    gpx_file_path,
+    has_gpx,
     user_id
 ) VALUES
       (
@@ -28,7 +28,7 @@ INSERT INTO trails (
           ST_GeomFromText('LINESTRING(-121.7603 46.7858, -121.7813 46.7959, -121.7923 46.8060)', 4326),
           ST_GeomFromText('POINT(-121.7603 46.7858)', 4326),
           'https://www.strava.com/activities/5495817983',
-          '/storage/gpx/esja-ultra.gpx',
+          false,
           'd0d8c29c-7456-4d82-a087-5a1256b092c9'
       ),
       (
@@ -41,7 +41,7 @@ INSERT INTO trails (
           ST_GeomFromText('LINESTRING(-122.4058 47.6545, -122.4098 47.6578, -122.4148 47.6589)', 4326),
           ST_GeomFromText('POINT(-122.4058 47.6545)', 4326),
           'hhttps://connect.garmin.com/modern/course/253641069',
-          '/storage/gpx/esja-ultra-half-marathon.gpx',
+          false,
           'd0d8c29c-7456-4d82-a087-5a1256b092c9'
       ),
       (
@@ -53,8 +53,8 @@ INSERT INTO trails (
           'hard',
           ST_GeomFromText('LINESTRING(-121.9713 47.5093, -121.9813 47.5159, -121.9913 47.5259)', 4326),
           ST_GeomFromText('POINT(-121.9713 47.5093)', 4326),
-       'https://www.strava.com/routes/2829454378257603194',   
-       '/storage/gpx/hengill-ultra-52.gpx',
+          'https://www.strava.com/routes/2829454378257603194',
+          false,
           'd0d8c29c-7456-4d82-a087-5a1256b092c9'
       ),
       (
@@ -66,8 +66,8 @@ INSERT INTO trails (
           'moderate',
           ST_GeomFromText('LINESTRING(-121.9713 47.5093, -121.9813 47.5159, -121.9913 47.5259)', 4326),
           ST_GeomFromText('POINT(-121.9713 47.5093)', 4326),
-          'https://www.strava.com/activities/1586469545',   
-          '/storage/gpx/hvitasunnuhlaup-hauka-22.gpx',
+          'https://www.strava.com/activities/1586469545',
+          false,
           'd0d8c29c-7456-4d82-a087-5a1256b092c9'
       ),
       (
@@ -80,7 +80,7 @@ INSERT INTO trails (
           ST_GeomFromText('LINESTRING(-121.9713 47.5093, -121.9813 47.5159, -121.9913 47.5259)', 4326),
           ST_GeomFromText('POINT(-121.9713 47.5093)', 4326),
           'https://connect.garmin.com/modern/course/60180539',   
-          '/storage/gpx/hvitasunnuhlaup-hauka-17.gpx',
+          true,
           'd0d8c29c-7456-4d82-a087-5a1256b092c9'
       ),
       (
@@ -92,8 +92,8 @@ INSERT INTO trails (
           'easy',
           ST_GeomFromText('LINESTRING(-121.9713 47.5093, -121.9813 47.5159, -121.9913 47.5259)', 4326),
           ST_GeomFromText('POINT(-121.9713 47.5093)', 4326),
-          'https://connect.garmin.com/modern/course/60180128',   
-          '/storage/gpx/hvitasunnuhlaup-hauka-14.gpx',
+          'https://connect.garmin.com/modern/course/60180128',
+          false,
           'd0d8c29c-7456-4d82-a087-5a1256b092c9'
       ),
       (
@@ -106,7 +106,7 @@ INSERT INTO trails (
           ST_GeomFromText('LINESTRING(-121.9713 47.5093, -121.9813 47.5159, -121.9913 47.5259)', 4326),
           ST_GeomFromText('POINT(-121.9713 47.5093)', 4326),
           'https://connect.garmin.com/modern/course/157776054',
-          '/storage/gpx/puffin-run.gpx',
+          false,
           'd0d8c29c-7456-4d82-a087-5a1256b092c9'
       ),
       (
@@ -118,8 +118,8 @@ INSERT INTO trails (
           'easy',
           ST_GeomFromText('LINESTRING(-121.9713 47.5093, -121.9813 47.5159, -121.9913 47.5259)', 4326),
           ST_GeomFromText('POINT(-121.9713 47.5093)', 4326),
-          'https://www.strava.com/segments/25811198',   
-          '/storage/gpx/bakgardur-ellidavatn.gpx',
+          'https://www.strava.com/segments/25811198',
+          false,
           'd0d8c29c-7456-4d82-a087-5a1256b092c9'
       )
 ;
