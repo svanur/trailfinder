@@ -1,10 +1,13 @@
-// TrailFinder.Infrastructure/DependencyInjection.cs
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TrailFinder.Core.Interfaces.Repositories;
+using TrailFinder.Core.Interfaces.Services;
+using TrailFinder.Infrastructure.Configuration;
+using TrailFinder.Infrastructure.Mapping;
 using TrailFinder.Infrastructure.Persistence;
 using TrailFinder.Infrastructure.Persistence.Repositories;
+using TrailFinder.Infrastructure.Services;
 
 namespace TrailFinder.Infrastructure;
 
@@ -21,6 +24,20 @@ public static class DependencyInjection
             ));
 
         services.AddScoped<ITrailRepository, TrailRepository>();
+        
+        // Add AutoMapper configuration
+        services.AddAutoMapper(typeof(SupabaseMappingProfile).Assembly);
+
+        // Add Supabase configuration
+        services.Configure<SupabaseSettings>(settings =>
+        {
+            settings.Url = configuration["VITE_SUPABASE_URL"]!;
+            settings.Key = configuration["VITE_SUPABASE_ANON_KEY"]!;
+        });
+
+        // Register Supabase service
+        services.AddScoped<ISupabaseService, SupabaseService>();
+
         // Add other repositories here
         
         return services;
