@@ -45,9 +45,9 @@ builder.Services.AddHealthChecks()
 
             // Monitor GPX storage specifically
             // Assuming your GPX files are stored in a specific directory
-            var gpxPath = Path.Combine(builder.Environment.ContentRootPath, "Storage", "GPX");
+            var gpxPath = Path.Combine(builder.Environment.ContentRootPath, "storage", "gpx");
         
-            // Create directory if it doesn't exist
+            // Create the directory if it doesn't exist
             if (!Directory.Exists(gpxPath))
             {
                 Directory.CreateDirectory(gpxPath);
@@ -66,9 +66,9 @@ builder.Services.AddHealthChecks()
         {
             try
             {
-                var gpxPath = Path.Combine(builder.Environment.ContentRootPath, "Storage", "GPX");
+                var gpxPath = Path.Combine(builder.Environment.ContentRootPath, "storage", "gpx");
             
-                // Check if directory exists
+                // Check if the directory exists
                 if (!Directory.Exists(gpxPath))
                 {
                     return HealthCheckResult.Unhealthy($"GPX directory does not exist at: {gpxPath}");

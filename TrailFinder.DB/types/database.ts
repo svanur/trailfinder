@@ -21,8 +21,8 @@ export interface Trail {
     difficulty_level: string | null;
     route_geom: unknown;  // PostGIS type
     start_point: unknown;  // PostGIS type
-    start_point_latitude?: number;  // Added field
-    start_point_longitude?: number;  // Added field
+    start_point_latitude?: number; 
+    start_point_longitude?: number; 
     web_url: string | null;
     gpx_file_path: string | null;
     created_at: string;
