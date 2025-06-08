@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Features\Trails\Commands\DeleteTrail\" />
+      <Folder Include="Features\Trails\Commands\UpdateTrail\" />
+      <Folder Include="Features\Trails\Queries\GetTrails\" />
+      <Folder Include="Services\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="14.0.0" />
+      <PackageReference Include="FluentValidation" Version="12.0.0" />
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+      <PackageReference Include="MediatR" Version="12.5.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\TrailFinder.Contract\TrailFinder.Contract.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\TrailFinder.Core\TrailFinder.Core.csproj" />
+    </ItemGroup>
+    
+</Project>

@@ -1,6 +1,8 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TrailFinder.Api.Models;
-using TrailFinder.Api.Services.Interfaces;
+using TrailFinder.Application.Features.Trails.Commands.CreateTrail;
+using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
+using TrailFinder.Core.DTOs.Trails;
 
 namespace TrailFinder.Api.Controllers;
 
@@ -8,46 +10,39 @@ namespace TrailFinder.Api.Controllers;
 [Route("api/[controller]")]
 public class TrailsController : ControllerBase
 {
-    private readonly ITrailService _trailService;
+    private readonly IMediator _mediator;
     private readonly ILogger<TrailsController> _logger;
 
-    public TrailsController(ITrailService trailService, ILogger<TrailsController> logger)
+    public TrailsController(
+        IMediator mediator,
+        ILogger<TrailsController> logger)
     {
-        _trailService = trailService;
+        _mediator = mediator;
         _logger = logger;
     }
 
-    /// <summary>
-    /// Retrieves a list of all available trails.
-    /// </summary>
-    /// <returns>A collection of trails wrapped in an ActionResult.</returns>
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Trail>>> GetTrails()
+    [HttpGet("{slug}")]
+    public async Task<ActionResult<TrailDto>> GetTrail(string slug)
     {
         try
         {
-            var trails = await _trailService.GetTrailsAsync();
-            return Ok(trails);
+            var result = await _mediator.Send(new GetTrailBySlugQuery(slug));
+            return result != null 
+                ? Ok(result) 
+                : NotFound();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting trails");
+            _logger.LogError(ex, "Error getting trail with slug {Slug}", slug);
             return StatusCode(500, "Internal server error");
         }
     }
-
-    /// <summary>
-    /// Retrieves details of a specific trail based on its unique slug.
-    /// </summary>
-    /// <param name="slug">The unique identifier (slug) of the trail to retrieve.</param>
-    /// <returns>An ActionResult containing the trail details if found, otherwise a NotFound result.</returns>
-    [HttpGet("{slug}")]
-    public async Task<ActionResult<Trail>> GetTrail(string slug)
+    
+    [HttpPost]
+    public async Task<ActionResult<int>> Create(CreateTrailDto dto)
     {
-        var trail = await _trailService.GetTrailBySlugAsync(slug);
-        if (trail == null)
-            return NotFound();
-
-        return Ok(trail);
+        var command = CreateTrailCommand.FromDto(dto);
+        var trailId = await _mediator.Send(command);
+        return Ok(trailId);
     }
 }
