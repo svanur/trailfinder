@@ -11,6 +11,7 @@
     <PackageReference Include="AspNetCore.HealthChecks.System" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Autofac" Version="0.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.5" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="9.0.5" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="8.1.4" />
@@ -19,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TrailFinder.Application\TrailFinder.Application.csproj" />
     <ProjectReference Include="..\TrailFinder.Core\TrailFinder.Core.csproj" />
     <ProjectReference Include="..\TrailFinder.DB\TrailFinder.DB.csproj" />
     <ProjectReference Include="..\TrailFinder.Infrastructure\TrailFinder.Infrastructure.csproj" />

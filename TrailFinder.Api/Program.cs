@@ -4,6 +4,7 @@ using TrailFinder.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using TrailFinder.Application;
 
 
 // TrailFinder.Api/Program.cs
@@ -18,6 +19,7 @@ builder.Services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddApplication(); // Add this line to register CQRS and related services
 
 // Configure health checks
 builder.Services.AddHealthChecks()

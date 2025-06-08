@@ -1,7 +1,8 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TrailFinder.Application.Features.Trails.Commands.CreateTrail;
+using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 using TrailFinder.Core.DTOs.Trails;
-using TrailFinder.Core.Extensions;
-using TrailFinder.Core.Interfaces.Services;
 
 namespace TrailFinder.Api.Controllers;
 
@@ -9,36 +10,39 @@ namespace TrailFinder.Api.Controllers;
 [Route("api/[controller]")]
 public class TrailsController : ControllerBase
 {
-    private readonly ITrailService _trailService;
+    private readonly IMediator _mediator;
     private readonly ILogger<TrailsController> _logger;
 
-    public TrailsController(ITrailService trailService, ILogger<TrailsController> logger)
+    public TrailsController(
+        IMediator mediator,
+        ILogger<TrailsController> logger)
     {
-        _trailService = trailService;
+        _mediator = mediator;
         _logger = logger;
-    }
-
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<TrailDto>>> GetTrails()
-    {
-        try
-        {
-            var trails = await _trailService.GetTrailsAsync();
-            return Ok(trails);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting trails");
-            return StatusCode(500, "Internal server error");
-        }
     }
 
     [HttpGet("{slug}")]
     public async Task<ActionResult<TrailDto>> GetTrail(string slug)
     {
-        var trail = await _trailService.GetTrailBySlugAsync(slug);
-        return trail != null 
-            ?  Ok(trail.ToDto())
-            : NotFound();
+        try
+        {
+            var result = await _mediator.Send(new GetTrailBySlugQuery(slug));
+            return result != null 
+                ? Ok(result) 
+                : NotFound();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting trail with slug {Slug}", slug);
+            return StatusCode(500, "Internal server error");
+        }
+    }
+    
+    [HttpPost]
+    public async Task<ActionResult<int>> Create(CreateTrailDto dto)
+    {
+        var command = CreateTrailCommand.FromDto(dto);
+        var trailId = await _mediator.Send(command);
+        return Ok(trailId);
     }
 }

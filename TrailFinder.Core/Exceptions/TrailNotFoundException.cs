@@ -2,8 +2,13 @@ namespace TrailFinder.Core.Exceptions;
 
 public class TrailNotFoundException : DomainException
 {
-    public TrailNotFoundException(Guid id)
+    public TrailNotFoundException(int id)
         : base($"Trail with ID {id} was not found.")
+    {
+    }
+    
+    public TrailNotFoundException(Guid id)
+        : base($"Trail with Guid {id} was not found.")
     {
     }
 
