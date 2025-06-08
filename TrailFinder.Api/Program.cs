@@ -1,5 +1,5 @@
-using TrailFinder.Api.Services;
-using TrailFinder.Api.Services.Interfaces;
+using TrailFinder.Core.Interfaces.Services;
+using TrailFinder.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

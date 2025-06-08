@@ -1,6 +1,8 @@
-using TrailFinder.Api.Models;
 
-namespace TrailFinder.Api.Services.Interfaces;
+
+using TrailFinder.Core.Entities;
+
+namespace TrailFinder.Core.Interfaces.Services;
 
 public interface ITrailService
 {
@@ -22,7 +24,7 @@ public interface ITrailService
     /// </summary>
     /// <param name="trail">The trail object to be created.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the created trail.</returns>
-    Task<Trail> CreateTrailAsync(Trail trail);
+    //Task<Trail> CreateTrailAsync(Trail trail);
 
     /// <summary>
     /// Updates an existing trail asynchronously using the provided trail information and identifier.
@@ -30,12 +32,12 @@ public interface ITrailService
     /// <param name="id">The unique identifier for the trail to be updated.</param>
     /// <param name="trail">The updated trail object with new data.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the updated trail, or null if no trail is found for the given identifier.</returns>
-    Task<Trail?> UpdateTrailAsync(string id, Trail trail);
+    //Task<Trail?> UpdateTrailAsync(string id, Trail trail);
 
     /// <summary>
     /// Deletes a trail asynchronously based on the provided identifier.
     /// </summary>
     /// <param name="id">The unique identifier of the trail to be deleted.</param>
     /// <returns>A task that represents the asynchronous operation. The task result is true if the trail is successfully deleted, or false if no trail is found for the given identifier.</returns>
-    Task<bool> DeleteTrailAsync(string id);
+    //Task<bool> DeleteTrailAsync(string id);
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using TrailFinder.Api.Models;
-using TrailFinder.Api.Services.Interfaces;
+using TrailFinder.Core.DTOs.Trails;
+using TrailFinder.Core.Extensions;
+using TrailFinder.Core.Interfaces.Services;
 
 namespace TrailFinder.Api.Controllers;
 
@@ -17,12 +18,8 @@ public class TrailsController : ControllerBase
         _logger = logger;
     }
 
-    /// <summary>
-    /// Retrieves a list of all available trails.
-    /// </summary>
-    /// <returns>A collection of trails wrapped in an ActionResult.</returns>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Trail>>> GetTrails()
+    public async Task<ActionResult<IEnumerable<TrailDto>>> GetTrails()
     {
         try
         {
@@ -36,18 +33,12 @@ public class TrailsController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Retrieves details of a specific trail based on its unique slug.
-    /// </summary>
-    /// <param name="slug">The unique identifier (slug) of the trail to retrieve.</param>
-    /// <returns>An ActionResult containing the trail details if found, otherwise a NotFound result.</returns>
     [HttpGet("{slug}")]
-    public async Task<ActionResult<Trail>> GetTrail(string slug)
+    public async Task<ActionResult<TrailDto>> GetTrail(string slug)
     {
         var trail = await _trailService.GetTrailBySlugAsync(slug);
-        if (trail == null)
-            return NotFound();
-
-        return Ok(trail);
+        return trail != null 
+            ?  Ok(trail.ToDto())
+            : NotFound();
     }
 }
