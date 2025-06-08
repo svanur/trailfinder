@@ -53,6 +53,12 @@ Database project for the TrailFinder application.
 
 ## Useful Commands
 
+#### Add migrations
+
+```bash
+supabase db up
+```
+
 #### Reset database (careful - this deletes all data)
 
 ```
@@ -61,20 +67,20 @@ supabase db reset
 
 #### Start Supabase services
 
-```
+```bash
 supabase start
 ```
 
 ####  Stop Supabase services
 
 
-```
+```bash
 supabase stop
 ```
 
 #### View logs
 
-```
+```bash
 supabase logs
 ```
 

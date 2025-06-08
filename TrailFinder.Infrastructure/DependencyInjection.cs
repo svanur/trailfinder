@@ -1,3 +1,4 @@
+// TrailFinder.Infrastructure/DependencyInjection.cs
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,7 +8,6 @@ using TrailFinder.Infrastructure.Persistence.Repositories;
 
 namespace TrailFinder.Infrastructure;
 
-// TrailFinder.Infrastructure/DependencyInjection.cs
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(
@@ -21,7 +21,8 @@ public static class DependencyInjection
             ));
 
         services.AddScoped<ITrailRepository, TrailRepository>();
-
+        // Add other repositories here
+        
         return services;
     }
 }

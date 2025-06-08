@@ -7,7 +7,7 @@ public class Todo
     //TODO [X] Move entities to TrailFinder.Core
     //TODO [X] Set up proper interfaces and DTOs
     //TODO [X] Implement Repository pattern
-    //TODO [ ] Add proper dependency injection structure
+    //TODO [X] Add proper dependency injection structure
 
     // Configuration Management
     //TODO [ ] Set up proper configuration patterns
