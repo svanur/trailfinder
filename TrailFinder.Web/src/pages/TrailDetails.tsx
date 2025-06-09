@@ -1,21 +1,65 @@
 // src/pages/TrailDetails.tsx
-import React from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import { useTrail } from '../hooks/useTrail';
 import TrailGpxDownload from '../components/TrailGpxDownload.tsx';
-
+import TrailMap from '../components/TrailMap';
+import ElevationProfile from '../components/ElevationProfile';
+import downloadGpxFile from "../utils/downloadGpxFile.ts";
 
 const TrailDetails: React.FC = () => {
-
     const { slug } = useParams<{ slug: string }>();
     const { data: trail, isLoading, error } = useTrail(slug ?? '');
+    const [gpxData, setGpxData] = useState<string>('');
+    const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
 
+    // Move useMemo before any conditional returns
+    const parsedGpxData = useMemo(() => {
+        if (!gpxData) return null;
+
+        const parser = new DOMParser();
+        const gpxDoc = parser.parseFromString(gpxData, 'text/xml');
+        const points = Array.from(gpxDoc.getElementsByTagName('trkpt')).map(point => ({
+            lat: parseFloat(point.getAttribute('lat') || '0'),
+            lng: parseFloat(point.getAttribute('lon') || '0'),
+            elevation: parseFloat(point.getElementsByTagName('ele')[0]?.textContent || '0')
+        }));
+
+        return points;
+    }, [gpxData]);
+
+    // Move useEffect before any conditional returns
+    useEffect(() => {
+        const loadGpxData = async () => {
+            if (trail?.has_gpx) {
+                const gpxBlob = await downloadGpxFile(trail.id, false);
+                if (gpxBlob !== null) {
+                    const text = await gpxBlob.text();
+                    setGpxData(text);
+                }
+            }
+        };
+
+        loadGpxData();
+    }, [trail]);
+
+    const handleMapHover = (point: { lat: number; lng: number; elevation: number }) => {
+        if (!parsedGpxData) return;
+        const index = parsedGpxData.findIndex(p =>
+            p.lat === point.lat && p.lng === point.lng
+        );
+        setHoveredPoint(index);
+    };
+
+    const handleProfileHover = (index: number) => {
+        setHoveredPoint(index);
+    };
 
     if (isLoading) {
         return (
             <Layout>
-                <div>Loading trail details...</div>
+                <div>Best að hita smá upp...</div>
             </Layout>
         );
     }
@@ -23,7 +67,7 @@ const TrailDetails: React.FC = () => {
     if (error) {
         return (
             <Layout>
-                <div>Error loading trail: {error.message}</div>
+                <div>Það er nú eitthvað að þessari :/</div>
             </Layout>
         );
     }
@@ -31,7 +75,7 @@ const TrailDetails: React.FC = () => {
     if (!trail) {
         return (
             <Layout>
-                <div>Trail not found</div>
+                <div>Þessi leið er eitthvað týnd :(</div>
             </Layout>
         );
     }
@@ -133,15 +177,26 @@ const TrailDetails: React.FC = () => {
 
                     <p className="text-gray-700 mb-6">{trail.description}</p>
 
-                    {/* Placeholder for the map */}
-                    <div className="bg-gray-100 rounded-lg h-96 mb-6">
-                        Hér kemur kort af hlaupaleiðinni
-                    </div>
+                    {trail.has_gpx && gpxData && parsedGpxData && (
+                        <>
+                            <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+                                <TrailMap
+                                    gpxData={gpxData}
+                                    onHoverPoint={handleMapHover}
+                                    highlightedPoint={hoveredPoint !== null ? parsedGpxData[hoveredPoint] : null}
+                                />
+                            </div>
 
-                    {/* Placeholder for elevation chart */}
-                    <div className="bg-gray-100 rounded-lg h-48 mb-6">
-                        Hér kemur hæðarprófill leiðarinnar
-                    </div>
+                            <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+                                <ElevationProfile
+                                    elevationData={parsedGpxData.map(p => p.elevation)}
+                                    onHoverPoint={handleProfileHover}
+                                    highlightedIndex={hoveredPoint}
+                                />
+                            </div>
+                        </>
+                    )}
+
 
                     {trail.has_gpx && (
                         <TrailGpxDownload trail={trail} />
