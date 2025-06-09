@@ -1,22 +1,21 @@
-import { useGpxStorage } from '../hooks/useGpxStorage';
-import {useState} from "react";
-import type { Trail } from '@trailfinder/db-types/database';
+// src/components/TrailGpxDownload.tsx
+import React, { useState } from 'react';
+import { Trail } from '@trailfinder/db-types/database';
+import downloadGpxFile from "../utils/downloadGpxFile"
 
 interface TrailGpxDownloadProps {
     trail: Trail;
 }
 
 const TrailGpxDownload: React.FC<TrailGpxDownloadProps> = ({ trail }) => {
-    const { downloadGpx } = useGpxStorage();
     const [isDownloading, setIsDownloading] = useState(false);
 
     const handleDownload = async () => {
         setIsDownloading(true);
         try {
-            await downloadGpx(trail.id, `${trail.id}.gpx`);
+            await downloadGpxFile(trail.id);
         } catch (error) {
             console.error('Download failed:', error);
-            // Add error notification here
         } finally {
             setIsDownloading(false);
         }
@@ -43,4 +42,3 @@ const TrailGpxDownload: React.FC<TrailGpxDownloadProps> = ({ trail }) => {
 };
 
 export default TrailGpxDownload;
-

@@ -2,9 +2,10 @@ import {supabase} from "../services/supabase.ts";
 
 const downloadGpxFile = async (trailId: string) => {
     try {
+        
         const { data, error } = await supabase.storage
             .from('gpx-files')
-            .download(`${trailId}/${trailId}.gpx`);
+            .download(`${trailId}.gpx`);
 
         if (error) {
             console.error('Error downloading file:', error);
