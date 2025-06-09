@@ -26,7 +26,7 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
             }).addTo(mapRef.current);
         }
 
-        // Create custom start marker icon
+        // Create a custom start marker icon
         const startIcon = L.divIcon({
             className: 'start-marker',
             html: `

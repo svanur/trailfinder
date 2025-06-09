@@ -9,10 +9,14 @@ import {
     CategoryScale,
     ChartType,
     ChartOptions,
-    Plugin
+    Plugin,
+    Filler
 } from 'chart.js';
 
 import { Line } from 'react-chartjs-2';
+
+// Register the Filler plugin
+ChartJS.register(Filler);
 
 // Register the chart.js components
 ChartJS.register(
@@ -47,10 +51,13 @@ const runnerPlugin: Plugin = {
 
             if (point) {
                 ctx.save();
-                ctx.beginPath();
-                ctx.arc(point.x, point.y, 6, 0, 2 * Math.PI);
-                ctx.fillStyle = 'red';
-                ctx.fill();
+                // Use the Material Icons font
+                ctx.font = '24px "Material Icons"';
+                ctx.fillStyle = '#333';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                // Use the icon's Unicode character
+                ctx.fillText('\ue566', point.x, point.y); // This is the Unicode for directions_run
                 ctx.restore();
             }
         }
