@@ -20,7 +20,7 @@ public class Trail : BaseEntity
     public Point StartPoint { get; private set; } = default!;
     public LineString? RouteGeometry { get; private set; }
     public string? WebUrl { get; private set; }
-    public string? GpxFilePath { get; private set; }
+    public bool HasGpx { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
     public string UserId { get; private set; } = default!;
@@ -89,7 +89,7 @@ public class Trail : BaseEntity
 
     public void UpdateGpxFile(string gpxFilePath)
     {
-        GpxFilePath = gpxFilePath;
+        //HasGpx = true;
         UpdatedAt = DateTime.UtcNow;
     }
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import { useTrail } from '../hooks/useTrail';
-import {getGpxPath} from "../utils/gpxUtils.ts";
+import TrailGpxDownload from '../components/TrailGpxDownload.tsx';
 
 
 const TrailDetails: React.FC = () => {
@@ -41,7 +41,6 @@ const TrailDetails: React.FC = () => {
             <div className="container mx-auto p-4">
                 <div className="bg-white rounded-lg shadow-lg p-6">
                     <h1 className="text-3xl font-bold mb-4">{trail.name}</h1>
-                    <h1 className="text-3xl font-bold mb-4">{trail.id}</h1>
 
                     <div className="flex gap-4 mt-2 text-gray-600">
                         <span className="flex items-center">
@@ -144,17 +143,8 @@ const TrailDetails: React.FC = () => {
                         Hér kemur hæðarprófill leiðarinnar
                     </div>
 
-                    {trail.gpx_file_path && (
-                        <a
-                            href={getGpxPath(trail.id)}
-                            download
-                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                        >
-                            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            Hlaða niður GPX
-                        </a>
+                    {trail.has_gpx && (
+                        <TrailGpxDownload trail={trail} />
                     )}
                 </div>
             </div>

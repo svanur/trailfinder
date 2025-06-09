@@ -13,7 +13,7 @@ public record TrailDto(
     double StartPointLatitude,
     double StartPointLongitude,
     string? WebUrl,
-    string? GpxFilePath,
+    bool HasGpx,
     DateTime CreatedAt,
     DateTime UpdatedAt,
     string UserId

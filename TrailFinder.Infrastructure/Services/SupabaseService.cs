@@ -3,6 +3,8 @@ using AutoMapper;
 using Supabase;
 using Microsoft.Extensions.Options;
 using Supabase.Postgrest;
+using Supabase.Storage;
+using Supabase.Storage.Interfaces;
 using TrailFinder.Core.DTOs.Trails;
 using TrailFinder.Core.Interfaces.Services;
 using TrailFinder.Infrastructure.Configuration;
@@ -15,6 +17,10 @@ public class SupabaseService : ISupabaseService
 {
     private readonly Client _supabaseClient;
     private readonly IMapper _mapper;
+    
+    public IStorageBucketApi<Bucket> Storage => _supabaseClient.Storage;
+    public IStorageFileApi<FileObject> From(string bucket) => _supabaseClient.Storage.From(bucket);
+
 
     public SupabaseService(
         IOptions<SupabaseSettings> settings,

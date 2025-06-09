@@ -2,12 +2,13 @@ using TrailFinder.Core;
 using TrailFinder.Infrastructure;
 using TrailFinder.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.DependencyInjection;
 using HealthChecks.UI.Client;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using TrailFinder.Application;
+using Supabase;
+using TrailFinder.Infrastructure.HealthChecks;
 
-
-// TrailFinder.Api/Program.cs
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
@@ -37,29 +38,9 @@ builder.Services.AddHealthChecks()
         name: "supabase-api",
         tags: ["external-service"])
     
-    // GPX storage health checks
-    .AddDiskStorageHealthCheck(options =>
-        {
-            // Monitor the main storage
-            options.AddDrive(@"C:\", 1024); // 1GB minimum free space
-
-            // Monitor GPX storage specifically
-            // Assuming your GPX files are stored in a specific directory
-            var gpxPath = Path.Combine(builder.Environment.ContentRootPath, "storage", "gpx");
-        
-            // Create the directory if it doesn't exist
-            if (!Directory.Exists(gpxPath))
-            {
-                Directory.CreateDirectory(gpxPath);
-            }
-
-            options.AddDrive(
-                gpxPath,
-                500 // 500MB minimum for GPX files
-            );
-        }, 
-        name: "storage-health",
-        tags: ["storage", "gpx"])
+    .AddTypeActivatedCheck<SupabaseStorageHealthCheck>(
+        name: "supabase-storage", "storage", "supabase"
+    )
     
     // Custom GPX directory access check
     .AddCheck("gpx-directory-access", () =>
@@ -116,6 +97,21 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader();
     });
 });
+
+// Register Supabase client
+builder.Services.AddSingleton(provider => 
+{
+    var supabaseUrl = builder.Configuration["VITE_SUPABASE_URL"];
+    var supabaseKey = builder.Configuration["VITE_SUPABASE_ANON_KEY"];
+    
+    if (string.IsNullOrEmpty(supabaseUrl) || string.IsNullOrEmpty(supabaseKey))
+    {
+        throw new InvalidOperationException("Supabase configuration is missing");
+    }
+
+    return new Client(supabaseUrl, supabaseKey);
+});
+
 
 var app = builder.Build();
 

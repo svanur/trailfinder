@@ -24,7 +24,7 @@ export interface Trail {
     start_point_latitude?: number; 
     start_point_longitude?: number; 
     web_url: string | null;
-    gpx_file_path: string | null;
+    has_gpx: boolean;
     created_at: string;
     updated_at: string;
     user_id: string;
