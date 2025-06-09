@@ -7,8 +7,11 @@ import {
     Title,
     Tooltip,
     CategoryScale,
-    ChartOptions
+    ChartType,
+    ChartOptions,
+    Plugin
 } from 'chart.js';
+
 import { Line } from 'react-chartjs-2';
 
 // Register the chart.js components
@@ -20,6 +23,43 @@ ChartJS.register(
     Title,
     Tooltip
 );
+
+// Declare plugin options type
+declare module 'chart.js' {
+    interface PluginOptionsByType<TType extends ChartType> {
+        runnerPlugin?: {
+            highlightedIndex?: number | null;
+        };
+    }
+}
+
+// Define the custom plugin
+const runnerPlugin: Plugin = {
+    id: 'runnerPlugin',
+    afterDraw: (chart) => {
+        const { ctx } = chart;
+        const runnerOptions = chart.options.plugins?.runnerPlugin;
+        const highlightedIndex = runnerOptions?.highlightedIndex;
+
+        if (highlightedIndex !== null && highlightedIndex !== undefined) {
+            const meta = chart.getDatasetMeta(0);
+            const point = meta.data[highlightedIndex];
+
+            if (point) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, 6, 0, 2 * Math.PI);
+                ctx.fillStyle = 'red';
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+    }
+};
+
+// Register the runner plugin
+ChartJS.register(runnerPlugin);
+
 
 interface ElevationProfileProps {
     elevationData: number[];
@@ -84,6 +124,9 @@ const ElevationProfile: React.FC<ElevationProfileProps> = ({
                 enabled: true,
                 mode: 'index' as const,
                 intersect: false,
+            },
+            runnerPlugin: {
+                highlightedIndex
             }
         },
         scales: {
@@ -112,6 +155,7 @@ const ElevationProfile: React.FC<ElevationProfileProps> = ({
                 onHoverPoint(firstPoint.index);
             }
         },
+
     };
 
     return (
