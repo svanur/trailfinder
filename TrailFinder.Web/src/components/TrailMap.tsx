@@ -18,7 +18,6 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
     useEffect(() => {
         if (!mapContainerRef.current) return;
 
-        // Initialize the map if it doesn't exist
         if (!mapRef.current) {
             mapRef.current = L.map(mapContainerRef.current).setView([0, 0], 13);
 
@@ -27,7 +26,7 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
             }).addTo(mapRef.current);
         }
 
-        // Create the custom start marker icon with a runner
+        // Create custom start marker icon
         const startIcon = L.divIcon({
             className: 'start-marker',
             html: `
@@ -53,7 +52,7 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
             weight: 3,
         }).addTo(mapRef.current);
 
-        // Add start marker (runner icon)
+        // Add start marker
         if (points.length > 0) {
             if (startMarkerRef.current) {
                 startMarkerRef.current.remove();
@@ -63,7 +62,7 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
             }).addTo(mapRef.current);
         }
 
-        // Add the mousemove event to the polyline
+        // Add mousemove event to the polyline
         if (onHoverPoint) {
             polyline.on('mousemove', (e) => {
                 const closest = findClosestPoint(points, e.latlng);
@@ -93,28 +92,38 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
         }
 
         if (highlightedPoint) {
+            const map = mapRef.current;
             highlightMarkerRef.current = L.marker([highlightedPoint.lat, highlightedPoint.lng], {
                 icon: L.divIcon({
-                    className: 'highlighted-point',
-                    html: '<div style="width: 12px; height: 12px; background: #ff6b6b; border-radius: 50%; border: 2px solid white;"></div>'
+                    className: 'hover-marker',
+                    html: `
+            <span class="material-symbols-outlined">
+              directions_run
+            </span>
+          `,
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 12]
                 })
-            }).addTo(mapRef.current);
+            });
+
+            if (map) {
+                highlightMarkerRef.current.addTo(map);
+            }
         }
     }, [highlightedPoint]);
 
     return <div ref={mapContainerRef} style={{ height: '400px', width: '100%' }} />;
 };
 
-// Helper function unchanged
 const findClosestPoint = (
     points: Array<{ lat: number; lng: number; elevation: number }>,
-    latLng: L.LatLng
+    latlng: L.LatLng
 ): { lat: number; lng: number; elevation: number } => {
     let minDist = Infinity;
     let closest = points[0];
 
     points.forEach(point => {
-        const dist = Math.pow(point.lat - latLng.lat, 2) + Math.pow(point.lng - latLng.lng, 2);
+        const dist = Math.pow(point.lat - latlng.lat, 2) + Math.pow(point.lng - latlng.lng, 2);
         if (dist < minDist) {
             minDist = dist;
             closest = point;

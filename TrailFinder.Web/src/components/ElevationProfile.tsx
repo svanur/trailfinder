@@ -1,25 +1,24 @@
-// src/components/ElevationProfile.tsx
 import React from 'react';
 import {
     Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
     LineElement,
+    PointElement,
+    LinearScale,
     Title,
     Tooltip,
-    Legend
+    CategoryScale,
+    ChartOptions
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
+// Register the chart.js components
 ChartJS.register(
     CategoryScale,
     LinearScale,
     PointElement,
     LineElement,
     Title,
-    Tooltip,
-    Legend
+    Tooltip
 );
 
 interface ElevationProfileProps {
@@ -37,21 +36,40 @@ const ElevationProfile: React.FC<ElevationProfileProps> = ({
         labels: elevationData.map((_, i) => i),
         datasets: [
             {
-                label: 'Hæð',
+                label: 'Elevation',
                 data: elevationData,
                 borderColor: 'rgb(75, 192, 192)',
                 backgroundColor: 'rgba(75, 192, 192, 0.5)',
                 tension: 0.1,
-                pointRadius: (ctx: any) => {
-                    return ctx.dataIndex === highlightedIndex ? 6 : 0;
-                },
-                pointBackgroundColor: 'rgb(255, 99, 132)',
+                pointRadius: 0,
+                pointHoverRadius: 0,
                 fill: true,
             }
         ]
     };
 
-    const options = {
+    const runnerPlugin = {
+        id: 'runnerIcon',
+        afterDraw: (chart: ChartJS) => {
+            if (highlightedIndex !== null) {
+                const ctx = chart.ctx;
+                const xAxis = chart.scales.x;
+                const yAxis = chart.scales.y;
+                const x = xAxis.getPixelForValue(highlightedIndex);
+                const y = yAxis.getPixelForValue(elevationData[highlightedIndex]);
+
+                ctx.save();
+                ctx.font = '20px "Material Symbols Outlined"';
+                ctx.fillStyle = '#2563eb';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('directions_run', x, y);
+                ctx.restore();
+            }
+        }
+    };
+
+    const options: ChartOptions<'line'> = {
         responsive: true,
         maintainAspectRatio: false,
         interaction: {
@@ -66,24 +84,24 @@ const ElevationProfile: React.FC<ElevationProfileProps> = ({
                 enabled: true,
                 mode: 'index' as const,
                 intersect: false,
-            },
+            }
         },
         scales: {
             y: {
                 title: {
                     display: true,
-                    text: 'Hæð (m)',
+                    text: 'Elevation (m)',
                 },
             },
             x: {
                 display: false,
-            },
+            }
         },
-        onHover: (event: any, _: any[], chart: any) => {
-            if (!event || !onHoverPoint) return;
+        onHover(e, _, chart) {
+            if (!onHoverPoint || !e.native) return;
 
             const points = chart.getElementsAtEventForMode(
-                event,
+                e.native,
                 'index',
                 { intersect: false },
                 true
@@ -98,7 +116,11 @@ const ElevationProfile: React.FC<ElevationProfileProps> = ({
 
     return (
         <div style={{ height: '200px' }}>
-            <Line data={data} options={options} />
+            <Line
+                data={data}
+                options={options}
+                plugins={[runnerPlugin]}
+            />
         </div>
     );
 };
