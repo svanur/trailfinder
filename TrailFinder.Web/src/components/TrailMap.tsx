@@ -13,21 +13,31 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
     const mapRef = useRef<L.Map | null>(null);
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const highlightMarkerRef = useRef<L.Marker | null>(null);
+    const startMarkerRef = useRef<L.Marker | null>(null);
 
     useEffect(() => {
-        if (!mapContainerRef.current) {
-            return;
-        }
+        if (!mapContainerRef.current) return;
 
         // Initialize the map if it doesn't exist
         if (!mapRef.current) {
             mapRef.current = L.map(mapContainerRef.current).setView([0, 0], 13);
 
-            // Add OpenStreetMap tiles
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(mapRef.current);
         }
+
+        // Create the custom start marker icon with a runner
+        const startIcon = L.divIcon({
+            className: 'start-marker',
+            html: `
+        <span class="material-symbols-outlined">
+          run_circle
+        </span>
+      `,
+            iconSize: [32, 32],
+            iconAnchor: [16, 16]
+        });
 
         // Parse GPX and add to map
         const parser = new DOMParser();
@@ -42,6 +52,16 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
             color: 'red',
             weight: 3,
         }).addTo(mapRef.current);
+
+        // Add start marker (runner icon)
+        if (points.length > 0) {
+            if (startMarkerRef.current) {
+                startMarkerRef.current.remove();
+            }
+            startMarkerRef.current = L.marker([points[0].lat, points[0].lng], {
+                icon: startIcon
+            }).addTo(mapRef.current);
+        }
 
         // Add the mousemove event to the polyline
         if (onHoverPoint) {
@@ -58,6 +78,9 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
             if (highlightMarkerRef.current) {
                 highlightMarkerRef.current.remove();
             }
+            if (startMarkerRef.current) {
+                startMarkerRef.current.remove();
+            }
         };
     }, [gpxData, onHoverPoint]);
 
@@ -65,12 +88,10 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
     useEffect(() => {
         if (!mapRef.current) return;
 
-        // Remove the existing highlight marker if it exists
         if (highlightMarkerRef.current) {
             highlightMarkerRef.current.remove();
         }
 
-        // Add the new highlight marker if we have a point
         if (highlightedPoint) {
             highlightMarkerRef.current = L.marker([highlightedPoint.lat, highlightedPoint.lng], {
                 icon: L.divIcon({
@@ -84,7 +105,7 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
     return <div ref={mapContainerRef} style={{ height: '400px', width: '100%' }} />;
 };
 
-// Helper function to find the closest point
+// Helper function unchanged
 const findClosestPoint = (
     points: Array<{ lat: number; lng: number; elevation: number }>,
     latLng: L.LatLng
