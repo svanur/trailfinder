@@ -1,7 +1,7 @@
 // src/components/TrailGpxDownload.tsx
 import React, { useState } from 'react';
 import { Trail } from '@trailfinder/db-types/database';
-import downloadGpxFile from "../utils/downloadGpxFile"
+import downloadGpxFile from "../utils/downloadGpxFile.ts";
 
 interface TrailGpxDownloadProps {
     trail: Trail;
@@ -13,7 +13,7 @@ const TrailGpxDownload: React.FC<TrailGpxDownloadProps> = ({ trail }) => {
     const handleDownload = async () => {
         setIsDownloading(true);
         try {
-            await downloadGpxFile(trail.id);
+            await downloadGpxFile(trail.id, true);
         } catch (error) {
             console.error('Download failed:', error);
         } finally {

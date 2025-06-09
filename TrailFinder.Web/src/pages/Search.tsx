@@ -29,7 +29,7 @@ const Search: React.FC = () => {
     }
 
     if (error) {
-        return <div>Error loading trails: {error.message}</div>;
+        return <div>Ekki tókst að hlaða upp hlaupaleiðum :(</div>;
     }
 
     const filteredTrails = useMemo(() => {
