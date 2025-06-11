@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using TrailFinder.Api.Controllers;
+using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 using TrailFinder.Application.Features.Trails.Queries.GetTrails;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailsByParentId;
 using TrailFinder.Core.DTOs.Common;
@@ -29,6 +30,8 @@ public class TrailsControllerTests
         );
     }
 
+    #region GetTrails
+    
     [Fact]
     public async Task GetTrails_WithoutParentId_ReturnsAllTrails()
     {
@@ -124,11 +127,77 @@ public class TrailsControllerTests
 
         // Assert
         // Note: The exact return type here depends on your HandleException implementation
-        // Adjust this assertion based on how your HandleException method works
+        // Adjust this assertion based on how the HandleException method works
         Assert.NotNull(result.Result);
-        // You might want to add more specific assertions based on your error handling logic
+        // Might want to add more specific assertions based on your error handling logic
     }
 
+    #endregion
+    
+    #region GetTrailBySlug
+    
+    [Fact]
+    public async Task GetTrail_WithValidSlug_ReturnsOkResult()
+    {
+        // Arrange
+        const string slug = "test-trail";
+        var expectedTrail = CreateTrailDto("Trail 1", slug: slug);
+
+        _mediatorMock
+            .Setup(m => m.Send(It.Is<GetTrailBySlugQuery>(q => q.Slug == slug), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(expectedTrail);
+
+        // Act
+        var result = await _controller.GetTrail(slug);
+
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnedTrail = Assert.IsType<TrailDto>(okResult.Value);
+        Assert.Equal(expectedTrail.Id, returnedTrail.Id);
+        Assert.Equal(expectedTrail.Name, returnedTrail.Name);
+        Assert.Equal(expectedTrail.Slug, returnedTrail.Slug);
+    }
+
+    [Fact]
+    public async Task GetTrail_WithNonExistentSlug_ReturnsNotFound()
+    {
+        // Arrange
+        var slug = "non-existent-trail";
+        _mediatorMock
+            .Setup(m => m.Send(It.Is<GetTrailBySlugQuery>(q => q.Slug == slug), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((TrailDto)null);
+
+        // Act
+        var result = await _controller.GetTrail(slug);
+
+        // Assert
+        Assert.IsType<NotFoundResult>(result.Result);
+    }
+
+    [Fact]
+    public async Task GetTrail_WhenExceptionOccurs_ReturnsHandledException()
+    {
+        // Arrange
+        var slug = "error-trail";
+        var expectedException = new Exception("Test exception");
+        
+        _mediatorMock
+            .Setup(m => m.Send(It.Is<GetTrailBySlugQuery>(q => q.Slug == slug), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(expectedException);
+
+        // Act
+        var result = await _controller.GetTrail(slug);
+
+        // Assert
+        Assert.IsType<ObjectResult>(result.Result);
+        var objectResult = result.Result as ObjectResult;
+        Assert.NotNull(objectResult);
+        Assert.Equal(500, objectResult.StatusCode);
+    }
+
+    
+    #endregion
+    
     private static TrailDto CreateTrailDto(
         string name,
         Guid? parentId = null,

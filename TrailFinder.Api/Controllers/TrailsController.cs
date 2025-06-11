@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TrailFinder.Application.Features.Trails.Commands.CreateTrail;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 using TrailFinder.Application.Features.Trails.Queries.GetTrails;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailsByParentId;
@@ -72,11 +71,11 @@ public class TrailsController : BaseApiController
         }
     }
 
-    [HttpPost]
-    public async Task<ActionResult<int>> Create(CreateTrailDto dto)
-    {
-        var command = CreateTrailCommand.FromDto(dto);
-        var trailId = await _mediator.Send(command);
-        return Ok(trailId);
-    }
+    // [HttpPost]
+    // public async Task<ActionResult<int>> Create(CreateTrailDto dto)
+    // {
+    //     var command = CreateTrailCommand.FromDto(dto);
+    //     var trailId = await _mediator.Send(command);
+    //     return Ok(trailId);
+    // }
 }
