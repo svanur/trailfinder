@@ -2,6 +2,10 @@
 
 Database project for the TrailFinder application.
 
+## Supabase
+
+Studio URL: http://127.0.0.1:54323
+
 ## Project Structure
 
 - `/migrations` - Database schema migrations

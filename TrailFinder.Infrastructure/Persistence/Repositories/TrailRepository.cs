@@ -36,13 +36,19 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
         {
             var searchTerm = filter.SearchTerm.ToLower();
             query = query.Where(t => 
-                t.Name.ToLower().Contains(searchTerm) || 
-                t.Description.ToLower().Contains(searchTerm));
+                t.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) || 
+                t.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase));
         }
 
         if (filter.MinDistance.HasValue)
         {
             query = query.Where(t => t.DistanceMeters >= filter.MinDistance.Value);
+        }
+
+
+        if (filter.ParentId.HasValue)
+        {
+            query = query.Where(t => t.ParentId >= filter.ParentId.Value);
         }
 
         if (filter.MaxDistance.HasValue)
@@ -62,7 +68,7 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
 
         if (filter.DifficultyLevel.HasValue)
         {
-            query = query.Where(t => t.DifficultyLevel == filter.DifficultyLevel.Value);
+            query = query.Where(t => t.DifficultyLevelLevel == filter.DifficultyLevel.Value);
         }
 
         // Get a total count before pagination
@@ -81,8 +87,8 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
                 ? query.OrderByDescending(t => t.ElevationGainMeters)
                 : query.OrderBy(t => t.ElevationGainMeters),
             "difficulty" => filter.Descending
-                ? query.OrderByDescending(t => t.DifficultyLevel)
-                : query.OrderBy(t => t.DifficultyLevel),
+                ? query.OrderByDescending(t => t.DifficultyLevelLevel)
+                : query.OrderBy(t => t.DifficultyLevelLevel),
             "created" => filter.Descending
                 ? query.OrderByDescending(t => t.CreatedAt)
                 : query.OrderBy(t => t.CreatedAt),

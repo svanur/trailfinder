@@ -7,10 +7,10 @@ public record CreateTrailDto(
     string Description,
     decimal DistanceMeters,
     decimal ElevationGainMeters,
-    TrailDifficulty DifficultyLevel,
+    DifficultyLevel DifficultyLevel,
     double StartPointLatitude,
     double StartPointLongitude,
     string? WebUrl,
     bool HasGpx,
-    string UserId
+    Guid? UserId
 );

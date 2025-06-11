@@ -16,6 +16,7 @@
     "@tanstack/react-query": "^5.80.6",
     "@trailfinder/db-types": "file:../TrailFinder.DB/types",
     "@types/leaflet": "^1.9.18",
+    "axios": "^1.9.0",
     "chart.js": "^4.4.9",
     "leaflet": "^1.9.4",
     "react": "^19.1.0",

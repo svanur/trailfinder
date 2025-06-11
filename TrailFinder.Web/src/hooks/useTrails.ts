@@ -1,21 +1,11 @@
+// src/hooks/useTrails.ts
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '../services/supabase';
+import { trailsApi } from '../services/trailsApi';
 import type { Trail } from '@trailfinder/db-types/database';
 
 export function useTrails() {
-    return useQuery({
+    return useQuery<Trail[], Error>({
         queryKey: ['trails'],
-        queryFn: async (): Promise<Trail[]> => {
-            const { data, error } = await supabase
-                .from('trails')
-                .select('*')
-                .order('name');
-
-            if (error) {
-                throw error;
-            }
-
-            return data;
-        }
+        queryFn: () => trailsApi.getAll()
     });
 }

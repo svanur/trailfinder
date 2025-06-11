@@ -1,20 +1,70 @@
+using System.Text.Json.Serialization;
+using NetTopologySuite.Geometries;
 using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Core.DTOs.Trails;
 
-public record TrailDto(
-    Guid Id,
-    string Name,
-    string Slug,
-    string Description,
-    decimal DistanceMeters,
-    decimal ElevationGainMeters,
-    TrailDifficulty DifficultyLevel,
-    double StartPointLatitude,
-    double StartPointLongitude,
-    string? WebUrl,
-    bool HasGpx,
-    DateTime CreatedAt,
-    DateTime UpdatedAt,
-    string UserId
-);
+public class TrailDto
+{
+    // Properties matching the Trail entity
+    public string Id { get; set; } = string.Empty;
+    public string ParentId { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string Slug { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    
+    [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
+    public double DistanceMeters { get; set; }
+    
+    [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
+    public double ElevationGainMeters { get; set; }
+    public DifficultyLevel DifficultyLevel { get; set; }
+    public object? RouteGeom { get; set; }
+    
+    //public object? StartPoint { get; set; }
+    public double? StartPointLatitude { get; set; }
+    public double? StartPointLongitude { get; set; }
+    
+    public string? WebUrl { get; set; }
+    public bool HasGpx { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public string UserId { get; set; } = string.Empty;
+
+    public TrailDto()
+    {
+    }
+
+    public TrailDto
+        (
+            Guid newGuid, 
+            Guid? parentId, 
+            string name, 
+            string slug, 
+            string description, 
+            double distanceMeters, 
+            double elevationGainMeters, 
+            DifficultyLevel difficultyLevel, 
+            double startPointLatitude, 
+            double startPointLongitude, 
+            LineString? routeGeometry, 
+            string? webUrl, 
+            bool hasGpx, 
+            DateTime createdAt, 
+            DateTime updatedAt, 
+            Guid guid
+        )
+    {
+        DistanceMeters = distanceMeters;
+        ElevationGainMeters = elevationGainMeters;
+        DifficultyLevel = difficultyLevel;
+        //RouteGeom = routeGeom;
+        //StartPoint = startPoint;
+        StartPointLatitude = startPointLatitude;
+        StartPointLongitude = startPointLongitude;
+        WebUrl = webUrl;
+        HasGpx = hasGpx;
+        CreatedAt = createdAt;
+        UpdatedAt = updatedAt;
+    }
+}
