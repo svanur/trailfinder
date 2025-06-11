@@ -15,7 +15,7 @@ const Home: React.FC = () => {
     }
 
     if (error) {
-        return <ErrorView message={`Það er eitthvað rangt við þessar laiðir: ${error.message}`} />;
+        return <ErrorView message={`Það er eitthvað rangt við þessar leiðir: ${error.message}`} />;
     }
 
     if (!trails) {

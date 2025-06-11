@@ -2,15 +2,24 @@
 import { apiClient } from './api';
 import { API_CONFIG } from '../config/api';
 import type { Trail } from '@trailfinder/db-types/database';
-import type { ApiResponse } from '../types/api';
+import type {ApiResponse, PaginatedResponse} from '../types/api';
 import axios from "axios";
 
+
 export const trailsApi = {
-    getAll: async (): Promise<Trail[]> => {
-        const response = await apiClient.get<ApiResponse<Trail[]>>(
-            API_CONFIG.ENDPOINTS.TRAILS
-        );
-        return response.data.data;
+    getAll: async () => {
+        try {
+            const response = await apiClient.get<PaginatedResponse<Trail>>(API_CONFIG.ENDPOINTS.TRAILS);
+
+            if (!response.data) {
+                throw new Error('No data received from API');
+            }
+
+            return response.data.items;
+        } catch (error) {
+            console.error('API Error:', error);
+            throw error;
+        }
     },
 
     getBySlug: async (slug: string): Promise<Trail> => {
