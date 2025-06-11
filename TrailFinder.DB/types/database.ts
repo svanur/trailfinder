@@ -13,7 +13,7 @@ export interface Database {
 
 export interface Trail {
     id: string;
-    parenId: string;
+    parentId: string;
     name: string;
     slug: string;
     description: string;

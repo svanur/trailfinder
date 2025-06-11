@@ -1,6 +1,7 @@
 // src/components/trail/TrailStats.tsx
 import React from 'react';
-import { Trail } from '../../types/trail';
+import type { Trail } from '@trailfinder/db-types/database';
+import {DistanceUnit, formatDistance} from '../../utils/distanceUtils';
 
 interface TrailStatsProps {
     trail: Trail;
@@ -23,7 +24,7 @@ const TrailStats: React.FC<TrailStatsProps> = ({ trail }) => (
                     d="M17 8l4 4m0 0l-4 4m4-4H3"
                 />
             </svg>
-            {trail.distance_meters}km
+            {formatDistance(trail.distanceMeters, DistanceUnit.Kilometers)}
         </span>
         <span className="flex items-center">
             <svg
@@ -40,7 +41,7 @@ const TrailStats: React.FC<TrailStatsProps> = ({ trail }) => (
                     d="M5 10l7-7m0 0l7 7m-7-7v18"
                 />
             </svg>
-            {trail.elevation_gain_meters}m
+            {formatDistance(trail.elevationGainMeters, DistanceUnit.Meters)} hækkun
         </span>
         <span className="flex items-center">
             <svg
@@ -63,12 +64,12 @@ const TrailStats: React.FC<TrailStatsProps> = ({ trail }) => (
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                 />
             </svg>
-            {trail.start_point_latitude && trail.start_point_latitude}°,
-            {trail.start_point_longitude && trail.start_point_longitude}°
+            {trail.startPointLatitude && trail.startPointLatitude}°,
+            {trail.startPointLongitude && trail.startPointLongitude}°
         </span>
-        {trail.web_url && (
+        {trail.webUrl && (
             <a
-                href={trail.web_url}
+                href={trail.webUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center text-blue-600 hover:text-blue-800"

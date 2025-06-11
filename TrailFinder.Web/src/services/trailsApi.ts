@@ -2,8 +2,8 @@
 import { apiClient } from './api';
 import { API_CONFIG } from '../config/api';
 import type { Trail } from '@trailfinder/db-types/database';
-import type {ApiResponse, PaginatedResponse} from '../types/api';
 import axios from "axios";
+import {PaginatedResponse} from "../types/api.ts";
 
 
 export const trailsApi = {
@@ -24,18 +24,22 @@ export const trailsApi = {
 
     getBySlug: async (slug: string): Promise<Trail> => {
         try {
-            const response = await apiClient.get<ApiResponse<Trail>>(
+            const response = await apiClient.get<Trail>(
                 `${API_CONFIG.ENDPOINTS.TRAILS}/${slug}`
             );
-            return response.data.data;
+
+            if (!response.data) {
+                throw new Error('Trail not found');
+            }
+
+            return response.data;
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.status === 404) {
-                // You can either return null or throw a custom error
-                return null as unknown as Trail; // Type assertion to maintain compatibility
-                // Or throw new Error('Trail not found');
+                throw new Error(`Trail with slug "${slug}" not found`);
             }
             throw error;
         }
     }
+
 
 };

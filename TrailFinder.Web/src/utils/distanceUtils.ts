@@ -20,5 +20,5 @@ export const convertDistance = (meters: number, toUnit: DistanceUnit, decimals: 
 
 export const formatDistance = (meters: number, toUnit: DistanceUnit, decimals: number = 1): string => {
     const value = convertDistance(meters, toUnit, decimals);
-    return `${value} ${toUnit}`;
+    return `${value}${toUnit}`;
 };

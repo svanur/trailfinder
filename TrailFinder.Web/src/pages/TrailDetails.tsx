@@ -21,7 +21,7 @@ const TrailDetails: React.FC = () => {
 
     // Wrap getGpxContent in a useCallback to prevent unnecessary re-renders: `getGpxContent``useCallback`
     const loadGpxData = useCallback(async () => {
-        if (trail?.has_gpx) {
+        if (trail?.hasGpx) {
             try {
                 setIsLoadingGpx(true);
                 const gpxBlob = await getGpxContent(trail.id);
@@ -87,7 +87,7 @@ const TrailDetails: React.FC = () => {
                 <div className="bg-white rounded-lg shadow-lg p-6">
                     <TrailHeader trail={trail} />
 
-                    {trail.has_gpx && gpxData && parsedGpxData && (
+                    {trail.hasGpx && gpxData && parsedGpxData && (
                         <TrailVisualization
                             gpxData={gpxData}
                             parsedGpxData={parsedGpxData}
@@ -97,7 +97,7 @@ const TrailDetails: React.FC = () => {
                         />
                     )}
 
-                    {trail.has_gpx && <TrailGpxDownload trail={trail} />}
+                    {trail.hasGpx && <TrailGpxDownload trail={trail} />}
                 </div>
             </div>
         </Layout>
