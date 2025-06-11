@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TrailFinder.Contract.Persistence;
 using TrailFinder.Core.Interfaces.Repositories;
 using TrailFinder.Core.Interfaces.Services;
 using TrailFinder.Infrastructure.Configuration;
@@ -22,6 +23,9 @@ public static class DependencyInjection
                 configuration.GetConnectionString("DefaultConnection"),
                 x => x.UseNetTopologySuite()
             ));
+
+        services.AddScoped<IApplicationDbContext>(provider => 
+            provider.GetRequiredService<ApplicationDbContext>());
 
         services.AddScoped<ITrailRepository, TrailRepository>();
         

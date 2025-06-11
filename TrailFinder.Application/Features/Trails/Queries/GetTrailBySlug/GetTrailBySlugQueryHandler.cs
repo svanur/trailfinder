@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using TrailFinder.Core.DTOs.Trails;
+using TrailFinder.Core.Exceptions;
 using TrailFinder.Core.Interfaces.Repositories;
 
 namespace TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
@@ -25,8 +26,11 @@ public class GetTrailBySlugQueryHandler : IRequestHandler<GetTrailBySlugQuery, T
     {
         var trail = await _trailRepository.GetBySlugAsync(request.Slug, cancellationToken);
 
-        return trail != null 
-            ? _mapper.Map<TrailDto>(trail) 
-            : null;
+        if (trail == null)
+        {
+            throw new TrailNotFoundException(request.Slug);
+        }
+        
+        return _mapper.Map<TrailDto>(trail);
     }
 }

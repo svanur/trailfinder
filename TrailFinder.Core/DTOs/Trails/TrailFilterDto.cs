@@ -12,6 +12,6 @@ public record TrailFilterDto(
     decimal? MaxDistance = null,
     decimal? MinElevation = null,
     decimal? MaxElevation = null,
-    TrailDifficulty? DifficultyLevel = null,
+    DifficultyLevel? DifficultyLevel = null,
     bool IncludeRouteGeometry = false
 ) : PageRequest;

@@ -10,13 +10,13 @@ public class Trail : BaseEntity
     private static readonly GeometryFactory GeometryFactory = 
         new GeometryFactory(new PrecisionModel(), 4326);
     
-    public Guid ParentId { get; private set; }
+    public Guid? ParentId { get; private set; }
     public string Name { get; private set; } = default!;
     public string Slug { get; private set; } = default!;
     public string Description { get; private set; } = default!;
     public decimal DistanceMeters { get; private set; }
     public decimal ElevationGainMeters { get; private set; }
-    public TrailDifficulty DifficultyLevel { get; private set; }
+    public DifficultyLevel DifficultyLevelLevel { get; private set; }
     public Point StartPoint { get; private set; } = default!;
     public LineString? RouteGeometry { get; private set; }
     public string? WebUrl { get; private set; }
@@ -25,15 +25,15 @@ public class Trail : BaseEntity
     private Trail() { } // For EF Core
 
     public Trail(
+        Guid parentId,
         string name,
         string description,
         decimal distanceMeters,
         decimal elevationGainMeters,
-        TrailDifficulty difficultyLevel,
+        DifficultyLevel difficultyLevelLevel,
         double startPointLatitude,
         double startPointLongitude,
-        string userId,
-        Guid parentId
+        Guid userId
     )
     {
         Id = Guid.NewGuid();
@@ -42,7 +42,7 @@ public class Trail : BaseEntity
         Description = description;
         DistanceMeters = distanceMeters;
         ElevationGainMeters = elevationGainMeters;
-        DifficultyLevel = difficultyLevel;
+        DifficultyLevelLevel = difficultyLevelLevel;
         StartPoint = GeometryFactory.CreatePoint(new Coordinate(startPointLongitude, startPointLatitude));
         ParentId = parentId;
         UserId = userId;
@@ -63,7 +63,7 @@ public class Trail : BaseEntity
         string description,
         decimal distanceMeters,
         decimal elevationGainMeters,
-        TrailDifficulty difficultyLevel,
+        DifficultyLevel difficultyLevelLevel,
         double startPointLatitude,
         double startPointLongitude)
     {
@@ -72,7 +72,7 @@ public class Trail : BaseEntity
         Description = description;
         DistanceMeters = distanceMeters;
         ElevationGainMeters = elevationGainMeters;
-        DifficultyLevel = difficultyLevel;
+        DifficultyLevelLevel = difficultyLevelLevel;
         StartPoint = GeometryFactory.CreatePoint(new Coordinate(startPointLongitude, startPointLatitude));
         UpdatedAt = DateTime.UtcNow;
     }

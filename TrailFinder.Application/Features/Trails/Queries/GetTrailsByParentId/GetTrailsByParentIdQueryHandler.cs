@@ -6,12 +6,12 @@ using TrailFinder.Core.Interfaces.Repositories;
 
 namespace TrailFinder.Application.Features.Trails.Queries.GetTrailsByParentId;
 
-public class GetTrailsByParentIdHandler : IRequestHandler<GetTrailsByParentIdQuery, PaginatedResult<TrailDto>>
+public class GetTrailsByParentIdQueryHandler  : IRequestHandler<GetTrailsByParentIdQuery, PaginatedResult<TrailDto>>
 {
     private readonly ITrailRepository _trailRepository;
     private readonly IMapper _mapper;
 
-    public GetTrailsByParentIdHandler(
+    public GetTrailsByParentIdQueryHandler(
         ITrailRepository trailRepository,
         IMapper mapper)
     {
@@ -20,13 +20,14 @@ public class GetTrailsByParentIdHandler : IRequestHandler<GetTrailsByParentIdQue
     }
 
     public async Task<PaginatedResult<TrailDto>> Handle(
-        GetTrailsByParentIdQuery request, 
+        GetTrailsByParentIdQuery request,
         CancellationToken cancellationToken)
     {
+        
         var trails = await _trailRepository.GetFilteredAsync(
             new TrailFilterDto { ParentId = request.ParentId }, cancellationToken
         );
-
+        
         return _mapper.Map<PaginatedResult<TrailDto>>(trails);
     }
 }

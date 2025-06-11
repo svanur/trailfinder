@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TrailFinder.Application.Features.Trails.Queries.GetTrail;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 using TrailFinder.Application.Features.Trails.Queries.GetTrails;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailsByParentId;
@@ -46,24 +47,42 @@ public class TrailsController : BaseApiController
             return HandleException(ex);
         }
     }
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<TrailDto>> GetTrail(Guid id)
+    {
+        try
+        {
+            var result = await _mediator.Send(new GetTrailQuery(id));
+            return Ok(result);
+        }
+        /*
+        catch (NotFoundException ex)
+        {
+            return NotFound(new ErrorResponse { Message = ex.Message });
+        }
+        */
+        catch (Exception ex)
+        {
+            return HandleException(ex);
+        }
+    }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TrailDto>>> GetTrails([FromQuery] Guid? parentId)
     {
         try
         {
-            if (parentId.HasValue)
+            object? result;
+            if (!parentId.HasValue)
             {
-                var result = await _mediator.Send(new GetTrailsByParentIdQuery(parentId.Value));
-                return result != null
-                    ? Ok(result)
-                    : NotFound();
+                result = await _mediator.Send(new GetTrailsQuery());
             }
             else
             {
-                var result = await _mediator.Send(new GetTrailsQuery());
-                return Ok(result);
+                result = await _mediator.Send(new GetTrailsByParentIdQuery(parentId.Value));
             }
+            
+            return Ok(result);
         }
         catch (Exception ex)
         {

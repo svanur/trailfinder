@@ -1,24 +1,22 @@
 // src/hooks/useTrail.ts
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '../services/supabase';
-import type { Trail } from '@trailfinder/db-types/database';
+import { trailsApi } from '../services/trailsApi';
+import type { Trail } from '../types/trail';
+import axios from "axios";
+
 
 export function useTrail(slug: string) {
-    return useQuery({
+    return useQuery<Trail, Error>({
         queryKey: ['trail', slug],
-        queryFn: async (): Promise<Trail | null> => {
-            const { data, error } = await supabase
-                .from('trails')
-                .select('*')
-                .eq('slug', slug)
-                .single();
-
-            if (error) {
-                throw error;
+        queryFn: () => trailsApi.getBySlug(slug),
+        enabled: !!slug, // Only run the query if we have a slug
+        retry: (failureCount, error) => {
+            // Don't retry on 404 errors
+            if (axios.isAxiosError(error) && error.response?.status === 404) {
+                return false;
             }
-
-            return data;
-        },
-        enabled: !!slug // Only run the query if we have a slug
+            // Retry other errors up to 3 times
+            return failureCount < 3;
+        }
     });
 }

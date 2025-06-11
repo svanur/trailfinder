@@ -3,25 +3,26 @@ import Layout from '../components/layout/Layout';
 import TrailCard from '../components/trails/TrailCard';
 import SearchBar from "../components/SearchBar.tsx";
 import { useTrails } from '../hooks/useTrails.ts';
+import LoadingView from '../components/shared/LoadingView.tsx';
+import ErrorView from "../components/shared/ErrorView.tsx";
 
 const Home: React.FC = () => {
 
     const { data: trails, isLoading, error } = useTrails();
 
-    // If the 'trails' variable is undefined, return an empty array
-    if (!trails)
-    {
-        return <div>Augnablik, er að leita að hlaupaleiðum...</div>;
-    }
-    
     if (isLoading) {
-        return <div>Augnablik meðan ég hita upp...</div>;
+        return <LoadingView />;
     }
 
     if (error) {
-        return <div>Það er eitthvað rangt við þessar laiðir: {error.message}</div>;
+        return <ErrorView message={`Það er eitthvað rangt við þessar laiðir: ${error.message}`} />;
     }
-    
+
+    if (!trails) {
+        return <LoadingView />;
+    }
+
+
     return (
         <Layout>
             <div className="container mx-auto p-4">

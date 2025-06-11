@@ -7,7 +7,7 @@ CREATE TYPE difficulty_level AS ENUM ('easy', 'moderate', 'hard', 'extreme');
 -- Create the 'trails' table
 CREATE TABLE trails (
                         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                        parent_id UUID REFERENCES trails(id) NOT NULL,
+                        parent_id UUID REFERENCES trails(id) NULL,
                         name VARCHAR(255) NOT NULL,
                         slug VARCHAR(255) NOT NULL UNIQUE,
                         description TEXT,

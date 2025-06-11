@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using NetTopologySuite.Geometries;
 using TrailFinder.Api.Controllers;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 using TrailFinder.Application.Features.Trails.Queries.GetTrails;
@@ -71,15 +72,21 @@ public class TrailsControllerTests
     {
         // Arrange
         var parentId = Guid.NewGuid();
-        var expectedTrails = new List<TrailDto>
+        var trails = new List<TrailDto>
         {
             CreateTrailDto("Child Trail 1", parentId),
             CreateTrailDto("Child Trail 2", parentId)
         };
 
+        var expectedTrails = new PaginatedResult<TrailDto>(
+            trails, 2, 1, 1
+            );
+        
         _mediatorMock
-            .Setup(m => m.Send(It.Is<GetTrailsByParentIdQuery>(q => q.ParentId == parentId),
-                It.IsAny<CancellationToken>()))
+            .Setup(m => m.Send(
+                It.Is<GetTrailsByParentIdQuery>(q => q.ParentId == parentId),
+                It.IsAny<CancellationToken>())
+            )
             .ReturnsAsync(expectedTrails);
 
         // Act
@@ -87,7 +94,7 @@ public class TrailsControllerTests
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        var returnedTrails = Assert.IsType<IEnumerable<TrailDto>>(okResult.Value, false);
+        var returnedTrails = Assert.IsType<PaginatedResult<TrailDto>>(okResult.Value, false);
         Assert.Equal(expectedTrails, returnedTrails);
 
 
@@ -97,20 +104,30 @@ public class TrailsControllerTests
     }
 
     [Fact]
-    public async Task GetTrails_WithParentId_WhenNoTrailsFound_ReturnsNotFound()
+    public async Task GetTrails_WithParentId_WhenNoTrailsFound_ReturnsEmptyCollection()
     {
         // Arrange
         var parentId = Guid.NewGuid();
+        var emptyResult = new PaginatedResult<TrailDto>(
+            new List<TrailDto>(),
+            0,
+            1,
+            10
+        );
+
         _mediatorMock
             .Setup(m => m.Send(It.Is<GetTrailsByParentIdQuery>(q => q.ParentId == parentId),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync((IEnumerable<TrailDto>)null);
+            .ReturnsAsync(emptyResult);
 
         // Act
         var result = await _controller.GetTrails(parentId);
 
         // Assert
-        Assert.IsType<NotFoundResult>(result.Result);
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnedTrails = Assert.IsType<PaginatedResult<TrailDto>>(okResult.Value);
+        Assert.Empty(returnedTrails.Items);
+        Assert.Equal(0, returnedTrails.TotalCount);
     }
 
     [Fact]
@@ -203,11 +220,12 @@ public class TrailsControllerTests
         Guid? parentId = null,
         string slug = "",
         string description = "",
-        decimal distanceMeters = 0,
-        decimal elevationGainMeters = 0,
-        TrailDifficulty difficultyLevel = TrailDifficulty.Moderate,
+        double distanceMeters = 0,
+        double elevationGainMeters = 0,
+        DifficultyLevel difficultyLevelLevel = DifficultyLevel.Moderate,
         double startPointLatitude = 0,
         double startPointLongitude = 0,
+        LineString? routeGeometry = null,
         string? webUrl = "",
         bool hasGpx = false
     )
@@ -220,14 +238,15 @@ public class TrailsControllerTests
             description,
             distanceMeters,
             elevationGainMeters,
-            difficultyLevel,
+            difficultyLevelLevel,
             startPointLatitude,
             startPointLongitude,
+            routeGeometry,
             webUrl,
             hasGpx,
             DateTime.Now,
             DateTime.Now,
-            Guid.NewGuid().ToString()
+            Guid.NewGuid()
         );
     }
 }
