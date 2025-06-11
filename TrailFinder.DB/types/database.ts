@@ -13,6 +13,7 @@ export interface Database {
 
 export interface Trail {
     id: string;
+    parenId: string;
     name: string;
     slug: string;
     description: string;
@@ -31,6 +32,7 @@ export interface Trail {
 }
 
 export interface CreateTrailDTO {
+    parentId: string;
     name: string;
     slug: string;
     description: string;

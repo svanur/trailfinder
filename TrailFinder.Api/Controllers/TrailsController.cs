@@ -2,24 +2,29 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TrailFinder.Application.Features.Trails.Commands.CreateTrail;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
+using TrailFinder.Application.Features.Trails.Queries.GetTrails;
+using TrailFinder.Application.Features.Trails.Queries.GetTrailsByParentId;
 using TrailFinder.Core.DTOs.Trails;
 
 namespace TrailFinder.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TrailsController : ControllerBase
+public class TrailsController : BaseApiController
 {
-    private readonly IMediator _mediator;
     private readonly ILogger<TrailsController> _logger;
+    private readonly IMediator _mediator;
 
     public TrailsController(
         IMediator mediator,
-        ILogger<TrailsController> logger)
+        ILogger<TrailsController> logger
+    )
+        : base(logger)
     {
         _mediator = mediator;
         _logger = logger;
     }
+
 
     [HttpGet("{slug}")]
     public async Task<ActionResult<TrailDto>> GetTrail(string slug)
@@ -27,17 +32,46 @@ public class TrailsController : ControllerBase
         try
         {
             var result = await _mediator.Send(new GetTrailBySlugQuery(slug));
-            return result != null 
-                ? Ok(result) 
+            return result != null
+                ? Ok(result)
                 : NotFound();
+        }
+        /*
+        catch (NotFoundException ex)
+        {
+            return NotFound(new ErrorResponse { Message = ex.Message });
+        }
+        */
+        catch (Exception ex)
+        {
+            return HandleException(ex);
+        }
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<TrailDto>>> GetTrails([FromQuery] Guid? parentId)
+    {
+        try
+        {
+            if (parentId.HasValue)
+            {
+                var result = await _mediator.Send(new GetTrailsByParentIdQuery(parentId.Value));
+                return result != null
+                    ? Ok(result)
+                    : NotFound();
+            }
+            else
+            {
+                var result = await _mediator.Send(new GetTrailsQuery());
+                return Ok(result);
+            }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting trail with slug {Slug}", slug);
-            return StatusCode(500, "Internal server error");
+            return HandleException(ex);
         }
     }
-    
+
     [HttpPost]
     public async Task<ActionResult<int>> Create(CreateTrailDto dto)
     {

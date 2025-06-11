@@ -36,13 +36,19 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
         {
             var searchTerm = filter.SearchTerm.ToLower();
             query = query.Where(t => 
-                t.Name.ToLower().Contains(searchTerm) || 
-                t.Description.ToLower().Contains(searchTerm));
+                t.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) || 
+                t.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase));
         }
 
         if (filter.MinDistance.HasValue)
         {
             query = query.Where(t => t.DistanceMeters >= filter.MinDistance.Value);
+        }
+
+
+        if (filter.ParentId.HasValue)
+        {
+            query = query.Where(t => t.ParentId >= filter.ParentId.Value);
         }
 
         if (filter.MaxDistance.HasValue)

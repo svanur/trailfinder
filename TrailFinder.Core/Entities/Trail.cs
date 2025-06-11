@@ -9,8 +9,8 @@ public class Trail : BaseEntity
 {
     private static readonly GeometryFactory GeometryFactory = 
         new GeometryFactory(new PrecisionModel(), 4326);
-
-    public Guid Id { get; private set; }
+    
+    public Guid ParentId { get; private set; }
     public string Name { get; private set; } = default!;
     public string Slug { get; private set; } = default!;
     public string Description { get; private set; } = default!;
@@ -21,9 +21,6 @@ public class Trail : BaseEntity
     public LineString? RouteGeometry { get; private set; }
     public string? WebUrl { get; private set; }
     public bool HasGpx { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    public DateTime UpdatedAt { get; private set; }
-    public string UserId { get; private set; } = default!;
 
     private Trail() { } // For EF Core
 
@@ -35,7 +32,9 @@ public class Trail : BaseEntity
         TrailDifficulty difficultyLevel,
         double startPointLatitude,
         double startPointLongitude,
-        string userId)
+        string userId,
+        Guid parentId
+    )
     {
         Id = Guid.NewGuid();
         Name = name;
@@ -45,6 +44,7 @@ public class Trail : BaseEntity
         ElevationGainMeters = elevationGainMeters;
         DifficultyLevel = difficultyLevel;
         StartPoint = GeometryFactory.CreatePoint(new Coordinate(startPointLongitude, startPointLatitude));
+        ParentId = parentId;
         UserId = userId;
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;

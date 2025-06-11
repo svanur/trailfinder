@@ -4,6 +4,7 @@ namespace TrailFinder.Core.DTOs.Trails;
 
 public record TrailDto(
     Guid Id,
+    Guid? ParentId,
     string Name,
     string Slug,
     string Description,
