@@ -23,3 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 *.sln.DotSettings.user
+
+## env dev and prod
+.env.development
+.env.production
