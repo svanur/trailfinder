@@ -20,7 +20,7 @@ public class GetTrailQueryHandler : IRequestHandler<GetTrailQuery, TrailDto>
 
     public async Task<TrailDto> Handle(GetTrailQuery request, CancellationToken cancellationToken)
     {
-        var trail = await _context.Set<TrailFinder.Core.Entities.Trail>()
+        var trail = await _context.Set<Core.Entities.Trail>()
             .FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
 
         if (trail == null)

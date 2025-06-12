@@ -1,9 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using TrailFinder.Contract.Persistence;
 using TrailFinder.Core.Entities;
+using TrailFinder.Infrastructure.Persistence.Configurations;
 
 namespace TrailFinder.Infrastructure.Persistence;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
+
 {
     public DbSet<Trail> Trails => Set<Trail>();
 
@@ -15,10 +18,10 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
+        
         modelBuilder.Entity<Trail>(entity =>
         {
-            entity.ToTable("Trails");
+            entity.ToTable("trails");
             
             entity.HasKey(e => e.Id);
             
@@ -60,5 +63,9 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.UserId)
                 .IsRequired();
         });
+        
+        // Apply configuration
+        modelBuilder.ApplyConfiguration(new TrailConfiguration());
+
     }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Trail } from '@trailfinder/db-types/database';
+import {DistanceUnit, formatDistance} from "../../utils/distanceUtils.ts";
 interface TrailCardProps {
     trail: Trail;
 }
@@ -27,7 +28,7 @@ const TrailCard: React.FC<TrailCardProps> = ({ trail }) => {
                                     d="M17 8l4 4m0 0l-4 4m4-4H3"
                                 />
                             </svg>
-                            {trail.distance_meters.toFixed(1)} km
+                            {formatDistance(trail.distanceMeters, DistanceUnit.Kilometers)}
                         </span>
                         <span className="flex items-center">
                             <svg
@@ -44,7 +45,7 @@ const TrailCard: React.FC<TrailCardProps> = ({ trail }) => {
                                     d="M5 10l7-7m0 0l7 7m-7-7v18"
                                 />
                             </svg>
-                            {trail.elevation_gain_meters}m hækkun
+                            {formatDistance(trail.elevationGainMeters, DistanceUnit.Meters)} hækkun
                         </span>
                         <span className="flex items-center">
                             <svg
@@ -67,7 +68,7 @@ const TrailCard: React.FC<TrailCardProps> = ({ trail }) => {
                                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                                 />
                             </svg>
-                            {trail.start_point_latitude && trail.start_point_latitude.toFixed(6)}°, {trail.start_point_longitude && trail.start_point_longitude.toFixed(6)}°
+                            {trail.startPointLatitude && trail.startPointLatitude.toFixed(6)}°, {trail.startPointLongitude && trail.startPointLongitude.toFixed(6)}°
                         </span>
 
                     </div>

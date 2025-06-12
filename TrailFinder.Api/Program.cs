@@ -2,7 +2,6 @@ using TrailFinder.Core;
 using TrailFinder.Infrastructure;
 using TrailFinder.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Extensions.DependencyInjection;
 using HealthChecks.UI.Client;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using TrailFinder.Application;
@@ -21,16 +20,22 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplication(); // Add this line to register CQRS and related services
+builder.Services.AddInfrastructure(builder.Configuration);
 
 // Configure health checks
+
+/*
 builder.Services.AddHealthChecks()
     
     // Database health checks
+    
     .AddDbContextCheck<ApplicationDbContext>("database")
     .AddNpgSql(
-        builder.Configuration["DATABASE_URL"]!,
-        name: "postgresql",
-        tags: ["database", "postgresql"])
+        builder.Configuration.GetConnectionString("DefaultConnection"),  // Use "DefaultConnection" to match config
+        name: "database",
+        tags: new[] { "db", "postgresql" }
+    )
+
     
     // Supabase health check
     .AddUrlGroup(
@@ -85,13 +90,15 @@ builder.Services.AddHealthChecks()
         name: "memory",
         tags: ["resources"]);
 
+*/
+
 // Configure CORS if needed
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("DefaultPolicy", policy =>
     {
         policy.WithOrigins(builder.Configuration
-                .GetSection("AllowedOrigins")
+                .GetSection("Cors:AllowedOrigins") 
                 .Get<string[]>() ?? [])
             .AllowAnyMethod()
             .AllowAnyHeader();
@@ -123,30 +130,38 @@ if (app.Environment.IsDevelopment())
 }
 
 // Configure the health check endpoint with detailed responses
+
+/*
 app.MapHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
     AllowCachingResponses = false,
     Predicate = _ => true
 });
+*/
 
 // Add specialized endpoints for different check types
+
+/*
 app.MapHealthChecks("/health/ready", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
     Predicate = (check) => check.Tags.Contains("ready")
 });
+*/
 
+/*
 app.MapHealthChecks("/health/live", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
     Predicate = _ => true
 });
+*/
 
 app.UseHttpsRedirection();
 app.UseCors("DefaultPolicy");
 app.UseAuthorization();
 app.MapControllers();
-app.MapHealthChecks("/health");
+//app.MapHealthChecks("/health");
 
 app.Run();

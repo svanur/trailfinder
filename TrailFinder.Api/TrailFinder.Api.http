@@ -1,6 +1,47 @@
 @TrailFinder.Api_HostAddress = http://localhost:5263
 
-GET {{TrailFinder.Api_HostAddress}}/weatherforecast/
+### Get all trails
+GET http://localhost:5263/api/trails
 Accept: application/json
 
-###
+### Get a specific trail by id
+GET http://localhost:5263/api/trails/b61ad213-e2db-4d13-a366-66fba19c4249
+Accept: application/json
+
+### Get a specific trail by slug
+GET http://localhost:5263/api/trails/esja-ultra-marathon
+Accept: application/json
+
+### Get trails by parent ID
+GET http://localhost:5263/api/trails?parentId=b61ad213-e2db-4d13-a366-66fba19c4249
+Accept: application/json
+
+### When trail/s do not exist
+
+### id does not exist
+GET http://localhost:5263/api/trails/b61ad213-e2db-4d13-a366-66fba19c4240
+Accept: application/json
+
+### slug does not exist
+GET http://localhost:5263/api/trails/slug-does-not-exist
+Accept: application/json
+
+### parent id does not exist
+GET http://localhost:5263/api/trails?parentId=b61ad213-e2db-4d13-a366-66fba19c4999
+Accept: application/json
+
+### parent id is missing, this will get all trails (cause parentId is null)
+GET http://localhost:5263/api/trails?parentId=
+Accept: application/json
+
+
+### When error occur
+
+### guid is not the right length
+GET http://localhost:5263/api/trails/b-6-1-a-d
+Accept: application/json
+
+
+### guid is not the right length
+GET http://localhost:5263/api/trails?parentId=a366-66fba19c4240
+Accept: application/json

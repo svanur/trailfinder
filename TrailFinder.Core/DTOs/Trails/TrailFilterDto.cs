@@ -7,10 +7,11 @@ namespace TrailFinder.Core.DTOs.Trails;
 
 public record TrailFilterDto(
     string? SearchTerm = null,
+    Guid? ParentId = null,
     decimal? MinDistance = null,
     decimal? MaxDistance = null,
     decimal? MinElevation = null,
     decimal? MaxElevation = null,
-    TrailDifficulty? DifficultyLevel = null,
+    DifficultyLevel? DifficultyLevel = null,
     bool IncludeRouteGeometry = false
 ) : PageRequest;

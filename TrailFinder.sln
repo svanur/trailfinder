@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Infrastructure"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{296F7DD0-6A6B-44A1-8DF8-484091D935E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.UnitTests", "TrailFinder.UnitTests\TrailFinder.UnitTests.csproj", "{DDEA7B5F-F120-48B8-9B16-F0897EED0E58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Api.Tests", "TrailFinder.Api.Tests\TrailFinder.Api.Tests.csproj", "{DDEA7B5F-F120-48B8-9B16-F0897EED0E58}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.IntegrationTests", "TrailFinder.IntegrationTests\TrailFinder.IntegrationTests.csproj", "{6CE53C57-2894-46F3-8F61-163C07301C87}"
 EndProject
