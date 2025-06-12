@@ -25,7 +25,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\TrailFinder.Application\TrailFinder.Application.csproj" />
-      <ProjectReference Include="..\TrailFinder.Common.TestsUtils\TrailFinder.Common.TestsUtils.csproj" />
+      <ProjectReference Include="..\TrailFinder.Common.TestUtils\TrailFinder.Common.TestUtils.csproj" />
       <ProjectReference Include="..\TrailFinder.Core\TrailFinder.Core.csproj" />
     </ItemGroup>
 

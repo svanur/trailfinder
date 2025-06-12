@@ -8,7 +8,7 @@ using Xunit;
 using Assert = Xunit.Assert;
 
 
-namespace TrailFinder.Application.Tests.Features.Trail.Queries;
+namespace TrailFinder.Application.Tests.Features.Trails.Queries.GetTrailBySlug;
 
 public class GetTrailBySlugQueryHandlerTests
 {

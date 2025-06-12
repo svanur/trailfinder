@@ -22,7 +22,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Contract", "Tra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Application.Tests", "TrailFinder.Application.Tests\TrailFinder.Application.Tests.csproj", "{503DCC62-EAD4-4A9C-9F8E-05FDA6C7B9B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Common.TestsUtils", "TrailFinder.Common.TestsUtils\TrailFinder.Common.TestsUtils.csproj", "{43CB3845-5844-47D1-BE5A-1F0642831018}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Common.TestUtils", "TrailFinder.Common.TestUtils\TrailFinder.Common.TestUtils.csproj", "{43CB3845-5844-47D1-BE5A-1F0642831018}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

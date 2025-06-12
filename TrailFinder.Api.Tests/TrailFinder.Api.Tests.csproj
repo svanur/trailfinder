@@ -19,7 +19,7 @@
     
     <ItemGroup>
       <ProjectReference Include="..\TrailFinder.Api\TrailFinder.Api.csproj" />
-      <ProjectReference Include="..\TrailFinder.Common.TestsUtils\TrailFinder.Common.TestsUtils.csproj" />
+      <ProjectReference Include="..\TrailFinder.Common.TestUtils\TrailFinder.Common.TestUtils.csproj" />
     </ItemGroup>
 
 </Project>
