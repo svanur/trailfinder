@@ -25,7 +25,7 @@ public class Trail : BaseEntity
     private Trail() { } // For EF Core
 
     public Trail(
-        Guid parentId,
+        Guid? parentId,
         string name,
         string description,
         decimal distanceMeters,

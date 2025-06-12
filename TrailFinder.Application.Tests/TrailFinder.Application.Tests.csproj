@@ -6,20 +6,27 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
-        <RootNamespace>TrailFinder.Api.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="14.0.0" />
         <PackageReference Include="coverlet.collector" Version="6.0.2"/>
-        <PackageReference Include="MediatR" Version="12.5.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0"/>
         <PackageReference Include="Moq" Version="4.20.72" />
+        <PackageReference Include="NUnit" Version="4.2.2"/>
+        <PackageReference Include="NUnit.Analyzers" Version="4.4.0"/>
+        <PackageReference Include="NUnit3TestAdapter" Version="4.6.0"/>
         <PackageReference Include="xunit" Version="2.9.3" />
     </ItemGroup>
-    
+
     <ItemGroup>
-      <ProjectReference Include="..\TrailFinder.Api\TrailFinder.Api.csproj" />
+        <Using Include="NUnit.Framework"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TrailFinder.Application\TrailFinder.Application.csproj" />
       <ProjectReference Include="..\TrailFinder.Common.TestsUtils\TrailFinder.Common.TestsUtils.csproj" />
+      <ProjectReference Include="..\TrailFinder.Core\TrailFinder.Core.csproj" />
     </ItemGroup>
 
 </Project>

@@ -2,14 +2,13 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using NetTopologySuite.Geometries;
 using TrailFinder.Api.Controllers;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 using TrailFinder.Application.Features.Trails.Queries.GetTrails;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailsByParentId;
+using TrailFinder.Common.TestsUtils;
 using TrailFinder.Core.DTOs.Common;
 using TrailFinder.Core.DTOs.Trails;
-using TrailFinder.Core.Enums;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -39,8 +38,8 @@ public class TrailsControllerTests
         // Arrange
         var expectedTrails = new List<TrailDto>
         {
-            CreateTrailDto("Trail 1"),
-            CreateTrailDto("Trail 2")
+            TrailUtils.CreateTrailDto("Trail 1"),
+            TrailUtils.CreateTrailDto("Trail 2")
         };
 
         var paginatedResult = new PaginatedResult<TrailDto>(
@@ -74,8 +73,8 @@ public class TrailsControllerTests
         var parentId = Guid.NewGuid();
         var trails = new List<TrailDto>
         {
-            CreateTrailDto("Child Trail 1", parentId),
-            CreateTrailDto("Child Trail 2", parentId)
+            TrailUtils.CreateTrailDto("Child Trail 1", parentId),
+            TrailUtils.CreateTrailDto("Child Trail 2", parentId)
         };
 
         var expectedTrails = new PaginatedResult<TrailDto>(
@@ -158,7 +157,7 @@ public class TrailsControllerTests
     {
         // Arrange
         const string slug = "test-trail";
-        var expectedTrail = CreateTrailDto("Trail 1", slug: slug);
+        var expectedTrail = TrailUtils.CreateTrailDto("Trail 1", slug: slug);
 
         _mediatorMock
             .Setup(m => m.Send(It.Is<GetTrailBySlugQuery>(q => q.Slug == slug), It.IsAny<CancellationToken>()))
@@ -179,7 +178,7 @@ public class TrailsControllerTests
     public async Task GetTrail_WithNonExistentSlug_ReturnsNotFound()
     {
         // Arrange
-        var slug = "non-existent-trail";
+        const string slug = "non-existent-trail";
         _mediatorMock
             .Setup(m => m.Send(It.Is<GetTrailBySlugQuery>(q => q.Slug == slug), It.IsAny<CancellationToken>()))
             .ReturnsAsync((TrailDto)null);
@@ -215,38 +214,4 @@ public class TrailsControllerTests
     
     #endregion
     
-    private static TrailDto CreateTrailDto(
-        string name,
-        Guid? parentId = null,
-        string slug = "",
-        string description = "",
-        double distanceMeters = 0,
-        double elevationGainMeters = 0,
-        DifficultyLevel difficultyLevelLevel = DifficultyLevel.Moderate,
-        double startPointLatitude = 0,
-        double startPointLongitude = 0,
-        LineString? routeGeometry = null,
-        string? webUrl = "",
-        bool hasGpx = false
-    )
-    {
-        return new TrailDto(
-            Guid.NewGuid(),
-            parentId,
-            name,
-            slug,
-            description,
-            distanceMeters,
-            elevationGainMeters,
-            difficultyLevelLevel,
-            startPointLatitude,
-            startPointLongitude,
-            routeGeometry,
-            webUrl,
-            hasGpx,
-            DateTime.Now,
-            DateTime.Now,
-            Guid.NewGuid()
-        );
-    }
 }
