@@ -90,19 +90,20 @@ builder.Services.AddHealthChecks()
         name: "memory",
         tags: ["resources"]);
 
+*/
+
 // Configure CORS if needed
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("DefaultPolicy", policy =>
     {
         policy.WithOrigins(builder.Configuration
-                .GetSection("AllowedOrigins")
+                .GetSection("Cors:AllowedOrigins") 
                 .Get<string[]>() ?? [])
             .AllowAnyMethod()
             .AllowAnyHeader();
     });
 });
-*/
 
 // Register Supabase client
 builder.Services.AddSingleton(provider => 

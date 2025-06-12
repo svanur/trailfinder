@@ -1,11 +1,18 @@
 // src/hooks/useTrails.ts
 import { useQuery } from '@tanstack/react-query';
 import { trailsApi } from '../services/trailsApi';
-import type { Trail } from '@trailfinder/db-types/database';
 
+// src/hooks/useTrails.ts
 export function useTrails() {
-    return useQuery<Trail[], Error>({
+    return useQuery({
         queryKey: ['trails'],
-        queryFn: () => trailsApi.getAll()
+        queryFn: async () => {
+            const result = await trailsApi.getAll();
+            console.log('Query function result:', result);  // Log the result
+            return result;
+        },
+        retry: 1,
+        throwOnError: true
     });
+
 }
