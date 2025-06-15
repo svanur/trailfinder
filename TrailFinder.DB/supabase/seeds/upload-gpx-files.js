@@ -37,10 +37,10 @@ async function uploadGpxFiles() {
 
             const trailId = result.rows[0].id;
 
-            // Upload file to Supabase Storage
+            // Upload file to Supabase Storage with folder structure
             const { data, error } = await supabase.storage
                 .from('gpx-files')
-                .upload(`${trailId}.gpx`, fileContent, {
+                .upload(`${slug}/${trailId}.gpx`, fileContent, {  // Note the folder structure here
                     contentType: 'application/gpx+xml',
                     upsert: true,
                     duplex: 'half',
@@ -56,10 +56,9 @@ async function uploadGpxFiles() {
                 continue;
             }
 
-            // Update the has_gpx flag in the trails table
             await pool.query('UPDATE trails SET has_gpx = true WHERE id = $1', [trailId]);
 
-            console.log(`Successfully uploaded ${file} as ${trailId}.gpx`);
+            console.log(`Successfully uploaded ${file} to ${slug}/${trailId}.gpx`);
         }
     }
 }
