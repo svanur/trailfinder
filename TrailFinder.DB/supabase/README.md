@@ -16,14 +16,21 @@ Where:
 
 ## Examples:
 
-1. To apply migrations:
-   ```bash
-   supabase db reset
-   ```
-   
-3. Document any specific steps in the migration file if needed
+### Create new migration
 
-## Important Notes
+```
+supabase migration new feature_name
+```
+
+### Reset database (careful - this deletes all data)
+
+```
+supabase db reset
+```
+
+### Document any specific steps in the migration file if needed
+
+#### Important Notes
 
 - Never modify existing migrations
 - Always create new migrations for changes
