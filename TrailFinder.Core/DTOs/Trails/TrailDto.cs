@@ -19,11 +19,16 @@ public class TrailDto
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
     public double ElevationGainMeters { get; set; }
     public DifficultyLevel DifficultyLevel { get; set; }
-    public object? RouteGeom { get; set; }
+
+    public LineString? RouteGeom { get; set; }
     
     //public object? StartPoint { get; set; }
+    [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
     public double? StartPointLatitude { get; set; }
+
+    [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
     public double? StartPointLongitude { get; set; }
+
     
     public string? WebUrl { get; set; }
     public bool HasGpx { get; set; }

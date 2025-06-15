@@ -1,5 +1,5 @@
 
--- Insert test user first (using Supabase's auth.users table)
+-- Insert a test user first (using Supabase's auth.users table)
 INSERT INTO auth.users (id, email)
 VALUES ('d0d8c29c-7456-4d82-a087-5a1256b092c9', 'test@example.com')
     ON CONFLICT (id) DO NOTHING;
