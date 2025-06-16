@@ -1,11 +1,15 @@
 @TrailFinder.Api_HostAddress = http://localhost:5263
 
+### Get GpxInfo for specific trail
+GET http://localhost:5263/api/trails/ebd33dec-f644-4783-8f9c-daa69f98bb15/gpx
+Accept: application/json
+
 ### Get all trails
 GET http://localhost:5263/api/trails
 Accept: application/json
 
 ### Get a specific trail by id
-GET http://localhost:5263/api/trails/b61ad213-e2db-4d13-a366-66fba19c4249
+GET http://localhost:5263/api/trails/ebd33dec-f644-4783-8f9c-daa69f98bb15
 Accept: application/json
 
 ### Get a specific trail by slug
@@ -13,7 +17,7 @@ GET http://localhost:5263/api/trails/esja-ultra-marathon
 Accept: application/json
 
 ### Get trails by parent ID
-GET http://localhost:5263/api/trails?parentId=b61ad213-e2db-4d13-a366-66fba19c4249
+GET http://localhost:5263/api/trails?parentId=ebd33dec-f644-4783-8f9c-daa69f98bb15
 Accept: application/json
 
 ### When trail/s do not exist

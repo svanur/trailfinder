@@ -10,6 +10,7 @@ using TrailFinder.Application.Features.Trails.Queries.GetTrailsByParentId;
 using TrailFinder.Core.DTOs.Common;
 using TrailFinder.Core.DTOs.Trails;
 using TrailFinder.Core.Enums;
+using TrailFinder.Core.Interfaces.Services;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -19,15 +20,18 @@ public class TrailsControllerTests
 {
     private readonly TrailsController _controller;
     private readonly Mock<IMediator> _mediatorMock;
+    private readonly Mock<IGpxStorageService> _gpxStorageServiceMock;
 
     public TrailsControllerTests()
     {
         var loggerMock = new Mock<ILogger<TrailsController>>();
         _mediatorMock = new Mock<IMediator>();
+        _gpxStorageServiceMock = new Mock<IGpxStorageService>();
 
         _controller = new TrailsController(
             _mediatorMock.Object, 
-            loggerMock.Object
+            loggerMock.Object,
+            _gpxStorageServiceMock.Object
         );
     }
 

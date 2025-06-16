@@ -50,4 +50,15 @@ public class SupabaseService : ISupabaseService
 
         return trail != null ? _mapper.Map<TrailDto>(trail) : null;
     }
+
+    public async Task<TrailDto?> GetTrailByIdAsync(Guid trailId, CancellationToken cancellationToken = default)
+    {
+        var trail = await _supabaseClient
+            .From<SupabaseTrail>()
+            .Select("*")
+            .Filter("id", Constants.Operator.Equals, trailId)
+            .Single(cancellationToken);
+
+        return trail != null ? _mapper.Map<TrailDto>(trail) : null;
+    }
 }

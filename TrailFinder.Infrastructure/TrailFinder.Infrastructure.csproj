@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
     <ItemGroup>
+      <ProjectReference Include="..\TrailFinder.Application\TrailFinder.Application.csproj" />
       <ProjectReference Include="..\TrailFinder.Core\TrailFinder.Core.csproj" />
     </ItemGroup>
     <ItemGroup>

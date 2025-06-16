@@ -13,4 +13,5 @@ public interface ISupabaseService
     Task<TrailDto?> GetTrailBySlugAsync(string slug, CancellationToken cancellationToken = default);
     
     // Add other methods as needed
+    Task<TrailDto?> GetTrailByIdAsync(Guid trailId, CancellationToken cancellationToken = default);
 }
