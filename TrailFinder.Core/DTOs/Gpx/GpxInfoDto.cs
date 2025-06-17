@@ -3,7 +3,8 @@ namespace TrailFinder.Core.DTOs.Gpx;
 public record GpxInfoDto(
     double DistanceMeters,
     double ElevationGainMeters,
-    GeoPoint StartPoint
+    GeoPoint StartPoint,
+    GeoPoint EndPoint
 );
 
 public record GeoPoint(

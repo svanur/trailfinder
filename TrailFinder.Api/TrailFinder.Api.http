@@ -1,7 +1,7 @@
 @TrailFinder.Api_HostAddress = http://localhost:5263
 
 ### Get GpxInfo for specific trail
-GET http://localhost:5263/api/trails/ebd33dec-f644-4783-8f9c-daa69f98bb15/gpx
+GET http://localhost:5263/api/trails/c4f3cf4c-27a3-42c0-b036-85c22ae88d48/gpx
 Accept: application/json
 
 ### Get all trails
@@ -9,7 +9,7 @@ GET http://localhost:5263/api/trails
 Accept: application/json
 
 ### Get a specific trail by id
-GET http://localhost:5263/api/trails/ebd33dec-f644-4783-8f9c-daa69f98bb15
+GET http://localhost:5263/api/trails/c4f3cf4c-27a3-42c0-b036-85c22ae88d48
 Accept: application/json
 
 ### Get a specific trail by slug

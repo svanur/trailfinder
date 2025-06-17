@@ -123,19 +123,12 @@ public class TrailsController : BaseApiController
                 return BadRequest("File must be a GPX file");
             }
             
-            var trailResponse = await GetTrail(trailId);
-            if (trailResponse.Result is not OkObjectResult { Value: TrailDto trail })
-            {
-                return BadRequest("Trail not found");
-            }
-            
             using var stream = new MemoryStream();
             await file.CopyToAsync(stream);
             stream.Position = 0;
 
             var success = await _gpxStorageService.UploadGpxFileAsync(
-                trailId, 
-                trail.Slug,
+                trailId,
                 stream, 
                 file.FileName);
 

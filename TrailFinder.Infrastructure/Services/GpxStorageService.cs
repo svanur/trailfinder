@@ -1,21 +1,32 @@
+using TrailFinder.Core.Exceptions;
+using TrailFinder.Core.Interfaces.Repositories;
 using TrailFinder.Core.Interfaces.Services;
 
 namespace TrailFinder.Infrastructure.Services;
 
-// TrailFinder.Infrastructure/Services/SupabaseGpxStorageService.cs
 public class SupabaseGpxStorageService : IGpxStorageService
 {
-    private readonly ISupabaseService _supabaseService;
+    private readonly ISupabaseStorageService _storageService;
+    private readonly ITrailRepository _trailRepository;
     private const string BucketName = "gpx-files";
 
-    public SupabaseGpxStorageService(ISupabaseService supabaseService)
+    public SupabaseGpxStorageService(
+        ISupabaseStorageService storageService,
+        ITrailRepository trailRepository)
     {
-        _supabaseService = supabaseService;
+        _storageService = storageService;
+        _trailRepository = trailRepository;
     }
 
-    public async Task<bool> UploadGpxFileAsync(Guid trailId, string trailSlug, Stream fileStream, string fileName)
+    public async Task<bool> UploadGpxFileAsync(Guid trailId, Stream fileStream, string fileName)
     {
-        var filePath = $"{trailSlug}/{trailId}/{fileName}";
+        var trail = await _trailRepository.GetByIdAsync(trailId);
+        if (trail == null)
+        {
+            throw new TrailNotFoundException($"Trail not found with ID {trailId}");
+        }
+        
+        var filePath = $"{trail.Slug}/{trailId}/{fileName}";
         
         try 
         {
@@ -23,11 +34,10 @@ public class SupabaseGpxStorageService : IGpxStorageService
             await fileStream.CopyToAsync(memoryStream);
             var fileBytes = memoryStream.ToArray();
 
-            var uploadResult = await _supabaseService
+            var uploadResult = await _storageService
                 .From(BucketName)
                 .Upload(fileBytes, filePath);
 
-            // If we got here without an exception and have a result, the upload was successful
             return !string.IsNullOrEmpty(uploadResult);
         }
         catch (Exception)
@@ -36,20 +46,21 @@ public class SupabaseGpxStorageService : IGpxStorageService
         }
     }
 
+
    
     public async Task<Stream> DownloadGpxFileAsync(Guid trailId)
     {
         // First, we need to get the trail slug to construct the correct path
-        var trail = await _supabaseService.GetTrailByIdAsync(trailId);
+        var trail = await _trailRepository.GetByIdAsync(trailId);
         if (trail == null)
         {
-            throw new FileNotFoundException($"Trail not found with ID {trailId}");
+            throw new TrailNotFoundException($"Trail not found with ID {trailId}");
         }
 
         var filePath = $"{trail.Slug}/{trailId}.gpx";
         try
         {
-            var bytes = await _supabaseService
+            var bytes = await _storageService
                 .From(BucketName)
                 .Download(filePath, null);
 
@@ -65,7 +76,6 @@ public class SupabaseGpxStorageService : IGpxStorageService
             throw new FileNotFoundException($"Error accessing GPX file for trail {trailId}: {ex.Message}", ex);
         }
     }
-
     public Task<bool> DeleteGpxFileAsync(Guid trailId)
     {
         throw new NotImplementedException();
