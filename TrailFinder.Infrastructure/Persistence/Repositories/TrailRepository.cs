@@ -68,7 +68,7 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
 
         if (filter.DifficultyLevel.HasValue)
         {
-            query = query.Where(t => t.DifficultyLevelLevel == filter.DifficultyLevel.Value);
+            query = query.Where(t => t.DifficultyLevel == filter.DifficultyLevel.Value);
         }
 
         // Get a total count before pagination
@@ -87,8 +87,8 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
                 ? query.OrderByDescending(t => t.ElevationGainMeters)
                 : query.OrderBy(t => t.ElevationGainMeters),
             "difficulty" => filter.Descending
-                ? query.OrderByDescending(t => t.DifficultyLevelLevel)
-                : query.OrderBy(t => t.DifficultyLevelLevel),
+                ? query.OrderByDescending(t => t.DifficultyLevel)
+                : query.OrderBy(t => t.DifficultyLevel),
             "created" => filter.Descending
                 ? query.OrderByDescending(t => t.CreatedAt)
                 : query.OrderBy(t => t.CreatedAt),

@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TrailFinder.Application.Features.Trails.Commands.UpdateTrailGpxInfo;
 using TrailFinder.Application.Features.Trails.Queries.GetTrail;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailGpxInfo;
@@ -101,6 +102,32 @@ public class TrailsController : BaseApiController
         {
             var result = await _mediator.Send(new GetTrailGpxInfoQuery(trailId));
             return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return HandleException(ex);
+        }
+    }
+    
+    [HttpPut("{trailId:guid}/info")]
+    public async Task<ActionResult> UpdateTrailGpxInfo(Guid trailId, TrailGpxInfoDto gpxInfo)
+    {
+        try
+        {
+            var command = new UpdateTrailGpxInfoCommand(
+                trailId,
+                gpxInfo.DistanceMeters,
+                gpxInfo.ElevationGainMeters,
+                gpxInfo.StartPoint,
+                gpxInfo.EndPoint
+            );
+        
+            await _mediator.Send(command);
+            return Ok();
+        }
+        catch (TrailNotFoundException ex)
+        {
+            return NotFound(new ErrorResponse { Message = ex.Message });
         }
         catch (Exception ex)
         {

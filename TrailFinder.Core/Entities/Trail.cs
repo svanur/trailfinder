@@ -11,16 +11,17 @@ public class Trail : BaseEntity
         new GeometryFactory(new PrecisionModel(), 4326);
     
     public Guid? ParentId { get; private set; }
-    public string Name { get; private set; } = default!;
-    public string Slug { get; private set; } = default!;
-    public string Description { get; private set; } = default!;
-    public decimal DistanceMeters { get; private set; }
-    public decimal ElevationGainMeters { get; private set; }
-    public DifficultyLevel DifficultyLevelLevel { get; private set; }
-    public Point StartPoint { get; private set; } = default!;
+    public string Name { get; private set; } = null!;
+    public string Slug { get; private set; } = null!;
+    public string Description { get; private set; } = null!;
+    public double DistanceMeters { get; set; }
+    public double ElevationGainMeters { get; set; }
+    public DifficultyLevel? DifficultyLevel { get; private set; }
+    public Point? StartPoint { get; set; } = null!;
+    public Point? EndPoint { get; set; } = null!;
     public LineString? RouteGeometry { get; private set; }
     public string? WebUrl { get; private set; }
-    public bool HasGpx { get; private set; }
+    public bool HasGpx { get; set; }
 
     private Trail() { } // For EF Core
 
@@ -28,11 +29,13 @@ public class Trail : BaseEntity
         Guid parentId,
         string name,
         string description,
-        decimal distanceMeters,
-        decimal elevationGainMeters,
-        DifficultyLevel difficultyLevelLevel,
+        double distanceMeters,
+        double elevationGainMeters,
+        DifficultyLevel difficultyLevel,
         double startPointLatitude,
         double startPointLongitude,
+        double endPointLatitude,
+        double endPointLongitude,
         Guid userId
     )
     {
@@ -42,8 +45,9 @@ public class Trail : BaseEntity
         Description = description;
         DistanceMeters = distanceMeters;
         ElevationGainMeters = elevationGainMeters;
-        DifficultyLevelLevel = difficultyLevelLevel;
+        DifficultyLevel = difficultyLevel;
         StartPoint = GeometryFactory.CreatePoint(new Coordinate(startPointLongitude, startPointLatitude));
+        EndPoint = GeometryFactory.CreatePoint(new Coordinate(endPointLongitude, endPointLatitude));
         ParentId = parentId;
         UserId = userId;
         CreatedAt = DateTime.UtcNow;
@@ -61,19 +65,23 @@ public class Trail : BaseEntity
     public void Update(
         string name,
         string description,
-        decimal distanceMeters,
-        decimal elevationGainMeters,
-        DifficultyLevel difficultyLevelLevel,
+        double distanceMeters,
+        double elevationGainMeters,
+        DifficultyLevel difficultyLevel,
         double startPointLatitude,
-        double startPointLongitude)
+        double startPointLongitude,
+        double endPointLatitude,
+        double endPointLongitude
+    )
     {
         Name = name;
         Slug = GenerateSlug(name);
         Description = description;
         DistanceMeters = distanceMeters;
         ElevationGainMeters = elevationGainMeters;
-        DifficultyLevelLevel = difficultyLevelLevel;
+        DifficultyLevel = difficultyLevel;
         StartPoint = GeometryFactory.CreatePoint(new Coordinate(startPointLongitude, startPointLatitude));
+        EndPoint = GeometryFactory.CreatePoint(new Coordinate(endPointLongitude, endPointLatitude));
         UpdatedAt = DateTime.UtcNow;
     }
 
@@ -93,10 +101,26 @@ public class Trail : BaseEntity
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public (double Latitude, double Longitude) GetStartCoordinates()
+    public (double? Latitude, double? Longitude)? GetStartCoordinates()
     {
-        return (StartPoint.Y, StartPoint.X); // Y is the latitude, X is the longitude in spatial types
+        if (StartPoint == null)
+        {
+            return null;
+        }
+
+        return (StartPoint.Y, StartPoint.X);
     }
+
+    public (double? Latitude, double? Longitude)? GetEndCoordinates()
+    {
+        if (EndPoint == null)
+        {
+            return null;
+        }
+
+        return (EndPoint.Y, EndPoint.X);
+    }
+
 
     public IEnumerable<(double Latitude, double Longitude)> GetRouteCoordinates()
     {

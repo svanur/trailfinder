@@ -3,6 +3,7 @@ using TrailFinder.Infrastructure;
 using TrailFinder.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using TrailFinder.Application;
 using Supabase;
@@ -25,6 +26,12 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 // Add the configuration section
 builder.Services.Configure<SupabaseSettings>(builder.Configuration.GetSection("Supabase"));
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
+        x => x.UseNetTopologySuite() // This is important!
+    )
+);
 
 // Configure health checks
 
