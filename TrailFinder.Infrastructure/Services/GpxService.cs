@@ -1,23 +1,16 @@
 using System.Xml.Linq;
 using TrailFinder.Application.Services;
 using TrailFinder.Core.DTOs.Gpx;
-using TrailFinder.Core.Exceptions;
-using TrailFinder.Core.Interfaces.Repositories;
-using TrailFinder.Core.Interfaces.Services;
 
 namespace TrailFinder.Infrastructure.Services;
 
 public class GpxService : IGpxService
 {
     private const double EarthRadiusMeters = 6371e3;
-    private const double DegreesToRadians = Math.PI / 180;
-    private const string BucketName = "gpx-files";
-    private readonly ISupabaseStorageService _storageService;
-    private readonly ITrailRepository _trailRepository;
 
     private record struct GpxPoint
     {
-        private const double E7_TO_DECIMAL = 1e-7;
+        private const double E7ToDecimal = 1e-7;
         public double Latitude { get; }
         public double Longitude { get; }
         public double? Elevation { get; }
@@ -25,8 +18,8 @@ public class GpxService : IGpxService
         private GpxPoint(double latitude, double longitude, double? elevation = null)
         {
             // Convert from E7 format to decimal degrees
-            Latitude = latitude * E7_TO_DECIMAL;
-            Longitude = longitude * E7_TO_DECIMAL;
+            Latitude = latitude * E7ToDecimal;
+            Longitude = longitude * E7ToDecimal;
             Elevation = elevation;
         }
 
@@ -52,14 +45,7 @@ public class GpxService : IGpxService
         }
     }
 
-
-    public GpxService(ITrailRepository trailRepository, ISupabaseStorageService storageService)
-    {
-        _trailRepository = trailRepository;
-        _storageService = storageService;
-    }
-
-    public async Task<GpxInfoDto> ExtractGpxInfo(Stream gpxStream)
+    public async Task<TrailGpxInfoDto> ExtractGpxInfo(Stream gpxStream)
     {
         try
         {
@@ -73,7 +59,7 @@ public class GpxService : IGpxService
             var startPoint = points.First();
             var lastPoint = points.Last();
 
-            return new GpxInfoDto(
+            return new TrailGpxInfoDto(
                 totalDistance,
                 elevationGain,
                 new GeoPoint(startPoint.Latitude, startPoint.Longitude),
@@ -121,15 +107,21 @@ public class GpxService : IGpxService
         double elevationGain = 0;
         for (var i = 0; i < points.Count - 1; i++)
         {
-            if (points[i].Elevation.HasValue && points[i + 1].Elevation.HasValue)
+            var currentGpxPoint = points[i];
+            var nextGpxPoint = points[i + 1];
+            if (!currentGpxPoint.Elevation.HasValue || !nextGpxPoint.Elevation.HasValue)
             {
-                var diff = points[i + 1].Elevation.Value - points[i].Elevation.Value;
-                if (diff > 0) elevationGain += diff;
+                continue;
+            }
+
+            var diff = nextGpxPoint.Elevation.Value - currentGpxPoint.Elevation.Value;
+            if (diff > 0)
+            {
+                elevationGain += diff;
             }
         }
         return elevationGain;
     }
-
     
     private static double CalculateDistance(GpxPoint point1, GpxPoint point2)
     {
@@ -171,64 +163,4 @@ public class GpxService : IGpxService
                point.Longitude is >= -180 and <= 180 &&
                !double.IsNaN(point.Latitude) && !double.IsNaN(point.Longitude);
     }
-
-
-    private static double ToRadians(double degrees) => degrees * DegreesToRadians;
-
-    private static double CalculateHaversineFormula(double lat1Rad, double lat2Rad, 
-        double deltaLat, double deltaLon)
-    {
-        return Math.Sin(deltaLat / 2) * Math.Sin(deltaLat / 2) +
-               Math.Cos(lat1Rad) * Math.Cos(lat2Rad) *
-               Math.Sin(deltaLon / 2) * Math.Sin(deltaLon / 2);
-    }
-
-    public async Task<Stream> GetGpxFileFromStorage(Guid trailId)
-    {
-        var trail = await _trailRepository.GetByIdAsync(trailId);
-        if (trail == null) throw new TrailNotFoundException($"Trail not found with ID {trailId}");
-
-        var fileName = $"{trail.Slug}/{trailId}.gpx";
-
-        try
-        {
-            // First, check if the bucket exists
-            /*
-            var buckets = await _storageService
-                .Storage
-                .ListBuckets();
-
-            if (buckets != null && buckets.All(b => b.Name != BucketName))
-            {
-                await _storageService
-                    .Storage
-                    .CreateBucket(BucketName);
-            }
-
-            // List files in the bucket to check if our file exists
-            var files = await _storageService
-                .From(BucketName)
-                .List();
-
-            if (files != null && files.All(f => f.Name != fileName))
-            {
-                throw new FileNotFoundException($"GPX file {fileName} not found in storage");
-            }
-            */
-
-            var response = await _storageService
-                .From(BucketName)
-                .Download(fileName, null);
-
-            if (response == null || response.Length == 0)
-                throw new InvalidOperationException($"Downloaded file {fileName} is empty");
-
-            return new MemoryStream(response);
-        }
-        catch (Exception ex)
-        {
-            throw new FileNotFoundException($"Error accessing GPX file for trail {trailId}: {ex.Message}", ex);
-        }
-    }
-    
 }

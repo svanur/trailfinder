@@ -45,7 +45,7 @@ public static class DependencyInjection
 
         // Add other repositories here
         services.AddScoped<IGpxService, GpxService>();
-        services.AddScoped<IGpxStorageService, SupabaseGpxStorageService>();
+        services.AddScoped<ISupabaseStorageService, SupabaseStorageService>();
         
         return services;
     }

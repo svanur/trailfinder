@@ -18,18 +18,18 @@ public class TrailsController : BaseApiController
 {
     private readonly ILogger<TrailsController> _logger;
     private readonly IMediator _mediator;
-    private readonly IGpxStorageService _gpxStorageService;
+    private readonly ISupabaseStorageService _storageService;
 
     public TrailsController(
         IMediator mediator,
         ILogger<TrailsController> logger,
-        IGpxStorageService gpxStorageService
+        ISupabaseStorageService _StorageService
     )
         : base(logger)
     {
         _mediator = mediator;
         _logger = logger;
-        _gpxStorageService = gpxStorageService;
+        _storageService = _StorageService;
     }
 
     [HttpGet("{trailSlug}")]
@@ -94,8 +94,8 @@ public class TrailsController : BaseApiController
         }
     }
     
-    [HttpGet("{trailId:guid}/gpx")]
-    public async Task<ActionResult<GpxInfoDto>> GetTrailGpxInfo(Guid trailId)
+    [HttpGet("{trailId:guid}/info")]
+    public async Task<ActionResult<TrailGpxInfoDto>> GetTrailGpxInfo(Guid trailId)
     {
         try
         {
@@ -122,13 +122,20 @@ public class TrailsController : BaseApiController
             {
                 return BadRequest("File must be a GPX file");
             }
-            
+
+            var trailResult = await GetTrail(trailId);
+            if (trailResult.Value == null)
+            {
+                throw new TrailNotFoundException(trailId);
+            }
+
             using var stream = new MemoryStream();
             await file.CopyToAsync(stream);
             stream.Position = 0;
 
-            var success = await _gpxStorageService.UploadGpxFileAsync(
+            var success = await _storageService.UploadGpxFileAsync(
                 trailId,
+                trailResult.Value.Slug,
                 stream, 
                 file.FileName);
 

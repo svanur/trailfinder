@@ -20,18 +20,18 @@ public class TrailsControllerTests
 {
     private readonly TrailsController _controller;
     private readonly Mock<IMediator> _mediatorMock;
-    private readonly Mock<IGpxStorageService> _gpxStorageServiceMock;
+    private readonly Mock<ISupabaseStorageService> _StorageServiceMock;
 
     public TrailsControllerTests()
     {
         var loggerMock = new Mock<ILogger<TrailsController>>();
         _mediatorMock = new Mock<IMediator>();
-        _gpxStorageServiceMock = new Mock<IGpxStorageService>();
+        _StorageServiceMock = new Mock<ISupabaseStorageService>();
 
         _controller = new TrailsController(
             _mediatorMock.Object, 
             loggerMock.Object,
-            _gpxStorageServiceMock.Object
+            _StorageServiceMock.Object
         );
     }
 
