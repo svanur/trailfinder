@@ -59,11 +59,14 @@ public class GpxService : IGpxService
             var startPoint = points.First();
             var lastPoint = points.Last();
 
+            var startGeoPoint = new GeoPoint(startPoint.Latitude, startPoint.Longitude);
+            var endGeoPoint = new GeoPoint(lastPoint.Latitude, lastPoint.Longitude);
+            
             return new TrailGpxInfoDto(
                 totalDistance,
                 elevationGain,
-                new GeoPoint(startPoint.Latitude, startPoint.Longitude),
-                new GeoPoint(lastPoint.Latitude, lastPoint.Longitude)
+                startGeoPoint,
+                endGeoPoint
             );
         }
         catch (Exception ex)

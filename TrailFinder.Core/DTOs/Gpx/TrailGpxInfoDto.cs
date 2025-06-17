@@ -7,7 +7,3 @@ public record TrailGpxInfoDto(
     GeoPoint EndPoint
 );
 
-public record GeoPoint(
-    double Latitude,
-    double Longitude
-);
