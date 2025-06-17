@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TrailFinder.Application.Services;
 using TrailFinder.Contract.Persistence;
 using TrailFinder.Core.Interfaces.Repositories;
 using TrailFinder.Core.Interfaces.Services;
@@ -40,9 +41,11 @@ public static class DependencyInjection
         });
 
         // Register Supabase service
-        services.AddScoped<ISupabaseService, SupabaseService>();
+        services.AddScoped<ISupabaseStorageService, SupabaseStorageService>();
 
         // Add other repositories here
+        services.AddScoped<IGpxService, GpxService>();
+        services.AddScoped<ISupabaseStorageService, SupabaseStorageService>();
         
         return services;
     }

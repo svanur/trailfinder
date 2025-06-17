@@ -9,7 +9,6 @@
     <ItemGroup>
       <Folder Include="Features\Trails\Commands\DeleteTrail\" />
       <Folder Include="Features\Trails\Commands\UpdateTrail\" />
-      <Folder Include="Services\" />
     </ItemGroup>
 
     <ItemGroup>

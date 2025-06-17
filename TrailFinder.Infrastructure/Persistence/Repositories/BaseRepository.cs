@@ -20,7 +20,7 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity>
 
     public virtual async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _dbSet.FindAsync(new object[] { id }, cancellationToken);
+        return await _dbSet.FindAsync([id], cancellationToken);
     }
 
     public virtual async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)

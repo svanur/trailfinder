@@ -6,6 +6,7 @@ using HealthChecks.UI.Client;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using TrailFinder.Application;
 using Supabase;
+using TrailFinder.Infrastructure.Configuration;
 using TrailFinder.Infrastructure.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplication(); // Add this line to register CQRS and related services
 builder.Services.AddInfrastructure(builder.Configuration);
+
+// Add the configuration section
+builder.Services.Configure<SupabaseSettings>(builder.Configuration.GetSection("Supabase"));
 
 // Configure health checks
 
