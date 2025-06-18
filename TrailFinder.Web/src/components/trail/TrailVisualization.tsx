@@ -2,7 +2,6 @@ import TrailMap from "../TrailMap.tsx";
 import ElevationProfile from "../ElevationProfile.tsx";
 
 interface TrailVisualizationProps {
-    gpxData: string;
     parsedGpxData: GpxPoint[];
     hoveredPoint: number | null;
     onMapHover: (point: GpxPoint) => void;
@@ -10,7 +9,6 @@ interface TrailVisualizationProps {
 }
 
 const TrailVisualization: React.FC<TrailVisualizationProps> = ({
-                                                                   gpxData,
                                                                    parsedGpxData,
                                                                    hoveredPoint,
                                                                    onMapHover,
@@ -19,7 +17,7 @@ const TrailVisualization: React.FC<TrailVisualizationProps> = ({
     <>
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
             <TrailMap
-                gpxData={gpxData}
+                points={parsedGpxData}
                 onHoverPoint={onMapHover}
                 highlightedPoint={hoveredPoint !== null ? parsedGpxData[hoveredPoint] : null}
             />

@@ -25,7 +25,7 @@ const TrailDetails: React.FC = () => {
                 setIsLoadingGpx(true);
                 const trailInfo = await getGpxContent(trail.id);
                 if (trailInfo && trailInfo.routeGeom) {
-                    const points = trailInfo.routeGeom.coordinates.map(
+                    const points = trailInfo.routeGeom.map(
                         ([lng, lat, elevation]: number[]) => ({
                             lat,
                             lng,
@@ -41,18 +41,21 @@ const TrailDetails: React.FC = () => {
             }
         }
     }, [trail?.id]);
-    
+
+
     useEffect(() => {
         loadGpxData();
     }, [loadGpxData]);
 
-    const parsedGpxData = useMemo<GpxPoint[] | null>(() => {
-        if (!gpxData) return null;
+    const parsedGpxData = useMemo<GpxPoint[]>(() => {
+        if (!gpxData) {
+            return [];
+        }
         try {
             return JSON.parse(gpxData);
         } catch (e) {
             console.error('Failed to parse GPX data:', e);
-            return null;
+            return [];
         }
     }, [gpxData]);
 
@@ -88,9 +91,8 @@ const TrailDetails: React.FC = () => {
                 <div className="bg-white rounded-lg shadow-lg p-6">
                     <TrailHeader trail={trail} />
 
-                    {trail.hasGpx && gpxData && parsedGpxData && (
+                    {trail.hasGpx && parsedGpxData.length > 0 && (
                         <TrailVisualization
-                            gpxData={gpxData}
                             parsedGpxData={parsedGpxData}
                             hoveredPoint={hoveredPoint}
                             onMapHover={handleMapHover}
