@@ -119,7 +119,8 @@ public class TrailsController : BaseApiController
                 gpxInfo.DistanceMeters,
                 gpxInfo.ElevationGainMeters,
                 gpxInfo.StartPoint,
-                gpxInfo.EndPoint
+                gpxInfo.EndPoint,
+                gpxInfo.RouteGeom
             );
         
             await _mediator.Send(command);

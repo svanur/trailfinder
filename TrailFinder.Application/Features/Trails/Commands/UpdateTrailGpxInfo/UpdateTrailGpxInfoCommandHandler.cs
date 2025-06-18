@@ -32,17 +32,13 @@ public class UpdateTrailGpxInfoCommandHandler : IRequestHandler<UpdateTrailGpxIn
         trail.ElevationGainMeters = request.ElevationGainMeters;
         
         // Create Point geometry for the start and end points
-        if (request.StartPoint != null)
-        {
-            trail.StartPoint = GeometryFactory.CreatePoint(
-                new Coordinate(request.StartPoint.Longitude, request.StartPoint.Latitude));
-        }
-    
-        if (request.EndPoint != null)
-        {
-            trail.EndPoint = GeometryFactory.CreatePoint(
-                new Coordinate(request.EndPoint.Longitude, request.EndPoint.Latitude));
-        }
+        trail.StartPoint = GeometryFactory.CreatePoint(
+            new Coordinate(request.StartPoint.Longitude, request.StartPoint.Latitude));
+
+        trail.EndPoint = GeometryFactory.CreatePoint(
+            new Coordinate(request.EndPoint.Longitude, request.EndPoint.Latitude));
+
+        trail.RouteGeom = request.RouteGeom;
 
         trail.HasGpx = true; // Since we're updating GPX info
         trail.UpdatedAt = DateTime.UtcNow;

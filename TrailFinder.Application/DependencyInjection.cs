@@ -1,8 +1,4 @@
-using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using MediatR;
-using TrailFinder.Application.Common;
-using TrailFinder.Application.Common.Behaviors;
 
 namespace TrailFinder.Application;
 

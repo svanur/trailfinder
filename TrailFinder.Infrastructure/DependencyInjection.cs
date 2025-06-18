@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetTopologySuite.Geometries;
 using TrailFinder.Application.Services;
 using TrailFinder.Contract.Persistence;
 using TrailFinder.Core.Interfaces.Repositories;
@@ -38,6 +39,12 @@ public static class DependencyInjection
 
         // Register services
         services.AddScoped<ISupabaseStorageService, SupabaseStorageService>();
+        services.AddScoped<IGpxService, GpxService>();
+
+        // Register GeometryFactory as a singleton since it's thread-safe
+        services.AddSingleton<GeometryFactory>();
+        
+        // Register GpxService from Infrastructure as implementation of IGpxService from Application
         services.AddScoped<IGpxService, GpxService>();
 
         return services;

@@ -76,7 +76,7 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasColumnType("geometry(Point, 4326)")
             .IsRequired(false);
             
-        builder.Property(t => t.RouteGeometry)
+        builder.Property(t => t.RouteGeom)
             .HasColumnName("route_geom")
             .HasColumnType("geometry(LineString, 4326)")
             .IsRequired(false);
@@ -116,7 +116,7 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
         builder.HasIndex(t => t.UserId);
         builder.HasIndex(t => t.StartPoint)
             .HasMethod("GIST");
-        builder.HasIndex(t => t.RouteGeometry)
+        builder.HasIndex(t => t.RouteGeom)
             .HasMethod("GIST");
             
         // Relationships

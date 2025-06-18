@@ -229,7 +229,7 @@ public class TrailsControllerTests
         DifficultyLevel difficultyLevel = DifficultyLevel.Moderate,
         double startPointLatitude = 0,
         double startPointLongitude = 0,
-        LineString? routeGeometry = null,
+        LineString? routeGeom = null,
         string? webUrl = "",
         bool hasGpx = false
     )
@@ -245,7 +245,7 @@ public class TrailsControllerTests
             difficultyLevel,
             startPointLatitude,
             startPointLongitude,
-            routeGeometry,
+            routeGeom,
             webUrl,
             hasGpx,
             DateTime.Now,

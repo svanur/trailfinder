@@ -13,5 +13,5 @@ public interface IGpxService
     ///     with details such as distance, elevation gain, and start point.
     /// </returns>
     Task<TrailGpxInfoDto> ExtractGpxInfo(Stream gpxStream);
-    
 }
+

@@ -1,4 +1,5 @@
 using System.Xml.Linq;
+using NetTopologySuite.Geometries;
 using TrailFinder.Application.Services;
 using TrailFinder.Core.DTOs.Gpx;
 
@@ -7,6 +8,13 @@ namespace TrailFinder.Infrastructure.Services;
 public class GpxService : IGpxService
 {
     private const double EarthRadiusMeters = 6371e3;
+
+    private readonly GeometryFactory _geometryFactory;
+
+    public GpxService(GeometryFactory geometryFactory)
+    {
+        _geometryFactory = geometryFactory;
+    }
 
     public async Task<TrailGpxInfoDto> ExtractGpxInfo(Stream gpxStream)
     {
@@ -25,11 +33,17 @@ public class GpxService : IGpxService
             var startGeoPoint = new GpxPoint(startPoint.Latitude, startPoint.Longitude);
             var endGeoPoint = new GpxPoint(lastPoint.Latitude, lastPoint.Longitude);
             
+            var coordinates = points
+                .Select(p => new Coordinate(p.Longitude, p.Latitude))
+                .ToArray();
+            var routeGeom = _geometryFactory.CreateLineString(coordinates);
+            
             return new TrailGpxInfoDto(
                 totalDistance,
                 elevationGain,
                 startGeoPoint,
-                endGeoPoint
+                endGeoPoint,
+                routeGeom
             );
         }
         catch (Exception ex)

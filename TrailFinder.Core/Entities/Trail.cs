@@ -19,7 +19,7 @@ public class Trail : BaseEntity
     public DifficultyLevel? DifficultyLevel { get; private set; }
     public Point? StartPoint { get; set; } = null!;
     public Point? EndPoint { get; set; } = null!;
-    public LineString? RouteGeometry { get; private set; }
+    public LineString? RouteGeom { get; set; }
     public string? WebUrl { get; private set; }
     public bool HasGpx { get; set; }
 
@@ -91,7 +91,7 @@ public class Trail : BaseEntity
             .Select(c => new Coordinate(c.Longitude, c.Latitude))
             .ToArray();
 
-        RouteGeometry = GeometryFactory.CreateLineString(routeCoordinates);
+        RouteGeom = GeometryFactory.CreateLineString(routeCoordinates);
         UpdatedAt = DateTime.UtcNow;
     }
 
@@ -124,10 +124,10 @@ public class Trail : BaseEntity
 
     public IEnumerable<(double Latitude, double Longitude)> GetRouteCoordinates()
     {
-        if (RouteGeometry == null)
+        if (RouteGeom == null)
             return [];
 
-        return RouteGeometry.Coordinates
+        return RouteGeom.Coordinates
             .Select(c => (Latitude: c.Y, Longitude: c.X));
     }
 
@@ -139,10 +139,10 @@ public class Trail : BaseEntity
 
     public bool IsPointNearTrail(double latitude, double longitude, double toleranceMeters)
     {
-        if (RouteGeometry == null)
+        if (RouteGeom == null)
             return false;
 
         var point = GeometryFactory.CreatePoint(new Coordinate(longitude, latitude));
-        return RouteGeometry.Distance(point) <= toleranceMeters;
+        return RouteGeom.Distance(point) <= toleranceMeters;
     }
 }
