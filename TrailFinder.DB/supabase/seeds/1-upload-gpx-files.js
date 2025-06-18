@@ -28,7 +28,7 @@ async function uploadGpxFiles() {
             const fileContent = fs.readFileSync(filePath);
             const fileStats = fs.statSync(filePath);
 
-            // Get trail ID from database using slug
+            // Get trail ID from the database using slug
             const result = await pool.query('SELECT id FROM trails WHERE slug = $1', [slug]);
             if (result.rows.length === 0) {
                 console.error(`No trail found for slug: ${slug}`);

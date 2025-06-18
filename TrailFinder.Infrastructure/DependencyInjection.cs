@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetTopologySuite.Geometries;
 using TrailFinder.Application.Services;
 using TrailFinder.Contract.Persistence;
 using TrailFinder.Core.Interfaces.Repositories;
 using TrailFinder.Core.Interfaces.Services;
 using TrailFinder.Infrastructure.Configuration;
-using TrailFinder.Infrastructure.Mapping;
 using TrailFinder.Infrastructure.Persistence;
 using TrailFinder.Infrastructure.Persistence.Repositories;
 using TrailFinder.Infrastructure.Services;
@@ -25,13 +25,10 @@ public static class DependencyInjection
                 x => x.UseNetTopologySuite()
             ));
 
-        services.AddScoped<IApplicationDbContext>(provider => 
+        services.AddScoped<IApplicationDbContext>(provider =>
             provider.GetRequiredService<ApplicationDbContext>());
 
         services.AddScoped<ITrailRepository, TrailRepository>();
-        
-        // Add AutoMapper configuration
-        services.AddAutoMapper(typeof(SupabaseMappingProfile).Assembly);
 
         // Add Supabase configuration
         services.Configure<SupabaseSettings>(settings =>
@@ -40,13 +37,16 @@ public static class DependencyInjection
             settings.Key = configuration["VITE_SUPABASE_ANON_KEY"]!;
         });
 
-        // Register Supabase service
+        // Register services
         services.AddScoped<ISupabaseStorageService, SupabaseStorageService>();
-
-        // Add other repositories here
         services.AddScoped<IGpxService, GpxService>();
-        services.AddScoped<ISupabaseStorageService, SupabaseStorageService>();
+
+        // Register GeometryFactory as a singleton since it's thread-safe
+        services.AddSingleton<GeometryFactory>();
         
+        // Register GpxService from Infrastructure as implementation of IGpxService from Application
+        services.AddScoped<IGpxService, GpxService>();
+
         return services;
     }
 }

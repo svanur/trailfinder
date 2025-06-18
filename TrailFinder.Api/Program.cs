@@ -1,13 +1,12 @@
+using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
+using Supabase;
+using TrailFinder.Api.Converters;
+using TrailFinder.Application;
 using TrailFinder.Core;
 using TrailFinder.Infrastructure;
-using TrailFinder.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using HealthChecks.UI.Client;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using TrailFinder.Application;
-using Supabase;
 using TrailFinder.Infrastructure.Configuration;
-using TrailFinder.Infrastructure.HealthChecks;
+using TrailFinder.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +16,16 @@ builder.Services
     .AddInfrastructure(builder.Configuration);
 
 // Add other service configurations
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals;
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.Converters.Add(new LineStringConverter());
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplication(); // Add this line to register CQRS and related services
@@ -26,13 +34,19 @@ builder.Services.AddInfrastructure(builder.Configuration);
 // Add the configuration section
 builder.Services.Configure<SupabaseSettings>(builder.Configuration.GetSection("Supabase"));
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
+        x => x.UseNetTopologySuite() // This is important!
+    )
+);
+
 // Configure health checks
 
 /*
 builder.Services.AddHealthChecks()
-    
+
     // Database health checks
-    
+
     .AddDbContextCheck<ApplicationDbContext>("database")
     .AddNpgSql(
         builder.Configuration.GetConnectionString("DefaultConnection"),  // Use "DefaultConnection" to match config
@@ -40,24 +54,24 @@ builder.Services.AddHealthChecks()
         tags: new[] { "db", "postgresql" }
     )
 
-    
+
     // Supabase health check
     .AddUrlGroup(
         new Uri(builder.Configuration["VITE_SUPABASE_URL"]!),
         name: "supabase-api",
         tags: ["external-service"])
-    
+
     .AddTypeActivatedCheck<SupabaseStorageHealthCheck>(
         name: "supabase-storage", "storage", "supabase"
     )
-    
+
     // Custom GPX directory access check
     .AddCheck("gpx-directory-access", () =>
         {
             try
             {
                 var gpxPath = Path.Combine(builder.Environment.ContentRootPath, "storage", "gpx");
-            
+
                 // Check if the directory exists
                 if (!Directory.Exists(gpxPath))
                 {
@@ -87,7 +101,7 @@ builder.Services.AddHealthChecks()
         options.AddDrive(@"C:\", 1024); // Checks if C: drive has at least 1GB free space
     }, "disk-space-check")
 
-    
+
     // Memory health check
     .AddProcessAllocatedMemoryHealthCheck(
         maximumMegabytesAllocated: 1024, // 1GB maximum
@@ -102,7 +116,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("DefaultPolicy", policy =>
     {
         policy.WithOrigins(builder.Configuration
-                .GetSection("Cors:AllowedOrigins") 
+                .GetSection("Cors:AllowedOrigins")
                 .Get<string[]>() ?? [])
             .AllowAnyMethod()
             .AllowAnyHeader();
@@ -110,15 +124,13 @@ builder.Services.AddCors(options =>
 });
 
 // Register Supabase client
-builder.Services.AddSingleton(provider => 
+builder.Services.AddSingleton(provider =>
 {
     var supabaseUrl = builder.Configuration["VITE_SUPABASE_URL"];
     var supabaseKey = builder.Configuration["VITE_SUPABASE_ANON_KEY"];
-    
+
     if (string.IsNullOrEmpty(supabaseUrl) || string.IsNullOrEmpty(supabaseKey))
-    {
         throw new InvalidOperationException("Supabase configuration is missing");
-    }
 
     return new Client(supabaseUrl, supabaseKey);
 });

@@ -13,22 +13,30 @@ export interface Database {
 
 export interface Trail {
     id: string;
-    parentId: string;
+    parentId: string | null;
     name: string;
     slug: string;
     description: string;
     distanceMeters: number;
     elevationGainMeters: number;
-    difficultyLevel: string | null;
-    routeGeom: unknown;  // PostGIS type
-    startPoint: unknown;  // PostGIS type
-    startPointLatitude?: number; 
-    startPointLongitude?: number; 
-    webUrl: string | null;
+    difficultyLevel: DifficultyLevel | null;
+    startPointLatitude: number;
+    startPointLongitude: number;
+    endPointLatitude: number;
+    endPointLongitude: number;
+    routeGeom?: any; // or more specific GeoJSON type if needed
+    webUrl?: string;
     hasGpx: boolean;
-    createdAt: string;
-    updatedAt: string;
-    userId: string;
+    createdAt: string; // ISO date string
+    updatedAt: string; // ISO date string
+    userId: string | null;
+}
+
+export enum DifficultyLevel {
+    Easy = 'easy',
+    Moderate = 'moderate',
+    Hard = 'hard',
+    Expert = 'expert'
 }
 
 export interface CreateTrailDTO {

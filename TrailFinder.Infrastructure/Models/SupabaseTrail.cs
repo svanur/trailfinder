@@ -1,23 +1,55 @@
 using Supabase.Postgrest.Attributes;
 using Supabase.Postgrest.Models;
+using TrailFinder.Core.Enums;
 
-namespace TrailFinder.Infrastructure.Models;
-
-[Table("trails")]  // Specify the actual table name from your Supabase database
+[Table("trails")]
 public class SupabaseTrail : BaseModel
 {
     [Column("id")]
-    public string Id { get; set; } = string.Empty;
-
+    public Guid Id { get; set; }
+    
     [Column("parent_id")]
-    public string ParentId { get; set; } = string.Empty;
-
+    public Guid? ParentId { get; set; }
+    
     [Column("name")]
     public string Name { get; set; } = string.Empty;
-
-    [Column("description")]
-    public string Description { get; set; } = string.Empty;
-
+    
     [Column("slug")]
     public string Slug { get; set; } = string.Empty;
+    
+    [Column("description")]
+    public string? Description { get; set; }
+    
+    [Column("distance_meters")]
+    public decimal DistanceMeters { get; set; }
+    
+    [Column("elevation_gain_meters")]
+    public double ElevationGainMeters { get; set; }
+    
+    [Column("difficulty_level")]
+    public DifficultyLevel? DifficultyLevel { get; set; }
+    
+    [Column("route_geom")]
+    public object? RouteGeom { get; set; } // LINESTRING geometry
+    
+    [Column("start_point")]
+    public object? StartPoint { get; set; } // POINT geometry
+    
+    [Column("end_point")]
+    public object? EndPoint { get; set; } // POINT geometry
+    
+    [Column("web_url")]
+    public string? WebUrl { get; set; }
+    
+    [Column("has_gpx")]
+    public bool? HasGpx { get; set; }
+    
+    [Column("user_id")]
+    public Guid? UserId { get; set; }
+    
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; }
+    
+    [Column("updated_at")]
+    public DateTime UpdatedAt { get; set; }
 }
