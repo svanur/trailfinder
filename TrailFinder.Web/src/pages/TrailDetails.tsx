@@ -19,15 +19,20 @@ const TrailDetails: React.FC = () => {
     const [isLoadingGpx, setIsLoadingGpx] = useState(false);
     const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
 
-    // Wrap getGpxContent in a useCallback to prevent unnecessary re-renders: `getGpxContent``useCallback`
     const loadGpxData = useCallback(async () => {
         if (trail?.hasGpx) {
             try {
                 setIsLoadingGpx(true);
-                const gpxBlob = await getGpxContent(trail.id);
-                if (gpxBlob) {
-                    const text = await gpxBlob.text();
-                    setGpxData(text);
+                const trailInfo = await getGpxContent(trail.id);
+                if (trailInfo && trailInfo.routeGeom) {
+                    const points = trailInfo.routeGeom.coordinates.map(
+                        ([lng, lat, elevation]: number[]) => ({
+                            lat,
+                            lng,
+                            elevation: elevation || 0
+                        })
+                    );
+                    setGpxData(JSON.stringify(points));
                 }
             } catch (error) {
                 console.error('Failed to load GPX data:', error);
@@ -35,26 +40,22 @@ const TrailDetails: React.FC = () => {
                 setIsLoadingGpx(false);
             }
         }
-    }, [trail, getGpxContent]);
-
-
+    }, [trail?.id]);
+    
     useEffect(() => {
         loadGpxData();
     }, [loadGpxData]);
-    
+
     const parsedGpxData = useMemo<GpxPoint[] | null>(() => {
         if (!gpxData) return null;
-
-        const parser = new DOMParser();
-        const gpxDoc = parser.parseFromString(gpxData, 'text/xml');
-        const points = Array.from(gpxDoc.getElementsByTagName('trkpt')).map(point => ({
-            lat: parseFloat(point.getAttribute('lat') || '0'),
-            lng: parseFloat(point.getAttribute('lon') || '0'),
-            elevation: parseFloat(point.getElementsByTagName('ele')[0]?.textContent || '0')
-        }));
-
-        return points;
+        try {
+            return JSON.parse(gpxData);
+        } catch (e) {
+            console.error('Failed to parse GPX data:', e);
+            return null;
+        }
     }, [gpxData]);
+
 
     const handleMapHover = useCallback((point: GpxPoint) => {
         if (!parsedGpxData) return;

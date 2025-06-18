@@ -52,7 +52,7 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
             weight: 3,
         }).addTo(mapRef.current);
 
-        // Add start marker
+        // Add a start marker
         if (points.length > 0) {
             if (startMarkerRef.current) {
                 startMarkerRef.current.remove();
@@ -62,7 +62,7 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
             }).addTo(mapRef.current);
         }
 
-        // Add mousemove event to the polyline
+        // Add a mousemove event to the polyline
         if (onHoverPoint) {
             polyline.on('mousemove', (e) => {
                 const closest = findClosestPoint(points, e.latlng);
