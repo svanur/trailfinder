@@ -24,12 +24,15 @@ const TrailDetails: React.FC = () => {
             try {
                 setIsLoadingGpx(true);
                 const trailInfo = await getGpxContent(trail.id);
+                
                 if (trailInfo && trailInfo.routeGeom) {
+                    // The routeGeom is a LineString where coordinates is an array of [longitude, latitude, elevation]
                     const points = trailInfo.routeGeom.map(
-                        ([lng, lat, elevation]: number[]) => ({
-                            lat,
-                            lng,
-                            elevation: elevation || 0
+                        (coord: number[]) => ({
+                            // Note: In GeoJSON, coordinates are in [longitude, latitude, elevation] order
+                            lat: coord[1], // Second element is latitude
+                            lng: coord[0], // First element is longitude
+                            elevation: coord[2] || 0 // The third element is elevation
                         })
                     );
                     setGpxData(JSON.stringify(points));
@@ -41,7 +44,6 @@ const TrailDetails: React.FC = () => {
             }
         }
     }, [trail?.id]);
-
 
     useEffect(() => {
         loadGpxData();
@@ -106,6 +108,5 @@ const TrailDetails: React.FC = () => {
         </Layout>
     );
 };
-
 
 export default TrailDetails;

@@ -30,12 +30,16 @@ public class GpxService : IGpxService
             var startPoint = points.First();
             var lastPoint = points.Last();
 
-            var startGeoPoint = new GpxPoint(startPoint.Latitude, startPoint.Longitude);
-            var endGeoPoint = new GpxPoint(lastPoint.Latitude, lastPoint.Longitude);
+            var startGeoPoint = new GpxPoint(startPoint.Latitude, startPoint.Longitude, startPoint.Elevation);
+            var endGeoPoint = new GpxPoint(lastPoint.Latitude, lastPoint.Longitude, lastPoint.Elevation);
             
             var coordinates = points
-                .Select(p => new Coordinate(p.Longitude, p.Latitude))
+                .Select(
+                    p => new CoordinateZ(p.Longitude, p.Latitude, p.Elevation ?? 0)
+                )
+                .Cast<Coordinate>()
                 .ToArray();
+
             var routeGeom = _geometryFactory.CreateLineString(coordinates);
             
             return new TrailGpxInfoDto(
