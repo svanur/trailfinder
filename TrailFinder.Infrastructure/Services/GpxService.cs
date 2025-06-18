@@ -26,7 +26,7 @@ public class GpxService : IGpxService
             var points = trackPoints.Select(p => GpxPoint.FromXElement(p, ns)).ToList();
 
             var totalDistance = CalculateTotalDistance(points);
-            var elevationGain = CalculateElevationGain(points);
+            var elevationGain = CalculateElevationGain(points.Where(p => p.Elevation.HasValue).Select(p => p.Elevation.Value));
             var startPoint = points.First();
             var lastPoint = points.Last();
 
@@ -86,25 +86,25 @@ public class GpxService : IGpxService
         return totalDistance;
     }
 
-    private static double CalculateElevationGain(List<GpxPoint> points)
+    private static double CalculateElevationGain(IEnumerable<double> elevations)
     {
-        double elevationGain = 0;
-        for (var i = 0; i < points.Count - 1; i++)
-        {
-            var currentGpxPoint = points[i];
-            var nextGpxPoint = points[i + 1];
-            if (!currentGpxPoint.Elevation.HasValue || !nextGpxPoint.Elevation.HasValue)
-            {
-                continue;
-            }
+        var elevationGain = 0.0;
+        var enumerable = elevations as double[] ?? elevations.ToArray();
+        
+        var previousElevation = enumerable.First();
 
-            var diff = nextGpxPoint.Elevation.Value - currentGpxPoint.Elevation.Value;
-            if (diff > 0)
+        foreach (var elevation in enumerable.Skip(1))
+        {
+            var difference = elevation - previousElevation;
+            if (difference > 0) // Only count uphill
             {
-                elevationGain += diff;
+                elevationGain += Math.Round(difference, 1); // Round to 1 decimal place
             }
+            
+            previousElevation = elevation;
         }
-        return elevationGain;
+
+        return Math.Round(elevationGain, 1); // Round final result to 1 decimal place
     }
     
     private static double CalculateDistance(GpxPoint point1, GpxPoint point2)

@@ -140,7 +140,7 @@ const ElevationProfile: React.FC<ElevationProfileProps> = ({
             y: {
                 title: {
                     display: true,
-                    text: 'Elevation (m)',
+                    text: 'Hæð (m)',
                 },
             },
             x: {
