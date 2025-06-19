@@ -50,4 +50,26 @@ public class Todo
     //TODO [ ] Docker compose for local development
     //TODO [ ] Development scripts
     //TODO [ ] GitHub Actions CI/CD
+    
+    /*
+     * DESIGN:
+     Mantine is particularly useful when you need:
+- A consistent design system across your application
+- Rich, interactive UI components without building from scratch
+- Modern features like dark mode and responsive design
+- Type-safe component development with TypeScript
+- Accessibility compliance out of the box
+
+For your trail running application, Mantine could be particularly useful for building features like:
+- Trail detail cards
+- Navigation menus
+- Forms for trail information
+- Loading states and notifications
+- Modal dialogs for detailed information
+- Responsive layouts for different screen sizes
+
+Would you like me to show you some specific examples of how to use particular Mantine components that might be useful for your trail running application?
+
+     * 
+     */
 }
