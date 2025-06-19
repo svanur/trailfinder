@@ -1,34 +1,40 @@
-import { 
-    AppShell, 
-    Text, 
-    MantineProvider 
-} from '@mantine/core';
+import { AppShell, MantineProvider } from '@mantine/core';
 import { AdminNavigation } from './components/AdminNavigation';
 import { AdminHeader } from './components/AdminHeader';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Dashboard } from './pages/Dashboard';
+import { Trails } from './pages/Trails';
+import { Users } from './pages/Users';
 import '@mantine/core/styles.css';
 
 function App() {
     return (
-        <MantineProvider>
-            <AppShell
-                padding="md"
-                layout="alt"
-                navbar={{ width: 250, breakpoint: 'sm' }}
-                header={{ height: 60 }}
-            >
-                <AppShell.Navbar p="xs">
-                    <AdminNavigation />
-                </AppShell.Navbar>
+        <BrowserRouter>
+            <MantineProvider>
+                <AppShell
+                    padding="md"
+                    layout="alt"
+                    navbar={{ width: 250, breakpoint: 'sm' }}
+                    header={{ height: 60 }}
+                >
+                    <AppShell.Navbar p="xs">
+                        <AdminNavigation />
+                    </AppShell.Navbar>
 
-                <AppShell.Header p="xs">
-                    <AdminHeader />
-                </AppShell.Header>
+                    <AppShell.Header p="xs">
+                        <AdminHeader />
+                    </AppShell.Header>
 
-                <AppShell.Main>
-                    <Text>Velkomin/n í TrailFinder stjórnborðið</Text>
-                </AppShell.Main>
-            </AppShell>
-        </MantineProvider>
+                    <AppShell.Main>
+                        <Routes>
+                            <Route path="/" element={<Dashboard />} />
+                            <Route path="/trails" element={<Trails />} />
+                            <Route path="/users" element={<Users />} />
+                        </Routes>
+                    </AppShell.Main>
+                </AppShell>
+            </MantineProvider>
+        </BrowserRouter>
     );
 }
 
