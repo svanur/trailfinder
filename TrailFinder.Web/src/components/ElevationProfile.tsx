@@ -83,7 +83,7 @@ const ElevationProfile: React.FC<ElevationProfileProps> = ({
         labels: elevationData.map((_, i) => i),
         datasets: [
             {
-                label: 'Elevation',
+                label: 'Hæð',
                 data: elevationData,
                 borderColor: 'rgb(75, 192, 192)',
                 backgroundColor: 'rgba(75, 192, 192, 0.5)',
@@ -140,7 +140,7 @@ const ElevationProfile: React.FC<ElevationProfileProps> = ({
             y: {
                 title: {
                     display: true,
-                    text: 'Elevation (m)',
+                    text: 'Hæð (m)',
                 },
             },
             x: {

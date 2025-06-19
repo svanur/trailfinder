@@ -8,6 +8,7 @@ namespace TrailFinder.Infrastructure.Services;
 public class GpxService : IGpxService
 {
     private const double EarthRadiusMeters = 6371e3;
+    private const int ElevationPrecisionDecimals = 0;
 
     private readonly GeometryFactory _geometryFactory;
 
@@ -26,16 +27,21 @@ public class GpxService : IGpxService
             var points = trackPoints.Select(p => GpxPoint.FromXElement(p, ns)).ToList();
 
             var totalDistance = CalculateTotalDistance(points);
-            var elevationGain = CalculateElevationGain(points);
+            var elevationPoints = points.Where(p => p.Elevation.HasValue).Select(p => p.Elevation.Value);
+            var elevationGain = CalculateElevationGain(elevationPoints);
             var startPoint = points.First();
             var lastPoint = points.Last();
 
-            var startGeoPoint = new GpxPoint(startPoint.Latitude, startPoint.Longitude);
-            var endGeoPoint = new GpxPoint(lastPoint.Latitude, lastPoint.Longitude);
+            var startGeoPoint = new GpxPoint(startPoint.Latitude, startPoint.Longitude, startPoint.Elevation);
+            var endGeoPoint = new GpxPoint(lastPoint.Latitude, lastPoint.Longitude, lastPoint.Elevation);
             
             var coordinates = points
-                .Select(p => new Coordinate(p.Longitude, p.Latitude))
+                .Select(
+                    p => new CoordinateZ(p.Longitude, p.Latitude, p.Elevation ?? 0)
+                )
+                .Cast<Coordinate>()
                 .ToArray();
+
             var routeGeom = _geometryFactory.CreateLineString(coordinates);
             
             return new TrailGpxInfoDto(
@@ -82,25 +88,33 @@ public class GpxService : IGpxService
         return totalDistance;
     }
 
-    private static double CalculateElevationGain(List<GpxPoint> points)
+    private static double CalculateElevationGain(IEnumerable<double> elevationPoints)
     {
-        double elevationGain = 0;
-        for (var i = 0; i < points.Count - 1; i++)
-        {
-            var currentGpxPoint = points[i];
-            var nextGpxPoint = points[i + 1];
-            if (!currentGpxPoint.Elevation.HasValue || !nextGpxPoint.Elevation.HasValue)
-            {
-                continue;
-            }
+        ArgumentNullException.ThrowIfNull(elevationPoints);
 
-            var diff = nextGpxPoint.Elevation.Value - currentGpxPoint.Elevation.Value;
-            if (diff > 0)
-            {
-                elevationGain += diff;
-            }
+        var elevations = elevationPoints.ToList();
+        if (elevations.Count == 0)
+        {
+            throw new ArgumentException("Elevation points collection cannot be empty", nameof(elevationPoints));
         }
-        return elevationGain;
+
+        var totalElevationGain = 0.0;
+        var currentElevation = elevations[0];
+        for (var i = 1; i < elevations.Count; i++)
+        {
+            var nextElevation = elevations[i];
+            var elevationDifference = CalculateUphillDifference(currentElevation, nextElevation);
+            totalElevationGain += elevationDifference;
+            currentElevation = nextElevation;
+        }
+        
+        return Math.Round(totalElevationGain, ElevationPrecisionDecimals);
+    }
+
+    private static double CalculateUphillDifference(double currentElevation, double nextElevation)
+    {
+        var difference = nextElevation - currentElevation;
+        return difference > 0 ? Math.Round(difference, ElevationPrecisionDecimals) : 0;
     }
     
     private static double CalculateDistance(GpxPoint point1, GpxPoint point2)

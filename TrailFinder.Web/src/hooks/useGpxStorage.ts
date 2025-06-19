@@ -1,6 +1,7 @@
 // hooks/useGpxStorage.ts
 import { apiClient } from '../services/api';
 import { API_CONFIG } from '../config/api';
+import {useCallback} from "react";
 
 export const useGpxStorage = () => {
     const uploadGpx = async (trailId: string, file: File) => {
@@ -39,15 +40,16 @@ export const useGpxStorage = () => {
         document.body.removeChild(a);
     };
 
-    const getGpxContent = async (trailId: string) => {
+    const getGpxContent = useCallback(async (trailId: string) => {
         const response = await apiClient.get(
-            `${API_CONFIG.ENDPOINTS.TRAILS}/${trailId}/gpx`,
+            `${API_CONFIG.ENDPOINTS.TRAILS}/${trailId}/info`,
             {
-                responseType: 'blob'
+                responseType: 'json'
             }
         );
         return response.data;
-    };
+    }, []); // Empty dependency array since it doesn't depend on any props or state
+
 
     return { uploadGpx, downloadGpx, getGpxContent };
 };

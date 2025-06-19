@@ -52,3 +52,8 @@ export default tseslint.config({
   },
 })
 ```
+## CSS
+
+### Material icons
+
+[Material icons from Google](https://fonts.google.com/icons)

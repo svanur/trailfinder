@@ -4,19 +4,19 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 interface TrailMapProps {
-    gpxData: string;
-    onHoverPoint?: (point: { lat: number; lng: number; elevation: number }) => void;
-    highlightedPoint: { lat: number; lng: number; elevation: number } | null;
+    points: GpxPoint[]; // Changed from gpxData: string
+    onHoverPoint?: (point: GpxPoint) => void;
+    highlightedPoint: GpxPoint | null;
 }
 
-const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedPoint }) => {
+const TrailMap: React.FC<TrailMapProps> = ({ points, onHoverPoint, highlightedPoint }) => {
     const mapRef = useRef<L.Map | null>(null);
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const highlightMarkerRef = useRef<L.Marker | null>(null);
     const startMarkerRef = useRef<L.Marker | null>(null);
 
     useEffect(() => {
-        if (!mapContainerRef.current) return;
+        if (!mapContainerRef.current || !points.length) return;
 
         if (!mapRef.current) {
             mapRef.current = L.map(mapContainerRef.current).setView([0, 0], 13);
@@ -26,33 +26,19 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
             }).addTo(mapRef.current);
         }
 
-        // Create a custom start marker icon
         const startIcon = L.divIcon({
             className: 'start-marker',
-            html: `
-        <span class="material-symbols-outlined">
-          run_circle
-        </span>
-      `,
+            html: `<span class="material-symbols-outlined">run_circle</span>`,
             iconSize: [32, 32],
             iconAnchor: [16, 16]
         });
-
-        // Parse GPX and add to map
-        const parser = new DOMParser();
-        const gpxDoc = parser.parseFromString(gpxData, 'text/xml');
-        const points = Array.from(gpxDoc.getElementsByTagName('trkpt')).map(point => ({
-            lat: parseFloat(point.getAttribute('lat') || '0'),
-            lng: parseFloat(point.getAttribute('lon') || '0'),
-            elevation: parseFloat(point.getElementsByTagName('ele')[0]?.textContent || '0')
-        }));
 
         const polyline = L.polyline(points.map(p => [p.lat, p.lng]), {
             color: 'red',
             weight: 3,
         }).addTo(mapRef.current);
 
-        // Add start marker
+        // Add a start marker
         if (points.length > 0) {
             if (startMarkerRef.current) {
                 startMarkerRef.current.remove();
@@ -62,7 +48,7 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
             }).addTo(mapRef.current);
         }
 
-        // Add mousemove event to the polyline
+        // Add a mousemove event to the polyline
         if (onHoverPoint) {
             polyline.on('mousemove', (e) => {
                 const closest = findClosestPoint(points, e.latlng);
@@ -81,7 +67,8 @@ const TrailMap: React.FC<TrailMapProps> = ({ gpxData, onHoverPoint, highlightedP
                 startMarkerRef.current.remove();
             }
         };
-    }, [gpxData, onHoverPoint]);
+    }, [points, onHoverPoint]);
+
 
     // Handle highlighted point updates
     useEffect(() => {

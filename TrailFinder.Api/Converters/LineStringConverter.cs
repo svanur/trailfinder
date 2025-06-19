@@ -36,11 +36,17 @@ public class LineStringConverter : JsonConverter<LineString>
                 throw new JsonException("Expected number for Y coordinate");
             var y = reader.GetDouble();
 
+            // Modified Z coordinate handling
             reader.Read();
-            if (reader.TokenType != JsonTokenType.EndArray)
-                throw new JsonException("Expected end of coordinate array");
+            var z = 0.0;
+            if (reader.TokenType == JsonTokenType.Number)
+            {
+                z = reader.GetDouble();
+            }
 
-            coordinates.Add(new Coordinate(x, y));
+            reader.Read(); // Read past the end of coordinate array
+
+            coordinates.Add(new CoordinateZ(x, y, z));
         }
 
         return coordinates.Count == 0 ? null : _geometryFactory.CreateLineString(coordinates.ToArray());
@@ -60,6 +66,9 @@ public class LineStringConverter : JsonConverter<LineString>
             writer.WriteStartArray();
             writer.WriteNumberValue(coordinate.X);
             writer.WriteNumberValue(coordinate.Y);
+            // Handle potentially invalid Z values
+            var z = double.IsInfinity(coordinate.Z) || double.IsNaN(coordinate.Z) ? 0 : coordinate.Z;
+            writer.WriteNumberValue(z);
             writer.WriteEndArray();
         }
         writer.WriteEndArray();

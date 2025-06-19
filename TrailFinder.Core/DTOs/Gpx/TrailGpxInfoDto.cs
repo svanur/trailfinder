@@ -8,6 +8,5 @@ public record TrailGpxInfoDto(
     GpxPoint StartPoint,
     GpxPoint EndPoint,
     LineString RouteGeom
-
 );
 
