@@ -67,7 +67,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ trails }) => {
                                     >
                                         <div className="font-medium">{trail.name}</div>
                                         <div className="text-sm text-gray-600">
-                                            {trail.distance_meters.toFixed(1)} km • {trail.elevation_gain_meters}m elevation
+                                            {trail.distanceMeters.toFixed(1)}km • {trail.elevationGainMeters}m hækkun
                                         </div>
                                     </Link>
                                 </li>

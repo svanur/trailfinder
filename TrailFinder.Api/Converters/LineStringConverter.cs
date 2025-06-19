@@ -36,12 +36,15 @@ public class LineStringConverter : JsonConverter<LineString>
                 throw new JsonException("Expected number for Y coordinate");
             var y = reader.GetDouble();
 
+            // Modified Z coordinate handling
+            reader.Read();
             var z = 0.0;
-            if (reader.Read() && reader.TokenType == JsonTokenType.Number)
+            if (reader.TokenType == JsonTokenType.Number)
             {
                 z = reader.GetDouble();
-                reader.Read(); // Read past the Z coordinate
             }
+
+            reader.Read(); // Read past the end of coordinate array
 
             coordinates.Add(new CoordinateZ(x, y, z));
         }

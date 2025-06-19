@@ -27,8 +27,7 @@ const Home: React.FC = () => {
         <Layout>
             <div className="container mx-auto p-4">
                 <section className="mb-12">
-                    <h1 className="text-4xl font-bold mb-2">Hlaupaleiðir á Íslandi</h1>
-                    <p className="text-xl text-gray-600">Hér finnur þú áhugaverðar hlaupaleiðir</p>
+                    <p className="text-xl text-gray-700">Hér finnur þú áhugaverðar hlaupaleiðir</p>
                     <SearchBar trails={trails} />
                 </section>
 

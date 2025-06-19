@@ -8,6 +8,7 @@ namespace TrailFinder.Infrastructure.Services;
 public class GpxService : IGpxService
 {
     private const double EarthRadiusMeters = 6371e3;
+    private const int ElevationPrecisionDecimals = 0;
 
     private readonly GeometryFactory _geometryFactory;
 
@@ -26,7 +27,8 @@ public class GpxService : IGpxService
             var points = trackPoints.Select(p => GpxPoint.FromXElement(p, ns)).ToList();
 
             var totalDistance = CalculateTotalDistance(points);
-            var elevationGain = CalculateElevationGain(points.Where(p => p.Elevation.HasValue).Select(p => p.Elevation.Value));
+            var elevationPoints = points.Where(p => p.Elevation.HasValue).Select(p => p.Elevation.Value);
+            var elevationGain = CalculateElevationGain(elevationPoints);
             var startPoint = points.First();
             var lastPoint = points.Last();
 
@@ -86,25 +88,33 @@ public class GpxService : IGpxService
         return totalDistance;
     }
 
-    private static double CalculateElevationGain(IEnumerable<double> elevations)
+    private static double CalculateElevationGain(IEnumerable<double> elevationPoints)
     {
-        var elevationGain = 0.0;
-        var enumerable = elevations as double[] ?? elevations.ToArray();
-        
-        var previousElevation = enumerable.First();
+        ArgumentNullException.ThrowIfNull(elevationPoints);
 
-        foreach (var elevation in enumerable.Skip(1))
+        var elevations = elevationPoints.ToList();
+        if (elevations.Count == 0)
         {
-            var difference = elevation - previousElevation;
-            if (difference > 0) // Only count uphill
-            {
-                elevationGain += Math.Round(difference, 1); // Round to 1 decimal place
-            }
-            
-            previousElevation = elevation;
+            throw new ArgumentException("Elevation points collection cannot be empty", nameof(elevationPoints));
         }
 
-        return Math.Round(elevationGain, 1); // Round final result to 1 decimal place
+        var totalElevationGain = 0.0;
+        var currentElevation = elevations[0];
+        for (var i = 1; i < elevations.Count; i++)
+        {
+            var nextElevation = elevations[i];
+            var elevationDifference = CalculateUphillDifference(currentElevation, nextElevation);
+            totalElevationGain += elevationDifference;
+            currentElevation = nextElevation;
+        }
+        
+        return Math.Round(totalElevationGain, ElevationPrecisionDecimals);
+    }
+
+    private static double CalculateUphillDifference(double currentElevation, double nextElevation)
+    {
+        var difference = nextElevation - currentElevation;
+        return difference > 0 ? Math.Round(difference, ElevationPrecisionDecimals) : 0;
     }
     
     private static double CalculateDistance(GpxPoint point1, GpxPoint point2)

@@ -79,7 +79,7 @@ const TrailDetails: React.FC = () => {
     }
 
     if (error) {
-        return <ErrorView message="Það er nú eitthvað að þessari :/" />;
+        return <ErrorView message="Það er nú eitthvað að þessari hlaupaleið:/" />;
     }
 
     if (!trail) {
