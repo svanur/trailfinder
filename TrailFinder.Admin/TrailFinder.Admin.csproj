@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <Content Include="**/*" Exclude="node_modules/**;dist/**;.vite/**;coverage/**;bin/**;obj/**" />
+        <None Remove="node_modules/**;dist/**;.vite/**;coverage/**;bin/**;obj/**" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="src\pages\dashboard\" />
+      <Folder Include="src\pages\trails\" />
+      <Folder Include="src\pages\users\" />
+      <Folder Include="src\services\" />
+      <Folder Include="src\utils\" />
+    </ItemGroup>
+</Project>
