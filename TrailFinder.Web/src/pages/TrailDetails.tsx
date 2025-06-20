@@ -3,7 +3,6 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import { useTrail } from '../hooks/useTrail';
-import TrailGpxDownload from '../components/TrailGpxDownload.tsx';
 import TrailVisualization from '../components/trail/TrailVisualization.tsx';
 import TrailHeader from '../components/trail/TrailHeader.tsx';
 import LoadingView from '../components/shared/LoadingView';
@@ -86,11 +85,10 @@ const TrailDetails: React.FC = () => {
         return <NotFoundView message="Þessi leið er eitthvað týnd :(" />;
     }
 
-
     return (
         <Layout>
-            <div className="container mx-auto p-4">
-                <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="container mx-auto px-4 py-6">
+                <div className="space-y-4">
                     <TrailHeader trail={trail} />
 
                     {trail.hasGpx && parsedGpxData.length > 0 && (
@@ -101,8 +99,6 @@ const TrailDetails: React.FC = () => {
                             onProfileHover={handleProfileHover}
                         />
                     )}
-
-                    {trail.hasGpx && <TrailGpxDownload trail={trail} />}
                 </div>
             </div>
         </Layout>
