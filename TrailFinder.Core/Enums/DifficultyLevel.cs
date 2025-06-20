@@ -8,3 +8,16 @@ public enum DifficultyLevel
     Extreme
 
 }
+
+/*
+ *
+ public enum DifficultyLevel
+{
+    Easy,
+    Moderate,
+    Challenging,
+    Difficult,
+    VeryDifficult
+}
+
+ */
