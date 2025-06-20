@@ -1,5 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Api", "TrailFinder.Api\TrailFinder.Api.csproj", "{A24BEB83-DCAB-4A89-838C-2D9501875DF9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Core", "TrailFinder.Core\TrailFinder.Core.csproj", "{3102675F-9117-4404-824D-9B76B192BF92}"
@@ -19,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Application", "TrailFinder.Application\TrailFinder.Application.csproj", "{C824F9D4-18B8-4BC1-96A4-A83D1A6E6A96}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Contract", "TrailFinder.Contract\TrailFinder.Contract.csproj", "{3D30C55B-E523-4882-B0D9-D0E85AA974A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Admin", "TrailFinder.Admin\TrailFinder.Admin.csproj", "{8FC7A367-5640-4D90-A875-3752870CD206}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +65,10 @@ Global
 		{3D30C55B-E523-4882-B0D9-D0E85AA974A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D30C55B-E523-4882-B0D9-D0E85AA974A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D30C55B-E523-4882-B0D9-D0E85AA974A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FC7A367-5640-4D90-A875-3752870CD206}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FC7A367-5640-4D90-A875-3752870CD206}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FC7A367-5640-4D90-A875-3752870CD206}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FC7A367-5640-4D90-A875-3752870CD206}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DDEA7B5F-F120-48B8-9B16-F0897EED0E58} = {296F7DD0-6A6B-44A1-8DF8-484091D935E9}

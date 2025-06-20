@@ -17,6 +17,6 @@
     "@supabase/supabase-js": "^2.50.0",
     "axios": "^1.10.0",
     "pg": "^8.16.0",
-    "supabase": "^2.24.3"
+    "supabase": "^2.26.9"
   }
 }
