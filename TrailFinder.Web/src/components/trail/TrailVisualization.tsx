@@ -1,5 +1,7 @@
-import TrailMap from "../TrailMap.tsx";
-import ElevationProfile from "../ElevationProfile.tsx";
+
+import React from 'react';
+import TrailMap from "../TrailMap";
+import ElevationProfile from "../ElevationProfile";
 
 interface TrailVisualizationProps {
     parsedGpxData: GpxPoint[];
@@ -14,22 +16,25 @@ const TrailVisualization: React.FC<TrailVisualizationProps> = ({
                                                                    onMapHover,
                                                                    onProfileHover
                                                                }) => (
-    <>
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+    <div className="space-y-4">
+        <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Kort</h2>
             <TrailMap
                 points={parsedGpxData}
                 onHoverPoint={onMapHover}
                 highlightedPoint={hoveredPoint !== null ? parsedGpxData[hoveredPoint] : null}
             />
         </div>
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+
+        <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Hæðarlínurit</h2>
             <ElevationProfile
                 elevationData={parsedGpxData.map(p => p.elevation)}
                 onHoverPoint={onProfileHover}
                 highlightedIndex={hoveredPoint}
             />
         </div>
-    </>
+    </div>
 );
 
 export default TrailVisualization;

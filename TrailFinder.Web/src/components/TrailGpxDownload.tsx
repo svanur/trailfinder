@@ -73,18 +73,22 @@ const TrailGpxDownload: React.FC<TrailGpxDownloadProps> = ({ trail }) => {
         <button
             onClick={handleDownload}
             disabled={isDownloading}
-            className={`inline-flex items-center px-4 py-2 ${
-                isDownloading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-            } text-white rounded-lg transition-colors`}
+            className={`inline-flex items-center px-3 py-2 text-sm font-medium 
+                       rounded-lg transition-colors focus:outline-none focus:ring-2 
+                       focus:ring-blue-500 focus:ring-offset-2 
+                       text-white bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400`}
         >
             {isDownloading ? (
-                <span className="animate-spin mr-2">⟳</span>
+                <span className="animate-spin">⟳</span>
             ) : (
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
             )}
-            {isDownloading ? 'Hleð niður...' : 'Hlaða niður GPX'}
+            <span className="hidden sm:inline ml-2">
+                {isDownloading ? 'Hleð niður...' : 'Hlaða niður GPX'}
+            </span>
         </button>
     );
 };
