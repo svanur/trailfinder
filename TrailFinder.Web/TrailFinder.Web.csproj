@@ -14,4 +14,8 @@
       <Folder Include="Storage\gpx\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\TrailFinder.Core\TrailFinder.Core.csproj" />
+    </ItemGroup>
+
 </Project>

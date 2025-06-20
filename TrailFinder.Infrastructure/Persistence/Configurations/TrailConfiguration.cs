@@ -101,12 +101,16 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
 
         builder.Property(t => t.DifficultyLevel)
             .HasColumnName("difficulty_level")
-            .HasColumnType("difficulty_level")
-            .IsRequired(false)
-            .HasConversion(
-                v => v.ToString()!.ToLowerInvariant(),
-                v => Enum.Parse<DifficultyLevel>(v, true)
-            );
+            .HasColumnType("difficulty_level");  // Specify the column type
+
+        builder.Property(t => t.RouteType)
+            .HasColumnName("route_type")
+            .HasColumnType("route_type");        // Specify the column type
+
+        builder.Property(t => t.TerrainType)
+            .HasColumnName("terrain_type")
+            .HasColumnType("terrain_type");      // Specify the column type
+
 
         // Indexes
         builder.HasIndex(t => t.Slug)

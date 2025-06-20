@@ -1,4 +1,21 @@
+using Npgsql;
+using TrailFinder.Core.Enums;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add Npgsql enum mappings BEFORE registering DbContext
+var dataSourceBuilder = new NpgsqlDataSourceBuilder(
+    builder.Configuration.GetConnectionString("DefaultConnection"));
+dataSourceBuilder
+    .MapEnum<DifficultyLevel>("difficulty_level")
+    .MapEnum<RouteType>("route_type")
+    .MapEnum<TerrainType>("terrain_type");
+    
+var dataSource = dataSourceBuilder.Build();
+
+// Register the data source for dependency injection
+builder.Services.AddSingleton(dataSource);
+
 
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>

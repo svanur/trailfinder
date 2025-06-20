@@ -6,7 +6,7 @@ using TrailFinder.Core.Entities;
 namespace TrailFinder.Application.Mappings;
 
 public class TrailMappings : Profile
-{// In use by AutoMapper
+{
     public TrailMappings()
     {
         CreateMap<Trail, TrailDto>()
@@ -37,9 +37,41 @@ public class TrailMappings : Profile
             .ForMember(
                 dest => dest.ParentId,
                 opt => opt.MapFrom(src => src.ParentId.HasValue ? src.ParentId.Value.ToString() : string.Empty)
+            )
+            .ForMember(
+                dest => dest.RouteType,
+                opt => opt.MapFrom(src => src.RouteType)
+            )
+            .ForMember(
+                dest => dest.TerrainType,
+                opt => opt.MapFrom(src => src.TerrainType)
+            )
+            .ForMember(
+                dest => dest.RouteGeom,
+                opt => opt.MapFrom(src => src.RouteGeom)
+            )
+            .ForMember(
+                dest => dest.WebUrl,
+                opt => opt.MapFrom(src => src.WebUrl)
+            )
+            .ForMember(
+                dest => dest.HasGpx,
+                opt => opt.MapFrom(src => src.HasGpx)
+            )
+            .ForMember(
+                dest => dest.UserId,
+                opt => opt.MapFrom(src => src.UserId.ToString())
+            )
+            .ForMember(
+                dest => dest.CreatedAt,
+                opt => opt.MapFrom(src => src.CreatedAt)
+            )
+            .ForMember(
+                dest => dest.UpdatedAt,
+                opt => opt.MapFrom(src => src.UpdatedAt)
             );
 
-        // List to PaginatedResult mapping
+        // List to PaginatedResult mapping remains the same
         CreateMap<List<Trail>, PaginatedResult<TrailDto>>()
             .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src))
             .ForMember(dest => dest.TotalCount, opt => opt.MapFrom(src => src.Count))

@@ -28,11 +28,13 @@ async function updateTrailsGpxInfo() {
                 const sanitizedGpxInfo = {
                     distanceMeters: sanitizeNumber(gpxInfo.distanceMeters),
                     elevationGainMeters: sanitizeNumber(gpxInfo.elevationGainMeters),
-                    startPoint: gpxInfo.startPoint,
+                    difficultyLevel: sanitizeEnumValue(gpxInfo.difficultyLevel),
+                    routeType: sanitizeEnumValue(gpxInfo.routeType),
+                    terrainType: sanitizeEnumValue(gpxInfo.terrainType),
                     endPoint: gpxInfo.endPoint,
                     routeGeom: gpxInfo.routeGeom
                 };
-
+                
                 // Update the trail with the GPX info
                 await axios.put(`${API_BASE_URL}/trails/${trailId}/info`, sanitizedGpxInfo);
 
@@ -41,13 +43,18 @@ async function updateTrailsGpxInfo() {
                     name: trailName,
                     distance: `${(sanitizedGpxInfo.distanceMeters / 1000).toFixed(2)} km`,
                     elevation: `${sanitizedGpxInfo.elevationGainMeters.toFixed(0)} m`,
-                    hasRouteGeom: !!sanitizedGpxInfo.routeGeom
+                    hasRouteGeom: !!sanitizedGpxInfo.routeGeom,
+                    difficultyLevel: gpxInfo.difficultyLevel,
+                    routeType: gpxInfo.routeType,
+                    terrainType: gpxInfo.terrainType,
+                    startPoint: sanitizedGpxInfo.startPoint,
+                    endPoint: sanitizedGpxInfo.endPoint,
                 });
             } catch (error) {
                 if (error.response) {
-                    console.error(`Error updating trail "${trailName}" (${trailId}):`, error.response.data);
+                    console.error(`Error updating trail "${trailName}" (${trailId}):` + JSON.stringify(error.response.data));
                 } else {
-                    console.error(`Error updating trail "${trailName}" (${trailId}):`, error.message);
+                    console.error(`Error updating trail: "${trailName}" (${trailId}): ` + error);
                 }
             }
         }
@@ -63,6 +70,10 @@ function sanitizeNumber(value) {
         return 0; // or another appropriate default value
     }
     return value;
+}
+
+function sanitizeEnumValue(value) {
+    return value ? value.toLowerCase() : null;
 }
 
 async function main() {

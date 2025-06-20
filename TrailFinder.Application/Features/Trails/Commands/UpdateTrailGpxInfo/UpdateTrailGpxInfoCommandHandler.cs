@@ -27,9 +27,12 @@ public class UpdateTrailGpxInfoCommandHandler : IRequestHandler<UpdateTrailGpxIn
         {
             throw new TrailNotFoundException(request.TrailId);
         }
-
+        
         trail.DistanceMeters = request.DistanceMeters;
         trail.ElevationGainMeters = request.ElevationGainMeters;
+        trail.DifficultyLevel = request.DifficultyLevel;
+        trail.RouteType = request.RouteType;
+        trail.TerrainType = request.TerrainType;
         
         // Create Point geometry for the start and end points
         trail.StartPoint = GeometryFactory.CreatePoint(

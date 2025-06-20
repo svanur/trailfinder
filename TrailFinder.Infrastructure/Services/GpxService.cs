@@ -46,7 +46,7 @@ public class GpxService : IGpxService
 
             var routeType = RouteAnalyzer.DetermineRouteType(points);
             var terrainType = TerrainAnalyzer.AnalyzeTerrain(totalDistance, elevationGain);
-            var difficulty = DifficultyAnalyzer.AnalyzeDifficulty(
+            var difficultyLevel = DifficultyAnalyzer.AnalyzeDifficulty(
                 totalDistance,
                 elevationGain,
                 terrainType,
@@ -58,11 +58,11 @@ public class GpxService : IGpxService
             return new TrailGpxInfoDto(
                 totalDistance,
                 elevationGain,
-                startGeoPoint,
-                endGeoPoint,
+                difficultyLevel,
                 routeType, 
                 terrainType,
-                difficulty,
+                startGeoPoint,
+                endGeoPoint,
                 routeGeom
             );
         }

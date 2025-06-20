@@ -1,12 +1,23 @@
+using NpgsqlTypes;
+
 namespace TrailFinder.Core.Enums;
 
 public enum DifficultyLevel
 {
+    [PgName("easy")]
     Easy,
+    
+    [PgName("moderate")]
     Moderate,
+    
+    [PgName("hard")]
     Hard,
-    Extreme
-
+    
+    [PgName("extreme")]
+    Extreme,
+    
+    [PgName("unknown")]
+    Unknown
 }
 
 /*
