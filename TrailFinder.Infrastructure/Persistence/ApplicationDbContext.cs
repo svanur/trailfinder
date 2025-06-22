@@ -21,9 +21,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         base.OnModelCreating(modelBuilder);
 
         // Configure PostgreSQL enums
-        modelBuilder.HasPostgresEnum<DifficultyLevel>("difficulty_level");
-        modelBuilder.HasPostgresEnum<RouteType>("route_type");
-        modelBuilder.HasPostgresEnum<TerrainType>("terrain_type");
+        //modelBuilder.HasPostgresEnum<DifficultyLevel>("difficulty_level");
+        //modelBuilder.HasPostgresEnum<RouteType>("route_type");
+        //modelBuilder.HasPostgresEnum<TerrainType>("terrain_type");
 
         // Apply entity configurations
         modelBuilder.ApplyConfiguration(new TrailConfiguration());

@@ -38,6 +38,7 @@ public class TrailMappings : Profile
                 dest => dest.ParentId,
                 opt => opt.MapFrom(src => src.ParentId.HasValue ? src.ParentId.Value.ToString() : string.Empty)
             )
+            /*
             .ForMember(
                 dest => dest.RouteType,
                 opt => opt.MapFrom(src => src.RouteType)
@@ -46,6 +47,7 @@ public class TrailMappings : Profile
                 dest => dest.TerrainType,
                 opt => opt.MapFrom(src => src.TerrainType)
             )
+            */
             .ForMember(
                 dest => dest.RouteGeom,
                 opt => opt.MapFrom(src => src.RouteGeom)

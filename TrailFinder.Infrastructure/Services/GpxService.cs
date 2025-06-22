@@ -58,9 +58,9 @@ public class GpxService : IGpxService
             return new TrailGpxInfoDto(
                 totalDistance,
                 elevationGain,
-                difficultyLevel,
-                routeType, 
-                terrainType,
+                //difficultyLevel,
+                //routeType, 
+                //terrainType,
                 startGeoPoint,
                 endGeoPoint,
                 routeGeom

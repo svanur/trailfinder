@@ -16,9 +16,9 @@ public class Trail : BaseEntity
     public string Description { get; private set; } = null!;
     public double DistanceMeters { get; set; }
     public double ElevationGainMeters { get; set; }
-    public DifficultyLevel? DifficultyLevel { get; set; }
-    public RouteType? RouteType { get; set; }
-    public TerrainType? TerrainType { get; set; }
+    //public DifficultyLevel? DifficultyLevel { get; set; }
+    //public RouteType? RouteType { get; set; }
+    //public TerrainType? TerrainType { get; set; }
     public Point? StartPoint { get; set; } = null!;
     public Point? EndPoint { get; set; } = null!;
     public LineString? RouteGeom { get; set; }
@@ -33,7 +33,7 @@ public class Trail : BaseEntity
         string description,
         double distanceMeters,
         double elevationGainMeters,
-        DifficultyLevel difficultyLevel,
+        //DifficultyLevel difficultyLevel,
         double startPointLatitude,
         double startPointLongitude,
         double endPointLatitude,
@@ -47,7 +47,7 @@ public class Trail : BaseEntity
         Description = description;
         DistanceMeters = distanceMeters;
         ElevationGainMeters = elevationGainMeters;
-        DifficultyLevel = difficultyLevel;
+        //DifficultyLevel = difficultyLevel;
         StartPoint = GeometryFactory.CreatePoint(new Coordinate(startPointLongitude, startPointLatitude));
         EndPoint = GeometryFactory.CreatePoint(new Coordinate(endPointLongitude, endPointLatitude));
         ParentId = parentId;
@@ -69,7 +69,7 @@ public class Trail : BaseEntity
         string description,
         double distanceMeters,
         double elevationGainMeters,
-        DifficultyLevel difficultyLevel,
+        //DifficultyLevel difficultyLevel,
         double startPointLatitude,
         double startPointLongitude,
         double endPointLatitude,
@@ -81,7 +81,7 @@ public class Trail : BaseEntity
         Description = description;
         DistanceMeters = distanceMeters;
         ElevationGainMeters = elevationGainMeters;
-        DifficultyLevel = difficultyLevel;
+        //DifficultyLevel = difficultyLevel;
         StartPoint = GeometryFactory.CreatePoint(new Coordinate(startPointLongitude, startPointLatitude));
         EndPoint = GeometryFactory.CreatePoint(new Coordinate(endPointLongitude, endPointLatitude));
         UpdatedAt = DateTime.UtcNow;

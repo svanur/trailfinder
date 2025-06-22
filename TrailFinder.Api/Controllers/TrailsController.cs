@@ -94,50 +94,6 @@ public class TrailsController : BaseApiController
             return HandleException(ex);
         }
     }
-    
-    [HttpGet("{trailId:guid}/info")]
-    public async Task<ActionResult<TrailGpxInfoDto>> GetTrailGpxInfo(Guid trailId)
-    {
-        try
-        {
-            var result = await _mediator.Send(new GetTrailGpxInfoQuery(trailId));
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return HandleException(ex);
-        }
-    }
-    
-    [HttpPut("{trailId:guid}/info")]
-    public async Task<ActionResult> UpdateTrailGpxInfo(Guid trailId, TrailGpxInfoDto gpxInfo)
-    {
-        try
-        {
-            var command = new UpdateTrailGpxInfoCommand(
-                trailId,
-                gpxInfo.DistanceMeters,
-                gpxInfo.ElevationGainMeters,
-                gpxInfo.DifficultyLevel,
-                gpxInfo.RouteType,
-                gpxInfo.TerrainType,
-                gpxInfo.StartPoint,
-                gpxInfo.EndPoint,
-                gpxInfo.RouteGeom
-            );
-        
-            await _mediator.Send(command);
-            return Ok();
-        }
-        catch (TrailNotFoundException ex)
-        {
-            return NotFound(new ErrorResponse { Message = ex.Message });
-        }
-        catch (Exception ex)
-        {
-            return HandleException(ex);
-        }
-    }
 
     [HttpPost("{trailId:guid}/gpx")]
     public async Task<ActionResult> UploadTrailGpx(Guid trailId, IFormFile file)

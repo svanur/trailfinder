@@ -20,34 +20,47 @@ public class UpdateTrailGpxInfoCommandHandler : IRequestHandler<UpdateTrailGpxIn
 
     public async Task<Unit> Handle(UpdateTrailGpxInfoCommand request, CancellationToken cancellationToken)
     {
-        var trail = await _context.Set<Core.Entities.Trail>()
-            .FirstOrDefaultAsync(t => t.Id == request.TrailId, cancellationToken);
-
-        if (trail == null)
+        try 
         {
-            throw new TrailNotFoundException(request.TrailId);
+            var trail = await _context.Set<Core.Entities.Trail>()
+                .FirstOrDefaultAsync(t => t.Id == request.TrailId, cancellationToken);
+
+            if (trail == null)
+            {
+                throw new TrailNotFoundException(request.TrailId);
+            }
+    
+            trail.DistanceMeters = request.DistanceMeters;
+            trail.ElevationGainMeters = request.ElevationGainMeters;
+    
+            // Create 3D points including elevation
+            trail.StartPoint = GeometryFactory.CreatePoint(
+                new CoordinateZ(
+                    request.StartPoint.Longitude, 
+                    request.StartPoint.Latitude, 
+                    request.StartPoint.Elevation ?? 0
+                ));
+
+            trail.EndPoint = GeometryFactory.CreatePoint(
+                new CoordinateZ(
+                    request.EndPoint.Longitude, 
+                    request.EndPoint.Latitude, 
+                    request.EndPoint.Elevation ?? 0
+                ));
+
+            trail.RouteGeom = request.RouteGeom;
+            trail.HasGpx = true;
+            trail.UpdatedAt = DateTime.UtcNow;
+    
+            await _context.SaveChangesAsync(cancellationToken);
+        
+            return Unit.Value;
         }
-        
-        trail.DistanceMeters = request.DistanceMeters;
-        trail.ElevationGainMeters = request.ElevationGainMeters;
-        trail.DifficultyLevel = request.DifficultyLevel;
-        trail.RouteType = request.RouteType;
-        trail.TerrainType = request.TerrainType;
-        
-        // Create Point geometry for the start and end points
-        trail.StartPoint = GeometryFactory.CreatePoint(
-            new Coordinate(request.StartPoint.Longitude, request.StartPoint.Latitude));
-
-        trail.EndPoint = GeometryFactory.CreatePoint(
-            new Coordinate(request.EndPoint.Longitude, request.EndPoint.Latitude));
-
-        trail.RouteGeom = request.RouteGeom;
-
-        trail.HasGpx = true; // Since we're updating GPX info
-        trail.UpdatedAt = DateTime.UtcNow;
-        
-        await _context.SaveChangesAsync(cancellationToken);
-        
-        return Unit.Value;
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving changes: {ex.Message}");
+            Console.WriteLine($"Stack trace: {ex.StackTrace}");
+            throw;
+        }
     }
 }

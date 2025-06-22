@@ -98,7 +98,7 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasColumnName("user_id")
             .HasColumnType("uuid")
             .IsRequired(false);
-
+/*
         builder.Property(t => t.DifficultyLevel)
             .HasColumnName("difficulty_level")
             .HasColumnType("difficulty_level");  // Specify the column type
@@ -110,7 +110,7 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
         builder.Property(t => t.TerrainType)
             .HasColumnName("terrain_type")
             .HasColumnType("terrain_type");      // Specify the column type
-
+*/
 
         // Indexes
         builder.HasIndex(t => t.Slug)

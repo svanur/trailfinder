@@ -21,22 +21,20 @@ async function updateTrailsGpxInfo() {
 
             try {
                 // Get GPX info for the trail
-                const gpxInfoResponse = await axios.get(`${API_BASE_URL}/trails/${trailId}/info`);
+                const gpxInfoResponse = await axios.get(`${API_BASE_URL}/gpx-info/${trailId}`);
                 const gpxInfo = gpxInfoResponse.data;
 
                 // Sanitize numeric values before sending
                 const sanitizedGpxInfo = {
                     distanceMeters: sanitizeNumber(gpxInfo.distanceMeters),
                     elevationGainMeters: sanitizeNumber(gpxInfo.elevationGainMeters),
-                    difficultyLevel: sanitizeEnumValue(gpxInfo.difficultyLevel),
-                    routeType: sanitizeEnumValue(gpxInfo.routeType),
-                    terrainType: sanitizeEnumValue(gpxInfo.terrainType),
+                    startPoint: gpxInfo.startPoint,
                     endPoint: gpxInfo.endPoint,
                     routeGeom: gpxInfo.routeGeom
                 };
-                
+
                 // Update the trail with the GPX info
-                await axios.put(`${API_BASE_URL}/trails/${trailId}/info`, sanitizedGpxInfo);
+                await axios.put(`${API_BASE_URL}/gpx-info/${trailId}`, sanitizedGpxInfo);
 
                 console.log(`Successfully updated GPX info for trail "${trailName}" (${trailId})`);
                 console.log({
@@ -44,17 +42,14 @@ async function updateTrailsGpxInfo() {
                     distance: `${(sanitizedGpxInfo.distanceMeters / 1000).toFixed(2)} km`,
                     elevation: `${sanitizedGpxInfo.elevationGainMeters.toFixed(0)} m`,
                     hasRouteGeom: !!sanitizedGpxInfo.routeGeom,
-                    difficultyLevel: gpxInfo.difficultyLevel,
-                    routeType: gpxInfo.routeType,
-                    terrainType: gpxInfo.terrainType,
                     startPoint: sanitizedGpxInfo.startPoint,
-                    endPoint: sanitizedGpxInfo.endPoint,
+                    endPoint: sanitizedGpxInfo.endPoint
                 });
             } catch (error) {
                 if (error.response) {
-                    console.error(`Error updating trail "${trailName}" (${trailId}):` + JSON.stringify(error.response.data));
+                    console.error(`Error updating trail "${trailName}" (${trailId}):`, error.response.data);
                 } else {
-                    console.error(`Error updating trail: "${trailName}" (${trailId}): ` + error);
+                    console.error(`Error updating trail "${trailName}" (${trailId}):`, error.message);
                 }
             }
         }
@@ -66,14 +61,8 @@ async function updateTrailsGpxInfo() {
 }
 
 function sanitizeNumber(value) {
-    if (!Number.isFinite(value)) {
-        return 0; // or another appropriate default value
-    }
-    return value;
-}
-
-function sanitizeEnumValue(value) {
-    return value ? value.toLowerCase() : null;
+    const num = parseFloat(value);
+    return Number.isFinite(num) ? num : 0;
 }
 
 async function main() {
