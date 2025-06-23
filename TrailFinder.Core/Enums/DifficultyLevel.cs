@@ -5,6 +5,7 @@ public enum DifficultyLevel
     Easy,
     Moderate,
     Hard,
-    Extreme
+    Extreme,
+    Unknown
 
 }
