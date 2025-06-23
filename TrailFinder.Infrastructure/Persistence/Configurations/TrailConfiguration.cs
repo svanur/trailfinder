@@ -45,13 +45,25 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasColumnName("distance_meters")
             .HasColumnType("decimal(10,2)")
             .IsRequired();
-            
+         
+        builder.Property(t => t.DifficultyLevel)
+            .HasColumnName("difficulty_level");
+
+        
+        /*
+        builder.Property(t => t.DifficultyLevel)
+            .HasColumnName("difficulty_level")
+            .HasColumnType("difficulty_level")
+            .HasConversion<string>();  // This tells EF Core to convert the enum to/from string
+            */
+
+        
         builder.Property(t => t.ElevationGainMeters)
             .HasColumnName("elevation_gain_meters")
             .HasColumnType("double precision")  // PostgreSQL type for double
             .IsRequired();  // This is actually the default for non-nullable types
 
-            
+        
         // Boolean property
         builder.Property(t => t.HasGpx)
             .HasColumnName("has_gpx")
@@ -64,22 +76,23 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasColumnName("web_url")
             .HasMaxLength(2048)
             .IsRequired(false);
-        
+    /*  
         // Geometry properties
         builder.Property(t => t.StartPoint)
             .HasColumnName("start_point")
-            .HasColumnType("geometry(Point, 4326)")
+            .HasColumnType("geometry(PointZ, 4326)")  // Changed from Point to PointZ
             .IsRequired(false);
-            
+    
         builder.Property(t => t.EndPoint)
             .HasColumnName("end_point")
-            .HasColumnType("geometry(Point, 4326)")
+            .HasColumnType("geometry(PointZ, 4326)")  // Changed from Point to PointZ
             .IsRequired(false);
-            
+    */
         builder.Property(t => t.RouteGeom)
             .HasColumnName("route_geom")
-            .HasColumnType("geometry(LineString, 4326)")
+            .HasColumnType("geometry(LineStringZ, 4326)")  // Changed from LineString to LineStringZ
             .IsRequired(false);
+
 
         // Timestamps
         builder.Property(t => t.CreatedAt)

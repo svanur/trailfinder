@@ -1,5 +1,5 @@
 using MediatR;
-using TrailFinder.Core.DTOs.Trails;
+using TrailFinder.Core.DTOs.Trails.Requests;
 using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Application.Features.Trails.Commands.CreateTrail;

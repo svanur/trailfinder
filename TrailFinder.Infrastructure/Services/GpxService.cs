@@ -2,8 +2,11 @@ using System.Xml.Linq;
 using NetTopologySuite.Geometries;
 using TrailFinder.Application.Services;
 using TrailFinder.Core.DTOs.Gpx;
+using TrailFinder.Core.DTOs.Gpx.Responses;
 using TrailFinder.Core.Enums;
 using TrailFinder.Infrastructure.Analyzers;
+using TrailFinder.Core.DTOs.Gpx.Responses;
+using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Infrastructure.Services;
 
@@ -19,7 +22,7 @@ public class GpxService : IGpxService
         _geometryFactory = geometryFactory;
     }
 
-    public async Task<TrailGpxInfoDto> ExtractGpxInfo(Stream gpxStream)
+    public async Task<GpxInfoDto> ExtractGpxInfo(Stream gpxStream)
     {
         try
         {
@@ -55,14 +58,13 @@ public class GpxService : IGpxService
 
             var routeGeom = _geometryFactory.CreateLineString(coordinates);
             
-            return new TrailGpxInfoDto(
+            return new GpxInfoDto(
                 totalDistance,
                 elevationGain,
-                //difficultyLevel,
-                //routeType, 
-                //terrainType,
-                startGeoPoint,
-                endGeoPoint,
+                difficultyLevel,
+                difficultyLevel,
+                routeType, 
+                terrainType,
                 routeGeom
             );
         }
@@ -99,7 +101,8 @@ public class GpxService : IGpxService
             var point2 = points[i + 1];
             totalDistance += CalculateDistance(point1, point2);
         }
-        return totalDistance;
+        
+        return Math.Round(totalDistance);
     }
 
     private static double CalculateElevationGain(IEnumerable<double> elevationPoints)
@@ -128,7 +131,9 @@ public class GpxService : IGpxService
     private static double CalculateUphillDifference(double currentElevation, double nextElevation)
     {
         var difference = nextElevation - currentElevation;
-        return difference > 0 ? Math.Round(difference, ElevationPrecisionDecimals) : 0;
+        return difference > 0 
+            ? Math.Round(difference, ElevationPrecisionDecimals) 
+            : 0;
     }
     
     private static double CalculateDistance(GpxPoint point1, GpxPoint point2)
@@ -162,7 +167,9 @@ public class GpxService : IGpxService
         var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
         var distance = EarthRadiusMeters * c;
 
-        return double.IsNaN(distance) ? 0 : distance;
+        return double.IsNaN(distance) 
+            ? 0 
+            : distance;
     }
 
     private static bool IsValidCoordinate(GpxPoint point)

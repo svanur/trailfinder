@@ -6,7 +6,10 @@ namespace TrailFinder.Api.Converters;
 
 public class LineStringConverter : JsonConverter<LineString>
 {
-    private readonly GeometryFactory _geometryFactory = new(new PrecisionModel(), 4326);
+    private readonly GeometryFactory _geometryFactory = new(
+        new PrecisionModel(PrecisionModels.Floating), 
+        4326
+    );
 
     public override LineString? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -16,51 +19,44 @@ public class LineStringConverter : JsonConverter<LineString>
         if (reader.TokenType != JsonTokenType.StartObject)
             throw new JsonException("Expected start of object");
 
-        List<Coordinate> coordinates = new();
-        bool foundCoordinates = false;
+        var coordinates = new List<CoordinateZ>(); // Explicitly use CoordinateZ
 
         while (reader.Read())
         {
-            if (reader.TokenType == JsonTokenType.EndObject)
+            if (reader.TokenType == JsonTokenType.EndArray)
                 break;
 
-            if (reader.TokenType == JsonTokenType.PropertyName)
+            if (reader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException("Expected start of coordinate array");
+
+            reader.Read();
+            if (reader.TokenType != JsonTokenType.Number)
+                throw new JsonException("Expected number for X coordinate");
+            var x = reader.GetDouble();
+
+            reader.Read();
+            if (reader.TokenType != JsonTokenType.Number)
+                throw new JsonException("Expected number for Y coordinate");
+            var y = reader.GetDouble();
+
+            // Modified Z coordinate handling
+            reader.Read();
+            var z = 0.0;
+            if (reader.TokenType == JsonTokenType.Number)
             {
-                string propertyName = reader.GetString()!;
-                reader.Read();
-
-                if (propertyName == "coordinates" && reader.TokenType == JsonTokenType.StartArray)
-                {
-                    foundCoordinates = true;
-                    while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
-                    {
-                        if (reader.TokenType == JsonTokenType.StartArray)
-                        {
-                            reader.Read();
-                            var x = reader.GetDouble(); // longitude
-                            reader.Read();
-                            var y = reader.GetDouble(); // latitude
-                            
-                            // Handle optional Z coordinate
-                            reader.Read();
-                            var z = 0.0;
-                            if (reader.TokenType == JsonTokenType.Number)
-                            {
-                                z = reader.GetDouble();
-                                reader.Read(); // Move past the end array
-                            }
-                            
-                            coordinates.Add(new CoordinateZ(x, y, z));
-                        }
-                    }
-                }
+                z = reader.GetDouble();
             }
+
+            reader.Read(); // Read past the end of coordinate array
+
+            coordinates.Add(new CoordinateZ(x, y, z));
         }
+        
+        if (coordinates.Count == 0)
+            return null;
 
-        if (!foundCoordinates)
-            throw new JsonException("No coordinates found in LineString");
-
-        return coordinates.Count == 0 ? null : _geometryFactory.CreateLineString(coordinates.ToArray());
+        // Create a new LineString with the coordinates
+        return _geometryFactory.CreateLineString(coordinates.ToArray());
     }
 
     public override void Write(Utf8JsonWriter writer, LineString? value, JsonSerializerOptions options)
@@ -71,23 +67,21 @@ public class LineStringConverter : JsonConverter<LineString>
             return;
         }
 
-        writer.WriteStartObject();
-        writer.WriteString("type", "LineString");
-        writer.WriteStartArray("coordinates");
-        
+        writer.WriteStartArray();
         foreach (var coordinate in value.Coordinates)
         {
             writer.WriteStartArray();
             writer.WriteNumberValue(coordinate.X);
             writer.WriteNumberValue(coordinate.Y);
-            if (!double.IsNaN(coordinate.Z) && !double.IsInfinity(coordinate.Z))
-            {
-                writer.WriteNumberValue(coordinate.Z);
-            }
+            
+            // Always write Z coordinate, defaulting to 0 if not present or invalid
+            var z = coordinate is CoordinateZ cz 
+                ? (double.IsInfinity(cz.Z) || double.IsNaN(cz.Z) ? 0 : cz.Z)
+                : 0;
+            writer.WriteNumberValue(z);
+            
             writer.WriteEndArray();
         }
-        
         writer.WriteEndArray();
-        writer.WriteEndObject();
     }
 }

@@ -21,29 +21,29 @@ async function updateTrailsGpxInfo() {
 
             try {
                 // Get GPX info for the trail
-                const gpxInfoResponse = await axios.get(`${API_BASE_URL}/gpx-info/${trailId}`);
+                const gpxInfoResponse = await axios.get(`${API_BASE_URL}/trails/${trailId}/info`);
                 const gpxInfo = gpxInfoResponse.data;
 
                 // Sanitize numeric values before sending
                 const sanitizedGpxInfo = {
                     distanceMeters: sanitizeNumber(gpxInfo.distanceMeters),
                     elevationGainMeters: sanitizeNumber(gpxInfo.elevationGainMeters),
+                    difficultyLevel: gpxInfo.difficultyLevel,
                     startPoint: gpxInfo.startPoint,
                     endPoint: gpxInfo.endPoint,
                     routeGeom: gpxInfo.routeGeom
                 };
 
                 // Update the trail with the GPX info
-                await axios.put(`${API_BASE_URL}/gpx-info/${trailId}`, sanitizedGpxInfo);
+                await axios.put(`${API_BASE_URL}/trails/${trailId}/info`, sanitizedGpxInfo);
 
                 console.log(`Successfully updated GPX info for trail "${trailName}" (${trailId})`);
                 console.log({
                     name: trailName,
-                    distance: `${(sanitizedGpxInfo.distanceMeters / 1000).toFixed(2)} km`,
-                    elevation: `${sanitizedGpxInfo.elevationGainMeters.toFixed(0)} m`,
-                    hasRouteGeom: !!sanitizedGpxInfo.routeGeom,
-                    startPoint: sanitizedGpxInfo.startPoint,
-                    endPoint: sanitizedGpxInfo.endPoint
+                    distance: sanitizedGpxInfo.distanceMeters,
+                    elevation: sanitizedGpxInfo.elevationGainMeters,
+                    difficultyLevel: sanitizedGpxInfo.difficultyLevel,
+                    hasRouteGeom: !!sanitizedGpxInfo.routeGeom
                 });
             } catch (error) {
                 if (error.response) {

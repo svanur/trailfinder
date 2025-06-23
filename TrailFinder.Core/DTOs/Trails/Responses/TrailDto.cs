@@ -2,19 +2,14 @@ using System.Text.Json.Serialization;
 using NetTopologySuite.Geometries;
 using TrailFinder.Core.Enums;
 
-namespace TrailFinder.Core.DTOs.Trails;
+namespace TrailFinder.Core.DTOs.Trails.Responses;
 
 public class TrailDto
 {
-    // Properties matching the Trail entity
-    public string Id { get; set; } = string.Empty; //TODO: Hmm, shouldn't this be a Guid?
-    
-    public string ParentId { get; set; } = string.Empty;
-    
+    public Guid Id { get; set; }
+    public Guid? ParentId { get; set; }
     public string Name { get; set; } = string.Empty;
-    
     public string Slug { get; set; } = string.Empty;
-    
     public string Description { get; set; } = string.Empty;
     
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
@@ -23,7 +18,7 @@ public class TrailDto
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
     public double ElevationGainMeters { get; set; }
     
-    //public DifficultyLevel? DifficultyLevel { get; set; }
+    public DifficultyLevel? DifficultyLevel { get; set; }
     //public RouteType? RouteType { get; set; }
     //public TerrainType? TerrainType { get; set; }
     
@@ -67,8 +62,8 @@ public class TrailDto
             //DifficultyLevel difficultyLevel, 
             //RouteType routeType, 
             //TerrainType terrainType, 
-            double startPointLatitude, 
-            double startPointLongitude, 
+            //double startPointLatitude, 
+            //double startPointLongitude, 
             LineString? routeGeom, 
             string? webUrl, 
             bool hasGpx, 
@@ -77,6 +72,11 @@ public class TrailDto
             Guid guid
         )
     {
+        Id = newGuid;
+        ParentId = parentId;
+        Name = name;
+        Slug = slug;
+        Description = description;
         DistanceMeters = distanceMeters;
         ElevationGainMeters = elevationGainMeters;
         //DifficultyLevel = difficultyLevel;
@@ -84,8 +84,8 @@ public class TrailDto
         //TerrainType = terrainType;
         //RouteGeom = routeGeom;
         //StartPoint = startPoint;
-        StartPointLatitude = startPointLatitude;
-        StartPointLongitude = startPointLongitude;
+        //StartPointLatitude = startPointLatitude;
+        //StartPointLongitude = startPointLongitude;
         WebUrl = webUrl;
         HasGpx = hasGpx;
         CreatedAt = createdAt;
