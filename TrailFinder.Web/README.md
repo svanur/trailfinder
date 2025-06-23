@@ -57,3 +57,29 @@ export default tseslint.config({
 ### Material icons
 
 [Material icons from Google](https://fonts.google.com/icons)
+
+## start-dev.bat
+
+1. The script assumes the following directory structure:
+/
+├── TrailFinder.Api/
+├── TrailFinder.DB/
+├── TrailFinder.Web/
+    └── start-dev.bat
+
+Run it directly (not through Git Bash or any other shell). 
+
+You can run it by:
+1. Double-clicking the file in Windows Explorer, or
+2. Running it from a regular Windows Command Prompt (cmd.exe)
+
+This should:
+1. Start Supabase in the main window
+2. Open new windows for the frontend and backend
+3. Execute the appropriate commands in each window
+
+## For development, you can keep these bookmarks handy:
+
+- `http://localhost:3000` - Frontend application
+- `http://localhost:5263/swagger` - API documentation and testing
+- `http://localhost:54323` - Supabase Studio
