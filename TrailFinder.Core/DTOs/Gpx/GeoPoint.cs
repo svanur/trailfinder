@@ -6,26 +6,34 @@ public readonly record struct GpxPoint
 {
     private const double EarthRadiusMeters = 6371e3;
 
-    private const double E7ToDecimal = 1e-7;
     public double Latitude { get; }
     public double Longitude { get; }
     public double? Elevation { get; }
 
-    public GpxPoint(double latitude, double longitude, double? elevation = null)
+    public GpxPoint(double latitude, double longitude, double? elevation = null, bool isE7Format = false)
     {
-        // Convert from E7 format to decimal degrees
-        Latitude = latitude * E7ToDecimal;
-        Longitude = longitude * E7ToDecimal;
+        // If the values are in E7 format (like 642090250), convert them to decimal degrees
+        if (isE7Format)
+        {
+            Latitude = latitude * 1e-7;
+            Longitude = longitude * 1e-7;
+        }
+        else
+        {
+            Latitude = latitude;
+            Longitude = longitude;
+        }
         Elevation = elevation;
     }
 
     public static GpxPoint FromXElement(XElement point, XNamespace ns)
     {
+        // GPX files use decimal degrees, so no E7 conversion needed
         var lat = ParseDoubleAttribute(point, "lat");
         var lon = ParseDoubleAttribute(point, "lon");
         var ele = ParseElevation(point, ns);
 
-        return new GpxPoint(lat, lon, ele);
+        return new GpxPoint(lat, lon, ele, true);
     }
 
     private static double ParseDoubleAttribute(XElement element, string attributeName)
@@ -37,7 +45,13 @@ public readonly record struct GpxPoint
     private static double? ParseElevation(XElement point, XNamespace ns)
     {
         var eleElement = point.Element(ns + "ele");
-        return eleElement != null ? double.Parse(eleElement.Value) : null;
+        if (eleElement == null)
+        {
+            return null;
+        }
+        
+        var elevationInMeters = double.Parse(eleElement.Value);
+        return elevationInMeters;
     }
     
     /// <summary>

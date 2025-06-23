@@ -39,11 +39,19 @@ async function updateTrailsGpxInfo() {
                 console.log(`Successfully updated GPX info for trail "${trailName}" (${trailId})`);
                 console.log({
                     name: trailName,
-                    distance: `${(sanitizedGpxInfo.distanceMeters / 1000).toFixed(2)} km`,
-                    elevation: `${sanitizedGpxInfo.elevationGainMeters.toFixed(0)} m`,
+                    distance: sanitizedGpxInfo.distanceMeters,
+                    elevation: sanitizedGpxInfo.elevationGainMeters,
                     hasRouteGeom: !!sanitizedGpxInfo.routeGeom,
-                    startPoint: sanitizedGpxInfo.startPoint,
-                    endPoint: sanitizedGpxInfo.endPoint
+                    startPoint: {
+                        latitude: sanitizedGpxInfo.startPoint.latitude,
+                        longitude: sanitizedGpxInfo.startPoint.longitude,
+                        elevation: sanitizedGpxInfo.startPoint.elevation
+                    },
+                    endPoint: {
+                        latitude: sanitizedGpxInfo.endPoint.latitude,
+                        longitude: sanitizedGpxInfo.endPoint.longitude,
+                        elevation: sanitizedGpxInfo.endPoint.elevation
+                    }
                 });
             } catch (error) {
                 if (error.response) {

@@ -2,7 +2,6 @@ using System.Xml.Linq;
 using NetTopologySuite.Geometries;
 using TrailFinder.Application.Services;
 using TrailFinder.Core.DTOs.Gpx;
-using TrailFinder.Core.Enums;
 using TrailFinder.Infrastructure.Analyzers;
 
 namespace TrailFinder.Infrastructure.Services;
@@ -54,7 +53,7 @@ public class GpxService : IGpxService
             );
 
             var routeGeom = _geometryFactory.CreateLineString(coordinates);
-            
+
             return new TrailGpxInfoDto(
                 totalDistance,
                 elevationGain,
@@ -99,7 +98,8 @@ public class GpxService : IGpxService
             var point2 = points[i + 1];
             totalDistance += CalculateDistance(point1, point2);
         }
-        return totalDistance;
+        
+        return Math.Round(totalDistance);
     }
 
     private static double CalculateElevationGain(IEnumerable<double> elevationPoints)
@@ -125,10 +125,51 @@ public class GpxService : IGpxService
         return Math.Round(totalElevationGain, ElevationPrecisionDecimals);
     }
 
+    /*
+     private static double CalculateElevationGain(IEnumerable<double> elevationPoints)
+    {
+        ArgumentNullException.ThrowIfNull(elevationPoints);
+
+        var elevations = elevationPoints.ToList();
+        if (elevations.Count == 0)
+        {
+            throw new ArgumentException("Elevation points collection cannot be empty", nameof(elevationPoints));
+        }
+
+        const double noiseThreshold = 2.0; // Meters - ignore elevation changes smaller than this
+        const int smoothingWindowSize = 3; // Number of points to use for smoothing
+
+        // Apply smoothing to reduce GPS noise
+        var smoothedElevations = SmoothElevations(elevations, smoothingWindowSize);
+
+        var totalElevationGain = 0.0;
+        var currentElevation = smoothedElevations[0];
+
+        for (var i = 1; i < smoothedElevations.Count; i++)
+        {
+            var nextElevation = smoothedElevations[i];
+            var elevationDiff = nextElevation - currentElevation;
+
+            // Only count uphill sections and filter out noise
+            if (elevationDiff > noiseThreshold)
+            {
+                totalElevationGain += elevationDiff;
+            }
+
+            currentElevation = nextElevation;
+        }
+
+        return Math.Round(totalElevationGain); // Round to nearest meter
+    }
+     * 
+     */
+    
     private static double CalculateUphillDifference(double currentElevation, double nextElevation)
     {
         var difference = nextElevation - currentElevation;
-        return difference > 0 ? Math.Round(difference, ElevationPrecisionDecimals) : 0;
+        return difference > 0 
+            ? Math.Round(difference, ElevationPrecisionDecimals) 
+            : 0;
     }
     
     private static double CalculateDistance(GpxPoint point1, GpxPoint point2)
@@ -162,7 +203,9 @@ public class GpxService : IGpxService
         var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
         var distance = EarthRadiusMeters * c;
 
-        return double.IsNaN(distance) ? 0 : distance;
+        return double.IsNaN(distance) 
+            ? 0 
+            : distance;
     }
 
     private static bool IsValidCoordinate(GpxPoint point)

@@ -6,7 +6,10 @@ namespace TrailFinder.Api.Converters;
 
 public class LineStringConverter : JsonConverter<LineString>
 {
-    private readonly GeometryFactory _geometryFactory = new(new PrecisionModel(), 4326);
+    private readonly GeometryFactory _geometryFactory = new(
+        new PrecisionModel(PrecisionModels.Floating), 
+        4326
+    );
 
     public override LineString? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
