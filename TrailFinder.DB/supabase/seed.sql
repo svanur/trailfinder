@@ -103,5 +103,16 @@ INSERT INTO trails (
           'https://www.strava.com/segments/25811198',
           false,
           'd0d8c29c-7456-4d82-a087-5a1256b092c9'
+      ),
+      (
+          'Skaftafell Ultra',
+          'skaftafell-ultra',
+          'Náttúruhlaup í Skaftafelli',
+          0,
+          0,
+          'unknown',
+          'https://www.strava.com/routes/3207311786703399086',
+          false,
+          'd0d8c29c-7456-4d82-a087-5a1256b092c9'
       )
 ;

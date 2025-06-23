@@ -1,14 +1,16 @@
 using TrailFinder.Core.Enums;
 
-namespace TrailFinder.Core.DTOs.Trails;
+namespace TrailFinder.Core.DTOs.Trails.Requests;
 
-public record UpdateTrailDto(
+public record CreateTrailDto(
     string Name,
     string Description,
     decimal DistanceMeters,
     decimal ElevationGainMeters,
     DifficultyLevel DifficultyLevel,
-    double StartPoint,
+    double StartPointLatitude,
+    double StartPointLongitude,
     string? WebUrl,
-    bool HasGpx
+    bool HasGpx,
+    Guid? UserId
 );

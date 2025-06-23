@@ -1,13 +1,13 @@
 using MediatR;
 using TrailFinder.Application.Services;
-using TrailFinder.Core.DTOs.Gpx;
+using TrailFinder.Core.DTOs.Gpx.Responses;
 using TrailFinder.Core.Exceptions;
 using TrailFinder.Core.Interfaces.Repositories;
 using TrailFinder.Core.Interfaces.Services;
 
 namespace TrailFinder.Application.Features.Trails.Queries.GetTrailGpxInfo;
 
-public class GetTrailGpxInfoQueryHandler : IRequestHandler<GetTrailGpxInfoQuery, TrailGpxInfoDto>
+public class GetTrailGpxInfoQueryHandler : IRequestHandler<GetTrailGpxInfoQuery, GpxInfoDto>
 {
     private readonly ITrailRepository _trailRepository;
     private readonly IGpxService _gpxService;
@@ -24,7 +24,7 @@ public class GetTrailGpxInfoQueryHandler : IRequestHandler<GetTrailGpxInfoQuery,
         _storageService = storageService;
     }
 
-    public async Task<TrailGpxInfoDto> Handle(GetTrailGpxInfoQuery request, CancellationToken cancellationToken)
+    public async Task<GpxInfoDto> Handle(GetTrailGpxInfoQuery request, CancellationToken cancellationToken)
     {
         var trail = await _trailRepository.GetByIdAsync(request.TrailId, cancellationToken);
         if (trail == null)

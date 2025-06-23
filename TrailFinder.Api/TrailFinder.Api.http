@@ -19,13 +19,24 @@ Accept: application/json
 
 ### When trail/s do not exist
 
-### id does not exist
+### Guid does not exist
 GET {{hostAddress}}/api/trails/1.2.3.4
 Accept: application/json
 
 ### slug does not exist
 GET {{hostAddress}}/api/trails/slug-does-not-exist
 Accept: application/json
+
+### Update trail info by id
+PUT {{hostAddress}}/api/trails/{{trailId}}/info
+Content-Type: application/json
+
+{
+  "distanceMeters": 15500.50,
+  "elevationGainMeters": 850.0,
+  "difficultyLevel": "moderate"
+}
+
 
 ### When validation error occur
 

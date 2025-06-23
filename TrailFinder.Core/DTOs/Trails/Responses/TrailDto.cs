@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 using NetTopologySuite.Geometries;
 using TrailFinder.Core.Enums;
 
-namespace TrailFinder.Core.DTOs.Trails;
+namespace TrailFinder.Core.DTOs.Trails.Responses;
 
 public class TrailDto
 {

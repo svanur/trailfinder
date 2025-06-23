@@ -8,7 +8,7 @@ using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 using TrailFinder.Application.Features.Trails.Queries.GetTrails;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailsByParentId;
 using TrailFinder.Core.DTOs.Common;
-using TrailFinder.Core.DTOs.Trails;
+using TrailFinder.Core.DTOs.Trails.Responses;
 using TrailFinder.Core.Enums;
 using TrailFinder.Core.Interfaces.Services;
 using Xunit;
@@ -226,7 +226,7 @@ public class TrailsControllerTests
         string description = "",
         double distanceMeters = 0,
         double elevationGainMeters = 0,
-        DifficultyLevel difficultyLevel = DifficultyLevel.Moderate,
+        DifficultyLevel difficultyLevel = DifficultyLevel.Unknown,
         double startPointLatitude = 0,
         double startPointLongitude = 0,
         LineString? routeGeom = null,

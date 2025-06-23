@@ -1,8 +1,8 @@
 using NetTopologySuite.Geometries;
 
-namespace TrailFinder.Core.DTOs.Gpx;
+namespace TrailFinder.Core.DTOs.Gpx.Responses;
 
-public record TrailGpxInfoDto(
+public record GpxInfoDto(
     double DistanceMeters,
     double ElevationGainMeters,
     GpxPoint StartPoint,
