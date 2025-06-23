@@ -1,51 +1,34 @@
-@TrailFinder.Api_HostAddress = http://localhost:5263
+## Select environment via: Run with: [dev|...]
 
 ### Get all trails
-GET http://localhost:5263/api/trails
+GET {{hostAddress}}/api/trails
 Accept: application/json
 
 ### Get a specific trail by id
-GET http://localhost:5263/api/trails/a68d7b83-f74d-4417-881d-d1548ecbcf35
+GET {{hostAddress}}/api/trails/{{trailId}}
 Accept: application/json
 
 ### Get GpxInfo for specific trail
-GET http://localhost:5263/api/trails/71a97ab9-7ccd-4d7a-8989-78595b288aa6/info
+GET {{hostAddress}}/api/trails/{{trailId}}/info
 Accept: application/json
+
 
 ### Get a specific trail by slug
-GET http://localhost:5263/api/trails/esja-ultra-marathon
-Accept: application/json
-
-### Get trails by parent ID
-GET http://localhost:5263/api/trails?parentId=ebd33dec-f644-4783-8f9c-daa69f98bb15
+GET {{hostAddress}}/api/trails/esja-ultra-marathon
 Accept: application/json
 
 ### When trail/s do not exist
 
 ### id does not exist
-GET http://localhost:5263/api/trails/72aed933-26b2-4d46-94ef-871000c4db71
+GET {{hostAddress}}/api/trails/1.2.3.4
 Accept: application/json
 
 ### slug does not exist
-GET http://localhost:5263/api/trails/slug-does-not-exist
+GET {{hostAddress}}/api/trails/slug-does-not-exist
 Accept: application/json
 
-### parent id does not exist
-GET http://localhost:5263/api/trails?parentId=b61ad213-e2db-4d13-a366-66fba19c4999
-Accept: application/json
-
-### parent id is missing, this will get all trails (cause parentId is null)
-GET http://localhost:5263/api/trails?parentId=
-Accept: application/json
-
-
-### When error occur
+### When validation error occur
 
 ### guid is not the right length
-GET http://localhost:5263/api/trails/b-6-1-a-d
-Accept: application/json
-
-
-### guid is not the right length
-GET http://localhost:5263/api/trails?parentId=a366-66fba19c4240
+GET {{hostAddress}}/api/trails?parentId=a366-66fba19c4240
 Accept: application/json
