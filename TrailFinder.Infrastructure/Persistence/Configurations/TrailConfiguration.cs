@@ -50,8 +50,15 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasColumnName("elevation_gain_meters")
             .HasColumnType("double precision")  // PostgreSQL type for double
             .IsRequired();  // This is actually the default for non-nullable types
+        
+        builder.Property(t => t.DifficultyLevel)
+            .HasColumnType("difficulty_level")
+            .HasConversion(
+                v => v.HasValue ? v.Value.ToString().ToLower() : null,
+                v => v == null ? null : (DifficultyLevel)Enum.Parse(typeof(DifficultyLevel), v, true)
+            );
 
-            
+        
         // Boolean property
         builder.Property(t => t.HasGpx)
             .HasColumnName("has_gpx")

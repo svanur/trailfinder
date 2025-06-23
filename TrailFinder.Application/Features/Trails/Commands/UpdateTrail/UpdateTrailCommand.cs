@@ -3,7 +3,7 @@ using NetTopologySuite.Geometries;
 using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.Enums;
 
-namespace TrailFinder.Application.Features.Trails.Commands.UpdateTrailGpxInfo;
+namespace TrailFinder.Application.Features.Trails.Commands.UpdateTrail;
 
 public record UpdateTrailCommand(
     Guid TrailId,

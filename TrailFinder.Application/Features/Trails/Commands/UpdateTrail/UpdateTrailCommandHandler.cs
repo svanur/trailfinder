@@ -1,10 +1,10 @@
 using MediatR;
-using TrailFinder.Core.Exceptions;
-using TrailFinder.Contract.Persistence;
 using Microsoft.EntityFrameworkCore;
 using NetTopologySuite.Geometries;
+using TrailFinder.Contract.Persistence;
+using TrailFinder.Core.Exceptions;
 
-namespace TrailFinder.Application.Features.Trails.Commands.UpdateTrailGpxInfo;
+namespace TrailFinder.Application.Features.Trails.Commands.UpdateTrail;
 
 public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Unit>
 {
@@ -38,7 +38,13 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
         {
             trail.ElevationGainMeters = request.ElevationGainMeters.Value;
         }
-
+    
+        if (request.DifficultyLevel.HasValue)
+        {
+            trail.DifficultyLevel = request.DifficultyLevel.Value;
+        }
+        
+        /*
         // Update points only if they are provided
         if (request.StartPoint.HasValue)
         {
@@ -58,11 +64,19 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
         {
             trail.RouteGeom = request.RouteGeom;
         }
+        */
 
         trail.HasGpx = true;
-    
-        await _context.SaveChangesAsync(cancellationToken);
-    
+
+        try
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            throw new TrailNotFoundException(request.TrailId, ex);
+        }
+
         return Unit.Value;
     }
 }

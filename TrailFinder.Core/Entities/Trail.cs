@@ -1,4 +1,5 @@
 using NetTopologySuite.Geometries;
+using Supabase.Postgrest.Attributes;
 using TrailFinder.Core.DTOs;
 using TrailFinder.Core.Entities.Common;
 using TrailFinder.Core.Enums;
@@ -15,8 +16,11 @@ public class Trail : BaseEntity
     public string Slug { get; private set; } = null!;
     public string Description { get; private set; } = null!;
     public double DistanceMeters { get; set; }
+    
     public double ElevationGainMeters { get; set; }
-    public DifficultyLevel? DifficultyLevel { get; private set; }
+    
+    public DifficultyLevel? DifficultyLevel { get; set; }
+    
     public Point? StartPoint { get; set; } = null!;
     public Point? EndPoint { get; set; } = null!;
     public LineString? RouteGeom { get; set; }

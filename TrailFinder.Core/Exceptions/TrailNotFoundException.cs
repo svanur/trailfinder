@@ -16,4 +16,9 @@ public class TrailNotFoundException : DomainException
         : base($"Trail with slug '{slug}' was not found.")
     {
     }
+
+    public TrailNotFoundException(Guid id, Exception exception)
+        : base($"Trail with id '{id}' was not found.", exception)
+    {
+    }
 }

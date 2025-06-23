@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Supabase;
@@ -7,6 +8,7 @@ using TrailFinder.Core;
 using TrailFinder.Infrastructure;
 using TrailFinder.Infrastructure.Configuration;
 using TrailFinder.Infrastructure.Persistence;
+using TrailFinder.Infrastructure.Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,11 +36,19 @@ builder.Services.AddInfrastructure(builder.Configuration);
 // Add the configuration section
 builder.Services.Configure<SupabaseSettings>(builder.Configuration.GetSection("Supabase"));
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var dataSource = NpgsqlTrailFinderExtensions.CreateTrailFinderDataSource(connectionString);
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+    });
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
-        x => x.UseNetTopologySuite() // This is important!
-    )
-);
+    options.UseNpgsql(dataSource,
+        x => x.UseNetTopologySuite()
+    ));
 
 // Configure health checks
 
