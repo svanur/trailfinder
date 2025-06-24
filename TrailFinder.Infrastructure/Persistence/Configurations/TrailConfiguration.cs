@@ -46,17 +46,23 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasColumnType("decimal(10,2)")
             .IsRequired();
             
+        builder.Property(t => t.DifficultyLevel)
+            .HasColumnName("difficulty_level")
+            .HasColumnType("difficulty_level");
+        
         builder.Property(t => t.ElevationGainMeters)
             .HasColumnName("elevation_gain_meters")
             .HasColumnType("double precision")  // PostgreSQL type for double
             .IsRequired();  // This is actually the default for non-nullable types
         
+        /*
         builder.Property(t => t.DifficultyLevel)
             .HasColumnType("difficulty_level")
             .HasConversion(
                 v => v.HasValue ? v.Value.ToString().ToLower() : null,
                 v => v == null ? null : (DifficultyLevel)Enum.Parse(typeof(DifficultyLevel), v, true)
             );
+            */
 
         
         // Boolean property
@@ -105,16 +111,7 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasColumnName("user_id")
             .HasColumnType("uuid")
             .IsRequired(false);
-
-        builder.Property(t => t.DifficultyLevel)
-            .HasColumnName("difficulty_level")
-            .HasColumnType("difficulty_level")
-            .IsRequired(false)
-            .HasConversion(
-                v => v.ToString()!.ToLowerInvariant(),
-                v => Enum.Parse<DifficultyLevel>(v, true)
-            );
-
+        
         // Indexes
         builder.HasIndex(t => t.Slug)
             .IsUnique();

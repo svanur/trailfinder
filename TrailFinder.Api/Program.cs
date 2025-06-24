@@ -12,26 +12,26 @@ using TrailFinder.Infrastructure.Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.AddFilter("Npgsql", LogLevel.Information);
+
 // Add services to the container
 builder.Services
     .AddCore()
     .AddInfrastructure(builder.Configuration);
 
-// Add other service configurations
+// Add controllers with all JSON options configured once
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals;
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
         options.JsonSerializerOptions.Converters.Add(new LineStringConverter());
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
 
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddApplication(); // Add this line to register CQRS and related services
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
 
 // Add the configuration section
 builder.Services.Configure<SupabaseSettings>(builder.Configuration.GetSection("Supabase"));
@@ -39,16 +39,23 @@ builder.Services.Configure<SupabaseSettings>(builder.Configuration.GetSection("S
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var dataSource = NpgsqlTrailFinderExtensions.CreateTrailFinderDataSource(connectionString);
 
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-    });
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
     options.UseNpgsql(dataSource,
-        x => x.UseNetTopologySuite()
-    ));
+            x => 
+            {
+                x.UseNetTopologySuite();
+                x.EnableRetryOnFailure();
+            })
+        .EnableSensitiveDataLogging()
+        .LogTo(message =>
+            {
+                var logPath = Path.Combine(builder.Environment.ContentRootPath, "logs", "ef-sql.log");
+                File.AppendAllText(logPath, $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}{Environment.NewLine}");
+            },
+            [DbLoggerCategory.Database.Command.Name],
+            LogLevel.Information);
+});
 
 // Configure health checks
 
@@ -145,6 +152,8 @@ builder.Services.AddSingleton(provider =>
     return new Client(supabaseUrl, supabaseKey);
 });
 
+var logsPath = Path.Combine(builder.Environment.ContentRootPath, "logs");
+Directory.CreateDirectory(logsPath);
 
 var app = builder.Build();
 

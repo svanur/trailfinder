@@ -9,9 +9,14 @@ public static class NpgsqlTrailFinderExtensions
     public static NpgsqlDataSource CreateTrailFinderDataSource(string? connectionString)
     {
         var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
-        
-        dataSourceBuilder.MapEnum<DifficultyLevel>("difficulty_level", nameTranslator: new PostgresEnumNameTranslator());
-        
+    
+        // Configure type mapping at the data source level
+        dataSourceBuilder.EnableUnmappedTypes();
+    
+        // Map the enum with the fully qualified name (including schema)
+        dataSourceBuilder.MapEnum<DifficultyLevel>("public.difficulty_level", new PostgresEnumNameTranslator());
+    
         return dataSourceBuilder.Build();
     }
+
 }
