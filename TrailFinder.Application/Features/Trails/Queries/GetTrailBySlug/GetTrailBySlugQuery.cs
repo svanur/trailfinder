@@ -1,5 +1,5 @@
 using MediatR;
-using TrailFinder.Core.DTOs.Trails;
+using TrailFinder.Core.DTOs.Trails.Responses;
 
 namespace TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 

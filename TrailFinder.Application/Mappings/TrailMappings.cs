@@ -1,6 +1,6 @@
 using AutoMapper;
 using TrailFinder.Core.DTOs.Common;
-using TrailFinder.Core.DTOs.Trails;
+using TrailFinder.Core.DTOs.Trails.Responses;
 using TrailFinder.Core.Entities;
 
 namespace TrailFinder.Application.Mappings;

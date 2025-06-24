@@ -1,9 +1,7 @@
-// TrailFinder.Core/DTOs/Trails/TrailFilterDto.cs
-
 using TrailFinder.Core.DTOs.Common;
 using TrailFinder.Core.Enums;
 
-namespace TrailFinder.Core.DTOs.Trails;
+namespace TrailFinder.Core.DTOs.Trails.Requests;
 
 public record TrailFilterDto(
     string? SearchTerm = null,

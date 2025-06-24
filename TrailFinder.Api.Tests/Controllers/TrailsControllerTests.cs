@@ -8,7 +8,7 @@ using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 using TrailFinder.Application.Features.Trails.Queries.GetTrails;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailsByParentId;
 using TrailFinder.Core.DTOs.Common;
-using TrailFinder.Core.DTOs.Trails;
+using TrailFinder.Core.DTOs.Trails.Responses;
 using TrailFinder.Core.Enums;
 using TrailFinder.Core.Interfaces.Services;
 using Xunit;
@@ -20,18 +20,17 @@ public class TrailsControllerTests
 {
     private readonly TrailsController _controller;
     private readonly Mock<IMediator> _mediatorMock;
-    private readonly Mock<ISupabaseStorageService> _StorageServiceMock;
 
     public TrailsControllerTests()
     {
         var loggerMock = new Mock<ILogger<TrailsController>>();
         _mediatorMock = new Mock<IMediator>();
-        _StorageServiceMock = new Mock<ISupabaseStorageService>();
+        var storageServiceMock = new Mock<ISupabaseStorageService>();
 
         _controller = new TrailsController(
             _mediatorMock.Object, 
             loggerMock.Object,
-            _StorageServiceMock.Object
+            storageServiceMock.Object
         );
     }
 
@@ -226,9 +225,11 @@ public class TrailsControllerTests
         string description = "",
         double distanceMeters = 0,
         double elevationGainMeters = 0,
-        DifficultyLevel difficultyLevel = DifficultyLevel.Moderate,
+        DifficultyLevel difficultyLevel = DifficultyLevel.Unknown,
         double startPointLatitude = 0,
         double startPointLongitude = 0,
+        double endPointLatitude = 0,
+        double endPointLongitude = 0,
         LineString? routeGeom = null,
         string? webUrl = "",
         bool hasGpx = false
@@ -245,6 +246,8 @@ public class TrailsControllerTests
             difficultyLevel,
             startPointLatitude,
             startPointLongitude,
+            endPointLatitude,
+            endPointLongitude,
             routeGeom,
             webUrl,
             hasGpx,
