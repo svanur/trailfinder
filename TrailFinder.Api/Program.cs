@@ -5,6 +5,7 @@ using Supabase;
 using TrailFinder.Api.Converters;
 using TrailFinder.Application;
 using TrailFinder.Core;
+using TrailFinder.Core.Enums;
 using TrailFinder.Infrastructure;
 using TrailFinder.Infrastructure.Configuration;
 using TrailFinder.Infrastructure.Persistence;
@@ -46,6 +47,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 x.UseNetTopologySuite();
                 x.EnableRetryOnFailure();
+                x.MapEnum<DifficultyLevel>();
             })
         .EnableSensitiveDataLogging()
         .LogTo(message =>

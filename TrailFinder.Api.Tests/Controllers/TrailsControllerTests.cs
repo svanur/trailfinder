@@ -20,18 +20,17 @@ public class TrailsControllerTests
 {
     private readonly TrailsController _controller;
     private readonly Mock<IMediator> _mediatorMock;
-    private readonly Mock<ISupabaseStorageService> _StorageServiceMock;
 
     public TrailsControllerTests()
     {
         var loggerMock = new Mock<ILogger<TrailsController>>();
         _mediatorMock = new Mock<IMediator>();
-        _StorageServiceMock = new Mock<ISupabaseStorageService>();
+        var storageServiceMock = new Mock<ISupabaseStorageService>();
 
         _controller = new TrailsController(
             _mediatorMock.Object, 
             loggerMock.Object,
-            _StorageServiceMock.Object
+            storageServiceMock.Object
         );
     }
 
@@ -229,6 +228,8 @@ public class TrailsControllerTests
         DifficultyLevel difficultyLevel = DifficultyLevel.Unknown,
         double startPointLatitude = 0,
         double startPointLongitude = 0,
+        double endPointLatitude = 0,
+        double endPointLongitude = 0,
         LineString? routeGeom = null,
         string? webUrl = "",
         bool hasGpx = false
@@ -245,6 +246,8 @@ public class TrailsControllerTests
             difficultyLevel,
             startPointLatitude,
             startPointLongitude,
+            endPointLatitude,
+            endPointLongitude,
             routeGeom,
             webUrl,
             hasGpx,

@@ -45,10 +45,18 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasColumnName("distance_meters")
             .HasColumnType("decimal(10,2)")
             .IsRequired();
-            
+         
+        builder.Property(t => t.DifficultyLevel)
+            .HasColumnName("difficulty_level");
+
+        
+        /*
         builder.Property(t => t.DifficultyLevel)
             .HasColumnName("difficulty_level")
-            .HasColumnType("difficulty_level");
+            .HasColumnType("difficulty_level")
+            .HasConversion<string>();  // This tells EF Core to convert the enum to/from string
+            */
+
         
         builder.Property(t => t.ElevationGainMeters)
             .HasColumnName("elevation_gain_meters")
@@ -81,18 +89,19 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
         // Geometry properties
         builder.Property(t => t.StartPoint)
             .HasColumnName("start_point")
-            .HasColumnType("geometry(Point, 4326)")
+            .HasColumnType("geometry(PointZ, 4326)")  // Changed from Point to PointZ
             .IsRequired(false);
-            
+    
         builder.Property(t => t.EndPoint)
             .HasColumnName("end_point")
-            .HasColumnType("geometry(Point, 4326)")
+            .HasColumnType("geometry(PointZ, 4326)")  // Changed from Point to PointZ
             .IsRequired(false);
-            
+    
         builder.Property(t => t.RouteGeom)
             .HasColumnName("route_geom")
-            .HasColumnType("geometry(LineString, 4326)")
+            .HasColumnType("geometry(LineStringZ, 4326)")  // Changed from LineString to LineStringZ
             .IsRequired(false);
+
 
         // Timestamps
         builder.Property(t => t.CreatedAt)

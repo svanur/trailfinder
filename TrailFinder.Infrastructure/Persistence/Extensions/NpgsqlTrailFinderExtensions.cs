@@ -10,13 +10,23 @@ public static class NpgsqlTrailFinderExtensions
     {
         var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
     
-        // Configure type mapping at the data source level
+        // Enable unmapped types support first
         dataSourceBuilder.EnableUnmappedTypes();
     
-        // Map the enum with the fully qualified name (including schema)
-        dataSourceBuilder.MapEnum<DifficultyLevel>("public.difficulty_level", new PostgresEnumNameTranslator());
+        // Map the enum with explicit name mapping
+        dataSourceBuilder.MapEnum<DifficultyLevel>("difficulty_level", new NpgsqlNullNameTranslator());
+    
+        // Configure NetTopologySuite for geometry support
+        dataSourceBuilder.UseNetTopologySuite();
     
         return dataSourceBuilder.Build();
+    }
+
+ 
+    public class NpgsqlNullNameTranslator : INpgsqlNameTranslator
+    {
+        public string TranslateMemberName(string clrName) => clrName.ToLower();
+        public string TranslateTypeName(string clrName) => clrName.ToLower();
     }
 
 }

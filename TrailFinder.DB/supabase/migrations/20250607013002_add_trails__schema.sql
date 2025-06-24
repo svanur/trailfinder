@@ -14,9 +14,9 @@ CREATE TABLE trails (
                         distance_meters NUMERIC(10,2),
                         elevation_gain_meters INTEGER,
                         difficulty_level difficulty_level,
-                        route_geom geometry(LINESTRING, 4326),
-                        start_point geometry(POINT, 4326),
-                        end_point geometry(POINT, 4326),
+                        route_geom geometry(LINESTRINGZ, 4326),
+                        start_point geometry(POINTZ, 4326),
+                        end_point geometry(POINTZ, 4326),
                         web_url TEXT,
                         has_gpx BOOLEAN
 ,

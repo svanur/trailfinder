@@ -40,8 +40,8 @@ async function updateTrailsGpxInfo() {
                 console.log(`Successfully updated GPX info for trail "${trailName}" (${trailId})`);
                 console.log({
                     name: trailName,
-                    distance: `${(sanitizedGpxInfo.distanceMeters / 1000).toFixed(2)} km`,
-                    elevation: `${sanitizedGpxInfo.elevationGainMeters.toFixed(0)} m`,
+                    distance: sanitizedGpxInfo.distanceMeters,
+                    elevation: sanitizedGpxInfo.elevationGainMeters,
                     difficultyLevel: sanitizedGpxInfo.difficultyLevel,
                     hasRouteGeom: !!sanitizedGpxInfo.routeGeom
                 });

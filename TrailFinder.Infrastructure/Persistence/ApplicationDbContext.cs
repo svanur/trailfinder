@@ -22,8 +22,11 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         base.OnModelCreating(modelBuilder);
 
         // Register the enum type
-        modelBuilder.HasPostgresEnum<DifficultyLevel>("difficulty_level");
+        //modelBuilder.HasPostgresEnum<DifficultyLevel>("difficulty_level");
+        modelBuilder.HasPostgresEnum<DifficultyLevel>();
 
+
+        /*
         var difficultyLevelConverter = new ValueConverter<DifficultyLevel, DifficultyLevel>(
             v => v,
             v => v
@@ -48,6 +51,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                         : nullableDifficultyLevelConverter
                 );
         }
+        */
 
         // Apply configuration
         //modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
