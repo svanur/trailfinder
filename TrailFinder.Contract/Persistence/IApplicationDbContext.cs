@@ -16,5 +16,6 @@ public interface IApplicationDbContext
     /// </summary>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>The number of state entries written to the database.</returns>
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
 }

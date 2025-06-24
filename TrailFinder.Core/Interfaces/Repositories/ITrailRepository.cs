@@ -1,5 +1,5 @@
 using TrailFinder.Core.DTOs.Common;
-using TrailFinder.Core.DTOs.Trails;
+using TrailFinder.Core.DTOs.Trails.Requests;
 using TrailFinder.Core.Entities;
 
 namespace TrailFinder.Core.Interfaces.Repositories;

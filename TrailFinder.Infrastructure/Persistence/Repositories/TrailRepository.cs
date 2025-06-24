@@ -1,7 +1,7 @@
 // TrailFinder.Infrastructure/Persistence/Repositories/TrailRepository.cs
 using Microsoft.EntityFrameworkCore;
 using TrailFinder.Core.DTOs.Common;
-using TrailFinder.Core.DTOs.Trails;
+using TrailFinder.Core.DTOs.Trails.Requests;
 using TrailFinder.Core.Entities;
 using TrailFinder.Core.Interfaces.Repositories;
 

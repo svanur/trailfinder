@@ -1,6 +1,6 @@
 using AutoMapper;
 using MediatR;
-using TrailFinder.Core.DTOs.Trails;
+using TrailFinder.Core.DTOs.Trails.Responses;
 using TrailFinder.Core.Exceptions;
 using TrailFinder.Core.Interfaces.Repositories;
 

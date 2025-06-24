@@ -6,7 +6,8 @@ namespace TrailFinder.Api.Converters;
 
 public class LineStringConverter : JsonConverter<LineString>
 {
-    private readonly GeometryFactory _geometryFactory = new();
+    private readonly GeometryFactory _geometryFactory = 
+        new GeometryFactory(new PrecisionModel(), 4326); // Set SRID to 4326 to match your database
 
     public override LineString? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -16,7 +17,7 @@ public class LineStringConverter : JsonConverter<LineString>
         if (reader.TokenType != JsonTokenType.StartArray)
             throw new JsonException("Expected start of array");
 
-        var coordinates = new List<Coordinate>();
+        var coordinates = new List<CoordinateZ>(); // Explicitly use CoordinateZ
 
         while (reader.Read())
         {
@@ -49,7 +50,11 @@ public class LineStringConverter : JsonConverter<LineString>
             coordinates.Add(new CoordinateZ(x, y, z));
         }
 
-        return coordinates.Count == 0 ? null : _geometryFactory.CreateLineString(coordinates.ToArray());
+        if (coordinates.Count == 0)
+            return null;
+
+        // Create a new LineString with the coordinates
+        return _geometryFactory.CreateLineString(coordinates.ToArray());
     }
 
     public override void Write(Utf8JsonWriter writer, LineString? value, JsonSerializerOptions options)
@@ -66,9 +71,13 @@ public class LineStringConverter : JsonConverter<LineString>
             writer.WriteStartArray();
             writer.WriteNumberValue(coordinate.X);
             writer.WriteNumberValue(coordinate.Y);
-            // Handle potentially invalid Z values
-            var z = double.IsInfinity(coordinate.Z) || double.IsNaN(coordinate.Z) ? 0 : coordinate.Z;
+            
+            // Always write Z coordinate, defaulting to 0 if not present or invalid
+            var z = coordinate is CoordinateZ cz 
+                ? (double.IsInfinity(cz.Z) || double.IsNaN(cz.Z) ? 0 : cz.Z)
+                : 0;
             writer.WriteNumberValue(z);
+            
             writer.WriteEndArray();
         }
         writer.WriteEndArray();
