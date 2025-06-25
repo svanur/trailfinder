@@ -1,8 +1,9 @@
 using AutoMapper;
-using TrailFinder.Core.DTOs.Trails;
+using TrailFinder.Core.DTOs.Trails.Responses;
 
 namespace TrailFinder.Infrastructure.Mapping;
 
+/*
 public class SupabaseMappingProfile : Profile
 {
     public SupabaseMappingProfile()
@@ -10,3 +11,4 @@ public class SupabaseMappingProfile : Profile
         CreateMap<SupabaseTrail, TrailDto>();
     }
 }
+*/

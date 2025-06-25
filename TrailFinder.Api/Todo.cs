@@ -51,6 +51,25 @@ public class Todo
     //TODO [ ] Development scripts
     //TODO [ ] GitHub Actions CI/CD
     
+    // Ideas for Trail Running Application
+    //TODO: Use the Route Geometry more?
+    //TODO: Add elevation loss
+    //TODO: Implement share functionality
+    //TODO: Implement QR code functionality
+    //TODO: Add difficulty analysis
+    
+    // Web layout ideas
+    //TODO: Have elevation and trail maps side by side
+    
+    // User Profile ideas
+    //TODO: Add User Profile page
+    //TODO: Add trail rating
+    //TODO: Upload trails
+    //TODO: Add trail reviews
+    //TODO: Add trail favorites
+    //TODO: Implement save functionality
+    
+    
     /*
      * DESIGN:
      Mantine is particularly useful when you need:

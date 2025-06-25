@@ -1,4 +1,4 @@
-using TrailFinder.Core.DTOs.Gpx;
+using TrailFinder.Core.DTOs.Gpx.Responses;
 
 namespace TrailFinder.Application.Services;
 
@@ -9,9 +9,9 @@ public interface IGpxService
     /// </summary>
     /// <param name="gpxStream">The stream containing the GPX data to be processed.</param>
     /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains a <see cref="TrailGpxInfoDto" /> object
+    ///     A task that represents the asynchronous operation. The task result contains a <see cref="GpxInfoDto" /> object
     ///     with details such as distance, elevation gain, and start point.
     /// </returns>
-    Task<TrailGpxInfoDto> ExtractGpxInfo(Stream gpxStream);
+    Task<GpxInfoDto> ExtractGpxInfo(Stream gpxStream);
 }
 

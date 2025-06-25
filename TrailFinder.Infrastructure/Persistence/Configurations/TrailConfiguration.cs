@@ -11,19 +11,18 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
     {
         builder.ToTable("trails");
         
+        //
         // Primary Key
+        //
         builder.HasKey(t => t.Id);
         
+        //
         // Base properties
+        //
         builder.Property(t => t.Id)
             .HasColumnName("id")
             .HasColumnType("uuid")
             .ValueGeneratedOnAdd();
-        
-        builder.Property(t => t.ParentId)
-            .HasColumnName("parent_id")
-            .HasColumnType("uuid")
-            .IsRequired(false);
         
         // Required string properties
         builder.Property(t => t.Name)
@@ -45,40 +44,58 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasColumnName("distance_meters")
             .HasColumnType("decimal(10,2)")
             .IsRequired();
-            
+        
         builder.Property(t => t.ElevationGainMeters)
             .HasColumnName("elevation_gain_meters")
             .HasColumnType("double precision")  // PostgreSQL type for double
             .IsRequired();  // This is actually the default for non-nullable types
-
-            
+         
+        builder.Property(t => t.DifficultyLevel)
+            .HasColumnName("difficulty_level");
+        
+        /*
+        builder.Property(t => t.DifficultyLevel)
+            .HasColumnName("difficulty_level")
+            .HasColumnType("difficulty_level")
+            .HasConversion<string>();  // This tells EF Core to convert the enum to/from string
+            */
+        
+        /*
+        builder.Property(t => t.DifficultyLevel)
+            .HasColumnType("difficulty_level")
+            .HasConversion(
+                v => v.HasValue ? v.Value.ToString().ToLower() : null,
+                v => v == null ? null : (DifficultyLevel)Enum.Parse(typeof(DifficultyLevel), v, true)
+            );
+            */
+        
         // Boolean property
         builder.Property(t => t.HasGpx)
             .HasColumnName("has_gpx")
             .HasColumnType("boolean")
             .IsRequired()
             .HasDefaultValue(false);
-            
-        // Optional string property
-        builder.Property(t => t.WebUrl)
-            .HasColumnName("web_url")
-            .HasMaxLength(2048)
-            .IsRequired(false);
         
         // Geometry properties
         builder.Property(t => t.StartPoint)
             .HasColumnName("start_point")
-            .HasColumnType("geometry(Point, 4326)")
+            .HasColumnType("geometry(PointZ, 4326)")  // Changed from Point to PointZ
             .IsRequired(false);
-            
+    
         builder.Property(t => t.EndPoint)
             .HasColumnName("end_point")
-            .HasColumnType("geometry(Point, 4326)")
+            .HasColumnType("geometry(PointZ, 4326)")  // Changed from Point to PointZ
             .IsRequired(false);
-            
+    
         builder.Property(t => t.RouteGeom)
             .HasColumnName("route_geom")
-            .HasColumnType("geometry(LineString, 4326)")
+            .HasColumnType("geometry(LineStringZ, 4326)")  // Changed from LineString to LineStringZ
+            .IsRequired(false);
+
+        // Optional string property
+        builder.Property(t => t.WebUrl)
+            .HasColumnName("web_url")
+            .HasMaxLength(2048)
             .IsRequired(false);
 
         // Timestamps
@@ -98,31 +115,17 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasColumnName("user_id")
             .HasColumnType("uuid")
             .IsRequired(false);
-
-        builder.Property(t => t.DifficultyLevel)
-            .HasColumnName("difficulty_level")
-            .HasColumnType("difficulty_level")
-            .IsRequired(false)
-            .HasConversion(
-                v => v.ToString()!.ToLowerInvariant(),
-                v => Enum.Parse<DifficultyLevel>(v, true)
-            );
-
-        // Indexes
+        
+        //
+        // Indices
+        //
         builder.HasIndex(t => t.Slug)
             .IsUnique();
-            
-        builder.HasIndex(t => t.ParentId);
+        
         builder.HasIndex(t => t.UserId);
         builder.HasIndex(t => t.StartPoint)
             .HasMethod("GIST");
         builder.HasIndex(t => t.RouteGeom)
             .HasMethod("GIST");
-            
-        // Relationships
-        builder.HasOne<Trail>()
-            .WithMany()
-            .HasForeignKey(t => t.ParentId)
-            .OnDelete(DeleteBehavior.Restrict);
     }
 }
