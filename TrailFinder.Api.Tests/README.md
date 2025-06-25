@@ -102,10 +102,6 @@ Assert.InRange(actual, min, max);
 - Test Classes: `[TestedClass]Tests` 
 - Example: `TrailsControllerTests`
 
-
-- Test Methods: `[TestedMethod]_[Scenario]_[ExpectedResult]` 
-- Example: `GetTrails_WithoutParentId_ReturnsAllTrails`
-
 ### Example Structure
 
 ```csharp

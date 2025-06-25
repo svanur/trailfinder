@@ -22,7 +22,6 @@ namespace TrailFinder.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    parent_id = table.Column<Guid>(type: "uuid", nullable: true),
                     name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     slug = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     description = table.Column<string>(type: "text", nullable: false),
@@ -41,19 +40,8 @@ namespace TrailFinder.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_trails", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_trails_trails_parent_id",
-                        column: x => x.parent_id,
-                        principalTable: "trails",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_trails_parent_id",
-                table: "trails",
-                column: "parent_id");
-
+            
             migrationBuilder.CreateIndex(
                 name: "IX_trails_route_geom",
                 table: "trails",
