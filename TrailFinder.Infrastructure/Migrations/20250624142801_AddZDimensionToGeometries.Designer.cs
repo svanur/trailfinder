@@ -73,11 +73,7 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("name");
-
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("parent_id");
-
+                    
                     b.Property<LineString>("RouteGeom")
                         .HasColumnType("geometry(LineStringZ, 4326)")
                         .HasColumnName("route_geom");
@@ -108,8 +104,6 @@ namespace TrailFinder.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentId");
-
                     b.HasIndex("RouteGeom");
 
                     NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("RouteGeom"), "GIST");
@@ -125,14 +119,7 @@ namespace TrailFinder.Infrastructure.Migrations
 
                     b.ToTable("trails", (string)null);
                 });
-
-            modelBuilder.Entity("TrailFinder.Core.Entities.Trail", b =>
-                {
-                    b.HasOne("TrailFinder.Core.Entities.Trail", null)
-                        .WithMany()
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
+            
 #pragma warning restore 612, 618
         }
     }

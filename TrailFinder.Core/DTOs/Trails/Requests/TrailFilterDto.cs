@@ -5,7 +5,6 @@ namespace TrailFinder.Core.DTOs.Trails.Requests;
 
 public record TrailFilterDto(
     string? SearchTerm = null,
-    Guid? ParentId = null,
     double? MinDistance = null,
     double? MaxDistance = null,
     double? MinElevation = null,

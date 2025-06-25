@@ -44,13 +44,7 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
         {
             query = query.Where(t => t.DistanceMeters >= filter.MinDistance.Value);
         }
-
-
-        if (filter.ParentId.HasValue)
-        {
-            query = query.Where(t => t.ParentId >= filter.ParentId.Value);
-        }
-
+        
         if (filter.MaxDistance.HasValue)
         {
             query = query.Where(t => t.DistanceMeters <= filter.MaxDistance.Value);

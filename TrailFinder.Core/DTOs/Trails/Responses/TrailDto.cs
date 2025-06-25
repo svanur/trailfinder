@@ -7,7 +7,7 @@ namespace TrailFinder.Core.DTOs.Trails.Responses;
 public class TrailDto
 {
     public Guid Id { get; set; }
-    public Guid? ParentId { get; set; }
+    
     public string Name { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
@@ -19,7 +19,6 @@ public class TrailDto
     public double ElevationGainMeters { get; set; }
     
     public DifficultyLevel? DifficultyLevel { get; set; }
-    public LineString? RouteGeom { get; set; }
     
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
     public double? StartPointLatitude { get; set; }
@@ -33,6 +32,8 @@ public class TrailDto
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
     public double? EndPointLongitude { get; set; }
     
+    public LineString? RouteGeom { get; set; }
+    
     public string? WebUrl { get; set; }
     public bool HasGpx { get; set; }
     public DateTime CreatedAt { get; set; }
@@ -43,7 +44,6 @@ public class TrailDto
 
     public TrailDto(
         Guid id,
-        Guid? parentId,
         string name,
         string slug,
         string description,
@@ -63,7 +63,6 @@ public class TrailDto
     )
     {
         Id = id;
-        ParentId = parentId;
         Name = name;
         Slug = slug;
         Description = description;

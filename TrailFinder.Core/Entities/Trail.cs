@@ -10,8 +10,7 @@ public class Trail : BaseEntity
 {
     private static readonly GeometryFactory GeometryFactory = 
         new GeometryFactory(new PrecisionModel(), 4326);
-  
-    public Guid? ParentId { get; private set; }
+    
     public string Name { get; private set; } = null!;
     public string Slug { get; private set; } = null!;
     public string Description { get; private set; } = null!;
@@ -30,7 +29,6 @@ public class Trail : BaseEntity
     private Trail() { } // For EF Core
 
     public Trail(
-        Guid parentId,
         string name,
         string description,
         double distanceMeters,
@@ -52,7 +50,7 @@ public class Trail : BaseEntity
         DifficultyLevel = difficultyLevel;
         StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0));
         EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
-        ParentId = parentId;
+        
         UserId = userId;
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
