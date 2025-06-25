@@ -1,4 +1,5 @@
 ## Select environment via: Run with: [dev|...]
+## See: TrailFinder.Api/http-client.env.json 
 
 ### Get all trails
 GET {{hostAddress}}/api/trails
@@ -41,5 +42,5 @@ Content-Type: application/json
 ### When validation error occur
 
 ### guid is not the right length
-GET {{hostAddress}}/api/trails?parentId=a366-66fba19c4240
+GET {{hostAddress}}/api/trails/366-66fba19c4240
 Accept: application/json
