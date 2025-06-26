@@ -1,0 +1,13 @@
+Tillaga að fyrstu skrefum:
+
+1. Setja upp grunn "Dashboard" með yfirliti yfir:
+    - Fjölda hlaupaleiða
+    - Fjölda notenda
+    - Nýjustu hlaupaleiðir
+    - Mest skoðuðu hlaupaleiðir
+
+2. Setja upp "Trails" síðu með:
+    - Töflu yfir allar hlaupaleiðir
+    - Möguleika á að samþykkja/hafna nýjum hlaupaleiðum
+    - Breyta/eyða hlaupaleiðum
+    - Sía og leita að hlaupaleiðum
