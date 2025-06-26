@@ -1,16 +1,11 @@
-using Supabase.Postgrest.Attributes;
-using Supabase.Postgrest.Models;
-using TrailFinder.Core.Enums;
 
+/*
 [Table("trails")]
 public class SupabaseTrail : BaseModel
 {
     [Column("id")]
     public Guid Id { get; set; }
-    
-    [Column("parent_id")]
-    public Guid? ParentId { get; set; }
-    
+        
     [Column("name")]
     public string Name { get; set; } = string.Empty;
     
@@ -53,3 +48,4 @@ public class SupabaseTrail : BaseModel
     [Column("updated_at")]
     public DateTime UpdatedAt { get; set; }
 }
+*/

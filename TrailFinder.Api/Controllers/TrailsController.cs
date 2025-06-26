@@ -1,13 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TrailFinder.Application.Features.Trails.Commands.UpdateTrailGpxInfo;
+using TrailFinder.Application.Features.Trails.Commands.UpdateTrail;
 using TrailFinder.Application.Features.Trails.Queries.GetTrail;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailGpxInfo;
 using TrailFinder.Application.Features.Trails.Queries.GetTrails;
-using TrailFinder.Application.Features.Trails.Queries.GetTrailsByParentId;
-using TrailFinder.Core.DTOs.Gpx;
-using TrailFinder.Core.DTOs.Trails;
+using TrailFinder.Core.DTOs.Gpx.Requests;
+using TrailFinder.Core.DTOs.Gpx.Responses;
+using TrailFinder.Core.DTOs.Trails.Responses;
 using TrailFinder.Core.Exceptions;
 using TrailFinder.Core.Interfaces.Services;
 
@@ -24,13 +24,13 @@ public class TrailsController : BaseApiController
     public TrailsController(
         IMediator mediator,
         ILogger<TrailsController> logger,
-        ISupabaseStorageService _StorageService
+        ISupabaseStorageService storageService
     )
         : base(logger)
     {
         _mediator = mediator;
         _logger = logger;
-        _storageService = _StorageService;
+        _storageService = storageService;
     }
 
     [HttpGet("{trailSlug}")]
@@ -73,21 +73,54 @@ public class TrailsController : BaseApiController
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TrailDto>>> GetTrails([FromQuery] Guid? parentId)
+    public async Task<ActionResult<IEnumerable<TrailDto>>> GetTrails()
     {
         try
         {
-            object? result;
-            if (!parentId.HasValue)
-            {
-                result = await _mediator.Send(new GetTrailsQuery());
-            }
-            else
-            {
-                result = await _mediator.Send(new GetTrailsByParentIdQuery(parentId.Value));
-            }
-            
+            var paginatedResult = await _mediator.Send(new GetTrailsQuery());
+            return Ok(paginatedResult);
+        }
+        catch (Exception ex)
+        {
+            return HandleException(ex);
+        }
+    }
+    
+    [HttpGet("{trailId:guid}/info")]
+    public async Task<ActionResult<GpxInfoDto>> GetTrailGpxInfo(Guid trailId)
+    {
+        try
+        {
+            var result = await _mediator.Send(new GetTrailGpxInfoQuery(trailId));
             return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return HandleException(ex);
+        }
+    }
+    
+    [HttpPut("{trailId:guid}/info")]
+    public async Task<ActionResult> UpdateTrailGpxInfo(Guid trailId, UpdateGpxInfoDto gpxInfo)
+    {
+        try
+        {
+            var command = new UpdateTrailCommand(
+                trailId,
+                gpxInfo.DistanceMeters,
+                gpxInfo.ElevationGainMeters,
+                gpxInfo.DifficultyLevel,
+                gpxInfo.StartPoint,
+                gpxInfo.EndPoint,
+                gpxInfo.RouteGeom
+            );
+        
+            await _mediator.Send(command);
+            return Ok();
+        }
+        catch (TrailNotFoundException ex)
+        {
+            return NotFound(new ErrorResponse { Message = ex.Message });
         }
         catch (Exception ex)
         {

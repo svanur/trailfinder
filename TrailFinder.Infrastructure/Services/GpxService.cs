@@ -3,6 +3,7 @@ using NetTopologySuite.Geometries;
 using TrailFinder.Application.Services;
 using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Infrastructure.Analyzers;
+using TrailFinder.Core.DTOs.Gpx.Responses;
 
 namespace TrailFinder.Infrastructure.Services;
 
@@ -18,7 +19,7 @@ public class GpxService : IGpxService
         _geometryFactory = geometryFactory;
     }
 
-    public async Task<TrailGpxInfoDto> ExtractGpxInfo(Stream gpxStream)
+    public async Task<GpxInfoDto> ExtractGpxInfo(Stream gpxStream)
     {
         try
         {
@@ -54,12 +55,12 @@ public class GpxService : IGpxService
 
             var routeGeom = _geometryFactory.CreateLineString(coordinates);
 
-            return new TrailGpxInfoDto(
+            return new GpxInfoDto(
                 totalDistance,
                 elevationGain,
-                //difficultyLevel,
-                //routeType, 
-                //terrainType,
+                difficultyLevel,
+                routeType, 
+                terrainType,
                 startGeoPoint,
                 endGeoPoint,
                 routeGeom

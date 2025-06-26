@@ -1,7 +1,7 @@
 // TrailFinder.Infrastructure/Persistence/Repositories/TrailRepository.cs
 using Microsoft.EntityFrameworkCore;
 using TrailFinder.Core.DTOs.Common;
-using TrailFinder.Core.DTOs.Trails;
+using TrailFinder.Core.DTOs.Trails.Requests;
 using TrailFinder.Core.Entities;
 using TrailFinder.Core.Interfaces.Repositories;
 
@@ -44,13 +44,7 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
         {
             query = query.Where(t => t.DistanceMeters >= filter.MinDistance.Value);
         }
-
-
-        if (filter.ParentId.HasValue)
-        {
-            query = query.Where(t => t.ParentId >= filter.ParentId.Value);
-        }
-
+        
         if (filter.MaxDistance.HasValue)
         {
             query = query.Where(t => t.DistanceMeters <= filter.MaxDistance.Value);

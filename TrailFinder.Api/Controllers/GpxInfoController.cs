@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TrailFinder.Application.Features.Trails.Commands.UpdateTrailGpxInfo;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailGpxInfo;
-using TrailFinder.Core.DTOs.Gpx;
+using TrailFinder.Core.DTOs.Gpx.Responses;
 using TrailFinder.Core.Exceptions;
 using TrailFinder.Core.Interfaces.Services;
 
@@ -22,7 +22,7 @@ public class GpxInfoController : BaseApiController
     }
 
     [HttpGet("{trailId}")] // Changed from "gpx-info/{guid}"
-    public async Task<ActionResult<TrailGpxInfoDto>> GetGpxInfo(Guid trailId)
+    public async Task<ActionResult<GpxInfoDto>> GetGpxInfo(Guid trailId)
     {
         try
         {
@@ -37,7 +37,7 @@ public class GpxInfoController : BaseApiController
     
     
     [HttpPut("{trailId:guid}")]
-    public async Task<ActionResult> UpdateTrailGpxInfo(Guid trailId, TrailGpxInfoDto gpxInfo)
+    public async Task<ActionResult> UpdateTrailGpxInfo(Guid trailId, GpxInfoDto gpxInfo)
     {
         try
         {

@@ -21,26 +21,28 @@ async function updateTrailsGpxInfo() {
 
             try {
                 // Get GPX info for the trail
-                const gpxInfoResponse = await axios.get(`${API_BASE_URL}/gpx-info/${trailId}`);
+                const gpxInfoResponse = await axios.get(`${API_BASE_URL}/trails/${trailId}/info`);
                 const gpxInfo = gpxInfoResponse.data;
 
                 // Sanitize numeric values before sending
                 const sanitizedGpxInfo = {
                     distanceMeters: sanitizeNumber(gpxInfo.distanceMeters),
                     elevationGainMeters: sanitizeNumber(gpxInfo.elevationGainMeters),
+                    difficultyLevel: gpxInfo.difficultyLevel,
                     startPoint: gpxInfo.startPoint,
                     endPoint: gpxInfo.endPoint,
                     routeGeom: gpxInfo.routeGeom
                 };
 
                 // Update the trail with the GPX info
-                await axios.put(`${API_BASE_URL}/gpx-info/${trailId}`, sanitizedGpxInfo);
+                await axios.put(`${API_BASE_URL}/trails/${trailId}/info`, sanitizedGpxInfo);
 
                 console.log(`Successfully updated GPX info for trail "${trailName}" (${trailId})`);
                 console.log({
                     name: trailName,
                     distance: sanitizedGpxInfo.distanceMeters,
                     elevation: sanitizedGpxInfo.elevationGainMeters,
+                    difficultyLevel: sanitizedGpxInfo.difficultyLevel,
                     hasRouteGeom: !!sanitizedGpxInfo.routeGeom,
                     startPoint: {
                         latitude: sanitizedGpxInfo.startPoint.latitude,
@@ -69,8 +71,10 @@ async function updateTrailsGpxInfo() {
 }
 
 function sanitizeNumber(value) {
-    const num = parseFloat(value);
-    return Number.isFinite(num) ? num : 0;
+    if (!Number.isFinite(value)) {
+        return 0; // or another appropriate default value
+    }
+    return value;
 }
 
 async function main() {

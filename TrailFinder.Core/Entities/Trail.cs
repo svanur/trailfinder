@@ -1,5 +1,4 @@
 using NetTopologySuite.Geometries;
-using TrailFinder.Core.DTOs;
 using TrailFinder.Core.Entities.Common;
 using TrailFinder.Core.Enums;
 
@@ -10,15 +9,14 @@ public class Trail : BaseEntity
     private static readonly GeometryFactory GeometryFactory = 
         new GeometryFactory(new PrecisionModel(), 4326);
     
-    public Guid? ParentId { get; private set; }
     public string Name { get; private set; } = null!;
     public string Slug { get; private set; } = null!;
     public string Description { get; private set; } = null!;
     public double DistanceMeters { get; set; }
     public double ElevationGainMeters { get; set; }
-    //public DifficultyLevel? DifficultyLevel { get; set; }
-    //public RouteType? RouteType { get; set; }
-    //public TerrainType? TerrainType { get; set; }
+    public DifficultyLevel? DifficultyLevel { get; set; }
+    public RouteType? RouteType { get; set; }
+    public TerrainType? TerrainType { get; set; }
     public Point? StartPoint { get; set; } = null!;
     public Point? EndPoint { get; set; } = null!;
     public LineString? RouteGeom { get; set; }
@@ -28,12 +26,13 @@ public class Trail : BaseEntity
     private Trail() { } // For EF Core
 
     public Trail(
-        Guid parentId,
         string name,
         string description,
         double distanceMeters,
         double elevationGainMeters,
-        //DifficultyLevel difficultyLevel,
+        DifficultyLevel difficultyLevel,
+        RouteType routeType,
+        TerrainType terrainType,
         double startPointLatitude,
         double startPointLongitude,
         double endPointLatitude,
@@ -47,10 +46,12 @@ public class Trail : BaseEntity
         Description = description;
         DistanceMeters = distanceMeters;
         ElevationGainMeters = elevationGainMeters;
-        //DifficultyLevel = difficultyLevel;
-        StartPoint = GeometryFactory.CreatePoint(new Coordinate(startPointLongitude, startPointLatitude));
-        EndPoint = GeometryFactory.CreatePoint(new Coordinate(endPointLongitude, endPointLatitude));
-        ParentId = parentId;
+        DifficultyLevel = difficultyLevel;
+        RouteType = routeType;
+        TerrainType = terrainType;
+        StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0));
+        EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
+        
         UserId = userId;
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
@@ -69,7 +70,9 @@ public class Trail : BaseEntity
         string description,
         double distanceMeters,
         double elevationGainMeters,
-        //DifficultyLevel difficultyLevel,
+        DifficultyLevel difficultyLevel,
+        RouteType routeType,
+        TerrainType terrainType,
         double startPointLatitude,
         double startPointLongitude,
         double endPointLatitude,
@@ -81,16 +84,18 @@ public class Trail : BaseEntity
         Description = description;
         DistanceMeters = distanceMeters;
         ElevationGainMeters = elevationGainMeters;
-        //DifficultyLevel = difficultyLevel;
-        StartPoint = GeometryFactory.CreatePoint(new Coordinate(startPointLongitude, startPointLatitude));
-        EndPoint = GeometryFactory.CreatePoint(new Coordinate(endPointLongitude, endPointLatitude));
+        DifficultyLevel = difficultyLevel;
+        RouteType = routeType;
+        TerrainType = terrainType;
+        StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0)); // Add elevation as Z
+        EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void UpdateRouteGeometry(IEnumerable<(double Latitude, double Longitude)> coordinates)
+    public void UpdateRouteGeometry(IEnumerable<(double Latitude, double Longitude, double? Elevation)> coordinates)
     {
         var routeCoordinates = coordinates
-            .Select(c => new Coordinate(c.Longitude, c.Latitude))
+            .Select(c => new CoordinateZ(c.Longitude, c.Latitude, c.Elevation ?? 0))
             .ToArray();
 
         RouteGeom = GeometryFactory.CreateLineString(routeCoordinates);
@@ -135,8 +140,8 @@ public class Trail : BaseEntity
 
     public double GetDistanceFromPoint(double latitude, double longitude)
     {
-        var point = GeometryFactory.CreatePoint(new Coordinate(longitude, latitude));
-        return StartPoint.Distance(point);
+        var point = GeometryFactory.CreatePoint(new CoordinateZ(longitude, latitude, 0));
+        return StartPoint?.Distance(point) ?? 0;
     }
 
     public bool IsPointNearTrail(double latitude, double longitude, double toleranceMeters)
@@ -144,7 +149,7 @@ public class Trail : BaseEntity
         if (RouteGeom == null)
             return false;
 
-        var point = GeometryFactory.CreatePoint(new Coordinate(longitude, latitude));
+        var point = GeometryFactory.CreatePoint(new CoordinateZ(longitude, latitude, 0));
         return RouteGeom.Distance(point) <= toleranceMeters;
     }
 }

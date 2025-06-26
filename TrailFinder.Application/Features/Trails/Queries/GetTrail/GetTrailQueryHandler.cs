@@ -2,7 +2,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TrailFinder.Contract.Persistence;
-using TrailFinder.Core.DTOs.Trails;
+using TrailFinder.Core.DTOs.Trails.Responses;
 using TrailFinder.Core.Exceptions;
 
 namespace TrailFinder.Application.Features.Trails.Queries.GetTrail;

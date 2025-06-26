@@ -1,15 +1,16 @@
 using NetTopologySuite.Geometries;
 using TrailFinder.Core.Enums;
 
-namespace TrailFinder.Core.DTOs.Gpx;
+namespace TrailFinder.Core.DTOs.Gpx.Responses;
 
-public record TrailGpxInfoDto(
+public record GpxInfoDto(
     double DistanceMeters,
     double ElevationGainMeters,
-    //DifficultyLevel DifficultyLevel,
-    //RouteType RouteType,
-    //TerrainType TerrainType,
+    DifficultyLevel DifficultyLevel,
+    RouteType RouteType,
+    TerrainType TerrainType,
     GpxPoint StartPoint,
     GpxPoint EndPoint,
     LineString RouteGeom
 );
+

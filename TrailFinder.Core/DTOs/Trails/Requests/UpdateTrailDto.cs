@@ -1,6 +1,6 @@
 using TrailFinder.Core.Enums;
 
-namespace TrailFinder.Core.DTOs.Trails;
+namespace TrailFinder.Core.DTOs.Trails.Requests;
 
 public record UpdateTrailDto(
     string Name,

@@ -20,12 +20,40 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Configure PostgreSQL enums
+        // Register the enum type
         //modelBuilder.HasPostgresEnum<DifficultyLevel>("difficulty_level");
-        //modelBuilder.HasPostgresEnum<RouteType>("route_type");
-        //modelBuilder.HasPostgresEnum<TerrainType>("terrain_type");
+        modelBuilder.HasPostgresEnum<DifficultyLevel>();
 
-        // Apply entity configurations
+
+        /*
+        var difficultyLevelConverter = new ValueConverter<DifficultyLevel, DifficultyLevel>(
+            v => v,
+            v => v
+        );
+
+        // And for nullable DifficultyLevel
+        var nullableDifficultyLevelConverter = new ValueConverter<DifficultyLevel?, DifficultyLevel?>(
+            v => v,
+            v => v
+        );
+        
+        // Apply the converters globally
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            var properties = entityType.GetProperties()
+                .Where(p => p.ClrType == typeof(DifficultyLevel) || p.ClrType == typeof(DifficultyLevel?));
+
+            foreach (var property in properties)
+                property.SetValueConverter(
+                    property.ClrType == typeof(DifficultyLevel)
+                        ? difficultyLevelConverter
+                        : nullableDifficultyLevelConverter
+                );
+        }
+        */
+
+        // Apply configuration
+        //modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         modelBuilder.ApplyConfiguration(new TrailConfiguration());
     }
 }

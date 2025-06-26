@@ -1,81 +1,46 @@
-@TrailFinder.Api_HostAddress = http://localhost:5263
+## Select environment via: Run with: [dev|...]
+## See: TrailFinder.Api/http-client.env.json 
 
 ### Get all trails
-GET http://localhost:5263/api/trails
+GET {{hostAddress}}/api/trails
 Accept: application/json
 
 ### Get a specific trail by id
-GET http://localhost:5263/api/trails/7686acf1-d444-493a-931d-0c88b1a2a52b
+GET {{hostAddress}}/api/trails/{{trailId}}
 Accept: application/json
+
+### Get GpxInfo for specific trail
+GET {{hostAddress}}/api/trails/{{trailId}}/info
+Accept: application/json
+
 
 ### Get a specific trail by slug
-GET http://localhost:5263/api/trails/esja-ultra-marathon
-Accept: application/json
-
-### Get trails by parent ID
-GET http://localhost:5263/api/trails?parentId=ebd33dec-f644-4783-8f9c-daa69f98bb15
+GET {{hostAddress}}/api/trails/esja-ultra-marathon
 Accept: application/json
 
 ### When trail/s do not exist
 
-### id does not exist
-GET http://localhost:5263/api/trails/72aed933-26b2-4d46-94ef-871000c4db71
+### Guid does not exist
+GET {{hostAddress}}/api/trails/1.2.3.4
 Accept: application/json
 
 ### slug does not exist
-GET http://localhost:5263/api/trails/slug-does-not-exist
+GET {{hostAddress}}/api/trails/slug-does-not-exist
 Accept: application/json
 
-### parent id does not exist
-GET http://localhost:5263/api/trails?parentId=b61ad213-e2db-4d13-a366-66fba19c4999
-Accept: application/json
-
-### parent id is missing, this will get all trails (cause parentId is null)
-GET http://localhost:5263/api/trails?parentId=
-Accept: application/json
-
-
-### When error occur
-
-### guid is not the right length
-GET http://localhost:5263/api/trails/b-6-1-a-d
-Accept: application/json
-
-
-### guid is not the right length
-GET http://localhost:5263/api/trails?parentId=a366-66fba19c4240
-Accept: application/json
-
-
-### GPX INFO
-
-### Get GpxInfo for specific trail
-GET http://localhost:5263/api/gpx-info/099b9626-914b-4b13-9ff2-3f31032732ba
-Accept: application/json
-
-### Update trail GPX info
-PUT http://localhost:5263/api/gpx-info/63e9220f-4558-4f7a-9338-0febeb7eb3d2
+### Update trail info by id
+PUT {{hostAddress}}/api/trails/{{trailId}}/info
 Content-Type: application/json
 
 {
   "distanceMeters": 15500.50,
   "elevationGainMeters": 850.0,
-  "startPoint": {
-    "latitude": 64.1355,
-    "longitude": -21.8954,
-    "elevation": 100
-  },
-  "endPoint": {
-    "latitude": 64.1355,
-    "longitude": -21.8954,
-    "elevation": 300
-  },
-  "routeGeom": {
-    "type": "LineString",
-    "coordinates": [
-      [-21.8954, 64.1355, 100],
-      [-21.8957, 64.1358, 200],
-      [-21.8960, 64.1360, 300]
-    ]
-  }
+  "difficultyLevel": "extreme"
 }
+
+
+### When validation error occur
+
+### guid is not the right length
+GET {{hostAddress}}/api/trails/366-66fba19c4240
+Accept: application/json
