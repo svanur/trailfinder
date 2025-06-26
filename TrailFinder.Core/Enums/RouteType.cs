@@ -5,14 +5,14 @@ namespace TrailFinder.Core.Enums;
 public enum RouteType
 {
     [PgName("circular")]
-    Circular,
+    Circular = 0,
     
     [PgName("out-and-back")]
-    OutAndBack,
+    OutAndBack = 1,
     
     [PgName("point-to-point")]
-    PointToPoint,
+    PointToPoint = 2,
     
     [PgName("unknown")]
-    Unknown
+    Unknown = 3
 }

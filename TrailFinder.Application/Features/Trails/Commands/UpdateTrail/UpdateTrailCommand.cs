@@ -10,6 +10,8 @@ public record UpdateTrailCommand(
     double? DistanceMeters,
     double? ElevationGainMeters,
     DifficultyLevel? DifficultyLevel,
+    RouteType? RouteType,
+    TerrainType? TerrainType,
     GpxPoint? StartPoint,
     GpxPoint? EndPoint,
     LineString? RouteGeom

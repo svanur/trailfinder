@@ -90,6 +90,9 @@ VALUES
           '14km keppnisleiðin í Hvítasunnuhlaupi Hauka',
           0,
           0,
+          'unknown',
+          'unknown',
+          'unknown',
           'https://connect.garmin.com/modern/course/60180128',
           false,
           'd0d8c29c-7456-4d82-a087-5a1256b092c9'

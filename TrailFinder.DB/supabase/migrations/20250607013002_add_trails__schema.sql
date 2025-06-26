@@ -25,8 +25,7 @@ CREATE TABLE trails (
                         start_point geometry(POINTZ, 4326),
                         end_point geometry(POINTZ, 4326),
                         web_url TEXT,
-                        has_gpx BOOLEAN
-,
+                        has_gpx BOOLEAN,
                         user_id UUID REFERENCES auth.users(id),
                         created_at TIMESTAMPTZ DEFAULT NOW(),
                         updated_at TIMESTAMPTZ DEFAULT NOW()

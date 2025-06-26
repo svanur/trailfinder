@@ -14,6 +14,8 @@ public static class NpgsqlTrailFinderExtensions
     
         // Map the enum with explicit name mapping
         dataSourceBuilder.MapEnum<DifficultyLevel>("difficulty_level", new NpgsqlNullNameTranslator());
+        dataSourceBuilder.MapEnum<RouteType>("route_type", new NpgsqlNullNameTranslator());
+        dataSourceBuilder.MapEnum<TerrainType>("terrain_type", new NpgsqlNullNameTranslator());
     
         // Configure NetTopologySuite for geometry support
         dataSourceBuilder.UseNetTopologySuite();

@@ -23,6 +23,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         // Register the enum type
         //modelBuilder.HasPostgresEnum<DifficultyLevel>("difficulty_level");
         modelBuilder.HasPostgresEnum<DifficultyLevel>();
+        modelBuilder.HasPostgresEnum<RouteType>();
+        modelBuilder.HasPostgresEnum<TerrainType>();
 
 
         /*
