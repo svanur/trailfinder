@@ -16,7 +16,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     const location = useLocation();
 
     if (loading) {
-        return <div>Hleður...</div>;
+        return <div>Allt að koma...</div>;
     }
 
     if (!user) {

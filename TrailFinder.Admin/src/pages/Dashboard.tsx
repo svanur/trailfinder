@@ -14,9 +14,9 @@ interface Trail {
   name: string;
   distance_meters: number;
   elevation_gain_meters: number;
-  difficulty: 'easy' | 'moderate' | 'hard';
+  difficulty_level: 'easy' | 'moderate' | 'hard';
   created_at: string;
-  geometry: any;
+  route_geom: any;
 }
 
 interface TrailStyle {
@@ -26,6 +26,10 @@ interface TrailStyle {
 }
 
 export function Dashboard() {
+  
+  //
+  // Hlaupaleiðir og notendur
+  //
   const { data: stats, isLoading: statsLoading } = useQuery({
     queryKey: ['dashboard-stats'],
     queryFn: async () => {
@@ -33,8 +37,7 @@ export function Dashboard() {
         supabase.from('trails').select('count'),
         supabase.from('users').select('count')
       ]);
-
-
+      
       return {
         trailCount: trails.count || 0,
         userCount: users.count || 0
@@ -42,8 +45,10 @@ export function Dashboard() {
     }
   });
 
-
-  const { data: recentTrails, isLoading: trailsLoading } = useQuery({
+  //
+  // Nýjustu hlaupaleiðir
+  //
+  const { data: recentTrails, isLoading: recentTrailsLoading } = useQuery({
     queryKey: ['recent-trails'],
     queryFn: async () => {
       const { data } = await supabase
@@ -54,33 +59,38 @@ export function Dashboard() {
       return data as Trail[];
     }
   });
-
+  
+  //
+  // Kort með yfirlit af hlaupaleiðum
+  //
   const { data: allTrails, isLoading: allTrailsLoading } = useQuery({
     queryKey: ['all-trails-map'],
     queryFn: async () => {
       const { data } = await supabase
           .from('trails')
-          .select('id, name, geometry, difficulty');
+          .select('id, name, route_geom, difficulty_level');
       return data as Trail[];
     }
   });
-
-  if (statsLoading || trailsLoading || allTrailsLoading) {
-    return <Text>Hleður gögnum...</Text>;
+  
+  if (statsLoading || recentTrailsLoading || allTrailsLoading) {
+    return <Text>Allt að koma...</Text>;
   }
-
-  const getDifficultyColor = (difficulty: string) => {
-    switch(difficulty) {
+  
+  const getDifficultyColor = (difficulty_level: string) => {
+    switch(difficulty_level) {
+      case 'unknown': return 'gray';
       case 'easy': return 'green';
       case 'moderate': return 'yellow';
-      case 'hard': return 'red';
+      case 'hard': return 'orange';
+      case 'extreme': return 'red';
       default: return 'gray';
-    }
+    } 
   };
 
-  const getTrailStyle = (difficulty: string): TrailStyle => ({
-    color: difficulty === 'easy' ? '#2ecc71' :
-        difficulty === 'moderate' ? '#f1c40f' : '#e74c3c',
+  const getTrailStyle = (difficulty_level: string): TrailStyle => ({
+    color: difficulty_level === 'easy' ? '#2ecc71' :
+        difficulty_level === 'moderate' ? '#f1c40f' : '#e74c3c',
     weight: 3,
     opacity: 0.7
   });
@@ -90,8 +100,8 @@ export function Dashboard() {
       layer.bindPopup(`
                 <strong>${_feature.properties.name}</strong><br>
                 Erfiðleikastig: ${
-          _feature.properties.difficulty === 'easy' ? 'Létt' :
-              _feature.properties.difficulty === 'moderate' ? 'Miðlungs' : 'Erfið'
+          _feature.properties.difficulty_level === 'easy' ? 'Létt' :
+              _feature.properties.difficulty_level === 'moderate' ? 'Miðlungs' : 'Erfið'
       }
             `);
     }
@@ -128,31 +138,7 @@ export function Dashboard() {
           </Grid.Col>
         </Grid>
 
-
-        <Card withBorder>
-          <Text fw={600} mb="md">Yfirlit yfir hlaupaleiðir</Text>
-          <div style={{ height: '400px', width: '100%' }}>
-            <MapContainer
-                center={[64.9631, -19.0208]}
-                zoom={6}
-                style={{ height: '100%', width: '100%' }}
-            >
-              <TileLayer
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              {allTrails?.map((trail) => (
-                  <GeoJSON
-                      key={trail.id}
-                      data={trail.geometry}
-                      pathOptions={getTrailStyle(trail.difficulty)}
-                      onEachFeature={onEachFeature}
-                  />
-              ))}
-            </MapContainer>
-          </div>
-        </Card>
-
+        
         <Card withBorder>
           <Text fw={600} mb="md">Nýjustu hlaupaleiðir</Text>
           <Table>
@@ -171,9 +157,8 @@ export function Dashboard() {
                     <Table.Td>{trail.distance_meters} km</Table.Td>
                     <Table.Td>{trail.elevation_gain_meters}m</Table.Td>
                     <Table.Td>
-                      <Badge color={getDifficultyColor(trail.difficulty)}>
-                        {trail.difficulty === 'easy' ? 'Létt' :
-                            trail.difficulty === 'moderate' ? 'Miðlungs' : 'Erfið'}
+                      <Badge color={getDifficultyColor(trail.difficulty_level)}>
+                        {trail.difficulty_level}
                       </Badge>
                     </Table.Td>
                   </Table.Tr>
@@ -181,6 +166,32 @@ export function Dashboard() {
             </Table.Tbody>
           </Table>
         </Card>
+
+
+        <Card withBorder>
+          <Text fw={600} mb="md">Yfirlit yfir hlaupaleiðir</Text>
+          <div style={{ height: '400px', width: '100%' }}>
+            <MapContainer
+                center={[64.9631, -19.0208]}
+                zoom={6}
+                style={{ height: '100%', width: '100%' }}
+            >
+              <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              {allTrails?.map((trail) => (
+                  <GeoJSON
+                      key={trail.id}
+                      data={trail.route_geom}
+                      pathOptions={getTrailStyle(trail.difficulty_level)}
+                      onEachFeature={onEachFeature}
+                  />
+              ))}
+            </MapContainer>
+          </div>
+        </Card>
+  
       </Stack>
   );
 }
