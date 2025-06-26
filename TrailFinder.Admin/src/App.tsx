@@ -8,6 +8,7 @@ import { Trails } from './pages/Trails';
 import { Users } from './pages/Users';
 import { Login } from './pages/Login';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@mantine/core/styles.css';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -24,6 +25,8 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
     return children;
 }
+
+const queryClient = new QueryClient();
 
 function AppLayout() {
     return (
@@ -54,6 +57,7 @@ function AppLayout() {
 
 function App() {
     return (
+        <QueryClientProvider client={queryClient}>
         <AuthProvider>
             <BrowserRouter>
                 <MantineProvider>
@@ -71,6 +75,7 @@ function App() {
                 </MantineProvider>
             </BrowserRouter>
         </AuthProvider>
+        </QueryClientProvider>
     );
 }
 
