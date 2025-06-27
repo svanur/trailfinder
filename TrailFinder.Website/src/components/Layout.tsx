@@ -1,21 +1,21 @@
-// src/components/Layout.tsx
-import { AppShell } from '@mantine/core';
-import { Outlet } from 'react-router-dom';
-import { Navbar } from './Navbar';
+// components/Layout.tsx
+import { AppShell, Group, Title } from '@mantine/core';
+import { AppRoutes } from '../AppRoutes';
 
 export function Layout() {
     return (
         <AppShell
             header={{ height: 60 }}
-            navbar={{ width: 300, breakpoint: 'sm' }}
             padding="md"
         >
             <AppShell.Header>
-                <Navbar />
+                <Group h="100%" px="md">
+                    <Title order={1} size="h3">TrailFinder</Title>
+                </Group>
             </AppShell.Header>
 
             <AppShell.Main>
-                <Outlet />
+                <AppRoutes />
             </AppShell.Main>
         </AppShell>
     );
