@@ -35,5 +35,5 @@ supabase db reset
 - Never modify existing migrations
 - Always create new migrations for changes
 - Test migrations in a development environment first
-- Keep up.sql and down.sql in sync - every change in up.sql should have a corresponding rollback in down.sql
+
 
