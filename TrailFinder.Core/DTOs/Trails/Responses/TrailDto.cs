@@ -16,7 +16,7 @@ public class TrailDto
     public double Distance { get; set; }
     
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
-    public double ElevationGainMeters { get; set; }
+    public double ElevationGain { get; set; }
     
     public DifficultyLevel? DifficultyLevel { get; set; }
     
@@ -48,7 +48,7 @@ public class TrailDto
         string slug,
         string description,
         double distance,
-        double elevationGainMeters,
+        double elevationGain,
         DifficultyLevel? difficultyLevel,
         double? startPointLatitude,
         double? startPointLongitude,
@@ -67,7 +67,7 @@ public class TrailDto
         Slug = slug;
         Description = description;
         Distance = distance;
-        ElevationGainMeters = elevationGainMeters;
+        ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
         StartPointLatitude = startPointLatitude;
         StartPointLongitude = startPointLongitude;

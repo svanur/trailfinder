@@ -41,7 +41,7 @@ const TrailStats: React.FC<TrailStatsProps> = ({ trail }) => (
                     d="M5 10l7-7m0 0l7 7m-7-7v18"
                 />
             </svg>
-            {formatDistance(trail.elevationGainMeters, DistanceUnit.Meters)} hækkun
+            {formatDistance(trail.elevationGain, DistanceUnit.Meters)} hækkun
         </span>
         <span className="flex items-center">
             <svg
