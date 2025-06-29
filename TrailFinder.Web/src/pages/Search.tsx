@@ -50,8 +50,8 @@ const Search: React.FC = () => {
             );
 
             const matchesElevation = (
-                (!filters.minElevation || trail.elevation_gain_meters >= parseFloat(filters.minElevation)) &&
-                (!filters.maxElevation || trail.elevation_gain_meters <= parseFloat(filters.maxElevation))
+                (!filters.minElevation || trail.elevation_gain >= parseFloat(filters.minElevation)) &&
+                (!filters.maxElevation || trail.elevation_gain <= parseFloat(filters.maxElevation))
             );
 
             return matchesSearch && matchesDistance && matchesElevation;
