@@ -17,7 +17,7 @@ public class CreateTrailCommandValidator : AbstractValidator<CreateTrailCommand>
             .MaximumLength(2000)
             .WithMessage("Description must not be empty and cannot exceed 2000 characters");
 
-        RuleFor(x => x.DistanceMeters)
+        RuleFor(x => x.Distance)
             .GreaterThan(0)
             .WithMessage("Distance must be greater than 0 meters");
 
