@@ -40,8 +40,8 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .IsRequired();
             
         // Numeric properties
-        builder.Property(t => t.DistanceMeters)
-            .HasColumnName("distance_meters")
+        builder.Property(t => t.Distance)
+            .HasColumnName("distance")
             .HasColumnType("decimal(10,2)")
             .IsRequired();
         

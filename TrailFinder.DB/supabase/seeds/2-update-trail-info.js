@@ -26,7 +26,7 @@ async function updateTrailsGpxInfo() {
 
                 // Sanitize numeric values before sending
                 const sanitizedGpxInfo = {
-                    distanceMeters: sanitizeNumber(gpxInfo.distanceMeters),
+                    distance: sanitizeNumber(gpxInfo.distance),
                     elevationGainMeters: sanitizeNumber(gpxInfo.elevationGainMeters),
                     difficultyLevel: gpxInfo.difficultyLevel,
                     startPoint: gpxInfo.startPoint,
@@ -40,7 +40,7 @@ async function updateTrailsGpxInfo() {
                 console.log(`Successfully updated GPX info for trail "${trailName}" (${trailId})`);
                 console.log({
                     name: trailName,
-                    distance: sanitizedGpxInfo.distanceMeters,
+                    distance: sanitizedGpxInfo.distance,
                     elevation: sanitizedGpxInfo.elevationGainMeters,
                     difficultyLevel: sanitizedGpxInfo.difficultyLevel,
                     hasRouteGeom: !!sanitizedGpxInfo.routeGeom

@@ -10,7 +10,7 @@ CREATE TABLE trails (
                         name VARCHAR(255) NOT NULL,
                         slug VARCHAR(255) NOT NULL UNIQUE,
                         description TEXT,
-                        distance_meters NUMERIC(10,2),
+                        distance NUMERIC(10,2),
                         elevation_gain_meters INTEGER,
                         difficulty_level difficulty_level,
                         route_geom geometry(LINESTRINGZ, 4326),
