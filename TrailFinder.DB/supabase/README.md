@@ -16,7 +16,7 @@ Where:
 
 ## Examples:
 
-### Create new migration
+### Create a new migration
 
 ```
 supabase migration new feature_name
