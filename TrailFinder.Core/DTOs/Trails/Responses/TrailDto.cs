@@ -48,7 +48,7 @@ public class TrailDto
         string slug,
         string description,
         double distance,
-        double elevationGainMeters,
+        double elevationGain,
         DifficultyLevel? difficultyLevel,
         double? startPointLatitude,
         double? startPointLongitude,
@@ -67,7 +67,7 @@ public class TrailDto
         Slug = slug;
         Description = description;
         Distance = distance;
-        ElevationGainMeters = elevationGainMeters;
+        ElevationGainMeters = elevationGain;
         DifficultyLevel = difficultyLevel;
         StartPointLatitude = startPointLatitude;
         StartPointLongitude = startPointLongitude;
