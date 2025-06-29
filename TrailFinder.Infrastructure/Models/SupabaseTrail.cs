@@ -21,7 +21,7 @@ public class SupabaseTrail : BaseModel
     public decimal Distance { get; set; }
     
     [Column("elevation_gain")]
-    public double ElevationGainMeters { get; set; }
+    public double ElevationGain { get; set; }
     
     [Column("difficulty_level")]
     public DifficultyLevel? DifficultyLevel { get; set; }

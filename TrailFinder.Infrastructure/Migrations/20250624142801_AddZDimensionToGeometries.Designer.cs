@@ -54,7 +54,7 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("distance");
 
-                    b.Property<double>("ElevationGainMeters")
+                    b.Property<double>("ElevationGain")
                         .HasColumnType("double precision")
                         .HasColumnName("elevation_gain");
 

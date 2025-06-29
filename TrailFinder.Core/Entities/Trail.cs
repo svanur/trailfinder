@@ -16,7 +16,7 @@ public class Trail : BaseEntity
     public string Description { get; private set; } = null!;
     public double Distance { get; set; }
     
-    public double ElevationGainMeters { get; set; }
+    public double ElevationGain { get; set; }
     
     public DifficultyLevel? DifficultyLevel { get; set; }
     
@@ -46,7 +46,7 @@ public class Trail : BaseEntity
         Slug = GenerateSlug(name);
         Description = description;
         Distance = distance;
-        ElevationGainMeters = elevationGain;
+        ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
         StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0));
         EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
@@ -80,7 +80,7 @@ public class Trail : BaseEntity
         Slug = GenerateSlug(name);
         Description = description;
         Distance = distance;
-        ElevationGainMeters = elevationGain;
+        ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
         StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0)); // Add elevation as Z
         EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
