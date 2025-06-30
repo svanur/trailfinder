@@ -17,9 +17,12 @@ export interface Trail {
     name: string;
     slug: string;
     description: string;
+    routeType: string;
+    terrainType: string;
+    location: string;
     distance: number;
     elevationGainMeters: number;
-    difficultyLevel: DifficultyLevel | null;
+    difficultyLevel: DifficultyLevel;
     startPointLatitude: number;
     startPointLongitude: number;
     endPointLatitude: number;

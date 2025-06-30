@@ -1,45 +1,111 @@
 // components/TrailList.tsx
-import { Card, Text, Group, Stack, Badge } from '@mantine/core';
+import { 
+    Card, 
+    Group, 
+    Stack, 
+    Text, 
+    Badge, 
+    SimpleGrid 
+} from '@mantine/core';
 
-interface Trail {
-    id: string;
-    name: string;
-    distance: number;
-    elevation: number;
-    surface: string;
-    region: string;
-}
+import {
+    IconRuler,
+    IconArrowUpRight,
+    IconMap,
+    IconRoute,
+    IconMountain
+} from '@tabler/icons-react';
+//import {DifficultyLevel} from "@trailfinder/db-types/database";
+import { useTrails } from '../hooks/useTrails';
+
+const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty.toLowerCase()) {
+        case 'easy':
+            return 'green';
+        case 'moderate':
+            return 'yellow';
+        case 'hard':
+            return 'orange';
+        case 'extreme':
+            return 'red';
+        default:
+            return 'gray';
+    }
+};
+
+const formatDistance = (distance: number) => {
+    return `${distance.toFixed(1)} km`;
+};
+
+const formatElevation = (elevation: number) => {
+    return `${elevation.toFixed(0)} m`;
+};
 
 export function TrailList() {
-    // Sýnidæmi um gögn - seinna meir muntu sækja þetta frá API
-    const trails: Trail[] = [
-        {
-            id: '1',
-            name: 'Úlfarsfell',
-            distance: 5.2,
-            elevation: 296,
-            surface: 'Stígur',
-            region: 'Höfuðborgarsvæðið'
-        },
-        // Fleiri leiðir hér...
-    ];
+    const { data: trails, isLoading, error } = useTrails();
+
+    if (isLoading) {
+        return <Text>Hleð inn hlaupaleiðum...</Text>;
+    }
+
+    if (error) {
+        return <Text color="red">Villa kom upp við að sækja hlaupaleiðir</Text>;
+    }
+
+    if (!trails?.length) {
+        return <Text>Engar hlaupaleiðir fundust</Text>;
+    }
 
     return (
-        <Stack>
+        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
             {trails.map((trail) => (
                 <Card key={trail.id} shadow="sm" padding="lg" radius="md" withBorder>
-                    <Group justify="space-between" mb="xs">
+                    <Stack gap="xs">
                         <Text fw={500} size="lg">{trail.name}</Text>
-                        <Badge>{trail.region}</Badge>
-                    </Group>
 
-                    <Group>
-                        <Text size="sm">Vegalengd: {trail.distance} km</Text>
-                        <Text size="sm">Hækkun: {trail.elevation} m</Text>
-                        <Text size="sm">Undirlag: {trail.surface}</Text>
-                    </Group>
+                        <Group gap="xs">
+                            <Badge
+                                color={getDifficultyColor(trail.difficultyLevel.toString())}
+                                leftSection={<IconMountain size={12} />}
+                            >
+                                {trail.difficultyLevel}
+                            </Badge>
+                            <Badge
+                                variant="outline"
+                                leftSection={<IconRoute size={12} />}
+                            >
+                                {trail.routeType}
+                            </Badge>
+                            <Badge
+                                variant="outline"
+                                leftSection={<IconMap size={12} />}
+                            >
+                                {trail.location}
+                            </Badge>
+                        </Group>
+
+                        <Group gap="lg">
+                            <Group gap="xs">
+                                <IconRuler size={16} style={{ opacity: 0.7 }} />
+                                <Text size="sm" c="dimmed">
+                                    {formatDistance(trail.distance)}
+                                </Text>
+                            </Group>
+
+                            <Group gap="xs">
+                                <IconArrowUpRight size={16} style={{ opacity: 0.7 }} />
+                                <Text size="sm" c="dimmed">
+                                    {formatElevation(trail.elevationGainMeters || 0)}
+                                </Text>
+                            </Group>
+
+                            <Badge variant="light">
+                                {trail.terrainType}
+                            </Badge>
+                        </Group>
+                    </Stack>
                 </Card>
             ))}
-        </Stack>
+        </SimpleGrid>
     );
 }
