@@ -1,13 +1,7 @@
 // App.tsx
-import { 
-    AppShell, 
-    Text, 
-    Container 
-} from '@mantine/core';
-import {SearchBar} from "./components/SearchBar.tsx";
-import { FilterSection } from './components/FilterSection.tsx';
-import {TrailList} from "./components/TrailList.tsx";
-
+import { AppShell, Text, Container } from '@mantine/core';
+import { TrailList } from './components/TrailList';
+import {SearchSection} from "./components/SearchSection.tsx";
 
 export function App() {
     return (
@@ -21,8 +15,7 @@ export function App() {
 
             <AppShell.Main>
                 <Container>
-                    <SearchBar />
-                    <FilterSection />
+                    <SearchSection />
                     <TrailList />
                 </Container>
             </AppShell.Main>
