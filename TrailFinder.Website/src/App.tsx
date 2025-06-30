@@ -1,23 +1,31 @@
 // App.tsx
-import { MantineProvider, createTheme } from '@mantine/core';
-import { BrowserRouter } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Layout } from './components/Layout';
+import { 
+    AppShell, 
+    Text, 
+    Container 
+} from '@mantine/core';
+import {SearchBar} from "./components/SearchBar.tsx";
+import { FilterSection } from './components/FilterSection.tsx';
+import {TrailList} from "./components/TrailList.tsx";
 
-const queryClient = new QueryClient();
-
-const theme = createTheme({
-    primaryColor: 'blue',
-});
 
 export function App() {
     return (
-        <QueryClientProvider client={queryClient}>
-            <BrowserRouter>
-                <MantineProvider theme={theme} defaultColorScheme="light">
-                    <Layout />
-                </MantineProvider>
-            </BrowserRouter>
-        </QueryClientProvider>
+        <AppShell
+            header={{ height: 60 }}
+            padding="md"
+        >
+            <AppShell.Header p="xs">
+                <Text size="xl" fw={700}>TrailFinder</Text>
+            </AppShell.Header>
+
+            <AppShell.Main>
+                <Container>
+                    <SearchBar />
+                    <FilterSection />
+                    <TrailList />
+                </Container>
+            </AppShell.Main>
+        </AppShell>
     );
 }
