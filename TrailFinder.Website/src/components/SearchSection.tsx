@@ -21,28 +21,43 @@ import {
     IconArrowForward,
     IconBabyCarriage,
     IconWalk,
-    IconRun
+    IconRun,
+    IconMap,
+    IconMapPin,
+    IconMapPins,
+    IconCompass
 } from '@tabler/icons-react';
 import { useState } from 'react';
 
 const difficultyData = [
-    { value: 'easy', label: 'Auðvelt', icon: <IconBabyCarriage size={16} /> },
-    { value: 'moderate', label: 'Miðlungs', icon: <IconWalk size={16} /> },
-    { value: 'hard', label: 'Erfitt', icon: <IconRun size={16} /> },
-    { value: 'extreme', label: 'Mjög erfitt', icon: <IconMountain size={16} /> }
+    { value: 'easy', label: 'Auðvelt', icon: <IconBabyCarriage style={{ width: 16, height: 16 }} /> },
+    { value: 'moderate', label: 'Miðlungs', icon: <IconWalk style={{ width: 16, height: 16 }} /> },
+    { value: 'hard', label: 'Erfitt', icon: <IconRun style={{ width: 16, height: 16 }} /> },
+    { value: 'extreme', label: 'Mjög erfitt', icon: <IconMountain style={{ width: 16, height: 16 }} /> }
 ];
 
 const routeData = [
-    { value: 'circular', label: 'Hringleið', icon: <IconCircle size={16} /> },
-    { value: 'out-and-back', label: 'Fram og til baka', icon: <IconArrowBack size={16} /> },
-    { value: 'point-to-point', label: 'Punkt í punkt', icon: <IconArrowForward size={16} /> }
+    { value: 'circular', label: 'Hringleið', icon: <IconCircle style={{ width: 16, height: 16 }} /> },
+    { value: 'out-and-back', label: 'Fram og til baka', icon: <IconArrowBack style={{ width: 16, height: 16 }} /> },
+    { value: 'point-to-point', label: 'Punkt í punkt', icon: <IconArrowForward style={{ width: 16, height: 16 }} /> }
 ];
 
 const terrainData = [
-    { value: 'flat', label: 'Flatlendi', icon: <IconRipple size={16} /> },
-    { value: 'rolling', label: 'Öldótt', icon: <IconWaveSine size={16} /> },
-    { value: 'hilly', label: 'Hólótt', icon: <IconMountainOff size={16} /> },
-    { value: 'mountainous', label: 'Fjöllendi', icon: <IconMountain size={16} /> }
+    { value: 'flat', label: 'Flatlendi', icon: <IconRipple style={{ width: 16, height: 16 }} /> },
+    { value: 'rolling', label: 'Öldótt', icon: <IconWaveSine style={{ width: 16, height: 16 }} /> },
+    { value: 'hilly', label: 'Hólótt', icon: <IconMountainOff style={{ width: 16, height: 16 }} /> },
+    { value: 'mountainous', label: 'Fjöllendi', icon: <IconMountain style={{ width: 16, height: 16 }} /> }
+];
+
+const regionData = [
+    { value: 'hofudborgarsvaedi', label: 'Höfuðborgarsvæði', icon: <IconMapPin style={{ width: 16, height: 16 }} /> },
+    { value: 'sudurnes', label: 'Suðurnes', icon: <IconMap style={{ width: 16, height: 16 }} /> },
+    { value: 'vesturland', label: 'Vesturland', icon: <IconMapPins style={{ width: 16, height: 16 }} /> },
+    { value: 'vestfirdir', label: 'Vestfirðir', icon: <IconCompass style={{ width: 16, height: 16 }} /> },
+    { value: 'nordurland-vestra', label: 'Norðurland vestra', icon: <IconMap style={{ width: 16, height: 16 }} /> },
+    { value: 'nordurland-eystra', label: 'Norðurland eystra', icon: <IconMapPins style={{ width: 16, height: 16 }} /> },
+    { value: 'austurland', label: 'Austurland', icon: <IconCompass style={{ width: 16, height: 16 }} /> },
+    { value: 'sudurland', label: 'Suðurland', icon: <IconMapPin style={{ width: 16, height: 16 }} /> }
 ];
 
 export function SearchSection() {
@@ -74,7 +89,7 @@ export function SearchSection() {
             />
 
             <Collapse in={showFilters}>
-                <Stack gap="md">
+                <Stack gap="xl">
                     <div>
                         <Text size="sm" fw={500} mb={8}>Vegalengd (km)</Text>
                         <RangeSlider
@@ -87,6 +102,7 @@ export function SearchSection() {
                                 { value: 25, label: '25' },
                                 { value: 50, label: '50' }
                             ]}
+                            mb={10}
                         />
                     </div>
 
@@ -102,33 +118,30 @@ export function SearchSection() {
                                 { value: 1000, label: '1000' },
                                 { value: 2000, label: '2000' }
                             ]}
+                            mb={10}
                         />
                     </div>
 
                     <Group grow>
                         <MultiSelect
                             placeholder="Erfiðleikastig"
-                            data={difficultyData.map(item => ({
-                                value: item.value,
-                                label: item.label,
-                                leftSection: item.icon
-                            }))}
+                            data={difficultyData}
+                            comboboxProps={{ withinPortal: true }}
                         />
                         <MultiSelect
                             placeholder="Tegund leiðar"
-                            data={routeData.map(item => ({
-                                value: item.value,
-                                label: item.label,
-                                leftSection: item.icon
-                            }))}
+                            data={routeData}
+                            comboboxProps={{ withinPortal: true }}
                         />
                         <MultiSelect
                             placeholder="Undirlag"
-                            data={terrainData.map(item => ({
-                                value: item.value,
-                                label: item.label,
-                                leftSection: item.icon
-                            }))}
+                            data={terrainData}
+                            comboboxProps={{ withinPortal: true }}
+                        />
+                        <MultiSelect
+                            placeholder="Landshluti"
+                            data={regionData}
+                            comboboxProps={{ withinPortal: true }}
                         />
                     </Group>
                 </Stack>
