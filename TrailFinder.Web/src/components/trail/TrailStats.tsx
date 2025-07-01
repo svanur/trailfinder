@@ -87,13 +87,13 @@ const TrailStats: React.FC<TrailStatsProps> = ({ trail }) => {
             <StatItem
                 icon={<IconRuler className="w-5 h-5" />}
                 label="Vegalengd"
-                value={formatDistance(trail.distanceMeters)}
+                value={formatDistance(trail.distance)}
             />
 
             <StatItem
                 icon={<IconArrowMoveUp className="w-5 h-5" />}
                 label="Hækkun"
-                value={`${trail.elevationGainMeters.toFixed(0)} m`}
+                value={`${trail.elevationGain.toFixed(0)} m`}
             />
 
             <StatItem

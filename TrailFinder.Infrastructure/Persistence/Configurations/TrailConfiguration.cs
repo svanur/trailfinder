@@ -39,13 +39,13 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .IsRequired();
             
         // Numeric properties
-        builder.Property(t => t.DistanceMeters)
-            .HasColumnName("distance_meters")
+        builder.Property(t => t.Distance)
+            .HasColumnName("distance")
             .HasColumnType("decimal(10,2)")
             .IsRequired();
         
-        builder.Property(t => t.ElevationGainMeters)
-            .HasColumnName("elevation_gain_meters")
+        builder.Property(t => t.ElevationGain)
+            .HasColumnName("elevation_gain")
             .HasColumnType("double precision")  // PostgreSQL type for double
             .IsRequired();  // This is actually the default for non-nullable types
          

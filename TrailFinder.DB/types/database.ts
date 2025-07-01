@@ -17,8 +17,8 @@ export interface Trail {
     name: string;
     slug: string;
     description: string;
-    distanceMeters: number;
-    elevationGainMeters: number;
+    distance: number;
+    elevationGain: number;
     difficultyLevel: DifficultyLevel;
     routeType: RouteType;
     terrainType: TerrainType;
@@ -60,7 +60,7 @@ export interface CreateTrailDTO {
     name: string;
     slug: string;
     description: string;
-    distance_meters: number;
+    distance: number;
     elevation_gain_meters: number;
     difficulty_level?: string;
     route_geom: unknown;

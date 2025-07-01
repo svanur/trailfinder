@@ -33,8 +33,8 @@ PUT {{hostAddress}}/api/trails/{{trailId}}/info
 Content-Type: application/json
 
 {
-  "distanceMeters": 15500.50,
-  "elevationGainMeters": 850.0,
+  "distance": 15500.50,
+  "elevationGain": 850.0,
   "difficultyLevel": "extreme"
 }
 

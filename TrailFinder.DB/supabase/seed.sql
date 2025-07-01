@@ -9,16 +9,15 @@ INSERT INTO trails (
     name,
     slug,
     description,
-    distance_meters,
-    elevation_gain_meters,
+    distance,
+    elevation_gain,
     difficulty_level,
     route_type,
     terrain_type,
     web_url,
     has_gpx,
     user_id
-)
-VALUES
+) VALUES
       (
           'Mt Esja Ultra maraþon',
           'esja-ultra-marathon',

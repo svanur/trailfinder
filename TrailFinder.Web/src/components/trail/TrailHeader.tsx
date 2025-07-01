@@ -18,7 +18,6 @@ const TrailHeader: React.FC<TrailHeaderProps> = ({ trail }) => {
                     </div>
                     <TrailActions trail={trail} />
                 </div>
-
                 <TrailStats trail={trail} />
             </div>
         </div>

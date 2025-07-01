@@ -42,22 +42,22 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
 
         if (filter.MinDistance.HasValue)
         {
-            query = query.Where(t => t.DistanceMeters >= filter.MinDistance.Value);
+            query = query.Where(t => t.Distance >= filter.MinDistance.Value);
         }
         
         if (filter.MaxDistance.HasValue)
         {
-            query = query.Where(t => t.DistanceMeters <= filter.MaxDistance.Value);
+            query = query.Where(t => t.Distance <= filter.MaxDistance.Value);
         }
 
         if (filter.MinElevation.HasValue)
         {
-            query = query.Where(t => t.ElevationGainMeters >= filter.MinElevation.Value);
+            query = query.Where(t => t.ElevationGain >= filter.MinElevation.Value);
         }
 
         if (filter.MaxElevation.HasValue)
         {
-            query = query.Where(t => t.ElevationGainMeters <= filter.MaxElevation.Value);
+            query = query.Where(t => t.ElevationGain <= filter.MaxElevation.Value);
         }
 
         //if (filter.DifficultyLevel.HasValue)
@@ -75,14 +75,14 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
                 ? query.OrderByDescending(t => t.Name)
                 : query.OrderBy(t => t.Name),
             "distance" => filter.Descending
-                ? query.OrderByDescending(t => t.DistanceMeters)
-                : query.OrderBy(t => t.DistanceMeters),
+                ? query.OrderByDescending(t => t.Distance)
+                : query.OrderBy(t => t.Distance),
             "elevation" => filter.Descending
-                ? query.OrderByDescending(t => t.ElevationGainMeters)
-                : query.OrderBy(t => t.ElevationGainMeters),
-                //"difficulty" => filter.Descending
-                //? query.OrderByDescending(t => t.DifficultyLevel)
-            //: query.OrderBy(t => t.DifficultyLevel),
+                ? query.OrderByDescending(t => t.ElevationGain)
+                : query.OrderBy(t => t.ElevationGain),
+            "difficulty" => filter.Descending
+                ? query.OrderByDescending(t => t.DifficultyLevel)
+                : query.OrderBy(t => t.DifficultyLevel),
             "created" => filter.Descending
                 ? query.OrderByDescending(t => t.CreatedAt)
                 : query.OrderBy(t => t.CreatedAt),

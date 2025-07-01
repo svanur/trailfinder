@@ -4,8 +4,8 @@ using TrailFinder.Core.Enums;
 namespace TrailFinder.Core.DTOs.Gpx.Responses;
 
 public record GpxInfoDto(
-    double DistanceMeters,
-    double ElevationGainMeters,
+    double Distance,
+    double ElevationGain,
     DifficultyLevel DifficultyLevel,
     RouteType RouteType,
     TerrainType TerrainType,

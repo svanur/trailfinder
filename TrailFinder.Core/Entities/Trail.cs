@@ -1,4 +1,6 @@
 using NetTopologySuite.Geometries;
+using Supabase.Postgrest.Attributes;
+using TrailFinder.Core.DTOs;
 using TrailFinder.Core.Entities.Common;
 using TrailFinder.Core.Enums;
 
@@ -12,8 +14,8 @@ public class Trail : BaseEntity
     public string Name { get; private set; } = null!;
     public string Slug { get; private set; } = null!;
     public string Description { get; private set; } = null!;
-    public double DistanceMeters { get; set; }
-    public double ElevationGainMeters { get; set; }
+    public double Distance { get; set; }
+    public double ElevationGain { get; set; }
     public DifficultyLevel? DifficultyLevel { get; set; }
     public RouteType? RouteType { get; set; }
     public TerrainType? TerrainType { get; set; }
@@ -28,8 +30,8 @@ public class Trail : BaseEntity
     public Trail(
         string name,
         string description,
-        double distanceMeters,
-        double elevationGainMeters,
+        double distance,
+        double elevationGain,
         DifficultyLevel difficultyLevel,
         RouteType routeType,
         TerrainType terrainType,
@@ -44,8 +46,8 @@ public class Trail : BaseEntity
         Name = name;
         Slug = GenerateSlug(name);
         Description = description;
-        DistanceMeters = distanceMeters;
-        ElevationGainMeters = elevationGainMeters;
+        Distance = distance;
+        ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
         RouteType = routeType;
         TerrainType = terrainType;
@@ -68,8 +70,8 @@ public class Trail : BaseEntity
     public void Update(
         string name,
         string description,
-        double distanceMeters,
-        double elevationGainMeters,
+        double distance,
+        double elevationGain,
         DifficultyLevel difficultyLevel,
         RouteType routeType,
         TerrainType terrainType,
@@ -82,8 +84,8 @@ public class Trail : BaseEntity
         Name = name;
         Slug = GenerateSlug(name);
         Description = description;
-        DistanceMeters = distanceMeters;
-        ElevationGainMeters = elevationGainMeters;
+        Distance = distance;
+        ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
         RouteType = routeType;
         TerrainType = terrainType;

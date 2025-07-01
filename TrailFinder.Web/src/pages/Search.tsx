@@ -45,13 +45,13 @@ const Search: React.FC = () => {
                 trail.description.toLowerCase().includes(filters.searchTerm.toLowerCase());
 
             const matchesDistance = (
-                (!filters.minDistance || trail.distance_meters >= parseFloat(filters.minDistance)) &&
-                (!filters.maxDistance || trail.distance_meters <= parseFloat(filters.maxDistance))
+                (!filters.minDistance || trail.distance >= parseFloat(filters.minDistance)) &&
+                (!filters.maxDistance || trail.distance <= parseFloat(filters.maxDistance))
             );
 
             const matchesElevation = (
-                (!filters.minElevation || trail.elevation_gain_meters >= parseFloat(filters.minElevation)) &&
-                (!filters.maxElevation || trail.elevation_gain_meters <= parseFloat(filters.maxElevation))
+                (!filters.minElevation || trail.elevation_gain >= parseFloat(filters.minElevation)) &&
+                (!filters.maxElevation || trail.elevation_gain <= parseFloat(filters.maxElevation))
             );
 
             return matchesSearch && matchesDistance && matchesElevation;
