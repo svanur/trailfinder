@@ -1,13 +1,19 @@
 using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.Enums;
+using TrailFinder.Core.Interfaces.Repositories;
 
 namespace TrailFinder.Core.Services.TrailAnalysis;
 
-public static class RouteAnalyzer
+public class RouteAnalyzer: IAnalyzer<List<GpxPoint>, RouteType>
 {
     private const double CircularThresholdMeters = 50;  // Distance to consider start/end the same
     private const double OutAndBackSimilarityThreshold = 0.8;  // 80% of points should be similar
 
+    public RouteType Analyze(List<GpxPoint> item)
+    {
+        return DetermineRouteType(item);
+    }
+    
     public static RouteType DetermineRouteType(List<GpxPoint> points)
     {
         if (points.Count < 2)

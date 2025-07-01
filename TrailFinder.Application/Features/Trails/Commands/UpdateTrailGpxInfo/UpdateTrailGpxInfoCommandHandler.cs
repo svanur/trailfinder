@@ -30,10 +30,12 @@ public class UpdateTrailGpxInfoCommandHandler : IRequestHandler<UpdateTrailGpxIn
                 throw new TrailNotFoundException(request.TrailId);
             }
     
-            trail.Distance = request.Distance;
-            trail.ElevationGain = request.ElevationGain;
+            // trail.Distance = request.Distance;
+            // trail.ElevationGain = request.ElevationGain;
     
             // Create 3D points including elevation
+            
+            /*
             trail.StartPoint = GeometryFactory.CreatePoint(
                 new CoordinateZ(
                     request.StartPoint.Longitude, 
@@ -47,6 +49,7 @@ public class UpdateTrailGpxInfoCommandHandler : IRequestHandler<UpdateTrailGpxIn
                     request.EndPoint.Latitude, 
                     request.EndPoint.Elevation ?? 0
                 ));
+                */
 
             trail.RouteGeom = request.RouteGeom;
             trail.HasGpx = true;

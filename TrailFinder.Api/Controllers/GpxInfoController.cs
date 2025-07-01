@@ -43,13 +43,13 @@ public class GpxInfoController : BaseApiController
         {
             var command = new UpdateTrailGpxInfoCommand(
                 trailId,
-                gpxInfo.Distance,
-                gpxInfo.ElevationGain,
+                //gpxInfo.Distance,
+                // gpxInfo.ElevationGain,
                 gpxInfo.DifficultyLevel,
                 gpxInfo.RouteType,
                 gpxInfo.TerrainType,
-                gpxInfo.StartPoint,
-                gpxInfo.EndPoint,
+                // gpxInfo.StartPoint,
+                // gpxInfo.EndPoint,
                 gpxInfo.RouteGeom
             );
         
