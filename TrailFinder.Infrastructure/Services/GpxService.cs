@@ -2,8 +2,8 @@ using System.Xml.Linq;
 using NetTopologySuite.Geometries;
 using TrailFinder.Application.Services;
 using TrailFinder.Core.DTOs.Gpx;
-using TrailFinder.Infrastructure.Analyzers;
 using TrailFinder.Core.DTOs.Gpx.Responses;
+using TrailFinder.Core.Services.TrailAnalysis;
 
 namespace TrailFinder.Infrastructure.Services;
 
@@ -44,6 +44,8 @@ public class GpxService : IGpxService
                 .Cast<Coordinate>()
                 .ToArray();
 
+            //TODO: Hmm maybe change this design, favor DI over static classes?
+            // Maybe: IAnalyzer<T> with <R>analyze<T>
             var routeType = RouteAnalyzer.DetermineRouteType(points);
             var terrainType = TerrainAnalyzer.AnalyzeTerrain(totalDistance, elevationGain);
             var difficultyLevel = DifficultyAnalyzer.AnalyzeDifficulty(

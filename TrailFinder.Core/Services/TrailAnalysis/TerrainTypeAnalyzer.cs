@@ -1,8 +1,8 @@
 using TrailFinder.Core.Enums;
 
-namespace TrailFinder.Infrastructure.Analyzers;
+namespace TrailFinder.Core.Services.TrailAnalysis;
 
-public class TerrainAnalyzer
+public static class TerrainAnalyzer
 {
     // Thresholds for elevation gain per kilometer
     private const double FlatThreshold = 20;        // 20m per km
@@ -10,13 +10,13 @@ public class TerrainAnalyzer
     private const double HillyThreshold = 100;      // 100m per km
     // Above 100m/km = Mountainous
 
-    public static TerrainType AnalyzeTerrain(double totalDistance, double ElevationGain)
+    public static TerrainType AnalyzeTerrain(double totalDistance, double elevationGain)
     {
         // Convert to kilometers for easier threshold comparison
         var distanceKm = totalDistance / 1000;
         
         // Calculate elevation gain per kilometer
-        var gainPerKm = ElevationGain / distanceKm;
+        var gainPerKm = elevationGain / distanceKm;
 
         return gainPerKm switch
         {

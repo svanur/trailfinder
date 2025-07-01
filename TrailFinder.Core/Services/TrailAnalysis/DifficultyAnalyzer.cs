@@ -1,6 +1,6 @@
 using TrailFinder.Core.Enums;
 
-namespace TrailFinder.Infrastructure.Analyzers;
+namespace TrailFinder.Core.Services.TrailAnalysis;
 
 /// <summary>
 /// Provides methods to analyze the difficulty level of a trail
@@ -32,7 +32,7 @@ namespace TrailFinder.Infrastructure.Analyzers;
 ///     You can adjust the thresholds and scoring weights based on your specific needs or local terrain characteristics.
 /// 
 /// </remarks>
-public class DifficultyAnalyzer
+public static class DifficultyAnalyzer
 {
     private const int MaxScore = 100;
     
@@ -47,18 +47,18 @@ public class DifficultyAnalyzer
     private const double HighElevationGain = 1000;
 
     public static DifficultyLevel AnalyzeDifficulty(
-        double Distance,
-        double ElevationGain,
+        double distance,
+        double elevationGain,
         TerrainType terrainType,
         RouteType routeType)
     {
         var score = 0;
 
         // Distance Score (0-30 points)
-        score += CalculateDistanceScore(Distance);
+        score += CalculateDistanceScore(distance);
 
         // Elevation Score (0-30 points)
-        score += CalculateElevationScore(ElevationGain);
+        score += CalculateElevationScore(elevationGain);
 
         // Terrain Score (0-25 points)
         score += CalculateTerrainScore(terrainType);
@@ -117,9 +117,9 @@ public class DifficultyAnalyzer
         };
     }
 
-    private static int CalculateDistanceScore(double Distance)
+    private static int CalculateDistanceScore(double distance)
     {
-        return Distance switch
+        return distance switch
         {
             <= ShortDistance => 5,
             <= ModerateDistance => 15,
@@ -128,9 +128,9 @@ public class DifficultyAnalyzer
         };
     }
 
-    private static int CalculateElevationScore(double ElevationGain)
+    private static int CalculateElevationScore(double elevationGain)
     {
-        return ElevationGain switch
+        return elevationGain switch
         {
             <= LowElevationGain => 5,
             <= ModerateElevationGain => 15,
