@@ -10,7 +10,7 @@ INSERT INTO trails (
     slug,
     description,
     distance,
-    elevation_gain_meters,
+    elevation_gain,
     difficulty_Level,
     web_url,
     has_gpx,
