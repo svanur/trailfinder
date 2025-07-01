@@ -6,7 +6,7 @@ public record UpdateTrailDto(
     string Name,
     string Description,
     decimal Distance,
-    decimal ElevationGain,
+    decimal ElevationGainMeters,
     DifficultyLevel DifficultyLevel,
     double StartPoint,
     string? WebUrl,

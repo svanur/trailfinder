@@ -5,7 +5,7 @@ namespace TrailFinder.Core.DTOs.Gpx.Responses;
 
 public record GpxInfoDto(
     double Distance,
-    double ElevationGain,
+    double ElevationGainMeters,
     DifficultyLevel DifficultyLevel,
     GpxPoint StartPoint,
     GpxPoint EndPoint,
