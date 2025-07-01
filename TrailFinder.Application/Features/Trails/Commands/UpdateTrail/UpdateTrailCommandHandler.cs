@@ -54,6 +54,16 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
             trail.DifficultyLevel = request.DifficultyLevel.Value;
         }
 
+        if (request.RouteType.HasValue)
+        {
+            trail.RouteType = request.RouteType.Value;
+        }
+
+        if (request.TerrainType.HasValue)
+        {
+            trail.TerrainType = request.TerrainType.Value;
+        }
+
         // Update geometry points
         /*if (request.StartPoint.HasValue)
         {
