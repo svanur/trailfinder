@@ -38,7 +38,10 @@ public class TrailMappings : Profile
                 opt => opt.MapFrom(src =>
                     src.GetEndCoordinates() != null ? src.GetEndCoordinates()!.Value.Longitude ?? 0 : 0)
             )
-            ;
+            .ForMember(
+                dest => dest.Id,
+                opt => opt.MapFrom(src => src.Id.ToString())
+            );
 
         // List to PaginatedResult mapping
         CreateMap<List<Trail>, PaginatedResult<TrailDto>>()

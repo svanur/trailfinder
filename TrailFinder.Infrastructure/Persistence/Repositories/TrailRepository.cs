@@ -60,10 +60,10 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
             query = query.Where(t => t.ElevationGain <= filter.MaxElevation.Value);
         }
 
-        if (filter.DifficultyLevel.HasValue)
-        {
-            query = query.Where(t => t.DifficultyLevel == filter.DifficultyLevel.Value);
-        }
+        //if (filter.DifficultyLevel.HasValue)
+        //{
+        //    query = query.Where(t => t.DifficultyLevel == filter.DifficultyLevel.Value);
+        //}
 
         // Get a total count before pagination
         var totalCount = await query.CountAsync(cancellationToken);

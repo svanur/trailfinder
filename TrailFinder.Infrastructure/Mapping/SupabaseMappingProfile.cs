@@ -1,6 +1,3 @@
-using AutoMapper;
-using TrailFinder.Core.DTOs.Trails.Responses;
-
 namespace TrailFinder.Infrastructure.Mapping;
 
 /*

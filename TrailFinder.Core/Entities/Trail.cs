@@ -15,11 +15,10 @@ public class Trail : BaseEntity
     public string Slug { get; private set; } = null!;
     public string Description { get; private set; } = null!;
     public double Distance { get; set; }
-    
     public double ElevationGain { get; set; }
-    
     public DifficultyLevel? DifficultyLevel { get; set; }
-    
+    public RouteType? RouteType { get; set; }
+    public TerrainType? TerrainType { get; set; }
     public Point? StartPoint { get; set; } = null!;
     public Point? EndPoint { get; set; } = null!;
     public LineString? RouteGeom { get; set; }
@@ -34,6 +33,8 @@ public class Trail : BaseEntity
         double distance,
         double elevationGain,
         DifficultyLevel difficultyLevel,
+        RouteType routeType,
+        TerrainType terrainType,
         double startPointLatitude,
         double startPointLongitude,
         double endPointLatitude,
@@ -48,6 +49,8 @@ public class Trail : BaseEntity
         Distance = distance;
         ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
+        RouteType = routeType;
+        TerrainType = terrainType;
         StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0));
         EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
         
@@ -70,6 +73,8 @@ public class Trail : BaseEntity
         double distance,
         double elevationGain,
         DifficultyLevel difficultyLevel,
+        RouteType routeType,
+        TerrainType terrainType,
         double startPointLatitude,
         double startPointLongitude,
         double endPointLatitude,
@@ -82,6 +87,8 @@ public class Trail : BaseEntity
         Distance = distance;
         ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
+        RouteType = routeType;
+        TerrainType = terrainType;
         StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0)); // Add elevation as Z
         EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
         UpdatedAt = DateTime.UtcNow;

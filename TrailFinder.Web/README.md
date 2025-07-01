@@ -80,6 +80,6 @@ This should:
 
 ## For development, you can keep these bookmarks handy:
 
-- `http://localhost:3000` - Frontend application
-- `http://localhost:5263/swagger` - API documentation and testing
-- `http://localhost:54323` - Supabase Studio
+- [Frontend application](http://localhost:3000)
+- [API documentation and testing](http://localhost:5263/swagger)
+- [Supabase Studio](http://localhost:54323)

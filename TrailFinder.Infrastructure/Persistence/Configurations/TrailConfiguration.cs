@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TrailFinder.Core.Entities;
-using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Infrastructure.Persistence.Configurations;
 
@@ -51,7 +50,13 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .IsRequired();  // This is actually the default for non-nullable types
          
         builder.Property(t => t.DifficultyLevel)
-            .HasColumnName("difficulty_level");
+            .HasColumnName("difficulty_level");      
+        
+        builder.Property(t => t.RouteType)
+            .HasColumnName("route_type");
+        
+        builder.Property(t => t.TerrainType)
+            .HasColumnName("terrain_type");
         
         /*
         builder.Property(t => t.DifficultyLevel)

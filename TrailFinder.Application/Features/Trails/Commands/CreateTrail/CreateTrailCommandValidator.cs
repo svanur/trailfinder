@@ -42,8 +42,8 @@ public class CreateTrailCommandValidator : AbstractValidator<CreateTrailCommand>
             .NotEmpty()
             .WithMessage("User ID is required");
 
-        RuleFor(x => x.DifficultyLevel)
-            .IsInEnum()
-            .WithMessage("Invalid difficulty level");
+            //RuleFor(x => x.DifficultyLevel)
+            //.IsInEnum()
+            //.WithMessage("Invalid difficulty level");
     }
 }

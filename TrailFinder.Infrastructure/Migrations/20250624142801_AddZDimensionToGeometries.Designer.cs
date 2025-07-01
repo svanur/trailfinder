@@ -26,6 +26,8 @@ namespace TrailFinder.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "difficulty_level", new[] { "easy", "moderate", "hard", "extreme", "unknown" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "route_type", new[] { "circular", "out-and-back", "point-to-point", "unknown" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "terrain_type", new[] { "flat", "rolling", "hilly", "mountainous", "unknown" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -50,6 +52,14 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasColumnType("difficulty_level")
                         .HasColumnName("difficulty_level");
 
+                    b.Property<RouteType?>("RouteType")
+                        .HasColumnType("route_type")
+                        .HasColumnName("route_type");
+                    
+                    b.Property<TerrainType?>("TerrainType")
+                        .HasColumnType("terrain_type")
+                        .HasColumnName("terrain_type");
+                    
                     b.Property<double>("Distance")
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("distance");

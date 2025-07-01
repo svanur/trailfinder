@@ -1,0 +1,129 @@
+TODO's
+
+- Remove columns which can be computed from route_geom:
+  - start_point
+  - end_point
+  - distance
+  - elevation
+  
+  ## latitude, longitude, and elevation:
+  
+ SELECT
+     id,
+     name,
+     ST_X(ST_StartPoint(route_geom)) AS start_lon,
+     ST_Y(ST_StartPoint(route_geom)) AS start_lat,
+     ST_Z(ST_StartPoint(route_geom)) AS start_ele,
+     ST_X(ST_EndPoint(route_geom)) AS end_lon,
+     ST_Y(ST_EndPoint(route_geom)) AS end_lat,
+     ST_Z(ST_EndPoint(route_geom)) AS end_ele
+ FROM
+     trails
+ WHERE
+     id = '27703820-89f7-43bd-a5ad-85a397aff050';
+     
+## Distance
+
+SELECT
+    id,
+    name,
+    -- Compute distance in meters by casting to geography
+    ST_Length(route_geom::geography) AS distance_meters,
+    -- If you want kilometers:
+    ST_Length(route_geom::geography) / 1000 AS distance_km,
+    -- If you want miles:
+    ST_Length(route_geom::geography) * 0.000621371 AS distance_miles
+FROM
+    trails
+WHERE
+    id = '27703820-89f7-43bd-a5ad-85a397aff050';
+    
+
+## Elevation Gain (and Loss)
+
+WITH trail_points AS (
+    SELECT
+        t.id,
+        (ST_DumpPoints(t.route_geom)).path[1] AS point_idx, -- Get point index
+        ST_Z((ST_DumpPoints(t.route_geom)).geom) AS elevation -- Get Z-coordinate (elevation)
+    FROM
+        trails AS t
+    WHERE
+        t.id = 'your_trail_id' -- Or join with your main trails table
+),
+elevation_diffs AS (
+    SELECT
+        id,
+        point_idx,
+        elevation,
+        LAG(elevation, 1, elevation) OVER (PARTITION BY id ORDER BY point_idx) AS prev_elevation,
+        elevation - LAG(elevation, 1, elevation) OVER (PARTITION BY id ORDER BY point_idx) AS diff
+    FROM
+        trail_points
+)
+SELECT
+    id,
+    SUM(CASE WHEN diff > 0 THEN diff ELSE 0 END) AS total_elevation_gain,
+    SUM(CASE WHEN diff < 0 THEN ABS(diff) ELSE 0 END) AS total_elevation_loss -- Optional: for completeness
+FROM
+    elevation_diffs
+GROUP BY
+    id;
+
+
+Supabase's free tier projects are automatically paused after 1 week of inactivity. 
+This means if your API doesn't make any requests to your Supabase database for a week, your database will go to sleep.
+
+Automated Pinging: 
+This is the most common and recommended solution. 
+You can set up a simple automated job (e.g., using GitHub Actions, a cron job on Render, or Vercel's Cron Jobs if you have a Pro account) 
+to send a lightweight query to your Supabase database at regular intervals (e.g., once or twice a week). 
+This keeps your database "awake" and prevents it from pausing.
+
+Example (Conceptual GitHub Action):
+
+name: Ping Supabase to Prevent Pausing
+
+on:
+  schedule:
+    - cron: '0 9 * * 1,4' # Runs at 9:00 AM UTC every Monday and Thursday
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Supabase client
+        run: npm install @supabase/supabase-js
+
+      - name: Ping Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }} # Use anon key if just reading
+        run: |
+          node -e "
+            const { createClient } = require('@supabase/supabase-js');
+            const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
+            async function ping() {
+              try {
+                // Replace 'your_table' with a small table in your schema
+                // and select a minimal column to keep it lightweight.
+                const { data, error } = await supabase.from('your_table').select('id').limit(1);
+                if (error) throw error;
+                console.log('Supabase ping successful:', data);
+              } catch (e) {
+                console.error('Supabase ping failed:', e.message);
+                process.exit(1); // Exit with error code if ping fails
+              }
+            }
+            ping();
+          "
+

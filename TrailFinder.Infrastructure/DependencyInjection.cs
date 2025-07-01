@@ -4,8 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using NetTopologySuite.Geometries;
 using TrailFinder.Application.Services;
 using TrailFinder.Contract.Persistence;
+using TrailFinder.Core.DTOs.Gpx;
+using TrailFinder.Core.Enums;
 using TrailFinder.Core.Interfaces.Repositories;
 using TrailFinder.Core.Interfaces.Services;
+using TrailFinder.Core.Services.TrailAnalysis;
+using TrailFinder.Core.ValueObjects;
 using TrailFinder.Infrastructure.Configuration;
 using TrailFinder.Infrastructure.Persistence;
 using TrailFinder.Infrastructure.Persistence.Repositories;
@@ -39,7 +43,6 @@ public static class DependencyInjection
 
         // Register services
         services.AddScoped<ISupabaseStorageService, SupabaseStorageService>();
-        services.AddScoped<IGpxService, GpxService>();
 
         // Register GeometryFactory as a singleton since it's thread-safe
         services.AddSingleton<GeometryFactory>();
@@ -47,6 +50,14 @@ public static class DependencyInjection
         // Register GpxService from Infrastructure as implementation of IGpxService from Application
         services.AddScoped<IGpxService, GpxService>();
 
+        //
+        // Dependency injection
+        //
+        services.AddTransient<IAnalyzer<List<GpxPoint>, RouteType>, RouteAnalyzer>();
+        services.AddTransient<IAnalyzer<TerrainAnalysisInput, TerrainType>, TerrainAnalyzer>();
+        services.AddTransient<IAnalyzer<DifficultyAnalysisInput, DifficultyLevel>, DifficultyAnalyzer>();
+        services.AddTransient<AnalysisService>(); // MyAnalysisService will resolve these
+        
         return services;
     }
 }
