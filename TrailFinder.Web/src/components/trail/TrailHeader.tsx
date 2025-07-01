@@ -26,7 +26,7 @@ const TrailHeader: React.FC<TrailHeaderProps> = ({ trail }) => {
                     </div>
                     <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
                         <div className="text-sm text-gray-600 mb-1">Hækkun</div>
-                        <div className="text-lg font-semibold">{trail.elevationGain.toFixed(1)} m</div>
+                        <div className="text-lg font-semibold">{trail.elevationGainMeters.toFixed(1)} m</div>
                     </div>
                     <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
                         <div className="text-sm text-gray-600 mb-1">Erfiðleikastig</div>
