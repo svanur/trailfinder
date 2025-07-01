@@ -7,11 +7,11 @@ namespace TrailFinder.Application.Features.Trails.Commands.UpdateTrail;
 
 public record UpdateTrailCommand(
     Guid TrailId,
-    double? Distance,
-    double? ElevationGain,
+    //double? Distance,
+    //double? ElevationGain,
     DifficultyLevel? DifficultyLevel,
-    GpxPoint? StartPoint,
-    GpxPoint? EndPoint,
+    //GpxPoint? StartPoint,
+    //GpxPoint? EndPoint,
     LineString? RouteGeom
 
 ) : IRequest<Unit>;
