@@ -26,25 +26,29 @@ async function updateTrailsGpxInfo() {
 
                 // Sanitize numeric values before sending
                 const sanitizedGpxInfo = {
-                    distance: sanitizeNumber(gpxInfo.distance),
-                    elevationGain: sanitizeNumber(gpxInfo.elevationGain),
+                    //distance: sanitizeNumber(gpxInfo.distance),
+                    //elevationGain: sanitizeNumber(gpxInfo.elevationGain),
                     difficultyLevel: gpxInfo.difficultyLevel,
-                    startPoint: gpxInfo.startPoint,
-                    endPoint: gpxInfo.endPoint,
+                    routeType: gpxInfo.routeType,
+                    terrainType: gpxInfo.terrainType,
+                    //startPoint: gpxInfo.startPoint,
+                    //endPoint: gpxInfo.endPoint,
                     routeGeom: gpxInfo.routeGeom
                 };
 
                 // Update the trail with the GPX info
                 await axios.put(`${API_BASE_URL}/trails/${trailId}/info`, sanitizedGpxInfo);
 
-                console.log(`Successfully updated GPX info for trail "${trailName}" (${trailId})`);
+                console.log(`Successfully updated information for "${trailName}" (${trailId})`);
                 console.log({
                     name: trailName,
-                    distance: sanitizedGpxInfo.distance,
-                    elevation: sanitizedGpxInfo.elevationGain,
+                    //distance: sanitizedGpxInfo.distance,
+                    //elevation: sanitizedGpxInfo.elevationGain,
                     difficultyLevel: sanitizedGpxInfo.difficultyLevel,
+                    routeType: sanitizedGpxInfo.routeType,
+                    terrainType: sanitizedGpxInfo.terrainType,
                     hasRouteGeom: !!sanitizedGpxInfo.routeGeom,
-                    startPoint: {
+                   /* startPoint: {
                         latitude: sanitizedGpxInfo.startPoint.latitude,
                         longitude: sanitizedGpxInfo.startPoint.longitude,
                         elevation: sanitizedGpxInfo.startPoint.elevation
@@ -53,7 +57,7 @@ async function updateTrailsGpxInfo() {
                         latitude: sanitizedGpxInfo.endPoint.latitude,
                         longitude: sanitizedGpxInfo.endPoint.longitude,
                         elevation: sanitizedGpxInfo.endPoint.elevation
-                    }
+                    }*/
                 });
             } catch (error) {
                 if (error.response) {

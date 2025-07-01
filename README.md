@@ -4,28 +4,52 @@ A trail-finding application that helps users discover and navigate trails for ru
 
 ## Prerequisites
 
-- Node.js 18+ and npm
-- Docker Desktop
-- Visual Studio Code or JetBrains Rider
-- Supabase CLI (`npm install supabase`)
+- [Git](https://git-scm.com/downloads)
+- [Node.js](https://nodejs.org/en/download) 18+ and npm
+- [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/)
+- [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) (`wsl --install`)
+- Visual Studio Code or JetBrains Rider or your favorite IDE
+- [Supabase CLI](https://supabase.com/docs/guides/local-development/cli/getting-started) (`npm install supabase`)
 
 ## Project Structure
 
-trailfinder/ 
+## trailfinder/ 
 
-├── client/ 
+#### Unit tests for the solution
 
-# React frontend 
+    ├── tests/
+    
+        ├── TrailFinder.Api.Tests/
 
-├── database/ 
+        ├── TrailFinder.IntegrationTests/
 
-# Database migrations and seeds 
+#### Frontend for backend administration
 
-├── types/ 
+    ├── TrailFinder.Admin/
 
-# Shared TypeScript types 
+#### API for the solution
 
-└── docs/ 
+    ├── TrailFinder.Api/
+
+#### Application classes
+
+    ├── TrailFinder.Application/
+
+#### Core classes
+
+    ├── TrailFinder.Core/
+
+#### Database classes
+
+    ├── TrailFinder.DB/
+
+#### Infrastructure classes
+
+    ├── TrailFinder.Infrastructure/
+
+#### Frontend
+
+    └── TrailFinder.Website/
 
 # Project documentation
 
@@ -33,58 +57,63 @@ trailfinder/
 ## Quick Start
 
 1. **Clone the repository**
+
    ```bash
    git clone [repository-url]
    cd trailfinder
    ```
 
 2. **Set up local development environment**
-   ```bash
+
+    ```bash
+   # Install dependencies in TrailFinder.Web and TrailFinder.DB
+   npm install
+   
    # Start Docker Desktop
    docker-compose up -d
 
-   # Start local Supabase
+   # Start local Supabase in TrailFinder.DB
    supabase start
-
-   # Install dependencies
-   npm install
    ```
 
 3. **Set up environment variables**
-   ```bash
+   
+    ```bash
    cp .env.example .env.local
    # Edit .env.local with your settings
    ```
 
 4. **Start development server**
-   ```bash
+   
+    ```bash
    npm run dev
    ```
 
 ## Development Stack
 
 - **Frontend**
-    - React 19.1.0
-    - TypeScript 5.8.3
-    - Mantine UI 8.0.2
-    - TailwindCSS 4.1.8
-    - React Router 7.6.2
-    - Leaflet 1.9.4 (for maps)
-    - Chart.js 4.4.9
+    - [React 19.1.0](https://react.dev/blog/2024/12/05/react-19)
+    - [TypeScript](https://www.typescriptlang.org/) 5.8.3
+    - [Mantine UI](https://mantine.dev/) 8.0.2
+    - [TailwindCSS](https://tailwindcss.com/) 4.1.8
+    - [React Router](https://reactrouter.com/) 7.6.2
+    - [Leaflet](https://leafletjs.com/index.html) 1.9.4 (for maps)
+    - [Chart.js](https://www.chartjs.org/docs/latest/) 4.4.9
 
 - **Backend**
-    - Supabase (Database & Authentication)
-    - PostgreSQL 15+
+    - [Supabase (Database & Authentication)](https://supabase.com/docs/guides/auth)
+    - [PostgreSQL](https://www.postgresql.org/) 15+
 
 - **Development Tools**
-    - Vite 6.3.5
-    - ESLint 9.25.0
-    - Docker
-    - Supabase CLI
+    - [Vite](https://vite.dev/) 6.3.5
+    - [ESLint](https://eslint.org/) 9.25.0
+    - [Docker](https://www.docker.com/)
+    - [Supabase CLI](https://supabase.com/docs/guides/local-development/cli/getting-started)
 
 ## Development Workflow
 
 1. **Database Changes**
+
    ```bash
    # Create new migration
    ./scripts/new-migration.ps1 -Name "feature_name"
@@ -94,11 +123,13 @@ trailfinder/
    ```
 
 2. **Running Tests**
+
    ```bash
    npm run test
    ```
 
 3. **Code Quality**
+
    ```bash
    npm run lint
    npm run format
@@ -120,11 +151,11 @@ VITE_SUPABASE_ANON_KEY=[your-local-key]
 - DB URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
 - Studio URL: http://127.0.0.1:54323
 - Inbucket URL: http://127.0.0.1:54324
-- JWT secret: super-secret-jwt-token-with-at-least-32-characters-long
-- anon key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
-- service_role key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU
-- S3 Access Key: 625729a08b95bf1b7ff351a663f3a23c
-- S3 Secret Key: 850181e4652dd023b7a98c58ae0d2d34bd487ee0cc3254aed6eda37307425907
+- JWT secret: (super-secret-jwt-token-with-at-least-32-characters-long)
+- anon key: (anon-key)
+- service_role key: (security-role-key)
+- S3 Access Key: (s3-access-key)
+- S3 Secret Key: (s3-secret-key)
 - S3 Region: local
 
 
@@ -148,6 +179,22 @@ VITE_SUPABASE_ANON_KEY=[your-production-key]
 - `npm run test` - Run tests
 - `npm run lint` - Run ESLint
 - `npm run format` - Format code with Prettier
+
+## Hosting
+
+Hosting wise, this is a hybrid solution
+
+### Database: Supabase
+
+The database is hosted on [Supabase](https://supabase.com/dashboard/)
+
+### API: Render
+
+The API is hosted on [Render](https://dashboard.render.com/)
+
+### Web: Vercel
+
+The API is hosted on [Vercel](https://vercel.com/login)
 
 ## Deployment
 
