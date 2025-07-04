@@ -1,34 +1,39 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NetTopologySuite.Geometries;
 using TrailFinder.Contract.Persistence;
 using TrailFinder.Core.Exceptions;
+using TrailFinder.Core.Interfaces.Repositories;
 
 namespace TrailFinder.Application.Features.Trails.Commands.UpdateTrail;
 
 public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Unit>
 {
     private readonly ILogger<UpdateTrailCommandHandler> _logger;
+    private readonly IMapper _mapper;
+    private readonly ITrailRepository _trailRepository;
     
     private static readonly GeometryFactory GeometryFactory = 
         new GeometryFactory(new PrecisionModel(), 4326); // SRID 4326 is for WGS84 (standard GPS coordinates)
     
-    private readonly IApplicationDbContext _context;
-
     public UpdateTrailCommandHandler(
-        IApplicationDbContext context,
-        ILogger<UpdateTrailCommandHandler> logger
-        )
+        ILogger<UpdateTrailCommandHandler> logger,
+        IMapper mapper,
+        ITrailRepository trailRepository
+    )
     {
-        _context = context;
         _logger = logger;
+        _mapper = mapper;
+        _trailRepository = trailRepository;
     }
 
     public async Task<Unit> Handle(UpdateTrailCommand request, CancellationToken cancellationToken)
     {
-         var trail = await _context.Set<Core.Entities.Trail>()
-            .FirstOrDefaultAsync(t => t.Id == request.TrailId, cancellationToken);
+         //var trail = await _context.Set<Core.Entities.Trail>()
+           // .FirstOrDefaultAsync(t => t.Id == request.TrailId, cancellationToken);
+        var trail = await _trailRepository.GetByIdAsync(request.TrailId, cancellationToken);
 
         if (trail == null)
         {
@@ -43,7 +48,7 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
         {
             trail.Distance = request.Distance.Value;
         }
-
+        
         if (request.ElevationGain.HasValue)
         {
             trail.ElevationGain = request.ElevationGain.Value;
@@ -55,6 +60,7 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
         }
 
         // Update geometry points
+        /*
         if (request.StartPoint.HasValue)
         {
             var startPoint = request.StartPoint.Value;
@@ -68,6 +74,7 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
             trail.EndPoint = GeometryFactory.CreatePoint(
                 new CoordinateZ(endPoint.Longitude, endPoint.Latitude, 0));
         }
+        */
 
         // For RouteGeom, we need to ensure it has Z coordinates as well
         if (request.RouteGeom != null)
@@ -83,12 +90,13 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
 
         trail.HasGpx = true;
 
-        _context.Set<Core.Entities.Trail>().Update(trail);
+        //_context.Set<Core.Entities.Trail>().Update(trail);
 
         try
         {
-            var result = await _context.SaveChangesAsync(cancellationToken);
-            if (result <= 0)
+            //var result = await _context.SaveChangesAsync(cancellationToken);
+            var updatedTrail = await _trailRepository.UpdateAsync(trail, cancellationToken);
+            if (updatedTrail == null)
             {
                 throw new Exception("No changes were saved to the database.");
             }

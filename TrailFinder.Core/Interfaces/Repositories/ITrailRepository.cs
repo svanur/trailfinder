@@ -8,7 +8,7 @@ public interface ITrailRepository : IBaseRepository<Trail>
 {
     Task<Trail?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
     
-    Task<PaginatedResult<Trail>> GetFilteredAsync(TrailFilterDto filter, CancellationToken cancellationToken = default);
+    //Task<PaginatedResult<Trail>> GetFilteredAsync(TrailFilterDto filter, CancellationToken cancellationToken = default);
     
     Task<bool> ExistsBySlugAsync(string slug, CancellationToken cancellationToken = default);
 }

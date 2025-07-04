@@ -77,6 +77,7 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasDefaultValue(false);
         
         // Geometry properties
+        /*
         builder.Property(t => t.StartPoint)
             .HasColumnName("start_point")
             .HasColumnType("geometry(PointZ, 4326)")  // Changed from Point to PointZ
@@ -86,7 +87,8 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasColumnName("end_point")
             .HasColumnType("geometry(PointZ, 4326)")  // Changed from Point to PointZ
             .IsRequired(false);
-    
+            */
+        
         builder.Property(t => t.RouteGeom)
             .HasColumnName("route_geom")
             .HasColumnType("geometry(LineStringZ, 4326)")  // Changed from LineString to LineStringZ
@@ -123,8 +125,10 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .IsUnique();
         
         builder.HasIndex(t => t.UserId);
-        builder.HasIndex(t => t.StartPoint)
-            .HasMethod("GIST");
+        
+        //builder.HasIndex(t => t.StartPoint)
+        //    .HasMethod("GIST");
+        
         builder.HasIndex(t => t.RouteGeom)
             .HasMethod("GIST");
     }

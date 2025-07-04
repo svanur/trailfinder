@@ -25,6 +25,7 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
             .AnyAsync(t => t.Slug == slug, cancellationToken);
     }
 
+    /*
     public async Task<PaginatedResult<Trail>> GetFilteredAsync(
         TrailFilterDto filter, 
         CancellationToken cancellationToken = default)
@@ -40,6 +41,7 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
                 t.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase));
         }
 
+        
         if (filter.MinDistance.HasValue)
         {
             query = query.Where(t => t.Distance >= filter.MinDistance.Value);
@@ -102,6 +104,7 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
             filter.PageSize
         );
     }
+    */
 
     public override async Task<IEnumerable<Trail>> GetAllAsync(CancellationToken cancellationToken = default)
     {
