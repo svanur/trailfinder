@@ -10,7 +10,7 @@ export function Layout() {
         >
             <AppShell.Header>
                 <Group h="100%" px="md">
-                    <Title order={1} size="h3">TrailFinder</Title>
+                    <Title order={1} size="h3">Hlaupaleiðir</Title>
                 </Group>
             </AppShell.Header>
 

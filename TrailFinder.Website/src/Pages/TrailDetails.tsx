@@ -1,17 +1,17 @@
-// src/pages/RouteDetails.tsx
+// src/pages/TrailDetails.tsx
 import { useParams } from 'react-router-dom';
 import { 
     Container, 
     Title 
 } from '@mantine/core';
 
-export function RouteDetails() {
-    const { id } = useParams();
+export function TrailDetails() {
+    const { slug } = useParams();
 
-    // Hér kemur lógíkin fyrir route details síðuna
+    // Hér kemur lógíkin fyrir trail details síðuna
     return (
         <Container>
-            <Title>Hlaupaleið {id}</Title>
+            <Title>Hlaupaleið {slug}</Title>
             {/* Hér kemur innihald síðunnar */}
         </Container>
     );
