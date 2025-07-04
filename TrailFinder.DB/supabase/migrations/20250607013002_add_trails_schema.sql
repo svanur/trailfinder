@@ -9,7 +9,6 @@ CREATE TYPE difficulty_level AS ENUM ('easy', 'moderate', 'hard', 'extreme', 'un
 CREATE TABLE trails
 (
     id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    location_id      UUID null,
     name             VARCHAR(255) NOT NULL,
     slug             VARCHAR(255) NOT NULL UNIQUE,
     description      TEXT,
@@ -17,8 +16,6 @@ CREATE TABLE trails
     elevation_gain   INTEGER,
     difficulty_level difficulty_level,
     route_geom       geometry(LINESTRINGZ, 4326),
-    --start_point      geometry(POINTZ, 4326),
-    --end_point        geometry(POINTZ, 4326),
     web_url          TEXT,
     has_gpx          BOOLEAN,
 
@@ -29,7 +26,6 @@ CREATE TABLE trails
 
 -- Create index for spatial queries
 CREATE INDEX trails_route_geom_idx ON trails USING GIST (route_geom);
-CREATE INDEX trails_start_point_idx ON trails USING GIST (start_point);
 
 -- Create updated_at trigger
 CREATE
