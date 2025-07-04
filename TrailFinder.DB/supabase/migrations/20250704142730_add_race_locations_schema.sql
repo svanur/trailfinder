@@ -10,6 +10,7 @@ create table public.race_locations
     comment       text null,
     created_at    timestamp with time zone not null default now(),
 
+    constraint race_locations_pkey primary key (race_id, location_id),
     constraint race_locations_race_id_fkey foreign KEY (race_id) references races (id),
     constraint race_locations_location_id_fkey foreign KEY (location_id) references locations (id)
-) TABLESPACE pg_default;
+);

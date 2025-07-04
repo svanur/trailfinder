@@ -18,4 +18,4 @@ create table public.races
     updated_at TIMESTAMPTZ DEFAULT NOW(),
         
     constraint races_location_id_fkey foreign KEY (location_id) references locations (id)
-) TABLESPACE pg_default;
+);

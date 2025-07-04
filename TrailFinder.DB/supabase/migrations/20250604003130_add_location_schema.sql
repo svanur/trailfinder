@@ -14,5 +14,10 @@ create table locations
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW(),
         
-    constraint locations_parent_id_fkey foreign KEY (parent_id) references locations (id)
+    constraint locations_parent_id_fkey foreign KEY (parent_id) references locations (id),
+
+    -- If you want to ensure a location can only be a child of one a parent, 
+    -- or have specific hierarchical rules
+    constraint unique_parent_child UNIQUE (parent_id, id)
+
 );
