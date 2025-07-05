@@ -1,6 +1,19 @@
 ## Select environment via: Run with: [dev|...]
 ## See: TrailFinder.Api/http-client.env.json 
 
+
+### Get all locations
+GET {{hostAddress}}/api/locations
+Accept: application/json
+
+### Get a specific location by id
+GET {{hostAddress}}/api/locations/{{locationId}}
+Accept: application/json
+
+### Get a specific location by slug
+GET {{hostAddress}}/api/locations/landmannalaugar
+Accept: application/json
+
 ### Get all trails
 GET {{hostAddress}}/api/trails
 Accept: application/json

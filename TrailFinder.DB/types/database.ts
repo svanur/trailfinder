@@ -4,16 +4,20 @@ export interface Database {
             trails: {
                 Row: Trail;  // Return type when querying
                 Insert: CreateTrailDTO;  // Type for inserting
-                Update: Partial<CreateTrailDTO>;  // Type for updating
-            };
-            // Add other tables here
+                Update: Partial<CreateTrailDTO>;  // Type for updating //TODO: change to UpdateTrailDTO
+            },
+            locations: {
+                Row: Location;
+                Insert: Location; //TODO: change to CreateLocationDTO
+                Update: Partial<Location>; //TODO: change to UpdateLocationDTO
+            }
+            ;
         };
     };
 }
 
 export interface Trail {
     id: string;
-    parentId: string | null;
     name: string;
     slug: string;
     description: string;
@@ -21,15 +25,24 @@ export interface Trail {
     terrainType: string;
     location: string;
     distance: number;
-    elevationGainMeters: number;
+    elevationGain: number;
     difficultyLevel: DifficultyLevel;
-    startPointLatitude: number;
-    startPointLongitude: number;
-    endPointLatitude: number;
-    endPointLongitude: number;
     routeGeom?: any; // or more specific GeoJSON type if needed
     webUrl?: string;
     hasGpx: boolean;
+    createdAt: string; // ISO date string
+    updatedAt: string; // ISO date string
+    userId: string | null;
+}
+
+export interface Location {
+    id: string;
+    parentId: string | null;
+    name: string;
+    slug: string;
+    description: string;
+    latitude: number;
+    longitude: number;
     createdAt: string; // ISO date string
     updatedAt: string; // ISO date string
     userId: string | null;

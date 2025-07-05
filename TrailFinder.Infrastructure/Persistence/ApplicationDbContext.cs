@@ -16,6 +16,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     }
 
     public DbSet<Trail> Trails => Set<Trail>();
+    public DbSet<Location> Locations => Set<Location>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -56,5 +57,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         // Apply configuration
         //modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         modelBuilder.ApplyConfiguration(new TrailConfiguration());
+        modelBuilder.ApplyConfiguration(new LocationConfiguration());
     }
 }

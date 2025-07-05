@@ -1,7 +1,7 @@
 DO $$
 DECLARE
     -- Declare UUID variables for locations to establish parent-child relationships
-island_id UUID := '10000000-0000-0000-0000-000000000001';
+    island_id UUID := '10000000-0000-0000-0000-000000000001';
     sudurland_id UUID := '10000000-0000-0000-0000-000000000002';
     hofudborgarsvaedid_id UUID := '10000000-0000-0000-0000-000000000003';
     thorsmork_id UUID := '10000000-0000-0000-0000-000000000004';

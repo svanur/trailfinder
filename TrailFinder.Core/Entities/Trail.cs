@@ -8,8 +8,8 @@ namespace TrailFinder.Core.Entities;
 
 public class Trail : BaseEntity
 {
-    private static readonly GeometryFactory GeometryFactory = 
-        new GeometryFactory(new PrecisionModel(), 4326);
+    //private static readonly GeometryFactory GeometryFactory = 
+    //    new GeometryFactory(new PrecisionModel(), 4326);
     
     public string Name { get; private set; } = null!;
     public string Slug { get; private set; } = null!;
@@ -48,14 +48,7 @@ public class Trail : BaseEntity
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
-
-    private static string GenerateSlug(string name)
-    {
-        return name.ToLower()
-            .Replace(" ", "-")
-            .Replace(".", "")
-            .Replace("/", "-");
-    }
+    
 
     /*
     public void Update(
