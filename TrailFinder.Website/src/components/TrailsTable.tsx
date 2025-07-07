@@ -29,7 +29,7 @@ export function TrailsTable() {
                 />
             </Table.Td>
             <Table.Td>{trail.distance}</Table.Td>
-            <Table.Td>{trail.elevationGainMeters}</Table.Td>
+            <Table.Td>{trail.elevationGain}</Table.Td>
             <Table.Td>{trail.difficultyLevel}</Table.Td>
             <Table.Td>{trail.routeType}</Table.Td>
             <Table.Td>{trail.terrainType}</Table.Td>

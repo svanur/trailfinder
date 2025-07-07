@@ -32,6 +32,10 @@ public class GetLocationQueryHandler : IRequestHandler<GetLocationQuery, Locatio
             throw new LocationNotFoundException(request.Id);
         }
 
-        return _mapper.Map<LocationDto>(location);
+        var locationDto = _mapper.Map<LocationDto>(location);
+
+        //TODO: check for parent and add to LocationDto
+
+        return locationDto;
     }
 }

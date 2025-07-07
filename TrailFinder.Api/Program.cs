@@ -48,6 +48,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 x.UseNetTopologySuite();
                 x.EnableRetryOnFailure();
                 x.MapEnum<DifficultyLevel>();
+                x.MapEnum<LocationType>();
             })
         .EnableSensitiveDataLogging()
         .LogTo(message =>

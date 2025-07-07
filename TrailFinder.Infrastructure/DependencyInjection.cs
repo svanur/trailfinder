@@ -30,6 +30,7 @@ public static class DependencyInjection
 
         services.AddScoped<ITrailRepository, TrailRepository>();
         services.AddScoped<ILocationRepository, LocationRepository>();
+        services.AddScoped<ITrailLocationRepository, TrailLocationRepository>();
 
         // Add Supabase configuration
         services.Configure<SupabaseSettings>(settings =>

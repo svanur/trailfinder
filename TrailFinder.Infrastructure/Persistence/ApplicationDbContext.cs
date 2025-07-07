@@ -17,6 +17,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Trail> Trails => Set<Trail>();
     public DbSet<Location> Locations => Set<Location>();
+    public DbSet<TrailLocation> TrailLocations => Set<TrailLocation>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,6 +26,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         // Register the enum type
         //modelBuilder.HasPostgresEnum<DifficultyLevel>("difficulty_level");
         modelBuilder.HasPostgresEnum<DifficultyLevel>();
+        modelBuilder.HasPostgresEnum<LocationType>();
 
 
         /*
@@ -58,5 +60,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         //modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         modelBuilder.ApplyConfiguration(new TrailConfiguration());
         modelBuilder.ApplyConfiguration(new LocationConfiguration());
+        modelBuilder.ApplyConfiguration(new TrailLocationConfiguration());
     }
 }

@@ -95,7 +95,7 @@ export function TrailList() {
                             <Group gap="xs">
                                 <IconArrowUpRight size={16} style={{ opacity: 0.7 }} />
                                 <Text size="sm" c="dimmed">
-                                    {formatElevation(trail.elevationGainMeters || 0)}
+                                    {formatElevation(trail.elevationGain || 0)}
                                 </Text>
                             </Group>
 

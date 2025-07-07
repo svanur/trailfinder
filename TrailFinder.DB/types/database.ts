@@ -47,13 +47,14 @@ export interface Location {
     updatedAt: string; // ISO date string
     userId: string | null;
 }
+export const DifficultyLevel = {
+    Easy: 'easy',
+    Moderate: 'moderate',
+    Hard: 'hard',
+    Expert: 'expert'
+} as const;
+export type DifficultyLevel = typeof DifficultyLevel[keyof typeof DifficultyLevel];
 
-export enum DifficultyLevel {
-    Easy = 'easy',
-    Moderate = 'moderate',
-    Hard = 'hard',
-    Expert = 'expert'
-}
 
 export interface CreateTrailDTO {
     parentId: string;
