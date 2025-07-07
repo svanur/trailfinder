@@ -17,6 +17,24 @@ public class TrailLocationMappings : Profile
                 opt => opt.MapFrom(src => src.Id)
             )
             .ForMember(
+                dest => dest.Id,
+                opt => opt.MapFrom(src => src.Id)
+            )
+            .ForMember(
+                dest => dest.TrailId,
+                opt => opt.MapFrom(src => src.TrailId)
+            )
+            .ForMember(
+                dest => dest.LocationId,
+                opt => opt.MapFrom(src => src.LocationId)
+            )
+            
+            .ForMember(
+                dest => dest.Id,
+                opt => opt.MapFrom(src => src.Id)
+            )
+            
+            .ForMember(
                 dest => dest.Location,
                 opt => opt.MapFrom(src => src.Location)
             )

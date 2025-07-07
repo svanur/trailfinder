@@ -9,14 +9,18 @@ public class TrailLocationDto
     }
 
     public TrailLocationDto(
-        //TrailDto trailDto,
+        Guid id,
+        Guid trailId,
+        Guid locationId,
         LocationType locationType,
         string comment,
         int displayOrder,
-        LocationLiteDto locationDto
+        LocationDto locationDto
     )
     {
-        //Trail = trailDto;
+        Id = id;
+        TrailId = trailId;
+        LocationId = locationId;
         LocationType = locationType;
         Comment = comment;
         DisplayOrder = displayOrder;
@@ -24,6 +28,8 @@ public class TrailLocationDto
     }
 
     public Guid Id { get; private set; }
+    public Guid TrailId { get; private set; }
+    public Guid LocationId { get; private set; }
 
     //public TrailDto Trail { get; private set; }
 
@@ -31,5 +37,5 @@ public class TrailLocationDto
     public LocationType LocationType { get; private set; }
     public string Comment { get; private set; } = null!;
     public int DisplayOrder { get; set; }
-    public LocationLiteDto Location { get; private set; }
+    public LocationDto Location { get; set; }
 }

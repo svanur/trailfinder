@@ -41,14 +41,15 @@ public class GetTrailQueryHandler : IRequestHandler<GetTrailQuery, TrailDto>
         var trailDto = _mapper.Map<TrailDto>(trail);
 
         var trailLocations = await _trailLocationRepository.GetByTrailIdAsync(trailDto.Id, cancellationToken);
-        
-        foreach (var trailLocation in trailLocations)
+        trailDto.TrailLocations = _mapper.Map<IEnumerable<TrailLocationDto>>(trailLocations);
+
+        foreach (var trailLocationDto in trailDto.TrailLocations)
         {
-            //trailLocation.Location = await _locationRepository.GetByIdAsync(trailLocation.LocationId, cancellationToken);
+            var location = await _locationRepository.GetByIdAsync(trailLocationDto.LocationId, cancellationToken);
+            var locationLiteDto = _mapper.Map<LocationDto>(location);
+            trailLocationDto.Location = locationLiteDto;
         }
         
-        trailDto.locations = _mapper.Map<IEnumerable<TrailLocationDto>>(trailLocations);
-
         return trailDto;
     }
 }

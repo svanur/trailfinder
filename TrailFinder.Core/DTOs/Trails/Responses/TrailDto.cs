@@ -86,5 +86,5 @@ public class TrailDto
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public Guid UserId { get; set; }
-    public IEnumerable<TrailLocationDto> locations { get; set; }
+    public IEnumerable<TrailLocationDto> TrailLocations { get; set; }
 }
