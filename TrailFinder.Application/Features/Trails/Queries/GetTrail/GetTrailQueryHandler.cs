@@ -12,7 +12,7 @@ public class GetTrailQueryHandler : IRequestHandler<GetTrailQuery, TrailDto>
 {
     private readonly ILogger<GetTrailQueryHandler> _logger;
     private readonly IMapper _mapper;
-    private readonly ITrailLocationRepository _trailLocationRepository;
+    
     private readonly ILocationRepository _locationRepository;
     private readonly ITrailRepository _trailRepository;
 
@@ -27,28 +27,20 @@ public class GetTrailQueryHandler : IRequestHandler<GetTrailQuery, TrailDto>
         _logger = logger;
         _mapper = mapper;
         _trailRepository = trailRepository;
-        _trailLocationRepository = trailLocationRepository;
         _locationRepository = locationRepository;
     }
 
     public async Task<TrailDto> Handle(GetTrailQuery request, CancellationToken cancellationToken)
     {
-        //var trail = await _context.Set<Core.Entities.Trail>()
-        //  .FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
-        var trail = await _trailRepository.GetByIdAsync(request.Id, cancellationToken);
-        if (trail == null) throw new TrailNotFoundException(request.Id);
-
-        var trailDto = _mapper.Map<TrailDto>(trail);
-
-        var trailLocations = await _trailLocationRepository.GetByTrailIdAsync(trailDto.Id, cancellationToken);
-        trailDto.TrailLocations = _mapper.Map<IEnumerable<TrailLocationDto>>(trailLocations);
-
-        foreach (var trailLocationDto in trailDto.TrailLocations)
+        // Use the new method that includes related data
+        var trail = await _trailRepository.GetByIdWithLocationsAsync(request.Id, cancellationToken);
+        if (trail == null)
         {
-            var location = await _locationRepository.GetByIdAsync(trailLocationDto.LocationId, cancellationToken);
-            var locationLiteDto = _mapper.Map<LocationDto>(location);
-            trailLocationDto.Location = locationLiteDto;
+            throw new TrailNotFoundException(request.Id);
         }
+
+        // AutoMapper should be configured to map the nested collections
+        var trailDto = _mapper.Map<TrailDto>(trail);
         
         return trailDto;
     }

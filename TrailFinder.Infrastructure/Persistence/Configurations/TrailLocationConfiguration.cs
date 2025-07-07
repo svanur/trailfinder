@@ -81,12 +81,15 @@ public class TrailLocationConfiguration : IEntityTypeConfiguration<TrailLocation
             .IsRequired(false);
 
         // Add foreign key relationships (EF Core needs these for navigation properties)
+        // Add foreign key relationships (EF Core needs these for navigation properties)
         builder.HasOne(tl => tl.Trail)
-               .WithMany() // Or .WithMany(t => t.TrailLocations) if Trail has a collection
-               .HasForeignKey(tl => tl.TrailId);
+            .WithMany(t => t.TrailLocations) //if Trail has a collection
+            .HasForeignKey(tl => tl.TrailId);
 
-        builder.HasOne(tl => tl.Location)
-               .WithMany() // Or .WithMany(l => l.TrailLocations) if Location has a collection
-               .HasForeignKey(tl => tl.LocationId);
+        // Foreign key relationships
+        builder.HasOne(tl => tl.Location) // TrailLocation has one Location
+            .WithMany(l => l.TrailLocations) // Location has many TrailLocations
+            .HasForeignKey(tl => tl.LocationId); // The foreign key property on TrailLocation
+
     }
 }

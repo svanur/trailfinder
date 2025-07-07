@@ -24,6 +24,10 @@ public class Trail : BaseEntity
     public LineString? RouteGeom { get; set; }
     public string? WebUrl { get; private set; }
     public bool HasGpx { get; set; }
+    
+    // For EF Core to understand the relationships, and use Include,
+    // one needs navigation properties in the entity classes
+    public ICollection<TrailLocation> TrailLocations { get; private set; } = new List<TrailLocation>();
 
     private Trail() { } // For EF Core
 

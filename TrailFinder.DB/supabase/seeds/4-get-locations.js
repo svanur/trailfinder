@@ -21,6 +21,8 @@ async function getLocations() {
 
             try {
                 const response = await axios.get(`${API_BASE_URL}/locations`);
+               //const response = await axios.get(`${API_BASE_URL}/trails/30000000-0000-0000-0000-000000000001`);
+                
                 const data = response.data;
 
                 console.log(`Successfully got location "${item_name}" (${item_id})`);

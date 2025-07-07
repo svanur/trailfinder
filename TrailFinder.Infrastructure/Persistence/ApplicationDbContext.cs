@@ -15,9 +15,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
     }
 
-    public DbSet<Trail> Trails => Set<Trail>();
-    public DbSet<Location> Locations => Set<Location>();
-    public DbSet<TrailLocation> TrailLocations => Set<TrailLocation>();
+    public DbSet<Trail> Trails { get; set; } = null!;
+    public DbSet<Location> Locations { get; set; } = null!; // <--- CRUCIAL: Make sure this exists
+    public DbSet<TrailLocation> TrailLocations { get; set; } = null!; // <--- CRUCIAL: Make sure this exists
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

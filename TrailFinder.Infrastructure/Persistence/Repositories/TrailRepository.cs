@@ -24,6 +24,14 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
         return await _dbSet
             .AnyAsync(t => t.Slug == slug, cancellationToken);
     }
+    
+    public async Task<Trail?> GetByIdWithLocationsAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _context.Trails // Your DbSet for Trails
+            .Include(t => t.TrailLocations) // Eagerly load all TrailLocations for this Trail
+            .ThenInclude(tl => tl.Location) // Then, for each TrailLocation, eagerly load its associated Location
+            .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
+    }
 
     /*
     public async Task<PaginatedResult<Trail>> GetFilteredAsync(

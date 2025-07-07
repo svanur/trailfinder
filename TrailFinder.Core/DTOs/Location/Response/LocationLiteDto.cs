@@ -1,3 +1,5 @@
+using TrailFinder.Core.DTOs.Gpx;
+
 namespace TrailFinder.Core.DTOs.Location.Response;
 
 public class LocationLiteDto
@@ -20,4 +22,6 @@ public class LocationLiteDto
     public Guid Id { get; set; }
     public string Name { get; private set; } = null!;
     public string Slug { get; private set; } = null!;
+    
+    public GpxPoint GpxPoint { get; set; }
 }

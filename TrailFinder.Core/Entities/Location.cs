@@ -18,6 +18,9 @@ public class Location : BaseEntity
     
     //public LineString? PointGeom { get; set; }
     
+    // This is crucial for EF Core to understand the "many" side
+    public ICollection<TrailLocation> TrailLocations { get; } = new List<TrailLocation>();
+
     private Location() { } // For EF Core
 
     public Location(

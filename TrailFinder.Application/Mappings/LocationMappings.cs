@@ -1,5 +1,6 @@
 using AutoMapper;
 using TrailFinder.Core.DTOs.Common;
+using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.DTOs.Location.Response;
 using TrailFinder.Core.Entities;
 
@@ -14,6 +15,18 @@ public class LocationMappings : Profile
             .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Id.ToString())
+            );
+
+        
+        CreateMap<Location, LocationLiteDto>()
+            .ForMember(
+                dest => dest.Id,
+                opt => opt.MapFrom(src => src.Id.ToString())
+            )
+            .ForMember(
+                dest => dest.GpxPoint,
+                opt 
+                    => opt.MapFrom(src => new GpxPoint(src.Latitude, src.Longitude, 0))
             )
             ;
 

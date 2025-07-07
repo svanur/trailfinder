@@ -15,7 +15,7 @@ public class TrailLocationDto
         LocationType locationType,
         string comment,
         int displayOrder,
-        LocationDto locationDto
+        LocationLiteDto locationDto
     )
     {
         Id = id;
@@ -37,5 +37,5 @@ public class TrailLocationDto
     public LocationType LocationType { get; private set; }
     public string Comment { get; private set; } = null!;
     public int DisplayOrder { get; set; }
-    public LocationDto Location { get; set; }
+    public LocationLiteDto Location { get; set; }
 }
