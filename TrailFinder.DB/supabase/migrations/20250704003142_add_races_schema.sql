@@ -1,6 +1,3 @@
--- Create enum for race statuses
-CREATE TYPE race_status AS ENUM ('unknown', 'deprecated', 'cancelled', 'changed', 'active');
-
 create table public.races
 (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

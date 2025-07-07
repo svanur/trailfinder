@@ -2,9 +2,6 @@
 CREATE
 EXTENSION IF NOT EXISTS postgis;
 
--- Create enum for difficulty levels
-CREATE TYPE difficulty_level AS ENUM ('easy', 'moderate', 'hard', 'extreme', 'unknown');
-
 -- Create the 'trails' table
 CREATE TABLE trails
 (
