@@ -5,6 +5,7 @@ create table public.races
     name              text null,
     slug              text null,
     description       text null,
+    web_url           TEXT,
     status            race_status,
     recurring_month   smallint null,
     recurring_week    smallint null,

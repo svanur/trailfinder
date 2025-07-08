@@ -4,26 +4,26 @@ using TrailFinder.Core.Entities;
 
 namespace TrailFinder.Infrastructure.Persistence.Configurations;
 
-public class TrailLocationConfiguration : IEntityTypeConfiguration<TrailLocation>
+public class RaceLocationConfiguration : IEntityTypeConfiguration<RaceLocation>
 {
-    public void Configure(EntityTypeBuilder<TrailLocation> builder)
+    public void Configure(EntityTypeBuilder<RaceLocation> builder)
     {
-        builder.ToTable("trail_locations");
+        builder.ToTable("race_locations");
 
         // Primary Key - It seems you intend 'Id' to be the primary key of this join table
         // AND you want the combination of TrailId and LocationId to be UNIQUE.
         builder.HasKey(t => t.Id);
 
         // Ensure the combination of TrailId and LocationId is unique
-        builder.HasIndex(t => new { t.TrailId, t.LocationId }).IsUnique();
+        builder.HasIndex(t => new { t.RaceId, t.LocationId }).IsUnique();
 
         // Assuming your DB schema is now: `id UUID PRIMARY KEY`, and `UNIQUE (trail_id, location_id)`
         builder.Property(t => t.Id)
             .HasColumnName("id")
             .ValueGeneratedOnAdd(); // Let DB generate ID if it's new
 
-        builder.Property(t => t.TrailId)
-            .HasColumnName("trail_id");
+        builder.Property(t => t.RaceId)
+            .HasColumnName("race_id");
         
         builder.Property(t => t.LocationId)
             .HasColumnName("location_id");
@@ -64,13 +64,13 @@ public class TrailLocationConfiguration : IEntityTypeConfiguration<TrailLocation
 
         // Add foreign key relationships (EF Core needs these for navigation properties)
         // Add foreign key relationships (EF Core needs these for navigation properties)
-        builder.HasOne(tl => tl.Trail)
-            .WithMany(t => t.TrailLocations) //if Trail has a collection
-            .HasForeignKey(tl => tl.TrailId);
+        builder.HasOne(rl => rl.Race)
+            .WithMany(t => t.RaceLocations) //if Race has a collection
+            .HasForeignKey(rl => rl.RaceId);
 
         // Foreign key relationships
-        builder.HasOne(tl => tl.Location) // TrailLocation has one Location
-            .WithMany(l => l.TrailLocations) // Location has many TrailLocations
-            .HasForeignKey(tl => tl.LocationId); // The foreign key property on TrailLocation
+        builder.HasOne(rl => rl.Location) // RaceLocation has one Location
+            .WithMany(l => l.RaceLocations) // Location has many RaceLocations
+            .HasForeignKey(rl => rl.LocationId); // The foreign key property on RaceLocation
     }
 }

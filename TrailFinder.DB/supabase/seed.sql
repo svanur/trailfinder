@@ -149,13 +149,14 @@ VALUES
 ---
 
 -- Laugavegur Ultra Marathon
-INSERT INTO public.races (id, location_id, name, slug, description, status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
+INSERT INTO public.races (id, location_id, name, slug, description, web_url, status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
 VALUES (
            laugavegur_id,
            landmannalaugar_id, -- Primary location for race (used as fallback in older schema)
            'Laugavegur Ultra Marathon',
            'laugavegur-ultra',
            'Iconic 55km mountain trail race from Landmannalaugar to Þórsmörk.',
+           'https://www.laugavegshlaup.is/',
            'active',
            7, -- July
            3, -- Third week
@@ -166,13 +167,14 @@ VALUES (
        ) ON CONFLICT (id) DO NOTHING;
 
 -- Hengill Ultra
-INSERT INTO public.races (id, location_id, name, slug, description, status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
+INSERT INTO public.races (id, location_id, name, slug, description, web_url, status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
 VALUES (
            hengill_ultra_id,
            sudurland_id, -- General location for the race
            'Hengill Ultra',
            'hengill-ultra',
            'Trail running event in the geothermal Hengill area with multiple distances.',
+           'https://www.vikingamot.is/hengill-ultra/', 
            'active',
            6, -- June
            1, -- First week
@@ -249,7 +251,7 @@ VALUES (
            55,
            2000,
            'hard',
-           'https://www.laugavegur.is/en/route',
+           'https://connect.garmin.com/modern/course/376837566',
            true,
            seed_user_id
        ) ON CONFLICT (id) DO NOTHING;

@@ -1,6 +1,18 @@
 ## Select environment via: Run with: [dev|...]
 ## See: TrailFinder.Api/http-client.env.json 
 
+### Get all races
+GET {{hostAddress}}/api/races
+Accept: application/json
+
+### Get a specific race by id
+GET {{hostAddress}}/api/races/{{raceId}}
+Accept: application/json
+
+### Get a specific race by slug
+GET {{hostAddress}}/api/races/laugavegur-ultra
+Accept: application/json
+
 
 ### Get all locations
 GET {{hostAddress}}/api/locations

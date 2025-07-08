@@ -13,23 +13,23 @@ const pool = new Pool({
 
 async function getLocations() {
     try {
-        const result = await pool.query('SELECT id, name FROM locations');
+        const items = 'races';
+        const result = await pool.query('SELECT id, name FROM ' + items);
 
         for (const item of result.rows) {
             const item_id = item.id;
             const item_name = item.name;
 
             try {
-                const response = await axios.get(`${API_BASE_URL}/locations`);
-               //const response = await axios.get(`${API_BASE_URL}/trails/30000000-0000-0000-0000-000000000001`);
-                
+                const url = `${API_BASE_URL}/${items}`;
+                const response = await axios.get(url);
                 const data = response.data;
 
-                console.log(`Successfully got location "${item_name}" (${item_id})`);
+                console.log(`Successfully got ${items} "${item_name}" (${item_id})`);
                
             } catch (error) {
                 if (error.data)
-                    console.error("Error getting location", error);
+                    console.error("Error getting " + items, error);
             }
         }
     } catch (error) {

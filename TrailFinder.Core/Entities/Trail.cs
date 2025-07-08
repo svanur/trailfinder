@@ -32,6 +32,7 @@ public class Trail : BaseEntity
     private Trail() { } // For EF Core
 
     public Trail(
+        Guid id,
         string name,
         string description,
         double distance,
@@ -40,7 +41,7 @@ public class Trail : BaseEntity
         Guid userId
     )
     {
-        Id = Guid.NewGuid();
+        Id = id;
         Name = name;
         Slug = GenerateSlug(name);
         Description = description;

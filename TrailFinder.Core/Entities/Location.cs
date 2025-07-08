@@ -20,6 +20,7 @@ public class Location : BaseEntity
     
     // This is crucial for EF Core to understand the "many" side
     public ICollection<TrailLocation> TrailLocations { get; } = new List<TrailLocation>();
+    public ICollection<RaceLocation> RaceLocations { get; } = new List<RaceLocation>();
 
     private Location() { } // For EF Core
 

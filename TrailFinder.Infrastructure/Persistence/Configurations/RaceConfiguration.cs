@@ -4,65 +4,62 @@ using TrailFinder.Core.Entities;
 
 namespace TrailFinder.Infrastructure.Persistence.Configurations;
 
-public class TrailConfiguration : IEntityTypeConfiguration<Trail>
+public class RaceConfiguration : IEntityTypeConfiguration<Race>
 {
-    public void Configure(EntityTypeBuilder<Trail> builder)
+    public void Configure(EntityTypeBuilder<Race> builder)
     {
-        builder.ToTable("trails");
+        builder.ToTable("races");
 
         //
         // Primary Key
         //
-        builder.HasKey(t => t.Id);
+        builder.HasKey(r => r.Id);
 
         //
         // Base properties
         //
-        builder.Property(t => t.Id)
+        builder.Property(r => r.Id)
             .HasColumnName("id")
             .HasColumnType("uuid")
             .ValueGeneratedOnAdd();
 
         // Required string properties
-        builder.Property(t => t.Name)
+        builder.Property(r => r.Name)
             .HasColumnName("name")
             .IsRequired()
             .HasMaxLength(255);
 
-        builder.Property(t => t.Slug)
+        builder.Property(r => r.Slug)
             .HasColumnName("slug")
             .IsRequired()
             .HasMaxLength(255);
 
-        builder.Property(t => t.Description)
+        builder.Property(r => r.Description)
             .HasColumnName("description")
             .IsRequired();
 
         // Numeric properties
-        builder.Property(t => t.Distance)
-            .HasColumnName("distance")
-            .HasColumnType("decimal(10,2)")
+        builder.Property(r => r.RecurringMonth)
+            .HasColumnName("recurring_month")
+            .HasColumnType("int")
             .IsRequired();
 
-        builder.Property(t => t.ElevationGain)
-            .HasColumnName("elevation_gain")
-            .HasColumnType("double precision") // PostgreSQL type for double
-            .IsRequired(); // This is actually the default for non-nullable types
+        builder.Property(r => r.RecurringMonth)
+            .HasColumnName("recurring_week")
+            .HasColumnType("int")
+            .IsRequired();
 
-        builder.Property(t => t.DifficultyLevel)
-            .HasColumnName("difficulty_level");
+        builder.Property(r => r.RecurringWeekday)
+            .HasColumnName("recurring_weekday")
+            .HasColumnType("int")
+            .IsRequired();
 
         // Boolean property
-        builder.Property(t => t.HasGpx)
-            .HasColumnName("has_gpx")
+        builder.Property(t => t.IsActive)
+            .HasColumnName("is_active")
             .HasColumnType("boolean")
             .IsRequired()
-            .HasDefaultValue(false);
-
-        builder.Property(t => t.RouteGeom)
-            .HasColumnName("route_geom")
-            .HasColumnType("geometry(LineStringZ, 4326)") // Changed from LineString to LineStringZ
-            .IsRequired(false);
+            .HasDefaultValue(true);
 
         // Optional string property
         builder.Property(t => t.WebUrl)
@@ -96,7 +93,7 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
 
         builder.HasIndex(t => t.UserId);
 
-        builder.HasIndex(t => t.RouteGeom)
-            .HasMethod("GIST");
+        //builder.HasIndex(t => t.StartPoint)
+        //    .HasMethod("GIST");
     }
 }
