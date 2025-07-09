@@ -11,25 +11,25 @@ const pool = new Pool({
     password: 'postgres'
 });
 
-async function getLocations() {
+async function getItems(items) {
     try {
-        const items = 'races';
-        const result = await pool.query('SELECT id, name FROM ' + items);
+        const table_name = items;
+        const result = await pool.query('SELECT id, name FROM ' + table_name);
 
         for (const item of result.rows) {
             const item_id = item.id;
             const item_name = item.name;
 
             try {
-                const url = `${API_BASE_URL}/${items}`;
+                const url = `${API_BASE_URL}/${table_name}`;
                 const response = await axios.get(url);
                 const data = response.data;
 
-                console.log(`Successfully got ${items} "${item_name}" (${item_id})`);
+                console.log(`Successfully got ${table_name} "${item_name}" (${item_id})`);
                
             } catch (error) {
                 if (error.data)
-                    console.error("Error getting " + items, error);
+                    console.error("Error getting " + table_name, error);
             }
         }
     } catch (error) {
@@ -46,15 +46,15 @@ function sanitizeNumber(value) {
     return value;
 }
 
-async function main() {
+async function main(items) {
     try {
-        console.log('Begin getting locations');
-        await getLocations();
-        console.log('Finished getting locations');
+        console.log('Begin: Getting items from', items);
+        await getItems(items);
+        console.log('Finished: Getting', items);
     } catch (error) {
         console.error('Error in main:', error);
         process.exit(1);
     }
 }
 
-main();
+main('races');

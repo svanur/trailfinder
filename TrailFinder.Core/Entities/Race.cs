@@ -1,4 +1,5 @@
 using TrailFinder.Core.Entities.Common;
+using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Core.Entities;
 
@@ -12,7 +13,7 @@ public class Race : BaseEntity
     public string Slug { get; set; }
     public string Description { get; set; }
     public string WebUrl { get; set; }
-    public bool IsActive { get; set; } // For permanently discontinued races
+    public RaceStatus RaceStatus { get; set; }
 
     // Recurring Date Information
     public int RecurringMonth { get; set; } // 1-12

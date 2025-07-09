@@ -2,25 +2,22 @@ using NpgsqlTypes;
 
 namespace TrailFinder.Core.Enums;
 
-// Matches: CREATE TYPE location_type AS ENUM ('unknown', 'start', 'aid_station', 'checkpoint', 'end');
+// Matches: CREATE TYPE race_status AS ENUM ('unknown', 'deprecated', 'cancelled', 'changed', 'active');
 
-public enum LocationType
+public enum RaceStatus
 {
     [PgName("unknown")] // This maps the PostgreSQL 'unknown' string to this C# enum member
     Unknown = 0, // It's good practice for 'unknown' or default to be 0
     
-    [PgName("start")]
+    [PgName("deprecated")]
     Start = 1,
     
-    [PgName("aid_station")]
+    [PgName("cancelled")]
     AidStation = 2,
     
-    [PgName("checkpoint")]
+    [PgName("changed")]
     Checkpoint = 3,
     
-    [PgName("end")]
-    End = 4,
-    
-    [PgName("end_and_end")]
-    StartAndEnd = 5
+    [PgName("active")]
+    Active = 5
 }

@@ -149,7 +149,7 @@ VALUES
 ---
 
 -- Laugavegur Ultra Marathon
-INSERT INTO public.races (id, location_id, name, slug, description, web_url, status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
+INSERT INTO public.races (id, location_id, name, slug, description, web_url, race_status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
 VALUES (
            laugavegur_id,
            landmannalaugar_id, -- Primary location for race (used as fallback in older schema)
@@ -167,7 +167,7 @@ VALUES (
        ) ON CONFLICT (id) DO NOTHING;
 
 -- Hengill Ultra
-INSERT INTO public.races (id, location_id, name, slug, description, web_url, status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
+INSERT INTO public.races (id, location_id, name, slug, description, web_url, race_status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
 VALUES (
            hengill_ultra_id,
            sudurland_id, -- General location for the race
@@ -185,7 +185,7 @@ VALUES (
        ) ON CONFLICT (id) DO NOTHING;
 
 -- Reykjavík Marathon
-INSERT INTO public.races (id, location_id, name, slug, description, status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
+INSERT INTO public.races (id, location_id, name, slug, description, race_status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
 VALUES (
            reykjavik_marathon_id,
            reykjavik_id, -- Primary location is Reykjavik city
@@ -202,7 +202,7 @@ VALUES (
        ) ON CONFLICT (id) DO NOTHING;
 
 -- Ice Ultra (example of a less frequent/maybe deprecated race)
-INSERT INTO public.races (id, location_id, name, slug, description, status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
+INSERT INTO public.races (id, location_id, name, slug, description, race_status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
 VALUES (
            ice_ultra_id,
            island_id, -- General location
@@ -219,12 +219,12 @@ VALUES (
        ) ON CONFLICT (id) DO NOTHING;
 
 -- NEW: Esja Ultra Race (conceptual race for Esja trails)
-INSERT INTO public.races (id, location_id, name, slug, description, status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
+INSERT INTO public.races (id, location_id, name, slug, description, race_status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
 VALUES (esja_ultra_race_id, reykjavik_id, 'Mt Esja Ultra', 'mt-esja-ultra', 'Mountain ultra marathon on Mt. Esja, offering multiple distances.', 'active', 7, 4, 6, seed_user_id, NOW(), NOW())
     ON CONFLICT (id) DO NOTHING;
 
 -- NEW: Hvítasunnuhlaup Hauka Race (conceptual race)
-INSERT INTO public.races (id, location_id, name, slug, description, status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
+INSERT INTO public.races (id, location_id, name, slug, description, race_status, recurring_month, recurring_week, recurring_weekday, user_id, created_at, updated_at)
 VALUES (hvitasunnuhlaup_race_id, reykjavik_id, 'Hvítasunnuhlaup Hauka', 'hvitasunnuhlaup-hauka', 'Annual race by Haukar athletic club, held near Hafnarfjörður.', 'active', 6, 2, 7, seed_user_id, NOW(), NOW())
     ON CONFLICT (id) DO NOTHING;
 
@@ -261,41 +261,41 @@ VALUES (
 ---
 
 -- Laugavegur Ultra Marathon
-INSERT INTO public.race_trails (race_id, trail_id, status, comment, display_order, created_at)
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
 VALUES (laugavegur_id, laugavegur_trail_id, 'active', NULL, 1, NOW())
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 -- Hengill Ultra Race
-INSERT INTO public.race_trails (race_id, trail_id, status, comment, display_order, created_at)
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
 VALUES (hengill_ultra_id, hengill_ultra_52_trail_id, 'active', 'Main 52km course.', 1, NOW())
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 -- Mt Esja Ultra
-INSERT INTO public.race_trails (race_id, trail_id, status, comment, display_order, created_at)
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
 VALUES (esja_ultra_race_id, esja_ultra_marathon_trail_id, 'active', 'The full marathon course for Esja Ultra.', 1, NOW())
     ON CONFLICT (race_id, trail_id) DO NOTHING;
-INSERT INTO public.race_trails (race_id, trail_id, status, comment, display_order, created_at)
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
 VALUES (esja_ultra_race_id, esja_ultra_half_marathon_trail_id, 'active', 'The half marathon course for Esja Ultra.', 2, NOW())
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 -- Hvítasunnuhlaup Hauka
-INSERT INTO public.race_trails (race_id, trail_id, status, comment, display_order, created_at)
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
 VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_22_trail_id, 'active', 'Longest distance for the event.', 1, NOW())
     ON CONFLICT (race_id, trail_id) DO NOTHING;
-INSERT INTO public.race_trails (race_id, trail_id, status, comment, display_order, created_at)
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
 VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_17_trail_id, 'active', NULL, 2, NOW())
     ON CONFLICT (race_id, trail_id) DO NOTHING;
-INSERT INTO public.race_trails (race_id, trail_id, status, comment, display_order, created_at)
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
 VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_14_trail_id, 'active', 'Shortest distance, suitable for beginners.', 3, NOW())
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 -- Reykjavík Marathon
-INSERT INTO public.race_trails (race_id, trail_id, status, comment, display_order, created_at)
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
 VALUES (reykjavik_marathon_id, bakgardur_ellidavatn_trail_id, 'unknown', 'Used for a popular shorter distance, official course may vary slightly.', NULL, NOW())
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 -- Ice Ultra
-INSERT INTO public.race_trails (race_id, trail_id, status, comment, display_order, created_at)
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
 VALUES (ice_ultra_id, skaftafell_ultra_trail_id, 'deprecated', 'This specific trail was part of the 2020 edition, but the event itself is deprecated.', 1, NOW())
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 

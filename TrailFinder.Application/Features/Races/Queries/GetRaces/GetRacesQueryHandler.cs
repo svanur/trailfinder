@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using TrailFinder.Core.DTOs.Common;
 using TrailFinder.Core.DTOs.Race.Response;
+using TrailFinder.Core.Exceptions;
 using TrailFinder.Core.Interfaces.Repositories;
 
 namespace TrailFinder.Application.Features.Races.Queries.GetRaces;
@@ -28,7 +29,13 @@ public class GetRacesQueryHandler : IRequestHandler<GetRacesQuery, PaginatedResu
         GetRacesQuery request,
         CancellationToken cancellationToken)
     {
+        
         var races = await _raceRepository.GetAllAsync(cancellationToken);
+        if (races == null)
+        {
+            throw new RaceNotFoundException();
+        }
+
         return _mapper.Map<PaginatedResult<RaceDto>>(races);
     }
 }

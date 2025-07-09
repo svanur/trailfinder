@@ -3,15 +3,15 @@ CREATE
 EXTENSION IF NOT EXISTS postgis;
 
 -- Create the 'trails' table
-CREATE TABLE trails
+CREATE TABLE public.trails
 (
     id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name             VARCHAR(255) NOT NULL,
-    slug             VARCHAR(255) NOT NULL UNIQUE,
+    name             VARCHAR(255)     NOT NULL,
+    slug             VARCHAR(255)     NOT NULL UNIQUE,
     description      TEXT,
     distance         NUMERIC(10, 2),
     elevation_gain   INTEGER,
-    difficulty_level difficulty_level,
+    difficulty_level difficulty_level not null,
     route_geom       geometry(LINESTRINGZ, 4326),
     web_url          TEXT,
     has_gpx          BOOLEAN,

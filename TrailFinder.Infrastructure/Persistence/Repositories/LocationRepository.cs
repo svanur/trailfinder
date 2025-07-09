@@ -9,13 +9,13 @@ public class LocationRepository(ApplicationDbContext context)
 {
     public async Task<Location?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default)
     {
-        return await _dbSet
+        return await DbSet
             .FirstOrDefaultAsync(t => t.Slug == slug, cancellationToken);
     }
 
     public override async Task<IEnumerable<Location>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await _dbSet
+        return await DbSet
             .OrderByDescending(t => t.CreatedAt)
             .ToListAsync(cancellationToken);
     }

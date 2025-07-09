@@ -13,14 +13,13 @@ namespace TrailFinder.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // The database schema is managed by Supabase, so no schema changes here.
-            // This migration solely exists to mark the current model state in __EFMigrationsHistory.
+            
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            // No schema changes to revert, as Up() did not create any.
+            
         }
     }
 }

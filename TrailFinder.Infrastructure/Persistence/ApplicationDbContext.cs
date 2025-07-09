@@ -3,22 +3,17 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrailFinder.Contract.Persistence;
 using TrailFinder.Core.Entities;
 using TrailFinder.Core.Enums;
-using TrailFinder.Infrastructure.Persistence.Configurations;
+using TrailFinder.Infrastructure.Persistence.Configurations; // Make sure this namespace is included
 
 namespace TrailFinder.Infrastructure.Persistence;
 
-public class ApplicationDbContext : DbContext, IApplicationDbContext
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    : DbContext(options), IApplicationDbContext
 
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
-    {
-    }
-
     public DbSet<Trail> Trails { get; set; } = null!;
     public DbSet<Location> Locations { get; set; } = null!;
     public DbSet<TrailLocation> TrailLocations { get; set; } = null!;
-
     public DbSet<Race> Races { get; set; } = null!;
     public DbSet<RaceLocation> RaceLocations { get; set; } = null!;
     
@@ -26,43 +21,16 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Register the enum type
-        //modelBuilder.HasPostgresEnum<DifficultyLevel>("difficulty_level");
+        // Register enum types
         modelBuilder.HasPostgresEnum<DifficultyLevel>();
         modelBuilder.HasPostgresEnum<LocationType>();
-
-
-        /*
-        var difficultyLevelConverter = new ValueConverter<DifficultyLevel, DifficultyLevel>(
-            v => v,
-            v => v
-        );
-
-        // And for nullable DifficultyLevel
-        var nullableDifficultyLevelConverter = new ValueConverter<DifficultyLevel?, DifficultyLevel?>(
-            v => v,
-            v => v
-        );
+        modelBuilder.HasPostgresEnum<RaceStatus>();
         
-        // Apply the converters globally
-        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-        {
-            var properties = entityType.GetProperties()
-                .Where(p => p.ClrType == typeof(DifficultyLevel) || p.ClrType == typeof(DifficultyLevel?));
-
-            foreach (var property in properties)
-                property.SetValueConverter(
-                    property.ClrType == typeof(DifficultyLevel)
-                        ? difficultyLevelConverter
-                        : nullableDifficultyLevelConverter
-                );
-        }
-        */
-
-        // Apply configuration
-        //modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        // Apply configuration for all entities
         modelBuilder.ApplyConfiguration(new TrailConfiguration());
         modelBuilder.ApplyConfiguration(new LocationConfiguration());
         modelBuilder.ApplyConfiguration(new TrailLocationConfiguration());
+        modelBuilder.ApplyConfiguration(new RaceConfiguration());
+        modelBuilder.ApplyConfiguration(new RaceLocationConfiguration());
     }
 }

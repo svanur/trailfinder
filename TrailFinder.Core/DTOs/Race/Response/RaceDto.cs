@@ -1,4 +1,5 @@
 using TrailFinder.Core.DTOs.Location.Response;
+using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Core.DTOs.Race.Response;
 
@@ -14,9 +15,9 @@ public class RaceDto
         string slug,
         string description,
         string webUrl,
-        bool isActive,
+        RaceStatus raceStatus,
         int recurringMonth,
-        int recurringWeekOrdinal,
+        int recurringWeek,
         int recurringWeekday,
         DateTime createdAt,
         DateTime updatedAt,
@@ -28,10 +29,10 @@ public class RaceDto
         Slug = slug;
         Description = description;
         WebUrl = webUrl;
-        IsActive = isActive;
+        RaceStatus = raceStatus;
 
         RecurringMonth = recurringMonth;
-        RecurringWeekOrdinal = recurringWeekOrdinal;
+        RecurringWeek = recurringWeek;
         RecurringWeekday = recurringWeekday;
 
         CreatedAt = createdAt;
@@ -46,10 +47,10 @@ public class RaceDto
     public string Description { get; set; } = string.Empty;
 
     public string? WebUrl { get; set; }
-    public bool IsActive { get; set; }
+    public RaceStatus RaceStatus { get; set; }
 
     private int RecurringMonth { get; set; }
-    private int RecurringWeekOrdinal { get; set; }
+    private int RecurringWeek { get; set; }
     private int RecurringWeekday { get; set; }
 
     public DateTime CreatedAt { get; set; }

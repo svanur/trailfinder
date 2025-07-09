@@ -14,7 +14,7 @@ using TrailFinder.Infrastructure.Persistence;
 namespace TrailFinder.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250708223923_InitialMigration")]
+    [Migration("20250709215214_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -26,7 +26,8 @@ namespace TrailFinder.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "difficulty_level", new[] { "unknown", "easy", "moderate", "hard", "extreme" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "location_type", new[] { "unknown", "start", "aid_station", "checkpoint", "end" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "location_type", new[] { "unknown", "start", "aid_station", "checkpoint", "end", "end_and_end" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "race_status", new[] { "unknown", "deprecated", "cancelled", "changed", "active" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -94,87 +95,122 @@ namespace TrailFinder.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
+                        .HasColumnType("text")
+                        .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
+
+                    b.Property<RaceStatus>("RaceStatus")
+                        .HasColumnType("race_status")
+                        .HasColumnName("race_status")
+                        .IsRequired();
 
                     b.Property<int>("RecurringMonth")
-                        .HasColumnType("integer");
+                        .HasColumnType("int")
+                        .HasColumnName("recurring_month");
 
                     b.Property<int>("RecurringWeek")
-                        .HasColumnType("integer");
+                        .HasColumnType("int")
+                        .HasColumnName("recurring_week");
 
                     b.Property<int>("RecurringWeekday")
-                        .HasColumnType("integer");
+                        .HasColumnType("int")
+                        .HasColumnName("recurring_weekday");
 
                     b.Property<string>("Slug")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("slug");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
                     b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
                     b.Property<string>("WebUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)")
+                        .HasColumnName("web_url");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Races");
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("races", (string)null);
                 });
 
             modelBuilder.Entity("TrailFinder.Core.Entities.RaceLocation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("comment");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
-                    b.Property<int?>("DisplayOrder")
-                        .HasColumnType("integer");
+                    b.Property<decimal?>("DisplayOrder")
+                        .HasColumnType("numeric")
+                        .HasColumnName("display_order");
 
                     b.Property<Guid>("LocationId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
 
                     b.Property<LocationType>("LocationType")
-                        .HasColumnType("location_type");
+                        .HasColumnType("location_type")
+                        .HasColumnName("location_type");
 
                     b.Property<Guid>("RaceId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("race_id");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
                     b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LocationId");
 
-                    b.HasIndex("RaceId");
+                    b.HasIndex("RaceId", "LocationId")
+                        .IsUnique();
 
-                    b.ToTable("RaceLocations");
+                    b.ToTable("race_locations", (string)null);
                 });
 
             modelBuilder.Entity("TrailFinder.Core.Entities.Trail", b =>

@@ -1,4 +1,4 @@
-create table locations
+create table public.locations
 (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     parent_id   UUID null,    

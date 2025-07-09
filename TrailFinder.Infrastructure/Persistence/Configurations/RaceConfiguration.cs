@@ -38,13 +38,19 @@ public class RaceConfiguration : IEntityTypeConfiguration<Race>
             .HasColumnName("description")
             .IsRequired();
 
+        // enum property
+        builder.Property(t => t.RaceStatus)
+            .HasColumnName("race_status") 
+            .HasColumnType("race_status") 
+            .IsRequired();
+        
         // Numeric properties
         builder.Property(r => r.RecurringMonth)
             .HasColumnName("recurring_month")
             .HasColumnType("int")
             .IsRequired();
 
-        builder.Property(r => r.RecurringMonth)
+        builder.Property(r => r.RecurringWeek)
             .HasColumnName("recurring_week")
             .HasColumnType("int")
             .IsRequired();
@@ -53,14 +59,7 @@ public class RaceConfiguration : IEntityTypeConfiguration<Race>
             .HasColumnName("recurring_weekday")
             .HasColumnType("int")
             .IsRequired();
-
-        // Boolean property
-        builder.Property(t => t.IsActive)
-            .HasColumnName("is_active")
-            .HasColumnType("boolean")
-            .IsRequired()
-            .HasDefaultValue(true);
-
+        
         // Optional string property
         builder.Property(t => t.WebUrl)
             .HasColumnName("web_url")
