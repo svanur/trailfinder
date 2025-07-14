@@ -7,10 +7,7 @@ public class SupabaseTrail : BaseModel
 {
     [Column("id")]
     public Guid Id { get; set; }
-    
-    [Column("parent_id")]
-    public Guid? ParentId { get; set; }
-    
+        
     [Column("name")]
     public string Name { get; set; } = string.Empty;
     

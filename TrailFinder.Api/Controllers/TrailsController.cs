@@ -5,7 +5,6 @@ using TrailFinder.Application.Features.Trails.Queries.GetTrail;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailGpxInfo;
 using TrailFinder.Application.Features.Trails.Queries.GetTrails;
-using TrailFinder.Application.Features.Trails.Queries.GetTrailsByParentId;
 using TrailFinder.Core.DTOs.Gpx.Requests;
 using TrailFinder.Core.DTOs.Gpx.Responses;
 using TrailFinder.Core.DTOs.Trails.Responses;
@@ -25,13 +24,13 @@ public class TrailsController : BaseApiController
     public TrailsController(
         IMediator mediator,
         ILogger<TrailsController> logger,
-        ISupabaseStorageService _StorageService
+        ISupabaseStorageService storageService
     )
         : base(logger)
     {
         _mediator = mediator;
         _logger = logger;
-        _storageService = _StorageService;
+        _storageService = storageService;
     }
 
     [HttpGet("{trailSlug}")]
@@ -74,21 +73,12 @@ public class TrailsController : BaseApiController
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TrailDto>>> GetTrails([FromQuery] Guid? parentId)
+    public async Task<ActionResult<IEnumerable<TrailDto>>> GetTrails()
     {
         try
         {
-            object? result;
-            if (!parentId.HasValue)
-            {
-                result = await _mediator.Send(new GetTrailsQuery());
-            }
-            else
-            {
-                result = await _mediator.Send(new GetTrailsByParentIdQuery(parentId.Value));
-            }
-            
-            return Ok(result);
+            var paginatedResult = await _mediator.Send(new GetTrailsQuery());
+            return Ok(paginatedResult);
         }
         catch (Exception ex)
         {

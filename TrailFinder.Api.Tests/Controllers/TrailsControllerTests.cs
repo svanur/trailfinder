@@ -6,7 +6,6 @@ using NetTopologySuite.Geometries;
 using TrailFinder.Api.Controllers;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 using TrailFinder.Application.Features.Trails.Queries.GetTrails;
-using TrailFinder.Application.Features.Trails.Queries.GetTrailsByParentId;
 using TrailFinder.Core.DTOs.Common;
 using TrailFinder.Core.DTOs.Trails.Responses;
 using TrailFinder.Core.Enums;
@@ -37,48 +36,13 @@ public class TrailsControllerTests
     #region GetTrails
     
     [Fact]
-    public async Task GetTrails_WithoutParentId_ReturnsAllTrails()
+    public async Task GetTrails_WhenSuccess_ReturnsTrails()
     {
         // Arrange
-        var expectedTrails = new List<TrailDto>
+        var trails = new List<TrailDto>
         {
             CreateTrailDto("Trail 1"),
             CreateTrailDto("Trail 2")
-        };
-
-        var paginatedResult = new PaginatedResult<TrailDto>(
-            expectedTrails,
-            expectedTrails.Count,
-            1, // pageNumber
-            10 // pageSize
-        );
-
-        _mediatorMock
-            .Setup(m => m.Send(It.IsAny<GetTrailsQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(paginatedResult);
-
-        // Act
-        var result = await _controller.GetTrails(null);
-
-        // Assert
-        var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        var returnedTrails = Assert.IsType<PaginatedResult<TrailDto>>(okResult.Value, exactMatch: false);
-        Assert.Equal(expectedTrails, returnedTrails.Items);
-
-        _mediatorMock.Verify(
-            x => x.Send(It.IsAny<GetTrailsQuery>(), It.IsAny<CancellationToken>()),
-            Times.Once);
-    }
-    
-    [Fact]
-    public async Task GetTrails_WithParentId_ReturnsChildTrails()
-    {
-        // Arrange
-        var parentId = Guid.NewGuid();
-        var trails = new List<TrailDto>
-        {
-            CreateTrailDto("Child Trail 1", parentId),
-            CreateTrailDto("Child Trail 2", parentId)
         };
 
         var expectedTrails = new PaginatedResult<TrailDto>(
@@ -86,31 +50,26 @@ public class TrailsControllerTests
             );
         
         _mediatorMock
-            .Setup(m => m.Send(
-                It.Is<GetTrailsByParentIdQuery>(q => q.ParentId == parentId),
-                It.IsAny<CancellationToken>())
-            )
+            .Setup(m => m.Send(It.IsAny<GetTrailsQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedTrails);
 
         // Act
-        var result = await _controller.GetTrails(parentId);
+        var result = await _controller.GetTrails();
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
         var returnedTrails = Assert.IsType<PaginatedResult<TrailDto>>(okResult.Value, false);
         Assert.Equal(expectedTrails, returnedTrails);
-
-
+        
         _mediatorMock.Verify(
-            x => x.Send(It.Is<GetTrailsByParentIdQuery>(q => q.ParentId == parentId), It.IsAny<CancellationToken>()),
+            x => x.Send(It.IsAny<GetTrailsQuery>(), It.IsAny<CancellationToken>()),
             Times.Once);
     }
 
     [Fact]
-    public async Task GetTrails_WithParentId_WhenNoTrailsFound_ReturnsEmptyCollection()
+    public async Task GetTrails_WhenNoTrailsFound_ReturnsEmptyCollection()
     {
         // Arrange
-        var parentId = Guid.NewGuid();
         var emptyResult = new PaginatedResult<TrailDto>(
             new List<TrailDto>(),
             0,
@@ -119,12 +78,11 @@ public class TrailsControllerTests
         );
 
         _mediatorMock
-            .Setup(m => m.Send(It.Is<GetTrailsByParentIdQuery>(q => q.ParentId == parentId),
-                It.IsAny<CancellationToken>()))
+            .Setup(m => m.Send(It.IsAny<GetTrailsQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(emptyResult);
 
         // Act
-        var result = await _controller.GetTrails(parentId);
+        var result = await _controller.GetTrails();
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -143,7 +101,7 @@ public class TrailsControllerTests
             .ThrowsAsync(expectedException);
 
         // Act
-        var result = await _controller.GetTrails(null);
+        var result = await _controller.GetTrails();
 
         // Assert
         // Note: The exact return type here depends on your HandleException implementation
@@ -214,13 +172,11 @@ public class TrailsControllerTests
         Assert.NotNull(objectResult);
         Assert.Equal(500, objectResult.StatusCode);
     }
-
     
     #endregion
     
     private static TrailDto CreateTrailDto(
         string name,
-        Guid? parentId = null,
         string slug = "",
         string description = "",
         double distanceMeters = 0,
@@ -237,7 +193,6 @@ public class TrailsControllerTests
     {
         return new TrailDto(
             Guid.NewGuid(),
-            parentId,
             name,
             slug,
             description,

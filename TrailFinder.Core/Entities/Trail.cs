@@ -50,9 +50,9 @@ public class Trail : BaseEntity
         DistanceMeters = distanceMeters;
         ElevationGainMeters = elevationGainMeters;
         DifficultyLevel = difficultyLevel;
-        //StartPoint = GeometryFactory.CreatePoint(new Coordinate(startPointLongitude, startPointLatitude));
-        //EndPoint = GeometryFactory.CreatePoint(new Coordinate(endPointLongitude, endPointLatitude));
-        ParentId = parentId;
+        //StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0));
+        //EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
+        
         UserId = userId;
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
@@ -84,8 +84,8 @@ public class Trail : BaseEntity
         DistanceMeters = distanceMeters;
         ElevationGainMeters = elevationGainMeters;
         DifficultyLevel = difficultyLevel;
-        //StartPoint = GeometryFactory.CreatePoint(new Coordinate(startPointLongitude, startPointLatitude));
-        //EndPoint = GeometryFactory.CreatePoint(new Coordinate(endPointLongitude, endPointLatitude));
+        //StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0)); // Add elevation as Z
+        //EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
         UpdatedAt = DateTime.UtcNow;
     }
 
