@@ -9,7 +9,7 @@ public record CreateTrailCommand : IRequest<int>
     public string Name { get; init; }
     public string Description { get; init; }
     public decimal Distance { get; init; }
-    public decimal ElevationGain { get; init; }
+    public decimal ElevationGainMeters { get; init; }
     public DifficultyLevel? DifficultyLevel { get; init; }
     //public double StartPointLatitude { get; init; }
     //public double StartPointLongitude { get; init; }
@@ -21,7 +21,7 @@ public record CreateTrailCommand : IRequest<int>
         Name = dto.Name,
         Description = dto.Description,
         Distance = dto.Distance,
-        ElevationGain = dto.ElevationGain,
+        ElevationGainMeters = dto.ElevationGainMeters,
         DifficultyLevel = dto.DifficultyLevel,
         //StartPointLatitude = dto.StartPointLatitude,
         //StartPointLongitude = dto.StartPointLongitude,

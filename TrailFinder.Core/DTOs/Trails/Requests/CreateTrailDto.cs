@@ -6,7 +6,7 @@ public record CreateTrailDto(
     string Name,
     string Description,
     decimal Distance,
-    decimal ElevationGain,
+    decimal ElevationGainMeters,
     DifficultyLevel DifficultyLevel,
     double StartPointLatitude,
     double StartPointLongitude,

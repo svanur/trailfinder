@@ -52,12 +52,12 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
 
         if (filter.MinElevation.HasValue)
         {
-            query = query.Where(t => t.ElevationGain >= filter.MinElevation.Value);
+            query = query.Where(t => t.ElevationGainMeters >= filter.MinElevation.Value);
         }
 
         if (filter.MaxElevation.HasValue)
         {
-            query = query.Where(t => t.ElevationGain <= filter.MaxElevation.Value);
+            query = query.Where(t => t.ElevationGainMeters <= filter.MaxElevation.Value);
         }
 
         //if (filter.DifficultyLevel.HasValue)
@@ -78,8 +78,8 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
                 ? query.OrderByDescending(t => t.Distance)
                 : query.OrderBy(t => t.Distance),
             "elevation" => filter.Descending
-                ? query.OrderByDescending(t => t.ElevationGain)
-                : query.OrderBy(t => t.ElevationGain),
+                ? query.OrderByDescending(t => t.ElevationGainMeters)
+                : query.OrderBy(t => t.ElevationGainMeters),
             "difficulty" => filter.Descending
                 ? query.OrderByDescending(t => t.DifficultyLevel)
                 : query.OrderBy(t => t.DifficultyLevel),

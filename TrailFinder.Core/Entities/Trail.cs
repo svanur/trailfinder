@@ -34,12 +34,6 @@ public class Trail : BaseEntity
         double distance,
         double elevationGain,
         DifficultyLevel difficultyLevel,
-        /*
-        double startPointLatitude,
-        double startPointLongitude,
-        double endPointLatitude,
-        double endPointLongitude,
-        */
         Guid userId
     )
     {
