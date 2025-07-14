@@ -40,7 +40,7 @@ public class SupabaseTrail : BaseModel
     public bool? HasGpx { get; set; }
     
     [Column("user_id")]
-    public Guid? UserId { get; set; }
+    public Guid UserId { get; set; }
     
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }

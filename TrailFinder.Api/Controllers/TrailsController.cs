@@ -107,13 +107,13 @@ public class TrailsController : BaseApiController
         {
             var command = new UpdateTrailCommand(
                 trailId,
-                //gpxInfo.Distance,
-                //gpxInfo.ElevationGain,
+                // gpxInfo.Distance,
+                // gpxInfo.ElevationGain,
                 gpxInfo.DifficultyLevel,
                 gpxInfo.RouteType,
                 gpxInfo.TerrainType,
-                //gpxInfo.StartPoint,
-                //gpxInfo.EndPoint,
+                // gpxInfo.StartGpxPoint,
+                // gpxInfo.EndGpxPoint,
                 gpxInfo.RouteGeom
             );
         

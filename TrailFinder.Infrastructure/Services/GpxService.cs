@@ -28,7 +28,7 @@ public class GpxService : IGpxService
             
             var coordinates = points
                 .Select(
-                    p => new CoordinateZ(p.Longitude, p.Latitude, p.Elevation ?? 0)
+                    p => new CoordinateZ(p.Longitude, p.Latitude, p.Elevation)
                 )
                 .Cast<Coordinate>()
                 .ToArray();
@@ -38,13 +38,13 @@ public class GpxService : IGpxService
             var analysisResult = _analysisService.Analyze(points);
             
             return new GpxInfoDto(
-                // totalDistance,
-                // elevationGain,
+                analysisResult.Distance,
+                analysisResult.ElevationGain,
                 analysisResult.DifficultyLevel,
                 analysisResult.RouteType, 
                 analysisResult.TerrainType,
-                // startGeoPoint,
-                // endGeoPoint,
+                analysisResult.StartGpxPoint,
+                analysisResult.EndGpxPoint,
                 routeGeom
             );
         }

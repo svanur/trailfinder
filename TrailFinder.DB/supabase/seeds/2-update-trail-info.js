@@ -26,13 +26,13 @@ async function updateTrailsGpxInfo() {
 
                 // Sanitize numeric values before sending
                 const sanitizedGpxInfo = {
-                    //distance: sanitizeNumber(gpxInfo.distance),
-                    //elevationGain: sanitizeNumber(gpxInfo.elevationGain),
+                    distance: sanitizeNumber(gpxInfo.distance),
+                    elevationGain: sanitizeNumber(gpxInfo.elevationGain),
                     difficultyLevel: gpxInfo.difficultyLevel,
                     routeType: gpxInfo.routeType,
                     terrainType: gpxInfo.terrainType,
-                    //startPoint: gpxInfo.startPoint,
-                    //endPoint: gpxInfo.endPoint,
+                    startGpxPoint: gpxInfo.startGpxPoint,
+                    endGpxPoint: gpxInfo.endGpxPoint,
                     routeGeom: gpxInfo.routeGeom
                 };
 
@@ -42,12 +42,14 @@ async function updateTrailsGpxInfo() {
                 console.log(`Successfully updated information for "${trailName}" (${trailId})`);
                 console.log({
                     name: trailName,
-                    //distance: sanitizedGpxInfo.distance,
-                    //elevation: sanitizedGpxInfo.elevationGain,
+                    distance: sanitizedGpxInfo.distance,
+                    elevation: sanitizedGpxInfo.elevationGain,
                     difficultyLevel: sanitizedGpxInfo.difficultyLevel,
                     routeType: sanitizedGpxInfo.routeType,
                     terrainType: sanitizedGpxInfo.terrainType,
                     hasRouteGeom: !!sanitizedGpxInfo.routeGeom,
+                    startGpxPoint: sanitizedGpxInfo.startPoint,
+                    endGpxPoint: sanitizedGpxInfo.endPoint
                    /* startPoint: {
                         latitude: sanitizedGpxInfo.startPoint.latitude,
                         longitude: sanitizedGpxInfo.startPoint.longitude,

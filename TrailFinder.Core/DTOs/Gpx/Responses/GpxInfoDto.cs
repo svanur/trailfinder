@@ -4,13 +4,13 @@ using TrailFinder.Core.Enums;
 namespace TrailFinder.Core.DTOs.Gpx.Responses;
 
 public record GpxInfoDto(
-    // double Distance,
-    // double ElevationGain,
+    double Distance,
+    double ElevationGain,
     DifficultyLevel DifficultyLevel,
     RouteType RouteType,
     TerrainType TerrainType,
-    // GpxPoint StartPoint,
-    // GpxPoint EndPoint,
+    GpxPoint StartGpxPoint,
+    GpxPoint EndGpxPoint,
     LineString RouteGeom
 );
 
