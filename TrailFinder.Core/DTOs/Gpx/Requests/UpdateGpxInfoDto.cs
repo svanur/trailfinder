@@ -4,7 +4,7 @@ using TrailFinder.Core.Enums;
 namespace TrailFinder.Core.DTOs.Gpx.Requests;
 
 public record UpdateGpxInfoDto(
-    double? DistanceMeters,
+    double? Distance,
     double? ElevationGainMeters,
     DifficultyLevel? DifficultyLevel,
     RouteType? RouteType,

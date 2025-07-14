@@ -45,8 +45,8 @@ const Search: React.FC = () => {
                 trail.description.toLowerCase().includes(filters.searchTerm.toLowerCase());
 
             const matchesDistance = (
-                (!filters.minDistance || trail.distance_meters >= parseFloat(filters.minDistance)) &&
-                (!filters.maxDistance || trail.distance_meters <= parseFloat(filters.maxDistance))
+                (!filters.minDistance || trail.distance >= parseFloat(filters.minDistance)) &&
+                (!filters.maxDistance || trail.distance <= parseFloat(filters.maxDistance))
             );
 
             const matchesElevation = (

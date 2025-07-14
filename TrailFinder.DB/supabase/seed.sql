@@ -9,7 +9,7 @@ INSERT INTO trails (
     name,
     slug,
     description,
-    distance_meters,
+    distance,
     elevation_gain_meters,
     difficulty_level,
     route_type,

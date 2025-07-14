@@ -42,12 +42,12 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
 
         if (filter.MinDistance.HasValue)
         {
-            query = query.Where(t => t.DistanceMeters >= filter.MinDistance.Value);
+            query = query.Where(t => t.Distance >= filter.MinDistance.Value);
         }
         
         if (filter.MaxDistance.HasValue)
         {
-            query = query.Where(t => t.DistanceMeters <= filter.MaxDistance.Value);
+            query = query.Where(t => t.Distance <= filter.MaxDistance.Value);
         }
 
         if (filter.MinElevation.HasValue)
@@ -75,8 +75,8 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
                 ? query.OrderByDescending(t => t.Name)
                 : query.OrderBy(t => t.Name),
             "distance" => filter.Descending
-                ? query.OrderByDescending(t => t.DistanceMeters)
-                : query.OrderBy(t => t.DistanceMeters),
+                ? query.OrderByDescending(t => t.Distance)
+                : query.OrderBy(t => t.Distance),
             "elevation" => filter.Descending
                 ? query.OrderByDescending(t => t.ElevationGainMeters)
                 : query.OrderBy(t => t.ElevationGainMeters),
