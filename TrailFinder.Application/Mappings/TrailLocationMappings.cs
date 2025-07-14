@@ -11,7 +11,7 @@ public class TrailLocationMappings : Profile
     public TrailLocationMappings()
     {
         CreateMap<TrailLocation, TrailLocationDto>()
-            
+            /*
             .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Id)
@@ -20,6 +20,7 @@ public class TrailLocationMappings : Profile
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Id)
             )
+            */
             .ForMember(
                 dest => dest.TrailId,
                 opt => opt.MapFrom(src => src.TrailId)
@@ -28,12 +29,12 @@ public class TrailLocationMappings : Profile
                 dest => dest.LocationId,
                 opt => opt.MapFrom(src => src.LocationId)
             )
-            
+            /*
             .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Id)
             )
-            
+            */
             .ForMember(
                 dest => dest.Location,
                 opt => opt.MapFrom(src => src.Location)

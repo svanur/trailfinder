@@ -81,8 +81,7 @@ public class RaceConfiguration : IEntityTypeConfiguration<Race>
 
         builder.Property(t => t.UserId)
             .HasColumnName("user_id")
-            .HasColumnType("uuid")
-            .IsRequired(false);
+            .HasColumnType("uuid");
 
         //
         // Indices
@@ -92,7 +91,5 @@ public class RaceConfiguration : IEntityTypeConfiguration<Race>
 
         builder.HasIndex(t => t.UserId);
 
-        //builder.HasIndex(t => t.StartPoint)
-        //    .HasMethod("GIST");
     }
 }

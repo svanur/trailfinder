@@ -11,7 +11,7 @@ create table public.races
     recurring_week    smallint null,
     recurring_weekday smallint null,
 
-    user_id           UUID REFERENCES auth.users (id),
+    user_id           UUID REFERENCES auth.users (id) NOT NULL,
     created_at        timestamp with time zone not null default now(),
     updated_at        TIMESTAMPTZ                       DEFAULT NOW(),
 

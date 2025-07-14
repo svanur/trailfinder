@@ -4,61 +4,56 @@ using TrailFinder.Core.Entities;
 
 namespace TrailFinder.Infrastructure.Persistence.Configurations;
 
-public class LocationConfiguration : IEntityTypeConfiguration<Location>
+public class RaceTrailConfiguration : IEntityTypeConfiguration<RaceTrail>
 {
-    public void Configure(EntityTypeBuilder<Location> builder)
+    public void Configure(EntityTypeBuilder<RaceTrail> builder)
     {
-        builder.ToTable("locations");
+        builder.ToTable("race_trails");
 
         //
         // Primary Key
         //
-        builder.HasKey(t => t.Id);
+        builder.HasKey(r => r.Id);
 
         //
         // Base properties
         //
-        builder.Property(t => t.Id)
+        builder.Property(r => r.Id)
             .HasColumnName("id")
             .HasColumnType("uuid")
             .ValueGeneratedOnAdd();
+
         
-        builder.Property(t => t.ParentId)
+        builder.Property(r => r.RaceId)
+            .HasColumnName("race_id")
             .HasColumnType("uuid")
-            .HasColumnName("parent_id");
-
+            .ValueGeneratedOnAdd();
+        
+        
+        builder.Property(r => r.TrailId)
+            .HasColumnName("trail_id")
+            .HasColumnType("uuid")
+            .ValueGeneratedOnAdd();
+        
+        
         // Required string properties
-        builder.Property(t => t.Name)
-            .HasColumnName("name")
-            .IsRequired()
+        builder.Property(r => r.Comment)
+            .HasColumnName("comment")
+            .IsRequired(false)
             .HasMaxLength(255);
 
-        builder.Property(t => t.Slug)
-            .HasColumnName("slug")
-            .IsRequired()
-            .HasMaxLength(255);
-
-        builder.Property(t => t.Description)
-            .HasColumnName("description")
+        // enum property
+        builder.Property(t => t.RaceStatus)
+            .HasColumnName("race_status") 
+            .HasColumnType("race_status") 
             .IsRequired();
-
+        
         // Numeric properties
-        builder.Property(t => t.Latitude)
-            .HasColumnName("latitude")
-            .HasColumnType("double precision");
-
-        builder.Property(t => t.Longitude)
-            .HasColumnName("longitude")
-            .HasColumnType("double precision");
-
-        // Geometry properties
-        /*
-        builder.Property(t => t.PointGeom)
-            .HasColumnName("point_geom")
-            .HasColumnType("geometry(PointZ, 4326)")
-            .IsRequired(false);
-            */
-
+        builder.Property(r => r.DisplayOrder)
+            .HasColumnName("display_order")
+            .HasColumnType("int")
+            .IsRequired();
+        
         // Timestamps
         builder.Property(t => t.CreatedAt)
             .HasColumnName("created_at")
@@ -79,9 +74,6 @@ public class LocationConfiguration : IEntityTypeConfiguration<Location>
         //
         // Indices
         //
-        builder.HasIndex(t => t.Slug)
-            .IsUnique();
-
         builder.HasIndex(t => t.UserId);
     }
 }

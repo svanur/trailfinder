@@ -14,7 +14,7 @@ public record CreateTrailCommand : IRequest<int>
     public double StartPointLatitude { get; init; }
     public double StartPointLongitude { get; init; }
     public string? WebUrl { get; init; }
-    public Guid? UserId { get; init; }
+    public Guid UserId { get; init; }
 
     public static CreateTrailCommand FromDto(CreateTrailDto dto) => new()
     {

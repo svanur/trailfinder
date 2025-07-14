@@ -8,7 +8,7 @@ create table public.race_trails
     comment       text null,
     display_order numeric null,
 
-    user_id       UUID REFERENCES auth.users (id),
+    user_id       UUID REFERENCES auth.users (id) NOT NULL,
     created_at    TIMESTAMPTZ   DEFAULT NOW(),
     updated_at    TIMESTAMPTZ   DEFAULT NOW(),
 

@@ -28,7 +28,10 @@ public class GetRaceQueryHandler : IRequestHandler<GetRaceQuery, RaceDto>
     {
         // Use the new method that includes related data
         var race = await _raceRepository.GetByIdWithLocationsAsync(request.Id, cancellationToken);
-        if (race == null) throw new RaceNotFoundException(request.Id);
+        if (race == null)
+        {
+            throw new RaceNotFoundException(request.Id);
+        }
 
         return _mapper.Map<RaceDto>(race);
     }

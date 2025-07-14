@@ -11,7 +11,7 @@ public class RaceLocationMappings : Profile
     public RaceLocationMappings()
     {
         CreateMap<RaceLocation, RaceLocationDto>()
-            
+            /*
             .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Id)
@@ -20,6 +20,7 @@ public class RaceLocationMappings : Profile
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Id)
             )
+            */
             .ForMember(
                 dest => dest.RaceId,
                 opt => opt.MapFrom(src => src.RaceId)
@@ -28,12 +29,12 @@ public class RaceLocationMappings : Profile
                 dest => dest.LocationId,
                 opt => opt.MapFrom(src => src.LocationId)
             )
-            
+            /*
             .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Id)
             )
-            
+            */
             .ForMember(
                 dest => dest.Location,
                 opt => opt.MapFrom(src => src.Location)

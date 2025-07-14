@@ -85,8 +85,7 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
 
         builder.Property(t => t.UserId)
             .HasColumnName("user_id")
-            .HasColumnType("uuid")
-            .IsRequired(false);
+            .HasColumnType("uuid");
 
         //
         // Indices

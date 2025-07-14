@@ -12,5 +12,5 @@ public record CreateTrailDto(
     double StartPointLongitude,
     string? WebUrl,
     bool HasGpx,
-    Guid? UserId
+    Guid UserId
 );

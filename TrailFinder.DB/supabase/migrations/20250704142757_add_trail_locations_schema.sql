@@ -7,7 +7,7 @@ create table public.trail_locations
     display_order numeric null,
     comment       text null,
     
-    user_id          UUID REFERENCES auth.users (id),
+    user_id          UUID REFERENCES auth.users (id) NOT NULL,
     created_at       TIMESTAMPTZ      DEFAULT NOW(),
     updated_at       TIMESTAMPTZ      DEFAULT NOW(),
 

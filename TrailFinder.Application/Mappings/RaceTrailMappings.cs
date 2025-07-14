@@ -1,28 +1,25 @@
 using AutoMapper;
 using TrailFinder.Core.DTOs.Common;
-using TrailFinder.Core.DTOs.Trails.Responses;
+using TrailFinder.Core.DTOs.Race.Response;
 using TrailFinder.Core.Entities;
 
 namespace TrailFinder.Application.Mappings;
 
-public class TrailMappings : Profile
-{// In use by AutoMapper
-    public TrailMappings()
+public class RaceTrailMappings : Profile
+{
+    // In use by AutoMapper
+    public RaceTrailMappings()
     {
-        CreateMap<Trail, TrailDto>()
-            /*
+        /*
+        CreateMap<RaceTrail, RaceTrailDto>()
             .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Id)
             )
-            */
-            .ForMember(
-                dest => dest.TrailLocations, 
-                opt => opt.MapFrom(src => src.TrailLocations))
             ;
-
+*/
         // List to PaginatedResult mapping
-        CreateMap<List<Trail>, PaginatedResult<TrailDto>>()
+        CreateMap<List<RaceTrail>, PaginatedResult<RaceTrailDto>>()
             .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src))
             .ForMember(dest => dest.TotalCount, opt => opt.MapFrom(src => src.Count))
             .ForMember(dest => dest.PageNumber, opt => opt.MapFrom(src => 1))

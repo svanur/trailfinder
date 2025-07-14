@@ -30,7 +30,7 @@ public class RacesController : BaseApiController
     }
 
     [HttpGet("{raceSlug}")]
-    public async Task<ActionResult<RaceDto>> GetRace(string raceSlug)
+    public async Task<ActionResult<RaceDto>> GetRaceBySlug(string raceSlug)
     {
         try
         {
@@ -52,7 +52,7 @@ public class RacesController : BaseApiController
     }
 
     [HttpGet("{raceId:guid}")]
-    public async Task<ActionResult<RaceDto?>> GetRace(Guid raceId)
+    public async Task<ActionResult<RaceDto?>> GetRaceById(Guid raceId)
     {
         try
         {

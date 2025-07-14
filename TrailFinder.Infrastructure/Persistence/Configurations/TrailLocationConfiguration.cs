@@ -59,8 +59,7 @@ public class TrailLocationConfiguration : IEntityTypeConfiguration<TrailLocation
 
         builder.Property(t => t.UserId)
             .HasColumnName("user_id")
-            .HasColumnType("uuid")
-            .IsRequired(false);
+            .HasColumnType("uuid");
 
         // Add foreign key relationships (EF Core needs these for navigation properties)
         // Add foreign key relationships (EF Core needs these for navigation properties)

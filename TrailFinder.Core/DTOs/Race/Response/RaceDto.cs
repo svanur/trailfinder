@@ -53,10 +53,9 @@ public class RaceDto
     private int RecurringWeek { get; set; }
     private int RecurringWeekday { get; set; }
 
+    public IEnumerable<RaceLocationDto> RaceLocations { get; set; }
+
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public Guid UserId { get; set; }
-
-    public IEnumerable<RaceLocationDto> RaceLocations { get; set; }
-    
 }

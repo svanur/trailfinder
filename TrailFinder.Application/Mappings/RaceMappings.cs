@@ -11,13 +11,16 @@ public class RaceMappings : Profile
     public RaceMappings()
     {
         CreateMap<Race, RaceDto>()
+            /*
             .ForMember(
                 dest => dest.Id,
-                opt => opt.MapFrom(src => src.Id.ToString())
+                opt => opt.MapFrom(src => src.Id)
             )
+            */
             .ForMember(
                 dest => dest.RaceLocations,
-                opt => opt.MapFrom(src => src.RaceLocations))
+                opt => opt.MapFrom(src => src.RaceLocations)
+            )
             ;
 
         // List to PaginatedResult mapping

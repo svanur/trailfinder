@@ -11,18 +11,21 @@ public class LocationMappings : Profile
     // In use by AutoMapper
     public LocationMappings()
     {
+        /*
         CreateMap<Location, LocationDto>()
             .ForMember(
                 dest => dest.Id,
-                opt => opt.MapFrom(src => src.Id.ToString())
+                opt => opt.MapFrom(src => src.Id)
             );
-
+*/
         
         CreateMap<Location, LocationLiteDto>()
+  /*
             .ForMember(
                 dest => dest.Id,
-                opt => opt.MapFrom(src => src.Id.ToString())
+                opt => opt.MapFrom(src => src.Id)
             )
+    */
             .ForMember(
                 dest => dest.GpxPoint,
                 opt 

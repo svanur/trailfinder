@@ -24,7 +24,8 @@ public class Race : BaseEntity
     // public ICollection<RaceTrail> RaceTrails { get; set; }
 
 
-    // For EF Core to understand the relationships, and use Include,
-    // one needs navigation properties in the entity classes
+    // For EF Core, to understand the relationships and use .Include(),
+    // navigation properties are needed in the entity classes
     public ICollection<RaceLocation> RaceLocations { get; private set; } = new List<RaceLocation>();
+    public ICollection<RaceTrail> RaceTrails { get; private set; } = new List<RaceTrail>();
 }

@@ -15,6 +15,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Location> Locations { get; set; } = null!;
     public DbSet<TrailLocation> TrailLocations { get; set; } = null!;
     public DbSet<Race> Races { get; set; } = null!;
+    public DbSet<RaceTrail> RaceTrails { get; set; } = null!;
     public DbSet<RaceLocation> RaceLocations { get; set; } = null!;
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,6 +32,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         modelBuilder.ApplyConfiguration(new LocationConfiguration());
         modelBuilder.ApplyConfiguration(new TrailLocationConfiguration());
         modelBuilder.ApplyConfiguration(new RaceConfiguration());
+        modelBuilder.ApplyConfiguration(new RaceTrailConfiguration());
         modelBuilder.ApplyConfiguration(new RaceLocationConfiguration());
     }
 }

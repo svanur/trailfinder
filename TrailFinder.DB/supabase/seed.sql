@@ -261,42 +261,45 @@ VALUES (
 ---
 
 -- Laugavegur Ultra Marathon
-INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
-VALUES (laugavegur_id, laugavegur_trail_id, 'active', NULL, 1, NOW())
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, user_id)
+VALUES (laugavegur_id, laugavegur_trail_id, 'active', NULL, 1, NOW(), seed_user_id)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 -- Hengill Ultra Race
-INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
-VALUES (hengill_ultra_id, hengill_ultra_52_trail_id, 'active', 'Main 52km course.', 1, NOW())
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, user_id)
+VALUES (hengill_ultra_id, hengill_ultra_52_trail_id, 'active', 'Main 52km course.', 1, NOW(), seed_user_id)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 -- Mt Esja Ultra
-INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
-VALUES (esja_ultra_race_id, esja_ultra_marathon_trail_id, 'active', 'The full marathon course for Esja Ultra.', 1, NOW())
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, user_id)
+VALUES (esja_ultra_race_id, esja_ultra_marathon_trail_id, 'active', 'The full marathon course for Esja Ultra.', 1, NOW(), seed_user_id)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
-INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
-VALUES (esja_ultra_race_id, esja_ultra_half_marathon_trail_id, 'active', 'The half marathon course for Esja Ultra.', 2, NOW())
+
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, user_id)
+VALUES (esja_ultra_race_id, esja_ultra_half_marathon_trail_id, 'active', 'The half marathon course for Esja Ultra.', 2, NOW(), seed_user_id)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 -- Hvítasunnuhlaup Hauka
-INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
-VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_22_trail_id, 'active', 'Longest distance for the event.', 1, NOW())
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, user_id)
+VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_22_trail_id, 'active', 'Longest distance for the event.', 1, NOW(), seed_user_id)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
-INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
-VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_17_trail_id, 'active', NULL, 2, NOW())
+
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, user_id)
+VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_17_trail_id, 'active', NULL, 2, NOW(), seed_user_id)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
-INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
-VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_14_trail_id, 'active', 'Shortest distance, suitable for beginners.', 3, NOW())
+
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, user_id)
+VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_14_trail_id, 'active', 'Shortest distance, suitable for beginners.', 3, NOW(), seed_user_id)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 -- Reykjavík Marathon
-INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
-VALUES (reykjavik_marathon_id, bakgardur_ellidavatn_trail_id, 'unknown', 'Used for a popular shorter distance, official course may vary slightly.', NULL, NOW())
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, user_id)
+VALUES (reykjavik_marathon_id, bakgardur_ellidavatn_trail_id, 'unknown', 'Used for a popular shorter distance, official course may vary slightly.', NULL, NOW(), seed_user_id)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 -- Ice Ultra
-INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at)
-VALUES (ice_ultra_id, skaftafell_ultra_trail_id, 'deprecated', 'This specific trail was part of the 2020 edition, but the event itself is deprecated.', 1, NOW())
+INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, user_id)
+VALUES (ice_ultra_id, skaftafell_ultra_trail_id, 'deprecated', 'This specific trail was part of the 2020 edition, but the event itself is deprecated.', 1, NOW(), seed_user_id)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 ---
@@ -306,47 +309,49 @@ VALUES (ice_ultra_id, skaftafell_ultra_trail_id, 'deprecated', 'This specific tr
 -- Laugavegur Ultra Marathon (laugavegur_id)
 -- Start: Landmannalaugar
 -- End: Þórsmörk
-INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at)
-VALUES (laugavegur_id, landmannalaugar_id, 'start', 1, 'Official race start.', NOW())
+INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (laugavegur_id, landmannalaugar_id, 'start', 1, 'Official race start.', NOW(), seed_user_id)
     ON CONFLICT (race_id, location_id) DO NOTHING;
-INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at)
-VALUES (laugavegur_id, thorsmork_id, 'end', 2, 'Official race finish line.', NOW())
+
+INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (laugavegur_id, thorsmork_id, 'end', 2, 'Official race finish line.', NOW(), seed_user_id)
     ON CONFLICT (race_id, location_id) DO NOTHING;
 -- (You could add aid stations or checkpoints here if you had those locations)
 
 -- Hengill Ultra (hengill_ultra_id)
 -- Main location around Hveragerði, which is within Sudurland. Let's use Sudurland as the general area.
 -- If you had a more specific "Hveragerði" location, you'd use that.
-INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at)
-VALUES (hengill_ultra_id, sudurland_id, 'unknown', 1, 'General area for the race, specific start/end varies by distance.', NOW())
+INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (hengill_ultra_id, sudurland_id, 'unknown', 1, 'General area for the race, specific start/end varies by distance.', NOW(), seed_user_id)
     ON CONFLICT (race_id, location_id) DO NOTHING;
 
 
 -- Reykjavík Marathon (reykjavik_marathon_id)
 -- Start/End: Reykjavík
-INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at)
-VALUES (reykjavik_marathon_id, reykjavik_id, 'start', 1, 'Race starts and finishes in downtown Reykjavík.', NOW())
+INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (reykjavik_marathon_id, reykjavik_id, 'start', 1, 'Race starts and finishes in downtown Reykjavík.', NOW(), seed_user_id)
     ON CONFLICT (race_id, location_id) DO NOTHING;
-INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at)
-VALUES (reykjavik_marathon_id, reykjavik_id, 'end', 2, 'Race finishes in downtown Reykjavík.', NOW())
+
+INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (reykjavik_marathon_id, reykjavik_id, 'end', 2, 'Race finishes in downtown Reykjavík.', NOW(), seed_user_id)
     ON CONFLICT (race_id, location_id) DO NOTHING;
 
 -- Mt Esja Ultra (esja_ultra_race_id)
 -- Location: Reykjavík (assuming Esja area is conceptually linked to Reykjavík for location)
-INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at)
-VALUES (esja_ultra_race_id, reykjavik_id, 'unknown', 1, 'Race located on Mt. Esja, near Reykjavík.', NOW())
+INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at, user_Id)
+VALUES (esja_ultra_race_id, reykjavik_id, 'unknown', 1, 'Race located on Mt. Esja, near Reykjavík.', NOW(), seed_user_id)
     ON CONFLICT (race_id, location_id) DO NOTHING;
 
 -- Hvítasunnuhlaup Hauka (hvitasunnuhlaup_race_id)
 -- Location: Reykjavík (assuming it's in the greater capital area)
-INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at)
-VALUES (hvitasunnuhlaup_race_id, reykjavik_id, 'unknown', 1, 'Race takes place in the greater Reykjavík area.', NOW())
+INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (hvitasunnuhlaup_race_id, reykjavik_id, 'unknown', 1, 'Race takes place in the greater Reykjavík area.', NOW(), seed_user_id)
     ON CONFLICT (race_id, location_id) DO NOTHING;
 
 -- Ice Ultra (ice_ultra_id)
 -- Location: Iceland (general location for a multi-stage race)
-INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at)
-VALUES (ice_ultra_id, island_id, 'unknown', 1, 'Multi-stage race across various parts of Iceland.', NOW())
+INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (ice_ultra_id, island_id, 'unknown', 1, 'Multi-stage race across various parts of Iceland.', NOW(), seed_user_id)
     ON CONFLICT (race_id, location_id) DO NOTHING;
 
 
@@ -357,57 +362,61 @@ VALUES (ice_ultra_id, island_id, 'unknown', 1, 'Multi-stage race across various 
 -- Laugavegur Trail (laugavegur_trail_id)
 -- Start: Landmannalaugar
 -- End: Þórsmörk
-INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at)
-VALUES (laugavegur_trail_id, landmannalaugar_id, 'start', 1, 'Northern trailhead of Laugavegur.', NOW())
+INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (laugavegur_trail_id, landmannalaugar_id, 'start', 1, 'Northern trailhead of Laugavegur.', NOW(), seed_user_id)
     ON CONFLICT (trail_id, location_id) DO NOTHING;
-INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at)
-VALUES (laugavegur_trail_id, thorsmork_id, 'end', 2, 'Southern trailhead of Laugavegur.', NOW())
+
+INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (laugavegur_trail_id, thorsmork_id, 'end', 2, 'Southern trailhead of Laugavegur.', NOW(), seed_user_id)
     ON CONFLICT (trail_id, location_id) DO NOTHING;
 
 -- Hengill Ultra 52 (hengill_ultra_52_trail_id)
 -- Location: Suðurland (Hveragerði area)
-INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at)
-VALUES (hengill_ultra_52_trail_id, sudurland_id, 'unknown', 1, 'Trail primarily located within the Hengill geothermal area.', NOW())
+INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at, user_Id)
+VALUES (hengill_ultra_52_trail_id, sudurland_id, 'unknown', 1, 'Trail primarily located within the Hengill geothermal area.', NOW(), seed_user_id)
     ON CONFLICT (trail_id, location_id) DO NOTHING;
 
 -- Mt Esja Ultra marathon & half marathon trails (esja_ultra_marathon_trail_id, esja_ultra_half_marathon_trail_id)
 -- Location: Reykjavík
-INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at)
-VALUES (esja_ultra_marathon_trail_id, reykjavik_id, 'unknown', 1, 'Trail on Mt. Esja, easily accessible from Reykjavík.', NOW())
+INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (esja_ultra_marathon_trail_id, reykjavik_id, 'unknown', 1, 'Trail on Mt. Esja, easily accessible from Reykjavík.', NOW(), seed_user_id)
     ON CONFLICT (trail_id, location_id) DO NOTHING;
-INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at)
-VALUES (esja_ultra_half_marathon_trail_id, reykjavik_id, 'unknown', 1, 'Trail on Mt. Esja, easily accessible from Reykjavík.', NOW())
+
+INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (esja_ultra_half_marathon_trail_id, reykjavik_id, 'unknown', 1, 'Trail on Mt. Esja, easily accessible from Reykjavík.', NOW(), seed_user_id)
     ON CONFLICT (trail_id, location_id) DO NOTHING;
 
 -- Hvítasunnuhlaup Hauka trails (22km, 17km, 14km)
 -- Location: Reykjavík (or more specifically, Hafnarfjörður if you had that location)
-INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at)
-VALUES (hvitasunnuhlaup_hauka_22_trail_id, reykjavik_id, 'unknown', 1, 'Trail in the capital region.', NOW())
+INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (hvitasunnuhlaup_hauka_22_trail_id, reykjavik_id, 'unknown', 1, 'Trail in the capital region.', NOW(), seed_user_id)
     ON CONFLICT (trail_id, location_id) DO NOTHING;
-INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at)
-VALUES (hvitasunnuhlaup_hauka_17_trail_id, reykjavik_id, 'unknown', 1, 'Trail in the capital region.', NOW())
+
+INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (hvitasunnuhlaup_hauka_17_trail_id, reykjavik_id, 'unknown', 1, 'Trail in the capital region.', NOW(), seed_user_id)
     ON CONFLICT (trail_id, location_id) DO NOTHING;
-INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at)
-VALUES (hvitasunnuhlaup_hauka_14_trail_id, reykjavik_id, 'unknown', 1, 'Trail in the capital region.', NOW())
+
+INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at, user_Id)
+VALUES (hvitasunnuhlaup_hauka_14_trail_id, reykjavik_id, 'unknown', 1, 'Trail in the capital region.', NOW(), seed_user_id)
     ON CONFLICT (trail_id, location_id) DO NOTHING;
 
 -- Bakgarður Náttúruhlaupa við Elliðavatn
 -- Location: Reykjavík
-INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at)
-VALUES (bakgardur_ellidavatn_trail_id, reykjavik_id, 'unknown', 1, 'Trail around Elliðavatn lake.', NOW())
+INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (bakgardur_ellidavatn_trail_id, reykjavik_id, 'unknown', 1, 'Trail around Elliðavatn lake.', NOW(), seed_user_id)
     ON CONFLICT (trail_id, location_id) DO NOTHING;
 
 -- Skaftafell Ultra Trail
 -- Location: Suðurland (or a more specific Skaftafell location if you added one)
-INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at)
-VALUES (skaftafell_ultra_trail_id, sudurland_id, 'unknown', 1, 'Trail within Skaftafell Nature Reserve.', NOW())
+INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (skaftafell_ultra_trail_id, sudurland_id, 'unknown', 1, 'Trail within Skaftafell Nature Reserve.', NOW(), seed_user_id)
     ON CONFLICT (trail_id, location_id) DO NOTHING;
 
 -- Puffin Run (puffin_run_trail_id)
 -- Location: Vestmannaeyjar (if you add a location for it, otherwise default to Iceland or nearest region)
 -- For now, let's connect it to Island if you don't have a specific Vestmannaeyjar location.
-INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at)
-VALUES (puffin_run_trail_id, island_id, 'unknown', 1, 'Trail on Vestmannaeyjar (Westman Islands).', NOW())
+INSERT INTO public.trail_locations (trail_id, location_id, location_type, display_order, comment, created_at, user_id)
+VALUES (puffin_run_trail_id, island_id, 'unknown', 1, 'Trail on Vestmannaeyjar (Westman Islands).', NOW(), seed_user_id)
     ON CONFLICT (trail_id, location_id) DO NOTHING;
 
 END $$;
