@@ -6,8 +6,8 @@ public record UpdateTrailDto(
     string Name,
     string Description,
     decimal Distance,
-    decimal ElevationGainMeters,
-    //DifficultyLevel DifficultyLevel,
+    decimal ElevationGain,
+    DifficultyLevel DifficultyLevel,
     double StartPoint,
     string? WebUrl,
     bool HasGpx

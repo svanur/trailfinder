@@ -10,17 +10,16 @@ public class Trail : BaseEntity
 {
     private static readonly GeometryFactory GeometryFactory = 
         new GeometryFactory(new PrecisionModel(), 4326);
-  
-    public Guid? ParentId { get; private set; }
+    
     public string Name { get; private set; } = null!;
     public string Slug { get; private set; } = null!;
     public string Description { get; private set; } = null!;
     public double Distance { get; set; }
     
-    public double ElevationGainMeters { get; set; }
-    public DifficultyLevel DifficultyLevel { get; set; }
-    //public RouteType RouteType { get; set; }
-    //public TerrainType TerrainType { get; set; }
+    public double ElevationGain { get; set; }
+    
+    public DifficultyLevel? DifficultyLevel { get; set; }
+    
     public Point? StartPoint { get; set; } = null!;
     public Point? EndPoint { get; set; } = null!;
     public LineString? RouteGeom { get; set; }
@@ -30,16 +29,17 @@ public class Trail : BaseEntity
     private Trail() { } // For EF Core
 
     public Trail(
-        Guid parentId,
         string name,
         string description,
         double distance,
-        double elevationGainMeters,
+        double elevationGain,
         DifficultyLevel difficultyLevel,
-        //double startPointLatitude,
-        //double startPointLongitude,
-        //double endPointLatitude,
-        //double endPointLongitude,
+        /*
+        double startPointLatitude,
+        double startPointLongitude,
+        double endPointLatitude,
+        double endPointLongitude,
+        */
         Guid userId
     )
     {
@@ -48,7 +48,7 @@ public class Trail : BaseEntity
         Slug = GenerateSlug(name);
         Description = description;
         Distance = distance;
-        ElevationGainMeters = elevationGainMeters;
+        ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
         //StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0));
         //EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
@@ -70,8 +70,9 @@ public class Trail : BaseEntity
         string name,
         string description,
         double distance,
-        double elevationGainMeters,
+        double elevationGain,
         DifficultyLevel difficultyLevel
+        
         //double startPointLatitude,
         //double startPointLongitude,
         //double endPointLatitude,
@@ -82,7 +83,7 @@ public class Trail : BaseEntity
         Slug = GenerateSlug(name);
         Description = description;
         Distance = distance;
-        ElevationGainMeters = elevationGainMeters;
+        ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
         //StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0)); // Add elevation as Z
         //EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));

@@ -21,10 +21,11 @@ public class CreateTrailCommandValidator : AbstractValidator<CreateTrailCommand>
             .GreaterThan(0)
             .WithMessage("Distance must be greater than 0 meters");
 
-        RuleFor(x => x.ElevationGainMeters)
+        RuleFor(x => x.ElevationGain)
             .GreaterThanOrEqualTo(0)
             .WithMessage("Elevation gain cannot be negative");
 
+        /*
         RuleFor(x => x.StartPointLatitude)
             .InclusiveBetween(-90, 90)
             .WithMessage("Latitude must be between -90 and 90 degrees");
@@ -32,6 +33,7 @@ public class CreateTrailCommandValidator : AbstractValidator<CreateTrailCommand>
         RuleFor(x => x.StartPointLongitude)
             .InclusiveBetween(-180, 180)
             .WithMessage("Longitude must be between -180 and 180 degrees");
+        */
 
         RuleFor(x => x.WebUrl)
             .Must(uri => string.IsNullOrEmpty(uri) || Uri.TryCreate(uri, UriKind.Absolute, out _))
