@@ -262,4 +262,3 @@ The API is hosted on [Vercel](https://vercel.com/login)
 ## License
 
 MIT License
-
