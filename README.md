@@ -13,7 +13,7 @@ A trail-finding application that helps users discover and navigate trails for ru
 
 ## Project Structure
 
-## trailfinder/
+### trailfinder/
 
 #### Unit tests for the solution
 
@@ -157,7 +157,7 @@ VITE_SUPABASE_ANON_KEY=[your-local-key]
 - S3 Secret Key: (s3-secret-key)
 - S3 Region: local
 
-## TrailFinder on GitHub
+## GitHub and GPG key signing
 
 Find the project on GitHub: [github.com/svanur/trailfinder](https://github.com/svanur/trailfinder)
 
@@ -179,7 +179,15 @@ Choose:
 - Choose O for Okay
 - Enter a passphrase for protecting your new key
 
-Then list your keys:
+<code>Note</code>: Make sure the email matches exactly the email listed in your GitHub account under Settings → Emails.
+
+You can view your current email using:
+
+```bash
+git config --global user.email
+```
+
+List your keys:
 
 ```bash
 gpg --list-secret-keys --keyid-format LONG
