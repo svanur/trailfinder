@@ -14,8 +14,7 @@ CREATE TABLE trails (
                         terrain_type terrain_type,
                         route_geom geometry(LINESTRINGZ, 4326),
                         web_url TEXT,
-                        has_gpx BOOLEAN
-,
+                        has_gpx BOOLEAN,
                         user_id UUID REFERENCES auth.users(id),
                         created_at TIMESTAMPTZ DEFAULT NOW(),
                         updated_at TIMESTAMPTZ DEFAULT NOW()
