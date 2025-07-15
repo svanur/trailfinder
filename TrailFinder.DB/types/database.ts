@@ -18,13 +18,15 @@ export interface Trail {
     slug: string;
     description: string;
     distance: number;
-    elevationGainMeters: number;
-    difficultyLevel: DifficultyLevel | null;
+    elevationGain: number;
+    difficultyLevel: DifficultyLevel;
+    routeType: RouteType;
+    terrainType: TerrainType;
     startPointLatitude: number;
     startPointLongitude: number;
     endPointLatitude: number;
     endPointLongitude: number;
-    routeGeom?: any; // or more specific GeoJSON type if needed
+    routeGeom?: any; // or more specific GeoJSON type if needed - GpxPoint?
     webUrl?: string;
     hasGpx: boolean;
     createdAt: string; // ISO date string
@@ -37,6 +39,20 @@ export enum DifficultyLevel {
     Moderate = 'moderate',
     Hard = 'hard',
     Expert = 'expert'
+}
+export enum RouteType {
+    Circular = 'circular',
+    OutAndBack = 'out-and-back',
+    PointToPoint = 'point-to-point',
+    Unknown = 'unknown'
+}
+
+export enum TerrainType
+{
+    Flat = 'flat',
+    Hilly = 'hilly',
+    Rolling = 'rolling',
+    Mountainous = 'mountainous'
 }
 
 export interface CreateTrailDTO {

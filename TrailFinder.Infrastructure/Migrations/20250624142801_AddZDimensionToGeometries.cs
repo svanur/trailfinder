@@ -28,8 +28,8 @@ namespace TrailFinder.Infrastructure.Migrations
                     distance = table.Column<double>(type: "numeric(10,2)", nullable: false),
                     elevation_gain = table.Column<double>(type: "double precision", nullable: false),
                     difficulty_level = table.Column<DifficultyLevel>(type: "difficulty_level", nullable: true),
-                    start_point = table.Column<Point>(type: "geometry(PointZ, 4326)", nullable: true),
-                    end_point = table.Column<Point>(type: "geometry(PointZ, 4326)", nullable: true),
+                    //start_point = table.Column<Point>(type: "geometry(PointZ, 4326)", nullable: true),
+                    //end_point = table.Column<Point>(type: "geometry(PointZ, 4326)", nullable: true),
                     route_geom = table.Column<LineString>(type: "geometry(LineStringZ, 4326)", nullable: true),
                     web_url = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: true),
                     has_gpx = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
@@ -54,11 +54,7 @@ namespace TrailFinder.Infrastructure.Migrations
                 column: "slug",
                 unique: true);
 
-            migrationBuilder.CreateIndex(
-                name: "IX_trails_start_point",
-                table: "trails",
-                column: "start_point")
-                .Annotation("Npgsql:IndexMethod", "GIST");
+ 
 
             migrationBuilder.CreateIndex(
                 name: "IX_trails_user_id",

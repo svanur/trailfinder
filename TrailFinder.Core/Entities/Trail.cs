@@ -1,6 +1,4 @@
 using NetTopologySuite.Geometries;
-using Supabase.Postgrest.Attributes;
-using TrailFinder.Core.DTOs;
 using TrailFinder.Core.Entities.Common;
 using TrailFinder.Core.Enums;
 
@@ -10,50 +8,51 @@ public class Trail : BaseEntity
 {
     private static readonly GeometryFactory GeometryFactory = 
         new GeometryFactory(new PrecisionModel(), 4326);
-    
-    public string Name { get; private set; } = null!;
+
+    public string Name { get; set; } = null!;
     public string Slug { get; private set; } = null!;
-    public string Description { get; private set; } = null!;
-    public double Distance { get; set; }
-    
-    public double ElevationGain { get; set; }
-    
-    public DifficultyLevel? DifficultyLevel { get; set; }
-    
-    public Point? StartPoint { get; set; } = null!;
-    public Point? EndPoint { get; set; } = null!;
-    public LineString? RouteGeom { get; set; }
+
+    public string Description { get; set; } = null!;
+
+    public double Distance { get; init; }
+    public double ElevationGain { get; init; }
+    public DifficultyLevel DifficultyLevel { get; set; }
+    public RouteType RouteType { get; set; }
+    public TerrainType TerrainType { get; set; }
+    public LineString? RouteGeom { get; set; } = null!;
     public string? WebUrl { get; private set; }
     public bool HasGpx { get; set; }
 
     private Trail() { } // For EF Core
 
     public Trail(
+        Guid id,
         string name,
         string description,
         double distance,
         double elevationGain,
         DifficultyLevel difficultyLevel,
-        double startPointLatitude,
-        double startPointLongitude,
-        double endPointLatitude,
-        double endPointLongitude,
-        Guid userId
+        RouteType routeType,
+        TerrainType terrainType,
+        LineString? routeGeom,
+        Guid? userId
     )
     {
-        Id = Guid.NewGuid();
+        Id = id;
         Name = name;
-        Slug = GenerateSlug(name);
         Description = description;
         Distance = distance;
         ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
-        StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0));
-        EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
-        
+        RouteType = routeType;
+        TerrainType = terrainType;
+        RouteGeom = routeGeom;
         UserId = userId;
-        CreatedAt = DateTime.UtcNow;
-        UpdatedAt = DateTime.UtcNow;
+
+        Slug = GenerateSlug(name);
+ 
+        // CreatedAt = DateTime.UtcNow;
+        // UpdatedAt = DateTime.UtcNow;
     }
 
     private static string GenerateSlug(string name)
@@ -67,26 +66,31 @@ public class Trail : BaseEntity
     public void Update(
         string name,
         string description,
-        double distance,
-        double elevationGain,
+        // double distance,
+        // double elevationGain,
         DifficultyLevel difficultyLevel,
-        double startPointLatitude,
-        double startPointLongitude,
-        double endPointLatitude,
-        double endPointLongitude
+        RouteType routeType,
+        TerrainType terrainType
+        // double startPointLatitude,
+        // double startPointLongitude,
+        // double endPointLatitude,
+        // double endPointLongitude
     )
     {
         Name = name;
         Slug = GenerateSlug(name);
         Description = description;
-        Distance = distance;
-        ElevationGain = elevationGain;
+        // Distance = distance;
+        // ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
-        StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0)); // Add elevation as Z
-        EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
+        RouteType = routeType;
+        TerrainType = terrainType; 
         UpdatedAt = DateTime.UtcNow;
     }
 
+    
+    
+    /*
     public void UpdateRouteGeometry(IEnumerable<(double Latitude, double Longitude, double? Elevation)> coordinates)
     {
         var routeCoordinates = coordinates
@@ -103,15 +107,8 @@ public class Trail : BaseEntity
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public (double? Latitude, double? Longitude)? GetStartCoordinates()
-    {
-        if (StartPoint == null)
-        {
-            return null;
-        }
 
-        return (StartPoint.Y, StartPoint.X);
-    }
+    
 
     public (double? Latitude, double? Longitude)? GetEndCoordinates()
     {
@@ -124,6 +121,16 @@ public class Trail : BaseEntity
     }
 
 
+    public (double? Latitude, double? Longitude)? GetStartCoordinates()
+    {
+        if (StartPoint == null)
+        {
+            return null;
+        }
+
+        return (StartPoint.Y, StartPoint.X);
+    }
+    
     public IEnumerable<(double Latitude, double Longitude)> GetRouteCoordinates()
     {
         if (RouteGeom == null)
@@ -147,4 +154,5 @@ public class Trail : BaseEntity
         var point = GeometryFactory.CreatePoint(new CoordinateZ(longitude, latitude, 0));
         return RouteGeom.Distance(point) <= toleranceMeters;
     }
+    */
 }
