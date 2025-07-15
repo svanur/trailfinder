@@ -196,7 +196,6 @@ The API is hosted on [Render](https://dashboard.render.com/)
 
 The API is hosted on [Vercel](https://vercel.com/login)
 
-
 ## Deployment
 
 [To be added as deployment strategy is finalized]

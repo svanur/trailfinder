@@ -1,5 +1,5 @@
 # TrailFinder.DB
-
+   
 Database project for the TrailFinder application.
 
 ## Supabase
@@ -21,7 +21,30 @@ Studio URL: http://127.0.0.1:54323
    - PostgreSQL 15+
    - Supabase CLI
 
-2. Setup local development:
+2. Install Supabase CLI
+
+   Open PowerShell
+
+   Install Scoop, if you don't have it already
+
+   ```bash
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+   Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+   ```
+   
+   Add Supabase to Scoop bucket
+
+   ```bash
+   scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
+   ```
+   
+   Install Supabase via Scoop
+
+   ```bash
+   scoop install supabase
+   ```
+
+3Setup local development:
    ```bash
    supabase init
    supabase start
