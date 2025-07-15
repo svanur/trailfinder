@@ -4,6 +4,7 @@ using TrailFinder.Application.Services;
 using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.DTOs.Gpx.Responses;
 using TrailFinder.Core.Enums;
+using TrailFinder.Infrastructure.Analyzers;
 
 namespace TrailFinder.Infrastructure.Services;
 
@@ -45,14 +46,23 @@ public class GpxService : IGpxService
                 .Cast<Coordinate>()
                 .ToArray();
 
+            var routeType = RouteAnalyzer.DetermineRouteType(points);
+            var terrainType = TerrainAnalyzer.AnalyzeTerrain(totalDistance, elevationGain);
+            var difficulty = DifficultyAnalyzer.AnalyzeDifficulty(
+                totalDistance,
+                elevationGain,
+                terrainType,
+                routeType
+            );
+
             var routeGeom = _geometryFactory.CreateLineString(coordinates);
             
             return new GpxInfoDto(
                 totalDistance,
                 elevationGain,
-                difficultyLevel,
-                startGeoPoint,
-                endGeoPoint,
+                difficulty,
+                routeType, 
+                terrainType,
                 routeGeom
             );
         }

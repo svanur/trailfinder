@@ -57,6 +57,12 @@ public class Todo
     //TODO: Implement share functionality
     //TODO: Implement QR code functionality
     //TODO: Add difficulty analysis
+    //TODO: implement GeoPoint.IsNearby C:\dev-external\trailfinder\TrailFinder.Core\DTOs\Gpx\GeoPoint.cs
+    //TODO: isCircularTrail: bool isCircularTrail = gpxInfo.StartPoint.IsNearby(gpxInfo.EndPoint);
+    //TODO: RouteType: C:\dev-external\trailfinder\TrailFinder.Core\Enums\RouteType.cs
+    //TODO: Implement RouteAnalyzer
+    //TODO: Decide on DifficultyLevel values(maybe go by strava values?) C:\dev-external\trailfinder\TrailFinder.Core\Enums\DifficultyLevel.cs 
+
     
     // Web layout ideas
     //TODO: Have elevation and trail maps side by side
