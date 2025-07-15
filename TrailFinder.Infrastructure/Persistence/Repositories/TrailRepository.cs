@@ -108,5 +108,7 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
         return await _dbSet
             .OrderByDescending(t => t.CreatedAt)
             .ToListAsync(cancellationToken);
+    
     }
+
 }
