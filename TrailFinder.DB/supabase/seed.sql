@@ -114,5 +114,18 @@ INSERT INTO trails (
           'https://www.strava.com/routes/3207311786703399086',
           false,
           'd0d8c29c-7456-4d82-a087-5a1256b092c9'
+      ),
+      (
+          'Laugavegur Ultra',
+          'laugavegur-ultra',
+          'Laugavegur Ultra Trail',
+          0,
+          0,
+          'unknown',
+          'unknown',
+          'unknown',
+          'https://www.strava.com/activities/1702427088',
+          false,
+          'd0d8c29c-7456-4d82-a087-5a1256b092c9'
       )
 ;

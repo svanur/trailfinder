@@ -3,11 +3,6 @@ using NetTopologySuite.Geometries;
 using TrailFinder.Application.Services;
 using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.DTOs.Gpx.Responses;
-using TrailFinder.Core.Enums;
-using TrailFinder.Infrastructure.Analyzers;
-using TrailFinder.Core.DTOs.Gpx.Responses;
-using TrailFinder.Core.Enums;
-using TrailFinder.Core.Services.TrailAnalysis;
 
 namespace TrailFinder.Infrastructure.Services;
 
@@ -17,10 +12,12 @@ public class GpxService : IGpxService
     private const int ElevationPrecisionDecimals = 0;
 
     private readonly GeometryFactory _geometryFactory;
+    private readonly AnalysisService _analysisService;
 
-    public GpxService(GeometryFactory geometryFactory)
+    public GpxService(GeometryFactory geometryFactory, AnalysisService analysisService)
     {
         _geometryFactory = geometryFactory;
+        _analysisService = analysisService;
     }
 
     public async Task<GpxInfoDto> ExtractGpxInfo(Stream gpxStream)
@@ -48,6 +45,9 @@ public class GpxService : IGpxService
                 .Cast<Coordinate>()
                 .ToArray();
 
+            var analysisResult = _analysisService.Analyze(points, totalDistance, elevationGain);
+
+            /*
             var routeType = RouteAnalyzer.DetermineRouteType(points);
             var terrainType = TerrainAnalyzer.AnalyzeTerrain(totalDistance, elevationGain);
             var difficultyLevel = DifficultyAnalyzer.AnalyzeDifficulty(
@@ -56,15 +56,19 @@ public class GpxService : IGpxService
                 terrainType,
                 routeType
             );
+            */
+            
 
             var routeGeom = _geometryFactory.CreateLineString(coordinates);
 
             return new GpxInfoDto(
                 totalDistance,
                 elevationGain,
-                difficultyLevel,
-                routeType, 
-                terrainType,
+                analysisResult.DifficultyLevel,
+                analysisResult.RouteType, 
+                analysisResult.TerrainType,
+                // startGeoPoint,
+                // endGeoPoint,
                 routeGeom
             );
         }
