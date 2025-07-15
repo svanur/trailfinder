@@ -1,6 +1,5 @@
 using Npgsql;
 using TrailFinder.Core.Enums;
-using TrailFinder.Infrastructure.Persistence.PostgreSQL;
 
 namespace TrailFinder.Infrastructure.Persistence.Extensions;
 

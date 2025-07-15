@@ -7,10 +7,8 @@ public record GpxInfoDto(
     double Distance,
     double ElevationGain,
     DifficultyLevel DifficultyLevel,
-    RouteType RouteType, 
+    RouteType RouteType,
     TerrainType TerrainType,
-    //GpxPoint StartGpxPoint,
-    //GpxPoint EndGpxPoint,
     LineString RouteGeom
 );
 

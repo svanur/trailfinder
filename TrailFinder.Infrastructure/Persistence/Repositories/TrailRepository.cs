@@ -65,6 +65,18 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
             query = query.Where(t => t.DifficultyLevel == filter.DifficultyLevel.Value);
         }
 
+        if (filter.RouteType.HasValue)
+        {
+            query = query.Where(t => t.RouteType == filter.RouteType.Value);
+        }
+
+        if (filter.TerrainType.HasValue)
+        {
+            query = query.Where(t => t.TerrainType == filter.TerrainType.Value);
+        }
+        
+        //TODO: Add location to filter
+
         // Get a total count before pagination
         var totalCount = await query.CountAsync(cancellationToken);
 
@@ -83,6 +95,13 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
             "difficulty" => filter.Descending
                 ? query.OrderByDescending(t => t.DifficultyLevel)
                 : query.OrderBy(t => t.DifficultyLevel),
+            "route_type" => filter.Descending
+                ? query.OrderByDescending(t => t.RouteType)
+                : query.OrderBy(t => t.RouteType),
+            "terrain_type" => filter.Descending
+                ? query.OrderByDescending(t => t.TerrainType)
+                : query.OrderBy(t => t.TerrainType),
+            // location
             "created" => filter.Descending
                 ? query.OrderByDescending(t => t.CreatedAt)
                 : query.OrderBy(t => t.CreatedAt),
@@ -107,8 +126,45 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
     {
         return await _dbSet
             .OrderByDescending(t => t.CreatedAt)
+            .Select(t => GetNewTrail(t))
             .ToListAsync(cancellationToken);
     
     }
 
+    public override async Task<Trail?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _dbSet
+            .Where(trail => trail.Id == id) 
+            .Select(trail => GetNewTrail(trail)) 
+            .FirstOrDefaultAsync(cancellationToken); // Get the firs°t (or default if not found)
+    }
+
+    private static Trail GetNewTrail(Trail trail)
+    {   //TODO: hmm, method gets a Trail parameter and returns Trail hmm...
+        return new Trail
+        (
+            trail.Id,
+            trail.Name,
+            trail.Description,
+
+            // Use NTS (NetTopologySuite) methods which map to PostGIS functions
+            0, //TODO: Placeholder
+
+            // ElevationGain:
+            // This is the trickiest. PostGIS has functions like ST_3DDistance,
+            // but true "elevation gain" requires analyzing z-coordinates along the path,
+            // which might not be directly available as a simple function.
+            // You might need a custom DB function or client-side calculation for this.
+            // For demonstration, let's assume a placeholder for ElevationGain:
+            0.0, //TODO:  Placeholder
+            
+            trail.DifficultyLevel,
+            trail.RouteType,
+            trail.TerrainType,
+            //trail.RouteGeom.StartPoint,
+            //trail.RouteGeom.EndPoint,
+            trail.RouteGeom,
+            trail.UserId
+        );
+    }
 }

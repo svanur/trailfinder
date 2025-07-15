@@ -9,13 +9,13 @@ public class TrailMappings : Profile
 { // In use by AutoMapper
     public TrailMappings()
     {
+
         CreateMap<Trail, TrailDto>()
-            
-            .ForMember(
+                .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Id)
             );
-
+        
         // List to PaginatedResult mapping
         CreateMap<List<Trail>, PaginatedResult<TrailDto>>()
             .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src))

@@ -14,8 +14,8 @@ public class LineStringConverter : JsonConverter<LineString>
         if (reader.TokenType == JsonTokenType.Null)
             return null;
 
-        if (reader.TokenType != JsonTokenType.StartArray)
-            throw new JsonException("Expected start of array");
+        if (reader.TokenType != JsonTokenType.StartObject) // JsonTokenType.StartArray
+            throw new JsonException("Expected start of object");
 
         var coordinates = new List<CoordinateZ>(); // Explicitly use CoordinateZ
 

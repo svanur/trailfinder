@@ -44,3 +44,27 @@ Content-Type: application/json
 ### guid is not the right length
 GET {{hostAddress}}/api/trails/366-66fba19c4240
 Accept: application/json
+
+
+### GPX INFO
+
+### Get GpxInfo for specific trail
+GET http://localhost:5263/api/gpx-info/099b9626-914b-4b13-9ff2-3f31032732ba
+Accept: application/json
+
+### Update trail GPX info
+PUT http://localhost:5263/api/gpx-info/63e9220f-4558-4f7a-9338-0febeb7eb3d2
+Content-Type: application/json
+
+{
+  "distanceMeters": 15500.50,
+  "elevationGainMeters": 850.0,
+  "routeGeom": {
+    "type": "LineString",
+    "coordinates": [
+      [-21.8954, 64.1355, 100],
+      [-21.8957, 64.1358, 200],
+      [-21.8960, 64.1360, 300]
+    ]
+  }
+}

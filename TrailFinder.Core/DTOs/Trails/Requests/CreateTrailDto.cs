@@ -1,4 +1,3 @@
-using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Core.DTOs.Trails.Requests;
@@ -10,9 +9,8 @@ public record CreateTrailDto(
     decimal Distance,
     decimal ElevationGain,
     DifficultyLevel DifficultyLevel,
-    RouteType routeType,
-    TerrainType terrainType,
-    
+    RouteType RouteType,
+    TerrainType TerrainType,
     string? WebUrl,
     bool HasGpx,
     Guid UserId

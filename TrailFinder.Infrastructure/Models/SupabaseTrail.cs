@@ -1,6 +1,4 @@
-using Supabase.Postgrest.Attributes;
-using Supabase.Postgrest.Models;
-using TrailFinder.Core.Enums;
+
 /*
 [Table("trails")]
 public class SupabaseTrail : BaseModel

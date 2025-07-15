@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using NetTopologySuite.Geometries;
+using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Core.DTOs.Trails.Responses;
@@ -22,13 +23,33 @@ public class TrailDto
     public RouteType? RouteType { get; set; }
     public TerrainType? TerrainType { get; set; }
     
+    public GpxPoint StartGpxPoint { get; set; }
+    public GpxPoint EndGpxPoint { get; set; }
+    
+    //TODO: StartPoint and EndPoint ...OR... the below?
+    
+    // [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
+    // public double? StartPointLatitude { get; set; }
+    //
+    // [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
+    // public double? StartPointLongitude { get; set; }
+    //
+    // [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
+    // public double? EndPointLatitude { get; set; }
+    //
+    // [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
+    // public double? EndPointLongitude { get; set; }
+    //
     public LineString? RouteGeom { get; set; }
- 
     
     public string? WebUrl { get; set; }
+    
     public bool HasGpx { get; set; }
+    
     public DateTime CreatedAt { get; set; }
+    
     public DateTime UpdatedAt { get; set; }
+    
     public Guid UserId { get; set; }
 
     public TrailDto() { }
@@ -41,8 +62,11 @@ public class TrailDto
         double distance,
         double elevationGain,
         DifficultyLevel? difficultyLevel,
-    
-        LineString? routeGeom,
+        RouteType routeType, 
+        TerrainType terrainType,
+        GpxPoint startGpxPoint,
+        GpxPoint endGpxPoint,
+        LineString routeGeom,
         string? webUrl,
         bool hasGpx,
         DateTime createdAt,
@@ -57,7 +81,8 @@ public class TrailDto
         Distance = distance;
         ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
- 
+        RouteType = routeType;
+        TerrainType = terrainType;
         RouteGeom = routeGeom;
         WebUrl = webUrl;
         HasGpx = hasGpx;
