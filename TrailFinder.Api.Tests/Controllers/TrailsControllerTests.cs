@@ -36,8 +36,6 @@ public class TrailsControllerTests
 
     private static TrailDto NewTrailDto(
         string name,
-        //GpxPoint startPoint,
-        //GpxPoint endPoint,
         string slug = "",
         string description = "",
         double distance = 0,
@@ -45,10 +43,6 @@ public class TrailsControllerTests
         DifficultyLevel difficultyLevel = DifficultyLevel.Unknown,
         RouteType routeType = RouteType.Unknown,
         TerrainType terrainType = TerrainType.Unknown,
-        // double startPointLatitude = 0,
-        // double startPointLongitude = 0,
-        // double endPointLatitude = 0,
-        // double endPointLongitude = 0,
         LineString? routeGeom = null,
         string? webUrl = "",
         bool hasGpx = false
@@ -64,6 +58,8 @@ public class TrailsControllerTests
             difficultyLevel,
             routeType,
             terrainType,
+            new GpxPoint(), //TODO: startPoint?
+            new GpxPoint(), //TODO: endPoint?
             routeGeom,
             webUrl,
             hasGpx,

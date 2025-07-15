@@ -43,6 +43,8 @@ public class GpxService : IGpxService
                 analysisResult.DifficultyLevel,
                 analysisResult.RouteType, 
                 analysisResult.TerrainType,
+                //analysisResult.StartGpxPoint,
+                //analysisResult.EndGpxPoint,
                 routeGeom
             );
         }

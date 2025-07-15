@@ -36,7 +36,11 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
         }
 
         // Add at the start of the Handle method:
-        _logger.LogInformation($"Updating trail {request.TrailId} with Difficulty={request.DifficultyLevel}");
+        _logger.LogInformation($"Updating trail {request.TrailId} with " +
+                               $"Difficulty={request.DifficultyLevel}" +
+                               $"RouteType={request.RouteType}" +
+                               $"TerrainType={request.TerrainType}"
+        );
 
         // Handle nullable values
         if (request.Distance.HasValue)

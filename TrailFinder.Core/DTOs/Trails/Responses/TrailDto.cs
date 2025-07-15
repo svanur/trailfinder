@@ -64,6 +64,8 @@ public class TrailDto
         DifficultyLevel? difficultyLevel,
         RouteType routeType, 
         TerrainType terrainType,
+        GpxPoint startGpxPoint,
+        GpxPoint endGpxPoint,
         LineString routeGeom,
         string? webUrl,
         bool hasGpx,

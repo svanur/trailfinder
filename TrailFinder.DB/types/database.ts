@@ -18,7 +18,7 @@ export interface Trail {
     slug: string;
     description: string;
     distance: number;
-    elevationGainMeters: number;
+    elevationGain: number;
     difficultyLevel: DifficultyLevel;
     routeType: RouteType;
     terrainType: TerrainType;
