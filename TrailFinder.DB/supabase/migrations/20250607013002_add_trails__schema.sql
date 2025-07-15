@@ -4,6 +4,12 @@ CREATE EXTENSION IF NOT EXISTS postgis;
 -- Create enum for difficulty levels
 CREATE TYPE difficulty_level AS ENUM ('easy', 'moderate', 'hard', 'extreme', 'unknown');
 
+-- Create enum for route types
+CREATE TYPE route_type AS ENUM ('circular', 'out-and-back', 'point-to-point', 'unknown');
+
+-- Create enum for terrain types
+CREATE TYPE terrain_type AS ENUM ('flat', 'rolling', 'hilly', 'mountainous', 'unknown');
+
 -- Create the 'trails' table
 CREATE TABLE trails (
                         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -13,9 +19,9 @@ CREATE TABLE trails (
                         distance NUMERIC(10,2),
                         elevation_gain INTEGER,
                         difficulty_level difficulty_level,
-                        route_geom geometry(LINESTRINGZ, 4326),
-                        start_point geometry(POINTZ, 4326),
-                        end_point geometry(POINTZ, 4326),
+                        route_type route_type,
+                        terrain_type terrain_type,
+                        route_geom geometry(LINESTRING, 4326),
                         web_url TEXT,
                         has_gpx BOOLEAN
 ,
@@ -26,7 +32,6 @@ CREATE TABLE trails (
 
 -- Create index for spatial queries
 CREATE INDEX trails_route_geom_idx ON trails USING GIST (route_geom);
-CREATE INDEX trails_start_point_idx ON trails USING GIST (start_point);
 
 -- Create updated_at trigger
 CREATE OR REPLACE FUNCTION update_updated_at_column()

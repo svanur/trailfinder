@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TrailFinder.Core.Entities;
-using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Infrastructure.Persistence.Configurations;
 
@@ -49,25 +48,6 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasColumnName("elevation_gain")
             .HasColumnType("double precision")  // PostgreSQL type for double
             .IsRequired();  // This is actually the default for non-nullable types
-         
-        builder.Property(t => t.DifficultyLevel)
-            .HasColumnName("difficulty_level");
-        
-        /*
-        builder.Property(t => t.DifficultyLevel)
-            .HasColumnName("difficulty_level")
-            .HasColumnType("difficulty_level")
-            .HasConversion<string>();  // This tells EF Core to convert the enum to/from string
-            */
-        
-        /*
-        builder.Property(t => t.DifficultyLevel)
-            .HasColumnType("difficulty_level")
-            .HasConversion(
-                v => v.HasValue ? v.Value.ToString().ToLower() : null,
-                v => v == null ? null : (DifficultyLevel)Enum.Parse(typeof(DifficultyLevel), v, true)
-            );
-            */
         
         // Boolean property
         builder.Property(t => t.HasGpx)
@@ -76,16 +56,17 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .IsRequired()
             .HasDefaultValue(false);
         
-        // Geometry properties
-        builder.Property(t => t.StartPoint)
-            .HasColumnName("start_point")
-            .HasColumnType("geometry(PointZ, 4326)")  // Changed from Point to PointZ
-            .IsRequired(false);
-    
-        builder.Property(t => t.EndPoint)
-            .HasColumnName("end_point")
-            .HasColumnType("geometry(PointZ, 4326)")  // Changed from Point to PointZ
-            .IsRequired(false);
+        builder.Property(t => t.DifficultyLevel)
+            .HasColumnName("difficulty_level")
+            .HasColumnType("difficulty_level");  // Specify the column type
+
+        builder.Property(t => t.RouteType)
+            .HasColumnName("route_type")
+            .HasColumnType("route_type");        // Specify the column type
+
+        builder.Property(t => t.TerrainType)
+            .HasColumnName("terrain_type")
+            .HasColumnType("terrain_type");      // Specify the column type
     
         builder.Property(t => t.RouteGeom)
             .HasColumnName("route_geom")
@@ -123,8 +104,7 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .IsUnique();
         
         builder.HasIndex(t => t.UserId);
-        builder.HasIndex(t => t.StartPoint)
-            .HasMethod("GIST");
+        
         builder.HasIndex(t => t.RouteGeom)
             .HasMethod("GIST");
     }

@@ -52,28 +52,29 @@ public class Todo
     //TODO [ ] GitHub Actions CI/CD
     
     // Ideas for Trail Running Application
-    //TODO: Use the Route Geometry more?
-    //TODO: Add elevation loss
-    //TODO: Implement share functionality
-    //TODO: Implement QR code functionality
-    //TODO: Add difficulty analysis
-    //TODO: implement GeoPoint.IsNearby C:\dev-external\trailfinder\TrailFinder.Core\DTOs\Gpx\GeoPoint.cs
-    //TODO: isCircularTrail: bool isCircularTrail = gpxInfo.StartPoint.IsNearby(gpxInfo.EndPoint);
-    //TODO: RouteType: C:\dev-external\trailfinder\TrailFinder.Core\Enums\RouteType.cs
-    //TODO: Implement RouteAnalyzer
-    //TODO: Decide on DifficultyLevel values(maybe go by strava values?) C:\dev-external\trailfinder\TrailFinder.Core\Enums\DifficultyLevel.cs 
+    //TODO: [ ] Use the Route Geometry more?
+    //TODO: [ ] Add elevation loss
+    //TODO: [ ] Implement share functionality
+    //TODO: [ ] Implement QR code functionality
+    //TODO: [ ] Add difficulty analysis
+    //TODO: [ ] implement GeoPoint.IsNearby C:\dev-external\trailfinder\TrailFinder.Core\DTOs\Gpx\GeoPoint.cs
+    //TODO: [X] isCircularTrail: bool isCircularTrail = gpxInfo.StartPoint.IsNearby(gpxInfo.EndPoint);
+    //TODO: [X] RouteType: C:\dev-external\trailfinder\TrailFinder.Core\Enums\RouteType.cs
+    //TODO: [X] Implement RouteAnalyzer
+    //TODO: [X] Decide on DifficultyLevel values(maybe go by strava values?) C:\dev-external\trailfinder\TrailFinder.Core\Enums\DifficultyLevel.cs 
 
     
     // Web layout ideas
-    //TODO: Have elevation and trail maps side by side
+    //TODO: [ ] Have elevation and trail maps side by side
+    //TODO: [ ] Optimize the trail map & elevation map
     
     // User Profile ideas
-    //TODO: Add User Profile page
-    //TODO: Add trail rating
-    //TODO: Upload trails
-    //TODO: Add trail reviews
-    //TODO: Add trail favorites
-    //TODO: Implement save functionality
+    //TODO: [ ] Add User Profile page
+    //TODO: [ ] Add trail rating
+    //TODO: [ ] Upload trails
+    //TODO: [ ] Add trail reviews
+    //TODO: [ ] Add trail favorites
+    //TODO: [ ] Implement save functionality
     
     
     /*

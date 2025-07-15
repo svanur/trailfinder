@@ -1,5 +1,4 @@
 using NetTopologySuite.Geometries;
-using Supabase.Postgrest.Attributes;
 using TrailFinder.Core.DTOs;
 using TrailFinder.Core.Entities.Common;
 using TrailFinder.Core.Enums;
@@ -14,11 +13,13 @@ public class Trail : BaseEntity
     public string Name { get; private set; } = null!;
     public string Slug { get; private set; } = null!;
     public string Description { get; private set; } = null!;
+    public DifficultyLevel? DifficultyLevel { get; set; }
+    public RouteType? RouteType { get; set; }
+    public TerrainType? TerrainType { get; set; }
     public double Distance { get; set; }
     
     public double ElevationGain { get; set; }
-    
-    public DifficultyLevel? DifficultyLevel { get; set; }
+
     
     public Point? StartPoint { get; set; } = null!;
     public Point? EndPoint { get; set; } = null!;
@@ -82,8 +83,8 @@ public class Trail : BaseEntity
         Distance = distance;
         ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
-        StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0)); // Add elevation as Z
-        EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
+        //StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0)); // Add elevation as Z
+        //EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
         UpdatedAt = DateTime.UtcNow;
     }
 

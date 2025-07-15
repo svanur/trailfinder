@@ -5,17 +5,17 @@ namespace TrailFinder.Core.Enums;
 public enum DifficultyLevel
 {
     [PgName("easy")]
-    Easy = 0,
+    Easy,
     
     [PgName("moderate")]
-    Moderate = 1,
+    Moderate,
     
     [PgName("hard")]
-    Hard = 2,
+    Hard,
     
     [PgName("extreme")]
-    Extreme = 3,
+    Extreme,
     
     [PgName("unknown")]
-    Unknown = 4
+    Unknown
 }

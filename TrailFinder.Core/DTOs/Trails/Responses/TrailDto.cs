@@ -19,6 +19,10 @@ public class TrailDto
     public double ElevationGain { get; set; }
     
     public DifficultyLevel? DifficultyLevel { get; set; }
+    public RouteType? RouteType { get; set; }
+    public TerrainType? TerrainType { get; set; }
+    
+    public LineString? RouteGeom { get; set; }
     
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
     public double? StartPointLatitude { get; set; }

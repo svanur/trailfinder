@@ -6,7 +6,7 @@ using TrailFinder.Core.Entities;
 namespace TrailFinder.Application.Mappings;
 
 public class TrailMappings : Profile
-{// In use by AutoMapper
+{ // In use by AutoMapper
     public TrailMappings()
     {
         CreateMap<Trail, TrailDto>()
