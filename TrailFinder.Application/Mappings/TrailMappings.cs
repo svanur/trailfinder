@@ -30,5 +30,6 @@ public class TrailMappings : Profile
             .ForMember(dest => dest.TotalPages, opt => opt.MapFrom(src => 1))
             .ForMember(dest => dest.HasPreviousPage, opt => opt.MapFrom(src => false))
             .ForMember(dest => dest.HasNextPage, opt => opt.MapFrom(src => false));
+        
     }
 }

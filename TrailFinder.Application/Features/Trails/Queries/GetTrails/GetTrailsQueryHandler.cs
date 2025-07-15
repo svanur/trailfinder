@@ -1,7 +1,6 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using TrailFinder.Application.Features.Trails.Commands.UpdateTrail;
 using TrailFinder.Core.DTOs.Common;
 using TrailFinder.Core.DTOs.Trails.Responses;
 using TrailFinder.Core.Interfaces.Repositories;
@@ -29,7 +28,16 @@ public class GetTrailsQueryHandler : IRequestHandler<GetTrailsQuery, PaginatedRe
         GetTrailsQuery request,
         CancellationToken cancellationToken)
     {
-        var trails = await _trailRepository.GetAllAsync(cancellationToken);
-        return _mapper.Map<PaginatedResult<TrailDto>>(trails);
+        var paginatedTrails = await _trailRepository.GetPaginatedAsync(
+            request.PageNumber,
+            request.PageSize,
+            request.SortBy,
+            request.SortDescending,
+            cancellationToken
+        );
+
+        // AutoMapper setup for PaginatedResult<TSource> to PaginatedResult<TDestination>
+        // ensures that all properties (Items, PageNumber, etc.) are correctly mapped.
+        return _mapper.Map<PaginatedResult<TrailDto>>(paginatedTrails);
     }
 }
