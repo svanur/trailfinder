@@ -26,11 +26,13 @@ public class LocationMappings : Profile
                 opt => opt.MapFrom(src => src.Id)
             )
     */
+  /*
             .ForMember(
                 dest => dest.GpxPoint,
                 opt 
                     => opt.MapFrom(src => new GpxPoint(src.Latitude, src.Longitude, 0))
             )
+  */
             ;
 
         CreateMap<PaginatedResult<Location>, PaginatedResult<LocationDto>>()

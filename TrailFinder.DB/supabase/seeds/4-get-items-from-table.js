@@ -78,5 +78,5 @@ async function main(items) {
     }
 }
 
-main('races')
+main('trails')
     .then(r => console.log('Done'));

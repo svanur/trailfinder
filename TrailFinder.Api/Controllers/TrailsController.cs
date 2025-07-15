@@ -110,8 +110,8 @@ public class TrailsController : BaseApiController
                 gpxInfo.Distance,
                 gpxInfo.ElevationGain,
                 gpxInfo.DifficultyLevel,
-                gpxInfo.StartPoint,
-                gpxInfo.EndPoint,
+                gpxInfo.RouteType,
+                gpxInfo.TerrainType,
                 gpxInfo.RouteGeom
             );
         
