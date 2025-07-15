@@ -17,14 +17,22 @@ public class RouteAnalyzer: IAnalyzer<List<GpxPoint>, RouteType>
     public static RouteType DetermineRouteType(List<GpxPoint> points)
     {
         if (points.Count < 2)
+        {
             return RouteType.Unknown;
+        }
 
-        var startPoint = new GpxPoint(points.First().Latitude, points.First().Longitude);
-        var endPoint = new GpxPoint(points.Last().Latitude, points.Last().Longitude);
+        var first = points.First();
+        var last = points.Last();
 
+        var firstGpxPoint = new GpxPoint(first.Latitude, first.Longitude, first.Elevation);
+        var lastGpxPoint = new GpxPoint(last.Latitude, last.Longitude, last.Elevation);
+        
+        
         // Check if it's a circular route
-        if (startPoint.IsNearby(endPoint, CircularThresholdMeters))
+        if (firstGpxPoint.IsNearby(lastGpxPoint, CircularThresholdMeters))
+        {
             return RouteType.Circular;
+        }
 
         // Check if it's an out-and-back route
         return IsOutAndBack(points) 
