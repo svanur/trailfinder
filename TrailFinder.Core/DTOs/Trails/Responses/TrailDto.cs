@@ -16,27 +16,14 @@ public class TrailDto
     public double Distance { get; set; }
     
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
-    public double ElevationGain { get; set; }
+    public double ElevationGainMeters { get; set; }
     
     public DifficultyLevel? DifficultyLevel { get; set; }
     public RouteType? RouteType { get; set; }
     public TerrainType? TerrainType { get; set; }
     
     public LineString? RouteGeom { get; set; }
-    
-    [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
-    public double? StartPointLatitude { get; set; }
-
-    [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
-    public double? StartPointLongitude { get; set; }
-
-    [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
-    public double? EndPointLatitude { get; set; }
-
-    [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
-    public double? EndPointLongitude { get; set; }
-    
-    public LineString? RouteGeom { get; set; }
+ 
     
     public string? WebUrl { get; set; }
     public bool HasGpx { get; set; }
@@ -52,12 +39,9 @@ public class TrailDto
         string slug,
         string description,
         double distance,
-        double elevationGain,
+        double elevationGainMeters,
         DifficultyLevel? difficultyLevel,
-        double? startPointLatitude,
-        double? startPointLongitude,
-        double? endPointLatitude,
-        double? endPointLongitude,
+    
         LineString? routeGeom,
         string? webUrl,
         bool hasGpx,
@@ -71,12 +55,9 @@ public class TrailDto
         Slug = slug;
         Description = description;
         Distance = distance;
-        ElevationGain = elevationGain;
+        ElevationGainMeters = elevationGainMeters;
         DifficultyLevel = difficultyLevel;
-        StartPointLatitude = startPointLatitude;
-        StartPointLongitude = startPointLongitude;
-        EndPointLatitude = endPointLatitude;
-        EndPointLongitude = endPointLongitude;
+ 
         RouteGeom = routeGeom;
         WebUrl = webUrl;
         HasGpx = hasGpx;

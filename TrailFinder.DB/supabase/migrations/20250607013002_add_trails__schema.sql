@@ -17,7 +17,7 @@ CREATE TABLE trails (
                         slug VARCHAR(255) NOT NULL UNIQUE,
                         description TEXT,
                         distance NUMERIC(10,2),
-                        elevation_gain INTEGER,
+                        elevation_gain_meters INTEGER,
                         difficulty_level difficulty_level,
                         route_type route_type,
                         terrain_type terrain_type,

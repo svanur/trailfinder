@@ -26,7 +26,7 @@ namespace TrailFinder.Infrastructure.Migrations
                     slug = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     description = table.Column<string>(type: "text", nullable: false),
                     distance = table.Column<double>(type: "numeric(10,2)", nullable: false),
-                    elevation_gain = table.Column<double>(type: "double precision", nullable: false),
+                    elevation_gain_meters = table.Column<double>(type: "double precision", nullable: false),
                     difficulty_level = table.Column<DifficultyLevel>(type: "difficulty_level", nullable: true),
                     start_point = table.Column<Point>(type: "geometry(PointZ, 4326)", nullable: true),
                     end_point = table.Column<Point>(type: "geometry(PointZ, 4326)", nullable: true),

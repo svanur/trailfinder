@@ -135,6 +135,7 @@ public class Trail : BaseEntity
             .Select(c => (Latitude: c.Y, Longitude: c.X));
     }
 
+    /*
     public double GetDistanceFromPoint(double latitude, double longitude)
     {
         var point = GeometryFactory.CreatePoint(new CoordinateZ(longitude, latitude, 0));
@@ -149,4 +150,5 @@ public class Trail : BaseEntity
         var point = GeometryFactory.CreatePoint(new CoordinateZ(longitude, latitude, 0));
         return RouteGeom.Distance(point) <= toleranceMeters;
     }
+    */
 }

@@ -36,7 +36,7 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
         }
 
         // Add at the start of the Handle method:
-        _logger.LogInformation($"Updating trail {request.TrailId} with values: Distance={request.Distance}, Elevation={request.ElevationGain}, Difficulty={request.DifficultyLevel}");
+        _logger.LogInformation($"Updating trail {request.TrailId} with values: Distance={request.Distance}, Elevation={request.ElevationGainMeters}, Difficulty={request.DifficultyLevel}");
 
         // Handle nullable values
         if (request.Distance.HasValue)
@@ -44,9 +44,9 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
             trail.Distance = request.Distance.Value;
         }
 
-        if (request.ElevationGain.HasValue)
+        if (request.ElevationGainMeters.HasValue)
         {
-            trail.ElevationGain = request.ElevationGain.Value;
+            trail.ElevationGainMeters = request.ElevationGainMeters.Value;
         }
 
         if (request.DifficultyLevel.HasValue)
@@ -120,9 +120,9 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
             trail.Distance = request.Distance.Value;
         }
     
-        if (request.ElevationGain.HasValue)
+        if (request.ElevationGainMeters.HasValue)
         {
-            trail.ElevationGain = request.ElevationGain.Value;
+            trail.ElevationGainMeters = request.ElevationGainMeters.Value;
         }
     
         if (request.DifficultyLevel.HasValue)
