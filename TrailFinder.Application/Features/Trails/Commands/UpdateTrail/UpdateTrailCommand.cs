@@ -8,7 +8,7 @@ namespace TrailFinder.Application.Features.Trails.Commands.UpdateTrail;
 public record UpdateTrailCommand(
     Guid TrailId,
     double? Distance,
-    double? ElevationGainMeters,
+    double? ElevationGain,
     DifficultyLevel? DifficultyLevel,
     RouteType? RouteType,
     TerrainType? TerrainType,
