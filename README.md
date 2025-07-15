@@ -4,87 +4,115 @@ A trail-finding application that helps users discover and navigate trails for ru
 
 ## Prerequisites
 
-- Node.js 18+ and npm
-- Docker Desktop
-- Visual Studio Code or JetBrains Rider
-- Supabase CLI (`npm install supabase`)
+- [Git](https://git-scm.com/downloads)
+- [Node.js](https://nodejs.org/en/download) 18+ and npm
+- [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/)
+- [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) (`wsl --install`)
+- Visual Studio Code or JetBrains Rider or your favorite IDE
+- [Supabase CLI](https://supabase.com/docs/guides/local-development/cli/getting-started) (`npm install supabase`)
 
 ## Project Structure
 
-trailfinder/ 
+### trailfinder/
 
-├── client/ 
+#### Unit tests for the solution
 
-# React frontend 
+    ├── tests/
+    
+        ├── TrailFinder.Api.Tests/
 
-├── database/ 
+        ├── TrailFinder.IntegrationTests/
 
-# Database migrations and seeds 
+#### Frontend for backend administration
 
-├── types/ 
+    ├── TrailFinder.Admin/
 
-# Shared TypeScript types 
+#### API for the solution
 
-└── docs/ 
+    ├── TrailFinder.Api/
+
+#### Application classes
+
+    ├── TrailFinder.Application/
+
+#### Core classes
+
+    ├── TrailFinder.Core/
+
+#### Database classes
+
+    ├── TrailFinder.DB/
+
+#### Infrastructure classes
+
+    ├── TrailFinder.Infrastructure/
+
+#### Frontend
+
+    └── TrailFinder.Website/
 
 # Project documentation
-
 
 ## Quick Start
 
 1. **Clone the repository**
+
    ```bash
    git clone [repository-url]
    cd trailfinder
    ```
 
 2. **Set up local development environment**
-   ```bash
+
+    ```bash
+   # Install dependencies in TrailFinder.Web and TrailFinder.DB
+   npm install
+   
    # Start Docker Desktop
    docker-compose up -d
 
-   # Start local Supabase
+   # Start local Supabase in TrailFinder.DB
    supabase start
-
-   # Install dependencies
-   npm install
    ```
 
 3. **Set up environment variables**
-   ```bash
+
+    ```bash
    cp .env.example .env.local
    # Edit .env.local with your settings
    ```
 
 4. **Start development server**
-   ```bash
+
+    ```bash
    npm run dev
    ```
 
 ## Development Stack
 
 - **Frontend**
-    - React 19.1.0
-    - TypeScript 5.8.3
-    - Mantine UI 8.0.2
-    - TailwindCSS 4.1.8
-    - React Router 7.6.2
-    - Leaflet 1.9.4 (for maps)
-    - Chart.js 4.4.9
+    - [React 19.1.0](https://react.dev/blog/2024/12/05/react-19)
+    - [TypeScript](https://www.typescriptlang.org/) 5.8.3
+    - [Mantine UI](https://mantine.dev/) 8.0.2
+    - [TailwindCSS](https://tailwindcss.com/) 4.1.8
+    - [React Router](https://reactrouter.com/) 7.6.2
+    - [Leaflet](https://leafletjs.com/index.html) 1.9.4 (for maps)
+    - [Chart.js](https://www.chartjs.org/docs/latest/) 4.4.9
 
 - **Backend**
-    - Supabase (Database & Authentication)
-    - PostgreSQL 15+
+    - [Supabase (Database & Authentication)](https://supabase.com/docs/guides/auth)
+    - [PostgreSQL](https://www.postgresql.org/) 15+
 
 - **Development Tools**
-    - Vite 6.3.5
-    - ESLint 9.25.0
-    - Docker
-    - Supabase CLI
+    - [Vite](https://vite.dev/) 6.3.5
+    - [ESLint](https://eslint.org/) 9.25.0
+    - [Docker](https://www.docker.com/)
+    - [Supabase CLI](https://supabase.com/docs/guides/local-development/cli/getting-started)
 
 ## Development Workflow
 
 1. **Database Changes**
+
    ```bash
    # Create new migration
    ./scripts/new-migration.ps1 -Name "feature_name"
@@ -94,11 +122,13 @@ trailfinder/
    ```
 
 2. **Running Tests**
+
    ```bash
    npm run test
    ```
 
 3. **Code Quality**
+
    ```bash
    npm run lint
    npm run format
@@ -108,8 +138,8 @@ trailfinder/
 
 ### Local Development
 
-env 
-VITE_SUPABASE_URL=[http://localhost:54321](http://localhost:54321) 
+env
+VITE_SUPABASE_URL=[http://localhost:54321](http://localhost:54321)
 VITE_SUPABASE_ANON_KEY=[your-local-key]
 
 #### supabase local development setup.
@@ -120,13 +150,115 @@ VITE_SUPABASE_ANON_KEY=[your-local-key]
 - DB URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
 - Studio URL: http://127.0.0.1:54323
 - Inbucket URL: http://127.0.0.1:54324
-- JWT secret: super-secret-jwt-token-with-at-least-32-characters-long
-- anon key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
-- service_role key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU
-- S3 Access Key: 625729a08b95bf1b7ff351a663f3a23c
-- S3 Secret Key: 850181e4652dd023b7a98c58ae0d2d34bd487ee0cc3254aed6eda37307425907
+- JWT secret: (super-secret-jwt-token-with-at-least-32-characters-long)
+- anon key: (anon-key)
+- service_role key: (security-role-key)
+- S3 Access Key: (s3-access-key)
+- S3 Secret Key: (s3-secret-key)
 - S3 Region: local
 
+## GitHub and GPG key signing
+
+Find the project on GitHub: [github.com/svanur/trailfinder](https://github.com/svanur/trailfinder)
+
+### GPG keys
+
+To set up GPG key signing for commits on GitHub, you'll need to follow these steps:
+
+#### STEP 1: Generate a GPG Key (if you don’t have one yet)
+
+```bash
+gpg --full-generate-key
+```
+
+Choose:
+- Key type: RSA and RSA
+- Key size: 4096
+- Expiration: Your choice, push enter if key does not expire
+- Name and email: Use the same email as your GitHub account
+- Choose O for Okay
+- Enter a passphrase for protecting your new key
+
+<code>Note</code>: Make sure the email matches exactly the email listed in your GitHub account under Settings → Emails.
+
+You can view your current email using:
+
+```bash
+git config --global user.email
+```
+
+List your keys:
+
+```bash
+gpg --list-secret-keys --keyid-format LONG
+```
+
+Copy the GPG key ID (the string after: rsa4096/).
+
+#### STEP 2: Export Your Public Key
+
+```bash
+gpg --armor --export YOUR_KEY_ID
+```
+
+Copy the entire output — This is your public key.
+
+#### STEP 3: Add Your GPG Key to GitHub
+
+1. Go to your GitHub profile.
+2. Navigate to [Settings → SSH and GPG keys](https://github.com/settings/keys) → New GPG key.
+3. Paste your public key and save.
+
+#### Step 4: Configure Git to Use Your GPG Key
+
+```bash
+git config --global user.signingkey YOUR_KEY_ID
+git config --global commit.gpgsign true
+```
+
+You can also sign individual commits with:
+
+```bash
+git commit -S -m "Your commit message"
+```
+
+#### Step 5: Test It
+
+Make a commit and push it. On GitHub, you should see a "Verified" badge next to your commit.
+
+### Unsigned commits?
+
+#### Step 1: Find the short commit hash
+
+- You can find it in the Pull request on GitHub
+- OR
+- If you know you want to sign, say, the last 5 commits (and some of them are already signed but you want to process them all), you can use HEAD~5
+
+#### Step 2: Start Interactive Rebase
+
+```bash
+git rebase -i HEAD~5
+```
+
+- This will open an editor showing all the commits from your chosen starting point up to your HEAD
+- Sign commits during rebase
+
+#### Step 3: Sign Commits During Rebase
+
+- For each commit you want to sign (which includes the ones already signed, as reword won't harm them), change <code>pick</code> to <code>reword</code>.
+- Save and close the editor
+- Git will stop at the first reword commit. An editor will open with the commit message. You can just save and close it (e.g., in Vim: Esc, :wq, Enter).
+- After closing the editor, Git will prompt you for your GPG passphrase. Enter your passphrase to sign the commit.
+  
+This process will effectively rewrite the history of these commits, adding your GPG signature to each one.
+
+#### Step 4: Force Push to GitHub
+
+Since you've rewritten history, you must use a force push to update the remote repository.
+
+```bash
+git push --force-with-lease origin your-branch-name
+```
 
 ### Production
 
@@ -148,6 +280,22 @@ VITE_SUPABASE_ANON_KEY=[your-production-key]
 - `npm run test` - Run tests
 - `npm run lint` - Run ESLint
 - `npm run format` - Format code with Prettier
+
+## Hosting
+
+Hosting wise, this is a hybrid solution
+
+### Database: Supabase
+
+The database is hosted on [Supabase](https://supabase.com/dashboard/)
+
+### API: Render
+
+The API is hosted on [Render](https://dashboard.render.com/)
+
+### Web: Vercel
+
+The API is hosted on [Vercel](https://vercel.com/login)
 
 ## Deployment
 
