@@ -49,8 +49,6 @@ public class GpxInfoController : BaseApiController
                 gpxInfo.DifficultyLevel,
                 gpxInfo.RouteType,
                 gpxInfo.TerrainType,
-                new GpxPoint(), //gpxInfo.StartPoint,
-                new GpxPoint(), //gpxInfo.EndPoint, //TODO: refactor
                 gpxInfo.RouteGeom
             );
         

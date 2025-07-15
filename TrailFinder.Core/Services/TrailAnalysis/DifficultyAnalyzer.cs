@@ -1,6 +1,8 @@
 using TrailFinder.Core.Enums;
+using TrailFinder.Core.Interfaces.Repositories;
+using TrailFinder.Core.ValueObjects;
 
-namespace TrailFinder.Infrastructure.Analyzers;
+namespace TrailFinder.Core.Services.TrailAnalysis;
 
 /// <summary>
 /// Provides methods to analyze the difficulty level of a trail
@@ -32,7 +34,7 @@ namespace TrailFinder.Infrastructure.Analyzers;
 ///     You can adjust the thresholds and scoring weights based on your specific needs or local terrain characteristics.
 /// 
 /// </remarks>
-public class DifficultyAnalyzer
+public class DifficultyAnalyzer: IAnalyzer<DifficultyAnalysisInput, DifficultyLevel>
 {
     private const int MaxScore = 100;
     
@@ -45,6 +47,11 @@ public class DifficultyAnalyzer
     private const double LowElevationGain = 200;    
     private const double ModerateElevationGain = 500;
     private const double HighElevationGain = 1000;
+
+    public DifficultyLevel Analyze(DifficultyAnalysisInput item)
+    {
+        return AnalyzeDifficulty(item.TotalDistance, item.ElevationGain, item.TerrainType, item.RouteType);
+    }
 
     public static DifficultyLevel AnalyzeDifficulty(
         double distance,
