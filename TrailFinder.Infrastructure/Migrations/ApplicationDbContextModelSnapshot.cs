@@ -52,10 +52,6 @@ namespace TrailFinder.Infrastructure.Migrations
                     b.Property<RouteType?>("RouteType")
                         .HasColumnType("route_type")
                         .HasColumnName("route_type");
-                    
-                    b.Property<TerrainType?>("RouteType")
-                        .HasColumnType("terrain_type")
-                        .HasColumnName("terrain_type");
 
                     b.Property<double>("Distance")
                         .HasColumnType("decimal(10,2)")

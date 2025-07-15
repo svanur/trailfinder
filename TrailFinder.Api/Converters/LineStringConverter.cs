@@ -6,10 +6,8 @@ namespace TrailFinder.Api.Converters;
 
 public class LineStringConverter : JsonConverter<LineString>
 {
-    private readonly GeometryFactory _geometryFactory = new(
-        new PrecisionModel(PrecisionModels.Floating), 
-        4326
-    );
+    private readonly GeometryFactory _geometryFactory = 
+        new GeometryFactory(new PrecisionModel(), 4326); // Set SRID to 4326 to match your database
 
     public override LineString? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

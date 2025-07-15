@@ -72,27 +72,21 @@ public class Trail : BaseEntity
     public void Update(
         string name,
         string description,
-        // double distance,
-        // double elevationGain,
+        double distance,
+        double elevationGain,
         DifficultyLevel difficultyLevel,
         RouteType routeType,
         TerrainType terrainType
-        // double startPointLatitude,
-        // double startPointLongitude,
-        // double endPointLatitude,
-        // double endPointLongitude
     )
     {
         Name = name;
         Slug = GenerateSlug(name);
         Description = description;
-        // Distance = distance;
-        // ElevationGain = elevationGain;
+        Distance = distance;
+        ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
         RouteType = routeType;
         TerrainType = terrainType;
-        // StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0)); // Add elevation as Z
-        // EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
         UpdatedAt = DateTime.UtcNow;
     }
 

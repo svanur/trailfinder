@@ -39,15 +39,15 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
         _logger.LogInformation($"Updating trail {request.TrailId} with Difficulty={request.DifficultyLevel}");
 
         // Handle nullable values
-        /*if (request.Distance.HasValue)
+        if (request.Distance.HasValue)
         {
             trail.Distance = request.Distance.Value;
-        }*/
+        }
 
-        /*if (request.ElevationGain.HasValue)
+        if (request.ElevationGain.HasValue)
         {
             trail.ElevationGain = request.ElevationGain.Value;
-        }*/
+        }
 
         if (request.DifficultyLevel.HasValue)
         {

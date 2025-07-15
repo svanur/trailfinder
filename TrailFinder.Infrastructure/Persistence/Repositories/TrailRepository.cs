@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using TrailFinder.Core.DTOs.Common;
 using TrailFinder.Core.DTOs.Trails.Requests;
-using TrailFinder.Core.DTOs.Trails.Responses;
 using TrailFinder.Core.Entities;
 using TrailFinder.Core.Interfaces.Repositories;
 

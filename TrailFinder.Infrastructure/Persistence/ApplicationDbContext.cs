@@ -69,7 +69,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         */
 
         // Apply configuration
-        //modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         modelBuilder.ApplyConfiguration(new TrailConfiguration());
     }
 }
