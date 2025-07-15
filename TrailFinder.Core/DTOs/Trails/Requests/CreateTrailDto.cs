@@ -8,7 +8,7 @@ public record CreateTrailDto(
     string Slug,
     string Description,
     decimal Distance,
-    decimal ElevationGainMeters,
+    decimal ElevationGain,
     DifficultyLevel DifficultyLevel,
     RouteType routeType,
     TerrainType terrainType,
