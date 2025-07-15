@@ -34,6 +34,10 @@ public class Trail : BaseEntity
         double distance,
         double elevationGain,
         DifficultyLevel difficultyLevel,
+        double startPointLatitude,
+        double startPointLongitude,
+        double endPointLatitude,
+        double endPointLongitude,
         Guid userId
     )
     {
@@ -65,12 +69,11 @@ public class Trail : BaseEntity
         string description,
         double distance,
         double elevationGain,
-        DifficultyLevel difficultyLevel
-        
-        //double startPointLatitude,
-        //double startPointLongitude,
-        //double endPointLatitude,
-        //double endPointLongitude
+        DifficultyLevel difficultyLevel,
+        double startPointLatitude,
+        double startPointLongitude,
+        double endPointLatitude,
+        double endPointLongitude
     )
     {
         Name = name;
