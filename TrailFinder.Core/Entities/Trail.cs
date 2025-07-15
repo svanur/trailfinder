@@ -49,8 +49,9 @@ public class Trail : BaseEntity
         Distance = distance;
         ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
-        StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0));
-        EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
+      
+        //StartPoint = GeometryFactory.CreatePoint(new CoordinateZ(startPointLongitude, startPointLatitude, 0));
+        //EndPoint = GeometryFactory.CreatePoint(new CoordinateZ(endPointLongitude, endPointLatitude, 0));
         
         UserId = userId;
         CreatedAt = DateTime.UtcNow;
