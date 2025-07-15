@@ -28,7 +28,16 @@ public class GetLocationsQueryHandler : IRequestHandler<GetLocationsQuery, Pagin
         GetLocationsQuery request,
         CancellationToken cancellationToken)
     {
-        var locations = await _locationRepository.GetAllAsync(cancellationToken);
-        return _mapper.Map<PaginatedResult<LocationDto>>(locations);
+        var paginatedTrails = await _locationRepository.GetPaginatedAsync(
+            request.PageNumber,
+            request.PageSize,
+            request.SortBy,
+            request.SortDescending,
+            cancellationToken
+        );
+
+        // AutoMapper setup for PaginatedResult<TSource> to PaginatedResult<TDestination>
+        // ensures that all properties (Items, PageNumber, etc.) are correctly mapped.
+        return _mapper.Map<PaginatedResult<LocationDto>>(paginatedTrails);
     }
 }

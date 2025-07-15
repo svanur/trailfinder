@@ -23,7 +23,17 @@ public class RaceMappings : Profile
             )
             ;
 
+        CreateMap<PaginatedResult<Race>, PaginatedResult<RaceDto>>()
+            .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items)) // Crucial: AutoMapper will use the Race -> RaceDto mapping for each item
+            .ForMember(dest => dest.PageNumber, opt => opt.MapFrom(src => src.PageNumber))
+            .ForMember(dest => dest.PageSize, opt => opt.MapFrom(src => src.PageSize))
+            .ForMember(dest => dest.TotalCount, opt => opt.MapFrom(src => src.TotalCount))
+            .ForMember(dest => dest.TotalPages, opt => opt.MapFrom(src => src.TotalPages))
+            .ForMember(dest => dest.HasPreviousPage, opt => opt.MapFrom(src => src.HasPreviousPage))
+            .ForMember(dest => dest.HasNextPage, opt => opt.MapFrom(src => src.HasNextPage));
+        
         // List to PaginatedResult mapping
+        /*
         CreateMap<List<Race>, PaginatedResult<RaceDto>>()
             .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src))
             .ForMember(dest => dest.TotalCount, opt => opt.MapFrom(src => src.Count))
@@ -32,5 +42,6 @@ public class RaceMappings : Profile
             .ForMember(dest => dest.TotalPages, opt => opt.MapFrom(src => 1))
             .ForMember(dest => dest.HasPreviousPage, opt => opt.MapFrom(src => false))
             .ForMember(dest => dest.HasNextPage, opt => opt.MapFrom(src => false));
+        */
     }
 }

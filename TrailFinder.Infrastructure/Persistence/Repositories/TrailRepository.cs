@@ -31,11 +31,12 @@ public class TrailRepository(ApplicationDbContext context)
         return trail;
     }
 
-
+    /*
     public override async Task<IEnumerable<Trail>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await DbSet
             .OrderByDescending(t => t.CreatedAt)
             .ToListAsync(cancellationToken);
     }
+    */
 }
