@@ -67,11 +67,7 @@ namespace TrailFinder.Infrastructure.Migrations
                     b.Property<double>("ElevationGain")
                         .HasColumnType("double precision")
                         .HasColumnName("elevation_gain");
-
-                    b.Property<Point>("EndPoint")
-                        .HasColumnType("geometry(PointZ, 4326)")
-                        .HasColumnName("end_point");
-
+                    
                     b.Property<bool>("HasGpx")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -93,10 +89,6 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("slug");
-
-                    b.Property<Point>("StartPoint")
-                        .HasColumnType("geometry(PointZ, 4326)")
-                        .HasColumnName("start_point");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
@@ -120,10 +112,6 @@ namespace TrailFinder.Infrastructure.Migrations
 
                     b.HasIndex("Slug")
                         .IsUnique();
-
-                    b.HasIndex("StartPoint");
-
-                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("StartPoint"), "GIST");
 
                     b.HasIndex("UserId");
 

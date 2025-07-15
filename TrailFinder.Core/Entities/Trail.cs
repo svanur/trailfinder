@@ -19,8 +19,8 @@ public class Trail : BaseEntity
     public DifficultyLevel DifficultyLevel { get; set; }
     public RouteType RouteType { get; set; }
     public TerrainType TerrainType { get; set; }
-    public Point StartPoint { get; set; }
-    public Point EndPoint { get; set; }
+    //public Point StartPoint { get; set; }
+    //public Point EndPoint { get; set; }
     public LineString RouteGeom { get; set; } = null!;
     public string? WebUrl { get; private set; }
     public bool HasGpx { get; set; }
@@ -36,8 +36,8 @@ public class Trail : BaseEntity
         DifficultyLevel difficultyLevel,
         RouteType routeType,
         TerrainType terrainType,
-        Point startPoint,
-        Point endPoint,
+        //Point startPoint,
+        //Point endPoint,
         LineString routeGeom,
         Guid? userId
     )

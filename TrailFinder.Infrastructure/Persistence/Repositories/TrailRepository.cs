@@ -149,8 +149,7 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
             trail.Description,
 
             // Use NTS (NetTopologySuite) methods which map to PostGIS functions
-            trail.RouteGeom
-                .Length, // ST_Length in PostGIS, typically in SRID units (e.g., meters for 4326/geographic)
+            0, //TODO: Placeholder
 
             // ElevationGain:
             // This is the trickiest. PostGIS has functions like ST_3DDistance,
@@ -158,13 +157,13 @@ public class TrailRepository : BaseRepository<Trail>, ITrailRepository
             // which might not be directly available as a simple function.
             // You might need a custom DB function or client-side calculation for this.
             // For demonstration, let's assume a placeholder for ElevationGain:
-            0.0, // Placeholder
+            0.0, //TODO:  Placeholder
             
             trail.DifficultyLevel,
             trail.RouteType,
             trail.TerrainType,
-            trail.RouteGeom.StartPoint,
-            trail.RouteGeom.EndPoint,
+            //trail.RouteGeom.StartPoint,
+            //trail.RouteGeom.EndPoint,
             trail.RouteGeom,
             trail.UserId
         );

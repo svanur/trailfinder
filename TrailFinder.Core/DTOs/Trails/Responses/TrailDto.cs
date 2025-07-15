@@ -64,12 +64,6 @@ public class TrailDto
         DifficultyLevel? difficultyLevel,
         RouteType routeType, 
         TerrainType terrainType,
-        GpxPoint startGpxPoint,
-        GpxPoint endGpxPoint,
-        // double? startPointLatitude,
-        // double? startPointLongitude,
-        // double? endPointLatitude,
-        // double? endPointLongitude,
         LineString routeGeom,
         string? webUrl,
         bool hasGpx,
@@ -87,12 +81,6 @@ public class TrailDto
         DifficultyLevel = difficultyLevel;
         RouteType = routeType;
         TerrainType = terrainType;
-        StartGpxPoint = startGpxPoint;
-        EndGpxPoint = endGpxPoint;
-        // StartPointLatitude = startPointLatitude;
-        // StartPointLongitude = startPointLongitude;
-        // EndPointLatitude = endPointLatitude;
-        // EndPointLongitude = endPointLongitude;
         RouteGeom = routeGeom;
         WebUrl = webUrl;
         HasGpx = hasGpx;

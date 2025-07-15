@@ -15,8 +15,8 @@ interface GpxPoint {
 interface TrailGpxInfo {
     distance: number;
     elevationGain: number;
-    startPoint: GpxPoint;
-    endPoint: GpxPoint;
+    //startPoint: GpxPoint;
+    //endPoint: GpxPoint;
     routeGeom: [GpxPoint];
 }
 

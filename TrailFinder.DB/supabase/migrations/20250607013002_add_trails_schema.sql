@@ -31,7 +31,7 @@ CREATE TABLE trails (
 
 -- Create index for spatial queries
 CREATE INDEX trails_route_geom_idx ON trails USING GIST (route_geom);
-CREATE INDEX trails_start_point_idx ON trails USING GIST (start_point);
+--CREATE INDEX trails_start_point_idx ON trails USING GIST (start_point);
 
 -- Create updated_at trigger
 CREATE OR REPLACE FUNCTION update_updated_at_column()

@@ -36,8 +36,8 @@ public class TrailsControllerTests
 
     private static TrailDto NewTrailDto(
         string name,
-        GpxPoint startPoint,
-        GpxPoint endPoint,
+        //GpxPoint startPoint,
+        //GpxPoint endPoint,
         string slug = "",
         string description = "",
         double distance = 0,
@@ -64,12 +64,6 @@ public class TrailsControllerTests
             difficultyLevel,
             routeType,
             terrainType,
-            startPoint,
-            endPoint,
-            // startPointLatitude,
-            // startPointLongitude,
-            // endPointLatitude,
-            // endPointLongitude,
             routeGeom,
             webUrl,
             hasGpx,
@@ -85,13 +79,13 @@ public class TrailsControllerTests
     public async Task GetTrails_WhenSuccess_ReturnsTrails()
     {
         // Arrange
-        var startPoint = new GpxPoint(1.0, 1.1, 100);
-        var endPoint = new GpxPoint(2.0, 2.1, 200);
+        //var startPoint = new GpxPoint(1.0, 1.1, 100);
+        //var endPoint = new GpxPoint(2.0, 2.1, 200);
 
         var trails = new List<TrailDto>
         {
-            NewTrailDto("Trail 1", startPoint, endPoint),
-            NewTrailDto("Trail 2", startPoint, endPoint)
+            NewTrailDto("Trail 1"),
+            NewTrailDto("Trail 2")
         };
 
         var expectedTrails = new PaginatedResult<TrailDto>(
@@ -166,12 +160,8 @@ public class TrailsControllerTests
     {
         // Arrange
         const string slug = "test-trail";
-        var startPoint = new GpxPoint();
-        var endPoint = new GpxPoint();
         var expectedTrail = NewTrailDto(
-            "Trail 1",
-            startPoint,
-            endPoint
+            "Trail 1"
         );
 
         _mediatorMock
