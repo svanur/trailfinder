@@ -6,9 +6,9 @@ namespace TrailFinder.Core.DTOs.Gpx;
 public record TrailGpxInfoDto(
     double DistanceMeters,
     double ElevationGainMeters,
-    DifficultyLevel DifficultyLevel,
-    RouteType RouteType,
-    TerrainType TerrainType,
+    //DifficultyLevel DifficultyLevel,
+    //RouteType RouteType,
+    //TerrainType TerrainType,
     GpxPoint StartPoint,
     GpxPoint EndPoint,
     LineString RouteGeom

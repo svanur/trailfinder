@@ -23,8 +23,8 @@ public class SupabaseTrail : BaseModel
     [Column("elevation_gain")]
     public double ElevationGain { get; set; }
     
-    [Column("difficulty_level")]
-    public DifficultyLevel? DifficultyLevel { get; set; }
+    //[Column("difficulty_level")]
+    //public DifficultyLevel? DifficultyLevel { get; set; }
     
     [Column("route_geom")]
     public object? RouteGeom { get; set; } // LINESTRING geometry
