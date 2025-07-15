@@ -7,15 +7,12 @@ public record CreateTrailDto(
     string Name,
     string Slug,
     string Description,
-    //decimal Distance,
-    //decimal ElevationGain,
+    decimal Distance,
+    decimal ElevationGain,
     DifficultyLevel DifficultyLevel,
     RouteType routeType,
     TerrainType terrainType,
-    GpxPoint startPoint,
-    GpxPoint endPoint,
-    //double StartPointLatitude,
-    //double StartPointLongitude,
+    
     string? WebUrl,
     bool HasGpx,
     Guid UserId

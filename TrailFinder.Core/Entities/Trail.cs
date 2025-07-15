@@ -21,8 +21,9 @@ public class Trail : BaseEntity
     public double ElevationGain { get; set; }
 
     
-    public Point? StartPoint { get; set; } = null!;
-    public Point? EndPoint { get; set; } = null!;
+    //public Point? StartPoint { get; set; } = null!;
+    //public Point? EndPoint { get; set; } = null!;
+    
     public LineString? RouteGeom { get; set; }
     public string? WebUrl { get; private set; }
     public bool HasGpx { get; set; }
@@ -104,7 +105,7 @@ public class Trail : BaseEntity
         //HasGpx = true;
         UpdatedAt = DateTime.UtcNow;
     }
-
+/*
     public (double? Latitude, double? Longitude)? GetStartCoordinates()
     {
         if (StartPoint == null)
@@ -124,7 +125,7 @@ public class Trail : BaseEntity
 
         return (EndPoint.Y, EndPoint.X);
     }
-
+    */
 
     public IEnumerable<(double Latitude, double Longitude)> GetRouteCoordinates()
     {

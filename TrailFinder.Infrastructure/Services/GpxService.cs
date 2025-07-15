@@ -4,7 +4,7 @@ using TrailFinder.Application.Services;
 using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.DTOs.Gpx.Responses;
 using TrailFinder.Core.Enums;
-using TrailFinder.Infrastructure.Analyzers;
+using TrailFinder.Core.Services.TrailAnalysis;
 
 namespace TrailFinder.Infrastructure.Services;
 
@@ -30,9 +30,8 @@ public class GpxService : IGpxService
             var points = trackPoints.Select(p => GpxPoint.FromXElement(p, ns)).ToList();
 
             var totalDistance = CalculateTotalDistance(points);
-            var elevationPoints = points.Where(p => p.Elevation.HasValue).Select(p => p.Elevation.Value);
+            var elevationPoints = points.Select(p => p.Elevation); // ??
             var elevationGain = CalculateElevationGain(elevationPoints);
-            const DifficultyLevel difficultyLevel = DifficultyLevel.Moderate; //TODO: Add analyzer
             var startPoint = points.First();
             var lastPoint = points.Last();
 
@@ -41,7 +40,7 @@ public class GpxService : IGpxService
             
             var coordinates = points
                 .Select(
-                    p => new CoordinateZ(p.Longitude, p.Latitude, p.Elevation ?? 0)
+                    p => new CoordinateZ(p.Longitude, p.Latitude, p.Elevation)
                 )
                 .Cast<Coordinate>()
                 .ToArray();

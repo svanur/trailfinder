@@ -1,12 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TrailFinder.Application.Features.Trails.Commands.UpdateTrailGpxInfo;
+using TrailFinder.Application.Features.Trails.Commands.UpdateTrail;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailGpxInfo;
-using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.DTOs.Gpx.Responses;
 using TrailFinder.Core.Exceptions;
-using TrailFinder.Core.Interfaces.Services;
-
 namespace TrailFinder.Api.Controllers;
 
 [ApiController]
@@ -14,12 +11,13 @@ namespace TrailFinder.Api.Controllers;
 public class GpxInfoController : BaseApiController
 {
     private readonly IMediator _mediator;
-    private readonly ISupabaseStorageService _storageService;
 
-    public GpxInfoController(ILogger<BaseApiController> logger, IMediator mediator, ISupabaseStorageService storageService) : base(logger)
+    public GpxInfoController(
+        ILogger<BaseApiController> logger, 
+        IMediator mediator
+    ) : base(logger)
     {
         _mediator = mediator;
-        _storageService = storageService;
     }
 
     [HttpGet("{trailId}")] // Changed from "gpx-info/{guid}"
@@ -35,14 +33,14 @@ public class GpxInfoController : BaseApiController
             return HandleException(ex);
         }
     }
-    
-    
+
+
     [HttpPut("{trailId:guid}")]
     public async Task<ActionResult> UpdateTrailGpxInfo(Guid trailId, GpxInfoDto gpxInfo)
     {
         try
         {
-            var command = new UpdateTrailGpxInfoCommand(
+            var command = new UpdateTrailCommand(
                 trailId,
                 gpxInfo.Distance,
                 gpxInfo.ElevationGain,
@@ -51,7 +49,7 @@ public class GpxInfoController : BaseApiController
                 gpxInfo.TerrainType,
                 gpxInfo.RouteGeom
             );
-        
+
             await _mediator.Send(command);
             return Ok();
         }

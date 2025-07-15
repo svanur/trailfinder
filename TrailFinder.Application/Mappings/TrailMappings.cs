@@ -13,32 +13,8 @@ public class TrailMappings : Profile
             
             .ForMember(
                 dest => dest.Id,
-                opt => opt.MapFrom(src => src.Id.ToString())
-            )
-            
-            .ForMember(
-                dest => dest.StartPointLatitude,
-                opt => opt.MapFrom(src =>
-                    src.GetStartCoordinates() != null ? src.GetStartCoordinates()!.Value.Latitude ?? 0 : 0)
-            )
-            
-            .ForMember(
-                dest => dest.StartPointLongitude,
-                opt => opt.MapFrom(src =>
-                    src.GetStartCoordinates() != null ? src.GetStartCoordinates()!.Value.Longitude ?? 0 : 0)
-            )
-            
-            .ForMember(
-                dest => dest.EndPointLatitude,
-                opt => opt.MapFrom(src =>
-                    src.GetEndCoordinates() != null ? src.GetEndCoordinates()!.Value.Latitude ?? 0 : 0)
-            )
-            .ForMember(
-                dest => dest.EndPointLongitude,
-                opt => opt.MapFrom(src =>
-                    src.GetEndCoordinates() != null ? src.GetEndCoordinates()!.Value.Longitude ?? 0 : 0)
-            )
-            ;
+                opt => opt.MapFrom(src => src.Id)
+            );
 
         // List to PaginatedResult mapping
         CreateMap<List<Trail>, PaginatedResult<TrailDto>>()
