@@ -10,7 +10,7 @@ TODO's
   
  SELECT
      id,
-     trail_name,
+     name,
      ST_X(ST_StartPoint(route_geom)) AS start_lon,
      ST_Y(ST_StartPoint(route_geom)) AS start_lat,
      ST_Z(ST_StartPoint(route_geom)) AS start_ele,
@@ -20,13 +20,13 @@ TODO's
  FROM
      trails
  WHERE
-     id = 'some_trail_uuid';
+     id = '27703820-89f7-43bd-a5ad-85a397aff050';
      
 ## Distance
 
 SELECT
     id,
-    trail_name,
+    name,
     -- Compute distance in meters by casting to geography
     ST_Length(route_geom::geography) AS distance_meters,
     -- If you want kilometers:
@@ -36,7 +36,7 @@ SELECT
 FROM
     trails
 WHERE
-    id = 'your_trail_id';
+    id = '27703820-89f7-43bd-a5ad-85a397aff050';
     
 
 ## Elevation Gain (and Loss)
