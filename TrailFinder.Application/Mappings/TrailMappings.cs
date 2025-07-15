@@ -10,13 +10,15 @@ public class TrailMappings : Profile
 { // In use by AutoMapper
     public TrailMappings()
     {
+/*
         CreateMap<Trail, TrailDto>()
 
-            .ForMember(
+
+                .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Id.ToString())
             )
-/*
+
             //TODO: FIX: Error CS0854 : An expression tree may not contain a call or invocation that uses optional arguments
             .ForMember(
                 destDto => destDto.StartGpxPoint,
@@ -55,7 +57,7 @@ public class TrailMappings : Profile
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Id.ToString())
             );
-
+        */
         // List to PaginatedResult mapping
         CreateMap<List<Trail>, PaginatedResult<TrailDto>>()
             .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src))

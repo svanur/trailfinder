@@ -14,8 +14,8 @@ public class Trail : BaseEntity
 
     public string Description { get; set; } = null!;
 
-    public double Distance { get; init; }
-    public double ElevationGain { get; init; }
+    public double Distance { get; set; }
+    public double ElevationGain { get; set; }
     public DifficultyLevel DifficultyLevel { get; set; }
     public RouteType RouteType { get; set; }
     public TerrainType TerrainType { get; set; }
