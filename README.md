@@ -227,6 +227,40 @@ git commit -S -m "Your commit message"
 
 Make a commit and push it. On GitHub, you should see a "Verified" badge next to your commit.
 
+### Unsigned commits?
+
+#### Step 1: Find the short commit hash
+
+- You can find it in the Pull request on GitHub
+- OR
+- If you know you want to sign, say, the last 5 commits (and some of them are already signed but you want to process them all), you can use HEAD~5
+
+#### Step 2: Start Interactive Rebase
+
+```bash
+git rebase -i HEAD~5
+```
+
+- This will open an editor showing all the commits from your chosen starting point up to your HEAD
+- Sign commits during rebase
+
+#### Step 3: Sign Commits During Rebase
+
+- For each commit you want to sign (which includes the ones already signed, as reword won't harm them), change <code>pick</code> to <code>reword</code>.
+- Save and close the editor
+- Git will stop at the first reword commit. An editor will open with the commit message. You can just save and close it (e.g., in Vim: Esc, :wq, Enter).
+- After closing the editor, Git will prompt you for your GPG passphrase. Enter your passphrase to sign the commit.
+  
+This process will effectively rewrite the history of these commits, adding your GPG signature to each one.
+
+#### Step 4: Force Push to GitHub
+
+Since you've rewritten history, you must use a force push to update the remote repository.
+
+```bash
+git push --force-with-lease origin your-branch-name
+```
+
 ### Production
 
 env VITE_SUPABASE_URL=https://[your-project].supabase.co
@@ -271,3 +305,4 @@ The API is hosted on [Vercel](https://vercel.com/login)
 ## License
 
 MIT License
+

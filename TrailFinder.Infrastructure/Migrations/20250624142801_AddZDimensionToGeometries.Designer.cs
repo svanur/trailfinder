@@ -26,6 +26,8 @@ namespace TrailFinder.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "difficulty_level", new[] { "easy", "moderate", "hard", "extreme", "unknown" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "route_type", new[] { "circular", "out-and-back", "point-to-point", "unknown" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "terrain_type", new[] { "flat", "rolling", "hilly", "mountainous", "unknown" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -50,6 +52,14 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasColumnType("difficulty_level")
                         .HasColumnName("difficulty_level");
 
+                    b.Property<RouteType?>("RouteType")
+                        .HasColumnType("route_type")
+                        .HasColumnName("route_type");
+                    
+                    b.Property<TerrainType?>("TerrainType")
+                        .HasColumnType("terrain_type")
+                        .HasColumnName("terrain_type");
+                    
                     b.Property<double>("Distance")
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("distance");
@@ -58,9 +68,7 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasColumnType("double precision")
                         .HasColumnName("elevation_gain");
 
-                    b.Property<Point>("EndPoint")
-                        .HasColumnType("geometry(PointZ, 4326)")
-                        .HasColumnName("end_point");
+    
 
                     b.Property<bool>("HasGpx")
                         .ValueGeneratedOnAdd()
@@ -84,16 +92,14 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasColumnType("character varying(255)")
                         .HasColumnName("slug");
 
-                    b.Property<Point>("StartPoint")
-                        .HasColumnType("geometry(PointZ, 4326)")
-                        .HasColumnName("start_point");
+          
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
@@ -110,11 +116,7 @@ namespace TrailFinder.Infrastructure.Migrations
 
                     b.HasIndex("Slug")
                         .IsUnique();
-
-                    b.HasIndex("StartPoint");
-
-                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("StartPoint"), "GIST");
-
+ 
                     b.HasIndex("UserId");
 
                     b.ToTable("trails", (string)null);
