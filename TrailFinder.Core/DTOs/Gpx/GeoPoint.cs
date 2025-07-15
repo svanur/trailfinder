@@ -8,9 +8,9 @@ public readonly record struct GpxPoint
 
     public double Latitude { get; }
     public double Longitude { get; }
-    public double? Elevation { get; }
+    public double Elevation { get; }
 
-    public GpxPoint(double latitude, double longitude, double? elevation = null, bool isE7Format = false)
+    public GpxPoint(double latitude, double longitude, double elevation, bool isE7Format = false)
     {
         // If the values are in E7 format (like 642090250), convert them to decimal degrees
         if (isE7Format)
@@ -42,12 +42,12 @@ public readonly record struct GpxPoint
         return value != null ? double.Parse(value) : 0;
     }
 
-    private static double? ParseElevation(XElement point, XNamespace ns)
+    private static double ParseElevation(XElement point, XNamespace ns)
     {
         var eleElement = point.Element(ns + "ele");
         if (eleElement == null)
         {
-            return null;
+            throw new  Exception("No ele element found"); //TODO: ?
         }
         
         var elevationInMeters = double.Parse(eleElement.Value);

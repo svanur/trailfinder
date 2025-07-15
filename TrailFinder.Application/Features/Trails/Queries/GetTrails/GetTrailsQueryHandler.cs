@@ -24,6 +24,7 @@ public class GetTrailsQueryHandler : IRequestHandler<GetTrailsQuery, PaginatedRe
         CancellationToken cancellationToken)
     {
         var trails = await _trailRepository.GetAllAsync(cancellationToken);
+        
         return _mapper.Map<PaginatedResult<TrailDto>>(trails);
     }
 }
