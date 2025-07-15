@@ -7,6 +7,7 @@ using TrailFinder.Core.Enums;
 using TrailFinder.Infrastructure.Analyzers;
 using TrailFinder.Core.DTOs.Gpx.Responses;
 using TrailFinder.Core.Enums;
+using TrailFinder.Core.Services.TrailAnalysis;
 
 namespace TrailFinder.Infrastructure.Services;
 
@@ -57,11 +58,10 @@ public class GpxService : IGpxService
             );
 
             var routeGeom = _geometryFactory.CreateLineString(coordinates);
-            
+
             return new GpxInfoDto(
                 totalDistance,
                 elevationGain,
-                difficultyLevel,
                 difficultyLevel,
                 routeType, 
                 terrainType,
@@ -128,6 +128,45 @@ public class GpxService : IGpxService
         return Math.Round(totalElevationGain, ElevationPrecisionDecimals);
     }
 
+    /*
+     private static double CalculateElevationGain(IEnumerable<double> elevationPoints)
+    {
+        ArgumentNullException.ThrowIfNull(elevationPoints);
+
+        var elevations = elevationPoints.ToList();
+        if (elevations.Count == 0)
+        {
+            throw new ArgumentException("Elevation points collection cannot be empty", nameof(elevationPoints));
+        }
+
+        const double noiseThreshold = 2.0; // Meters - ignore elevation changes smaller than this
+        const int smoothingWindowSize = 3; // Number of points to use for smoothing
+
+        // Apply smoothing to reduce GPS noise
+        var smoothedElevations = SmoothElevations(elevations, smoothingWindowSize);
+
+        var totalElevationGain = 0.0;
+        var currentElevation = smoothedElevations[0];
+
+        for (var i = 1; i < smoothedElevations.Count; i++)
+        {
+            var nextElevation = smoothedElevations[i];
+            var elevationDiff = nextElevation - currentElevation;
+
+            // Only count uphill sections and filter out noise
+            if (elevationDiff > noiseThreshold)
+            {
+                totalElevationGain += elevationDiff;
+            }
+
+            currentElevation = nextElevation;
+        }
+
+        return Math.Round(totalElevationGain); // Round to nearest meter
+    }
+     * 
+     */
+    
     private static double CalculateUphillDifference(double currentElevation, double nextElevation)
     {
         var difference = nextElevation - currentElevation;
