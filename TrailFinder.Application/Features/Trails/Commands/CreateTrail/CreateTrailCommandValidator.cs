@@ -21,7 +21,7 @@ public class CreateTrailCommandValidator : AbstractValidator<CreateTrailCommand>
             .GreaterThan(0)
             .WithMessage("Distance must be greater than 0 meters");
 
-        RuleFor(x => x.ElevationGain)
+        RuleFor(x => x.ElevationGainMeters)
             .GreaterThanOrEqualTo(0)
             .WithMessage("Elevation gain cannot be negative");
 
