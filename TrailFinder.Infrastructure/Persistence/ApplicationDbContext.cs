@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrailFinder.Contract.Persistence;
 using TrailFinder.Core.Entities;
 using TrailFinder.Core.Enums;
@@ -9,12 +10,12 @@ namespace TrailFinder.Infrastructure.Persistence;
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 
 {
-    public DbSet<Trail> Trails => Set<Trail>();
-
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
+
+    public DbSet<Trail> Trails => Set<Trail>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
