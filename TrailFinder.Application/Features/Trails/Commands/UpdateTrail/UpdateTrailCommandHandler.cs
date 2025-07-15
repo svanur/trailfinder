@@ -65,19 +65,22 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
         }
 
         // Update geometry points
-        /*if (request.StartPoint.HasValue)
+        
+        /*
+        if (request.StartPoint.HasValue)
         {
             var startPoint = request.StartPoint.Value;
             trail.StartPoint = GeometryFactory.CreatePoint(
                 new CoordinateZ(startPoint.Longitude, startPoint.Latitude, 0));
-        }*/
+        }
 
-        /*if (request.EndPoint.HasValue)
+        if (request.EndPoint.HasValue)
         {
             var endPoint = request.EndPoint.Value;
             trail.EndPoint = GeometryFactory.CreatePoint(
                 new CoordinateZ(endPoint.Longitude, endPoint.Latitude, 0));
-        }*/
+        }
+        */
 
         // For RouteGeom, we need to ensure it has Z coordinates as well
         if (request.RouteGeom != null)

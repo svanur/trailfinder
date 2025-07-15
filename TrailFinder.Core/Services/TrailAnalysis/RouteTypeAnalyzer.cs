@@ -21,11 +21,11 @@ public class RouteAnalyzer: IAnalyzer<List<GpxPoint>, RouteType>
             return RouteType.Unknown;
         }
 
-        var first = points.First();
-        var last = points.Last();
+        var firstGpxPoint = points.First();
+        var lastGpxPoint = points.Last();
 
-        var firstGpxPoint = new GpxPoint(first.Latitude, first.Longitude, first.Elevation);
-        var lastGpxPoint = new GpxPoint(last.Latitude, last.Longitude, last.Elevation);
+        // var firstGpxPoint = new GpxPoint(first.Latitude, first.Longitude, first.Elevation);
+        // var lastGpxPoint = new GpxPoint(last.Latitude, last.Longitude, last.Elevation);
         
         
         // Check if it's a circular route
@@ -54,8 +54,8 @@ public class RouteAnalyzer: IAnalyzer<List<GpxPoint>, RouteType>
 
         for (var i = 0; i < comparisonPoints; i++)
         {
-            var point1 = new GpxPoint(firstHalf[i].Latitude, firstHalf[i].Longitude);
-            var point2 = new GpxPoint(secondHalf[i].Latitude, secondHalf[i].Longitude);
+            var point1 = new GpxPoint(firstHalf[i].Latitude, firstHalf[i].Longitude, firstHalf[i].Elevation);
+            var point2 = new GpxPoint(secondHalf[i].Latitude, secondHalf[i].Longitude, secondHalf[i].Elevation);
 
             if (point1.IsNearby(point2, 100)) // Using 100m threshold for path similarity
             {

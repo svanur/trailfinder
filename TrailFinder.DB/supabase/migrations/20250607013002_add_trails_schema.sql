@@ -1,6 +1,15 @@
 -- Enable PostGIS for spatial data
 CREATE EXTENSION IF NOT EXISTS postgis;
 
+-- Create enum for difficulty levels
+CREATE TYPE difficulty_level AS ENUM ('easy', 'moderate', 'hard', 'extreme', 'unknown');
+
+-- Create enum for route types
+CREATE TYPE route_type AS ENUM ('circular', 'out-and-back', 'point-to-point', 'unknown');
+
+-- Create enum for terrain types
+CREATE TYPE terrain_type AS ENUM ('flat', 'rolling', 'hilly', 'mountainous', 'unknown');
+
 -- Create the 'trails' table
 CREATE TABLE trails (
                         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

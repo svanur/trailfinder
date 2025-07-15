@@ -30,7 +30,7 @@ public class AnalysisService
     public AnalysisResult Analyze(List<GpxPoint> points)
     {
         var totalDistance = CalculateTotalDistance(points);
-        var elevationPoints = points.Where(p => p.Elevation.HasValue).Select(p => p.Elevation.Value);
+        var elevationPoints = points.Select(p => p.Elevation);
         var elevationGain = CalculateElevationGain(elevationPoints);
         
         var routeType = _routeAnalyzer.Analyze(points);
@@ -53,7 +53,15 @@ public class AnalysisService
 
         var difficultyLevel = _difficultyAnalyzer.Analyze(difficultyInput);
 
-        return new AnalysisResult(routeType, terrainType, difficultyLevel);
+        return new AnalysisResult(
+            totalDistance,
+            elevationGain,
+            routeType, 
+            terrainType, 
+            difficultyLevel,
+            points.First(),
+            points.Last()
+        );
     }
     
     private static double CalculateTotalDistance(List<GpxPoint> points)

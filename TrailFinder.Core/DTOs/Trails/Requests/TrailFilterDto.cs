@@ -9,7 +9,8 @@ public record TrailFilterDto(
     double? MaxDistance = null,
     double? MinElevation = null,
     double? MaxElevation = null,
-    //DifficultyLevel? DifficultyLevel = null,
-    //TODO: Add RouteType & TerrainType ?
+    DifficultyLevel? DifficultyLevel = null,
+    RouteType? RouteType = null,
+    TerrainType? TerrainType = null,
     bool IncludeRouteGeom = false
 ) : PageRequest;
