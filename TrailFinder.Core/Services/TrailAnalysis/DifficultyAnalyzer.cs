@@ -47,18 +47,18 @@ public class DifficultyAnalyzer
     private const double HighElevationGain = 1000;
 
     public static DifficultyLevel AnalyzeDifficulty(
-        double distanceMeters,
-        double elevationGainMeters,
+        double distance,
+        double elevationGain,
         TerrainType terrainType,
         RouteType routeType)
     {
         var score = 0;
 
         // Distance Score (0-30 points)
-        score += CalculateDistanceScore(distanceMeters);
+        score += CalculateDistanceScore(distance);
 
         // Elevation Score (0-30 points)
-        score += CalculateElevationScore(elevationGainMeters);
+        score += CalculateElevationScore(elevationGain);
 
         // Terrain Score (0-25 points)
         score += CalculateTerrainScore(terrainType);
@@ -117,9 +117,9 @@ public class DifficultyAnalyzer
         };
     }
 
-    private static int CalculateDistanceScore(double distanceMeters)
+    private static int CalculateDistanceScore(double distance)
     {
-        return distanceMeters switch
+        return distance switch
         {
             <= ShortDistance => 5,
             <= ModerateDistance => 15,
@@ -128,9 +128,9 @@ public class DifficultyAnalyzer
         };
     }
 
-    private static int CalculateElevationScore(double elevationGainMeters)
+    private static int CalculateElevationScore(double elevationGain)
     {
-        return elevationGainMeters switch
+        return elevationGain switch
         {
             <= LowElevationGain => 5,
             <= ModerateElevationGain => 15,
