@@ -21,7 +21,7 @@ CREATE TABLE trails (
                         elevation_gain INTEGER,
     
                         difficulty_level difficulty_level,
-                        route_type doute_type,
+                        route_type route_type,
                         terrain_type terrain_type,
     
                         route_geom geometry(LINESTRINGZ, 4326),                    
