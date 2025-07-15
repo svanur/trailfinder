@@ -1,5 +1,6 @@
 using Npgsql;
 using TrailFinder.Core.Enums;
+using TrailFinder.Infrastructure.Persistence.PostgreSQL;
 
 namespace TrailFinder.Infrastructure.Persistence.Extensions;
 
@@ -14,8 +15,8 @@ public static class NpgsqlTrailFinderExtensions
     
         // Map the enum with explicit name mapping
         dataSourceBuilder.MapEnum<DifficultyLevel>("difficulty_level", new NpgsqlNullNameTranslator());
-        dataSourceBuilder.MapEnum<RouteType>("route_type", new NpgsqlNullNameTranslator());
-        dataSourceBuilder.MapEnum<TerrainType>("terrain_type", new NpgsqlNullNameTranslator());
+        dataSourceBuilder.MapEnum<LocationType>("location_type", new NpgsqlNullNameTranslator());
+        dataSourceBuilder.MapEnum<RaceStatus>("race_status", new NpgsqlNullNameTranslator()); // <-- ADDED THIS LINE
     
         // Configure NetTopologySuite for geometry support
         dataSourceBuilder.UseNetTopologySuite();

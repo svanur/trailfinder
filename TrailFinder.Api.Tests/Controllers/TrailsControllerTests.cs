@@ -60,9 +60,9 @@ public class TrailsControllerTests
             difficultyLevel,
             routeType,
             terrainType,
-             new GpxPoint(), //TODO ?
-             new GpxPoint(),
             routeGeom,
+            new GpxPoint(), //TODO ?
+            new GpxPoint(),
             webUrl,
             hasGpx,
             DateTime.Now,
@@ -94,7 +94,7 @@ public class TrailsControllerTests
             .ReturnsAsync(expectedTrails);
 
         // Act
-        var result = await _controller.GetTrails();
+        var result = await _controller.GetAllTrails();
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -120,7 +120,7 @@ public class TrailsControllerTests
             .ReturnsAsync(emptyResult);
 
         // Act
-        var result = await _controller.GetTrails();
+        var result = await _controller.GetAllTrails();
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -139,7 +139,7 @@ public class TrailsControllerTests
             .ThrowsAsync(expectedException);
 
         // Act
-        var result = await _controller.GetTrails();
+        var result = await _controller.GetAllTrails();
 
         // Assert
         // Note: The exact return type here depends on your HandleException implementation
@@ -167,7 +167,7 @@ public class TrailsControllerTests
             .ReturnsAsync(expectedTrail);
 
         // Act
-        var result = await _controller.GetTrail(slug);
+        var result = await _controller.GetTrailBySlug(slug);
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -187,7 +187,7 @@ public class TrailsControllerTests
             .ReturnsAsync((TrailDto)null);
 
         // Act
-        var result = await _controller.GetTrail(slug);
+        var result = await _controller.GetTrailBySlug(slug);
 
         // Assert
         Assert.IsType<NotFoundResult>(result.Result);
@@ -205,7 +205,7 @@ public class TrailsControllerTests
             .ThrowsAsync(expectedException);
 
         // Act
-        var result = await _controller.GetTrail(slug);
+        var result = await _controller.GetTrailBySlug(slug);
 
         // Assert
         Assert.IsType<ObjectResult>(result.Result);

@@ -22,11 +22,193 @@ namespace TrailFinder.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "9.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "difficulty_level", new[] { "easy", "moderate", "hard", "extreme", "unknown" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "route_type", new[] { "circular", "out-and-back", "point-to-point", "unknown" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "terrain_type", new[] { "flat", "rolling", "hilly", "mountainous", "unknown" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "difficulty_level", new[] { "unknown", "easy", "moderate", "hard", "extreme" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "location_type", new[] { "unknown", "start", "aid_station", "checkpoint", "end", "end_and_end" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "race_status", new[] { "unknown", "deprecated", "cancelled", "changed", "active" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("TrailFinder.Core.Entities.Location", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("double precision")
+                        .HasColumnName("latitude");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("double precision")
+                        .HasColumnName("longitude");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("parent_id");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("slug");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("locations", (string)null);
+                });
+
+            modelBuilder.Entity("TrailFinder.Core.Entities.Race", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
+
+                    b.Property<RaceStatus>("RaceStatus")
+                        .HasColumnType("race_status")
+                        .HasColumnName("race_status")
+                        .IsRequired();
+
+                    b.Property<int>("RecurringMonth")
+                        .HasColumnType("int")
+                        .HasColumnName("recurring_month");
+
+                    b.Property<int>("RecurringWeek")
+                        .HasColumnType("int")
+                        .HasColumnName("recurring_week");
+
+                    b.Property<int>("RecurringWeekday")
+                        .HasColumnType("int")
+                        .HasColumnName("recurring_weekday");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("slug");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("WebUrl")
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)")
+                        .HasColumnName("web_url");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("races", (string)null);
+                });
+
+            modelBuilder.Entity("TrailFinder.Core.Entities.RaceLocation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("comment");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<decimal?>("DisplayOrder")
+                        .HasColumnType("numeric")
+                        .HasColumnName("display_order");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<LocationType>("LocationType")
+                        .HasColumnType("location_type")
+                        .HasColumnName("location_type");
+
+                    b.Property<Guid>("RaceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("race_id");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("RaceId", "LocationId")
+                        .IsUnique();
+
+                    b.ToTable("race_locations", (string)null);
+                });
 
             modelBuilder.Entity("TrailFinder.Core.Entities.Trail", b =>
                 {
@@ -48,14 +230,6 @@ namespace TrailFinder.Infrastructure.Migrations
                     b.Property<DifficultyLevel?>("DifficultyLevel")
                         .HasColumnType("difficulty_level")
                         .HasColumnName("difficulty_level");
-                    
-                    b.Property<RouteType?>("RouteType")
-                        .HasColumnType("route_type")
-                        .HasColumnName("route_type");
-                    
-                    b.Property<TerrainType?>("RouteType")
-                        .HasColumnType("terrain_type")
-                        .HasColumnName("terrain_type");
 
                     b.Property<double>("Distance")
                         .HasColumnType("decimal(10,2)")
@@ -64,8 +238,6 @@ namespace TrailFinder.Infrastructure.Migrations
                     b.Property<double>("ElevationGain")
                         .HasColumnType("double precision")
                         .HasColumnName("elevation_gain");
-
-                 
 
                     b.Property<bool>("HasGpx")
                         .ValueGeneratedOnAdd()
@@ -89,14 +261,12 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasColumnType("character varying(255)")
                         .HasColumnName("slug");
 
-                     
-
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
@@ -113,12 +283,118 @@ namespace TrailFinder.Infrastructure.Migrations
 
                     b.HasIndex("Slug")
                         .IsUnique();
- 
+
                     b.HasIndex("UserId");
 
                     b.ToTable("trails", (string)null);
                 });
-            
+
+            modelBuilder.Entity("TrailFinder.Core.Entities.TrailLocation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("comment");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<decimal?>("DisplayOrder")
+                        .HasColumnType("numeric")
+                        .HasColumnName("display_order");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<LocationType>("LocationType")
+                        .HasColumnType("location_type")
+                        .HasColumnName("location_type");
+
+                    b.Property<Guid>("TrailId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("trail_id");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("TrailId", "LocationId")
+                        .IsUnique();
+
+                    b.ToTable("trail_locations", (string)null);
+                });
+
+            modelBuilder.Entity("TrailFinder.Core.Entities.RaceLocation", b =>
+                {
+                    b.HasOne("TrailFinder.Core.Entities.Location", "Location")
+                        .WithMany("RaceLocations")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TrailFinder.Core.Entities.Race", "Race")
+                        .WithMany("RaceLocations")
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
+
+                    b.Navigation("Race");
+                });
+
+            modelBuilder.Entity("TrailFinder.Core.Entities.TrailLocation", b =>
+                {
+                    b.HasOne("TrailFinder.Core.Entities.Location", "Location")
+                        .WithMany("TrailLocations")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TrailFinder.Core.Entities.Trail", "Trail")
+                        .WithMany("TrailLocations")
+                        .HasForeignKey("TrailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
+
+                    b.Navigation("Trail");
+                });
+
+            modelBuilder.Entity("TrailFinder.Core.Entities.Location", b =>
+                {
+                    b.Navigation("RaceLocations");
+
+                    b.Navigation("TrailLocations");
+                });
+
+            modelBuilder.Entity("TrailFinder.Core.Entities.Race", b =>
+                {
+                    b.Navigation("RaceLocations");
+                });
+
+            modelBuilder.Entity("TrailFinder.Core.Entities.Trail", b =>
+                {
+                    b.Navigation("TrailLocations");
+                });
 #pragma warning restore 612, 618
         }
     }

@@ -6,17 +6,12 @@ using TrailFinder.Core.Interfaces.Repositories;
 
 namespace TrailFinder.Infrastructure.Persistence.Repositories;
 
-public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> 
+public abstract class BaseRepository<TEntity>(ApplicationDbContext context) 
+    : IBaseRepository<TEntity>
     where TEntity : BaseEntity
 {
-    protected readonly ApplicationDbContext _context;
-    protected readonly DbSet<TEntity> _dbSet;
-
-    protected BaseRepository(ApplicationDbContext context)
-    {
-        _context = context;
-        _dbSet = context.Set<TEntity>();
-    }
+    protected readonly ApplicationDbContext Context = context;
+    protected readonly DbSet<TEntity> DbSet = context.Set<TEntity>();
 
     public virtual async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
@@ -24,7 +19,7 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity>
 
         try
         {
-            baseEntity = await _dbSet.FindAsync([id], cancellationToken);
+            baseEntity= await DbSet.FindAsync([id], cancellationToken);
         }
         catch (Exception e)
         {
@@ -37,20 +32,20 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity>
 
     public virtual async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await _dbSet.ToListAsync(cancellationToken);
+        return await DbSet.ToListAsync(cancellationToken);
     }
 
     public virtual async Task<TEntity> CreateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        await _dbSet.AddAsync(entity, cancellationToken);
-        await _context.SaveChangesAsync(cancellationToken);
+        await DbSet.AddAsync(entity, cancellationToken);
+        await Context.SaveChangesAsync(cancellationToken);
         return entity;
     }
 
     public virtual async Task<TEntity?> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        _dbSet.Update(entity);
-        await _context.SaveChangesAsync(cancellationToken);
+        DbSet.Update(entity);
+        await Context.SaveChangesAsync(cancellationToken);
         return entity;
     }
 
@@ -62,8 +57,8 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity>
             return false;
         }
 
-        _dbSet.Remove(entity);
-        await _context.SaveChangesAsync(cancellationToken);
+        DbSet.Remove(entity);
+        await Context.SaveChangesAsync(cancellationToken);
         return true;
     }
 }
