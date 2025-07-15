@@ -32,9 +32,19 @@ public class LocationMappings : Profile
                 opt 
                     => opt.MapFrom(src => new GpxPoint(src.Latitude, src.Longitude, 0))
             )
-            */
+  */
             ;
 
+        CreateMap<PaginatedResult<Location>, PaginatedResult<LocationDto>>()
+            .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items)) // Crucial: AutoMapper will use the Race -> RaceDto mapping for each item
+            .ForMember(dest => dest.PageNumber, opt => opt.MapFrom(src => src.PageNumber))
+            .ForMember(dest => dest.PageSize, opt => opt.MapFrom(src => src.PageSize))
+            .ForMember(dest => dest.TotalCount, opt => opt.MapFrom(src => src.TotalCount))
+            .ForMember(dest => dest.TotalPages, opt => opt.MapFrom(src => src.TotalPages))
+            .ForMember(dest => dest.HasPreviousPage, opt => opt.MapFrom(src => src.HasPreviousPage))
+            .ForMember(dest => dest.HasNextPage, opt => opt.MapFrom(src => src.HasNextPage));
+        
+        /*
         // List to PaginatedResult mapping
         CreateMap<List<Location>, PaginatedResult<LocationDto>>()
             .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src))
@@ -44,5 +54,6 @@ public class LocationMappings : Profile
             .ForMember(dest => dest.TotalPages, opt => opt.MapFrom(src => 1))
             .ForMember(dest => dest.HasPreviousPage, opt => opt.MapFrom(src => false))
             .ForMember(dest => dest.HasNextPage, opt => opt.MapFrom(src => false));
+        */
     }
 }
