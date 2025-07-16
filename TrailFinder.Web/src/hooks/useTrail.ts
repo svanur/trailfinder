@@ -1,8 +1,8 @@
 // src/hooks/useTrail.ts
 import { useQuery } from '@tanstack/react-query';
 import { trailsApi } from '../services/trailsApi';
-import type { Trail } from '../types/trail';
 import axios from "axios";
+import {Trail} from "@trailfinder/db-types/database";
 
 
 export function useTrail(slug: string) {

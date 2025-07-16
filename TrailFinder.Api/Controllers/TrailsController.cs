@@ -34,7 +34,7 @@ public class TrailsController : BaseApiController
     }
 
     [HttpGet("{trailSlug}")]
-    public async Task<ActionResult<TrailDto>> GetTrail(string trailSlug)
+    public async Task<ActionResult<TrailDto>> GetTrailBySlug(string trailSlug)
     {
         try
         {
@@ -55,7 +55,7 @@ public class TrailsController : BaseApiController
         }
     }
     [HttpGet("{trailId:guid}")]
-    public async Task<ActionResult<TrailDto?>> GetTrail(Guid trailId)
+    public async Task<ActionResult<TrailDto?>> GetTrailById(Guid trailId)
     {
         try
         {
@@ -73,7 +73,7 @@ public class TrailsController : BaseApiController
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TrailDto>>> GetTrails()
+    public async Task<ActionResult<IEnumerable<TrailDto>>> GetAllTrails()
     {
         try
         {
@@ -143,7 +143,7 @@ public class TrailsController : BaseApiController
                 return BadRequest("File must be a GPX file");
             }
 
-            var trailResult = await GetTrail(trailId);
+            var trailResult = await GetTrailById(trailId);
             if (trailResult.Value == null)
             {
                 throw new TrailNotFoundException(trailId);

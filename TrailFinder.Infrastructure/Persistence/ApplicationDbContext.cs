@@ -1,75 +1,38 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrailFinder.Contract.Persistence;
 using TrailFinder.Core.Entities;
 using TrailFinder.Core.Enums;
-using TrailFinder.Infrastructure.Persistence.Configurations;
+using TrailFinder.Infrastructure.Persistence.Configurations; // Make sure this namespace is included
 
 namespace TrailFinder.Infrastructure.Persistence;
 
-public class ApplicationDbContext : DbContext, IApplicationDbContext
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    : DbContext(options), IApplicationDbContext
 
 {
-    public DbSet<Trail> Trails => Set<Trail>();
-
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
-    {
-    }
+    public DbSet<Trail> Trails { get; set; } = null!;
+    public DbSet<Location> Locations { get; set; } = null!;
+    public DbSet<TrailLocation> TrailLocations { get; set; } = null!;
+    public DbSet<Race> Races { get; set; } = null!;
+    public DbSet<RaceTrail> RaceTrails { get; set; } = null!;
+    public DbSet<RaceLocation> RaceLocations { get; set; } = null!;
     
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {   // Check that the Supabase port is correcty, when debuggin glocally
-        // Look at 'Supabase start' info:  DB URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
-        optionsBuilder.UseNpgsql("Host=127.0.0.1;Port=54322;Database=postgres;Username=postgres;Password=postgres",
-            o => o.UseNetTopologySuite());
-    }
-    /*
-        A typical hosted Supabase connection string will look something like this:
-        Host=db.[YOUR_PROJECT_REF].supabase.co;Port=5432;Database=postgres;Username=postgres;Password=[YOUR_DB_PASSWORD];SSL Mode=Require;Trust Server Certificate=true 
-     */
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        // Register the enum type
-        //modelBuilder.HasPostgresEnum<DifficultyLevel>("difficulty_level");
+        // Register enum types
         modelBuilder.HasPostgresEnum<DifficultyLevel>();
-        modelBuilder.HasPostgresEnum<RouteType>();
-        modelBuilder.HasPostgresEnum<TerrainType>();
-
-        modelBuilder.Entity<Trail>()
-            .Property(t => t.RouteGeom)
-            .HasColumnType("geometry(LineString, 4326)"); // Or whatever your actual type/SRID is
-
-        /*
-        var difficultyLevelConverter = new ValueConverter<DifficultyLevel, DifficultyLevel>(
-            v => v,
-            v => v
-        );
-
-        // And for nullable DifficultyLevel
-        var nullableDifficultyLevelConverter = new ValueConverter<DifficultyLevel?, DifficultyLevel?>(
-            v => v,
-            v => v
-        );
+        modelBuilder.HasPostgresEnum<LocationType>();
+        modelBuilder.HasPostgresEnum<RaceStatus>();
         
-        // Apply the converters globally
-        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-        {
-            var properties = entityType.GetProperties()
-                .Where(p => p.ClrType == typeof(DifficultyLevel) || p.ClrType == typeof(DifficultyLevel?));
-
-            foreach (var property in properties)
-                property.SetValueConverter(
-                    property.ClrType == typeof(DifficultyLevel)
-                        ? difficultyLevelConverter
-                        : nullableDifficultyLevelConverter
-                );
-        }
-        */
-
-        // Apply configuration
-        //modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        // Apply configuration for all entities
         modelBuilder.ApplyConfiguration(new TrailConfiguration());
+        modelBuilder.ApplyConfiguration(new LocationConfiguration());
+        modelBuilder.ApplyConfiguration(new TrailLocationConfiguration());
+        modelBuilder.ApplyConfiguration(new RaceConfiguration());
+        modelBuilder.ApplyConfiguration(new RaceTrailConfiguration());
+        modelBuilder.ApplyConfiguration(new RaceLocationConfiguration());
     }
 }

@@ -4,29 +4,30 @@ export interface Database {
             trails: {
                 Row: Trail;  // Return type when querying
                 Insert: CreateTrailDTO;  // Type for inserting
-                Update: Partial<CreateTrailDTO>;  // Type for updating
-            };
-            // Add other tables here
+                Update: Partial<CreateTrailDTO>;  // Type for updating //TODO: change to UpdateTrailDTO
+            },
+            locations: {
+                Row: Location;
+                Insert: Location; //TODO: change to CreateLocationDTO
+                Update: Partial<Location>; //TODO: change to UpdateLocationDTO
+            }
+            ;
         };
     };
 }
 
 export interface Trail {
     id: string;
-    parentId: string | null;
     name: string;
     slug: string;
     description: string;
+    routeType: string;
+    terrainType: string;
+    location: string;
     distance: number;
     elevationGain: number;
     difficultyLevel: DifficultyLevel;
-    routeType: RouteType;
-    terrainType: TerrainType;
-    startPointLatitude: number;
-    startPointLongitude: number;
-    endPointLatitude: number;
-    endPointLongitude: number;
-    routeGeom?: any; // or more specific GeoJSON type if needed - GpxPoint?
+    routeGeom?: any; // or more specific GeoJSON type if needed
     webUrl?: string;
     hasGpx: boolean;
     createdAt: string; // ISO date string
@@ -34,26 +35,26 @@ export interface Trail {
     userId: string | null;
 }
 
-export enum DifficultyLevel {
-    Easy = 'easy',
-    Moderate = 'moderate',
-    Hard = 'hard',
-    Expert = 'expert'
+export interface Location {
+    id: string;
+    parentId: string | null;
+    name: string;
+    slug: string;
+    description: string;
+    latitude: number;
+    longitude: number;
+    createdAt: string; // ISO date string
+    updatedAt: string; // ISO date string
+    userId: string | null;
 }
-export enum RouteType {
-    Circular = 'circular',
-    OutAndBack = 'out-and-back',
-    PointToPoint = 'point-to-point',
-    Unknown = 'unknown'
-}
+export const DifficultyLevel = {
+    Easy: 'easy',
+    Moderate: 'moderate',
+    Hard: 'hard',
+    Expert: 'expert'
+} as const;
+export type DifficultyLevel = typeof DifficultyLevel[keyof typeof DifficultyLevel];
 
-export enum TerrainType
-{
-    Flat = 'flat',
-    Hilly = 'hilly',
-    Rolling = 'rolling',
-    Mountainous = 'mountainous'
-}
 
 export interface CreateTrailDTO {
     parentId: string;
