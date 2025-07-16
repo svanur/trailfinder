@@ -5,7 +5,7 @@ namespace TrailFinder.Core.DTOs.Gpx.Requests;
 
 public record UpdateGpxInfoDto(
     double? Distance,
-    double? ElevationGain,
+    double? ElevationGainMeters,
     DifficultyLevel? DifficultyLevel,
     RouteType? RouteType,
     TerrainType? TerrainType,

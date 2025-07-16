@@ -59,7 +59,7 @@ Content-Type: application/json
 
 {
   "distance": 15500.50,
-  "elevationGain": 850.0,
+  "elevationGainMeters": 850.0,
   "difficultyLevel": "extreme"
 }
 
