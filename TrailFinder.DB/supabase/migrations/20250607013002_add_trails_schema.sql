@@ -3,22 +3,27 @@ CREATE
 EXTENSION IF NOT EXISTS postgis;
 
 -- Create the 'trails' table
-CREATE TABLE public.trails
-(
-    id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name             VARCHAR(255)     NOT NULL,
-    slug             VARCHAR(255)     NOT NULL UNIQUE,
-    description      TEXT,
-    distance         NUMERIC(10, 2),
-    elevation_gain   INTEGER,
-    difficulty_level difficulty_level not null,
-    route_geom       geometry(LINESTRINGZ, 4326),
-    web_url          TEXT,
-    has_gpx          BOOLEAN,
+CREATE TABLE trails (
+                        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                        name VARCHAR(255) NOT NULL,
+                        slug VARCHAR(255) NOT NULL UNIQUE,
+                        description TEXT,
 
-    user_id          UUID REFERENCES auth.users (id) NOT NULL,
-    created_at       TIMESTAMPTZ      DEFAULT NOW(),
-    updated_at       TIMESTAMPTZ      DEFAULT NOW()
+                        distance NUMERIC(10,2),
+                        elevation_gain INTEGER,
+
+                        difficulty_level difficulty_level,
+                        route_type route_type,
+                        terrain_type terrain_type,
+
+                        route_geom geometry(LINESTRINGZ, 4326),
+
+                        web_url TEXT,
+                        has_gpx BOOLEAN,
+    
+                        user_id UUID REFERENCES auth.users(id) NOT NULL,
+                        created_at TIMESTAMPTZ DEFAULT NOW(),
+                        updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Create index for spatial queries

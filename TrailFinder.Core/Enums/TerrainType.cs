@@ -4,6 +4,9 @@ namespace TrailFinder.Core.Enums;
 
 public enum TerrainType
 {
+    [PgName("unknown")]
+    Unknown = 0,
+    
     [PgName("flat")]
     Flat = 1,           // Minimal elevation changes
     
@@ -14,8 +17,5 @@ public enum TerrainType
     Hilly = 3,          // Significant elevation changes
     
     [PgName("mountainous")]
-    Mountainous = 4,     // Extreme elevation changes
-    
-    [PgName("unknown")]
-    Unknown = 5
+    Mountainous = 4     // Extreme elevation changes
 }

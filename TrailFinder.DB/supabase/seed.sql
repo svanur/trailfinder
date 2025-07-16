@@ -32,9 +32,10 @@ DECLARE
     laugavegur_trail_id UUID := '30000000-0000-0000-0000-000000000001'; -- New, specifically for Laugavegur
 
 BEGIN
-    -- Insert a test user first (using Supabase's auth.users table)
+
+-- Insert a test user first (using Supabase's auth.users table)
 INSERT INTO auth.users (id, email)
-VALUES (seed_user_id, 'svanur@hlaupaleidir.com')
+VALUES (seed_user_id, 'svanur@hlaupaleidir.is')
     ON CONFLICT (id) DO NOTHING;
 
 ---

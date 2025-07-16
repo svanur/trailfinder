@@ -26,8 +26,12 @@ namespace TrailFinder.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "difficulty_level", new[] { "unknown", "easy", "moderate", "hard", "extreme" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "location_type", new[] { "unknown", "start", "aid_station", "checkpoint", "end", "end_and_end" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "race_status", new[] { "unknown", "deprecated", "cancelled", "changed", "active" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "route_type", new[] { "unknown", "circular", "out-and-back", "point-to-point" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "terrain_type", new[] { "unknown", "flat", "rolling", "hilly", "mountainous" });
+            
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "race_status", new[] { "unknown", "active", "changed", "cancelled", "deprecated" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "location_type", new[] { "unknown", "start", "aid_station", "checkpoint", "end", "start_and_end" });
+
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
