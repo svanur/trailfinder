@@ -1,7 +1,9 @@
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NetTopologySuite.Geometries;
+using TrailFinder.Contract.Persistence;
 using TrailFinder.Core.Exceptions;
 using TrailFinder.Core.Interfaces.Repositories;
 
@@ -12,10 +14,10 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
     private readonly ILogger<UpdateTrailCommandHandler> _logger;
     private readonly IMapper _mapper;
     private readonly ITrailRepository _trailRepository;
-
-    private static readonly GeometryFactory
-        GeometryFactory = new(new PrecisionModel(), 4326); // SRID 4326 is for WGS84 (standard GPS coordinates)
-
+    
+    private static readonly GeometryFactory GeometryFactory = 
+        new GeometryFactory(new PrecisionModel(), 4326); // SRID 4326 is for WGS84 (standard GPS coordinates)
+    
     public UpdateTrailCommandHandler(
         ILogger<UpdateTrailCommandHandler> logger,
         IMapper mapper,
@@ -29,22 +31,33 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
 
     public async Task<Unit> Handle(UpdateTrailCommand request, CancellationToken cancellationToken)
     {
-        //var trail = await _context.Set<Core.Entities.Trail>()
-        // .FirstOrDefaultAsync(t => t.Id == request.TrailId, cancellationToken);
+         //var trail = await _context.Set<Core.Entities.Trail>()
+           // .FirstOrDefaultAsync(t => t.Id == request.TrailId, cancellationToken);
         var trail = await _trailRepository.GetByIdAsync(request.TrailId, cancellationToken);
 
-        if (trail == null) throw new TrailNotFoundException(request.TrailId);
+        if (trail == null)
+        {
+            throw new TrailNotFoundException(request.TrailId);
+        }
 
         // Add at the start of the Handle method:
-        _logger.LogInformation(
-            $"Updating trail {request.TrailId} with values: Distance={request.Distance}, Elevation={request.ElevationGain}, Difficulty={request.DifficultyLevel}");
+        _logger.LogInformation($"Updating trail {request.TrailId} with values: Distance={request.Distance}, Elevation={request.ElevationGain}, Difficulty={request.DifficultyLevel}");
 
         // Handle nullable values
-        if (request.Distance.HasValue) trail.Distance = request.Distance.Value;
+        if (request.Distance.HasValue)
+        {
+            trail.Distance = request.Distance.Value;
+        }
+        
+        if (request.ElevationGain.HasValue)
+        {
+            trail.ElevationGain = request.ElevationGain.Value;
+        }
 
-        if (request.ElevationGain.HasValue) trail.ElevationGain = request.ElevationGain.Value;
-
-        if (request.DifficultyLevel.HasValue) trail.DifficultyLevel = request.DifficultyLevel.Value;
+        if (request.DifficultyLevel.HasValue)
+        {
+            trail.DifficultyLevel = request.DifficultyLevel.Value;
+        }
 
         // Update geometry points
         /*
@@ -68,9 +81,9 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
         {
             // Create a new LineString with Z coordinates if the incoming one doesn't have them
             var coordinates = request.RouteGeom.Coordinates;
-            var coordsWithZ = coordinates.Select(c =>
+            var coordsWithZ = coordinates.Select(c => 
                 c is CoordinateZ ? c : new CoordinateZ(c.X, c.Y, 0)).ToArray();
-
+            
             trail.RouteGeom = GeometryFactory.CreateLineString(coordsWithZ);
         }
 
@@ -83,7 +96,10 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
         {
             //var result = await _context.SaveChangesAsync(cancellationToken);
             var updatedTrail = await _trailRepository.UpdateAsync(trail, cancellationToken);
-            if (updatedTrail == null) throw new Exception("No changes were saved to the database.");
+            if (updatedTrail == null)
+            {
+                throw new Exception("No changes were saved to the database.");
+            }
         }
         catch (Exception ex)
         {
@@ -95,7 +111,7 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
 
         return Unit.Value;
     }
-
+    
     /*public async Task<Unit> Handle(UpdateTrailCommand request, CancellationToken cancellationToken)
     {
         var trail = await _context.Set<Core.Entities.Trail>()
@@ -111,17 +127,17 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
         {
             trail.Distance = request.Distance.Value;
         }
-
+    
         if (request.ElevationGain.HasValue)
         {
             trail.ElevationGain = request.ElevationGain.Value;
         }
-
+    
         if (request.DifficultyLevel.HasValue)
         {
             trail.DifficultyLevel = request.DifficultyLevel.Value;
         }
-
+        
         /*
         // Update points only if they are provided
         if (request.StartPoint.HasValue)

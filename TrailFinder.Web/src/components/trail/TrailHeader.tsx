@@ -1,17 +1,27 @@
-// src/components/trail/TrailHeader.tsx
-import {Trail} from "@trailfinder/db-types/database";
-import TrailStats from "./TrailStats.tsx";
+import React from 'react';
+import { Trail } from '@trailfinder/db-types/database';
+import TrailActions from './TrailActions';
+import TrailStats from './TrailStats';
 
 interface TrailHeaderProps {
     trail: Trail;
 }
 
-const TrailHeader: React.FC<TrailHeaderProps> = ({ trail }) => (
-    <>
-        <h1 className="text-3xl font-bold mb-4">{trail.name}</h1>
-        <TrailStats trail={trail} />
-        <p className="text-gray-700 mb-6">{trail.description}</p>
-    </>
-);
+const TrailHeader: React.FC<TrailHeaderProps> = ({ trail }) => {
+    return (
+        <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6 mb-4">
+            <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-900">{trail.name}</h1>
+                        <p className="text-gray-600 mt-2">{trail.description}</p>
+                    </div>
+                    <TrailActions trail={trail} />
+                </div>
+                <TrailStats trail={trail} />
+            </div>
+        </div>
+    );
+};
 
 export default TrailHeader;
