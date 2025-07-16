@@ -64,6 +64,8 @@ public class TrailRepository(ApplicationDbContext context)
             query = query.Where(t => t.DifficultyLevel == filter.DifficultyLevel.Value);
         }
 
+        /*
+        
         if (filter.RouteType.HasValue)
         {
             query = query.Where(t => t.RouteType == filter.RouteType.Value);
@@ -73,6 +75,7 @@ public class TrailRepository(ApplicationDbContext context)
         {
             query = query.Where(t => t.TerrainType == filter.TerrainType.Value);
         }
+        */
         
         //TODO: Add location to filter
 
@@ -94,12 +97,14 @@ public class TrailRepository(ApplicationDbContext context)
             "difficulty" => filter.Descending
                 ? query.OrderByDescending(t => t.DifficultyLevel)
                 : query.OrderBy(t => t.DifficultyLevel),
+            /*
             "route_type" => filter.Descending
                 ? query.OrderByDescending(t => t.RouteType)
                 : query.OrderBy(t => t.RouteType),
             "terrain_type" => filter.Descending
                 ? query.OrderByDescending(t => t.TerrainType)
                 : query.OrderBy(t => t.TerrainType),
+            */
             // location
             "created" => filter.Descending
                 ? query.OrderByDescending(t => t.CreatedAt)

@@ -52,5 +52,4 @@ public class Trail : BaseEntity
     // For EF Core to understand the relationships, and use Include,
     // one needs navigation properties in the entity classes
     public ICollection<TrailLocation> TrailLocations { get; private set; } = new List<TrailLocation>();
-    
 }
