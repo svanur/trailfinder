@@ -21,6 +21,11 @@ public class Location : BaseEntity
     // This is crucial for EF Core to understand the "many" side
     public ICollection<TrailLocation> TrailLocations { get; } = new List<TrailLocation>();
     public ICollection<RaceLocation> RaceLocations { get; } = new List<RaceLocation>();
+    
+    //public Location? ParentLocation { get; } = new();
+    //public IEnumerable<Location> ChildrenLocations { get; } = new List<Location>();
+    
+    
 
     private Location() { } // For EF Core
 

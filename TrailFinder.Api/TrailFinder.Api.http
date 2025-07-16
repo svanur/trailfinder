@@ -13,7 +13,6 @@ Accept: application/json
 GET {{hostAddress}}/api/races/laugavegur-ultra
 Accept: application/json
 
-
 ### Get all locations
 GET {{hostAddress}}/api/locations
 Accept: application/json
