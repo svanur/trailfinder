@@ -27,7 +27,7 @@ async function updateTrailsGpxInfo() {
                 // Sanitize numeric values before sending
                 const sanitizedGpxInfo = {
                     distance: sanitizeNumber(gpxInfo.distance),
-                    elevationGainMeters: sanitizeNumber(gpxInfo.elevationGainMeters),
+                    elevationGain: sanitizeNumber(gpxInfo.elevationGain),
                     difficultyLevel: gpxInfo.difficultyLevel,
                     routeType: gpxInfo.routeType,
                     terrainType: gpxInfo.terrainType,
@@ -43,7 +43,7 @@ async function updateTrailsGpxInfo() {
                 console.log({
                     name: trailName,
                     distance: sanitizedGpxInfo.distance,
-                    elevation: sanitizedGpxInfo.elevationGainMeters,
+                    elevation: sanitizedGpxInfo.elevationGain,
                     difficultyLevel: sanitizedGpxInfo.difficultyLevel,
                     routeType: sanitizedGpxInfo.routeType,
                     terrainType: sanitizedGpxInfo.terrainType,
