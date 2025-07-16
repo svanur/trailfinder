@@ -14,7 +14,7 @@ const pagePathToNameMap: { [key: string]: string } = {
     '/': 'Yfirlit',
     '/trails': 'Hlaupaleiðir',
     '/users': 'Notendur',
-    '/settings': 'Stillingar Notanda', // Add this if you have a settings page in main nav
+    '/settings': 'Stillingar', // Add this if you have a settings page in main nav
     // Add other paths as needed
 };
 
