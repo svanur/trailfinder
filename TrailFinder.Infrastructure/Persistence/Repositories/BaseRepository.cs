@@ -24,7 +24,7 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity>
 
         try
         {
-            baseEntity= await _dbSet.FindAsync([id], cancellationToken);
+            baseEntity = await _dbSet.FindAsync([id], cancellationToken);
         }
         catch (Exception e)
         {
