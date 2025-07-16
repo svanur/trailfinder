@@ -1,6 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Api", "TrailFinder.Api\TrailFinder.Api.csproj", "{A24BEB83-DCAB-4A89-838C-2D9501875DF9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Core", "TrailFinder.Core\TrailFinder.Core.csproj", "{3102675F-9117-4404-824D-9B76B192BF92}"

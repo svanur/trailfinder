@@ -1,0 +1,22 @@
+### Viðbótarhugmyndir:
+1. **Notendavirkni:**
+    - Notendur geta safnað leiðum í "favorites"
+    - Deilt leiðum á samfélagsmiðla
+    - Sett inn myndir og athugasemdir við leiðir
+    - Gefið leiðum einkunn
+
+2. **Kortaeiginleikar:**
+    - Hæðarlínurit fyrir hverja leið
+    - "Cluster" kort markers fyrir betri yfirsýn
+    - "Heat map" yfir vinsælustu svæðin
+
+3. **Viðbótareiginleikar:**
+    - Veðurspá fyrir valdar leiðir
+    - Árstíðabundnar upplýsingar
+    - Tengingar við Strava/Garmin
+    - PWA (Progressive Web App) stuðningur
+
+4. **Performance:**
+    - Lazy loading fyrir myndir og GPX skrár
+    - Caching fyrir kortgögn
+    - Server-side rendering fyrir betri SEO
