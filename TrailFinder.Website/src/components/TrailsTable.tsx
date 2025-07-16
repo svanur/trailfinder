@@ -30,6 +30,7 @@ export function TrailsTable() {
             </Table.Td>
             <Table.Td>{trail.distance}</Table.Td>
             <Table.Td>{trail.elevationGain}</Table.Td>
+            <Table.Td>{trail.surfaceType}</Table.Td>
             <Table.Td>{trail.difficultyLevel}</Table.Td>
             <Table.Td>{trail.routeType}</Table.Td>
             <Table.Td>{trail.terrainType}</Table.Td>
@@ -43,9 +44,10 @@ export function TrailsTable() {
                     <Table.Th>Nafn</Table.Th>
                     <Table.Th>Vegalengd</Table.Th>
                     <Table.Th>Hækkun</Table.Th>
+                    <Table.Th>Yfirborð</Table.Th>
                     <Table.Th>Erfiðleiki</Table.Th>
                     <Table.Th>Tegund</Table.Th>
-                    <Table.Th>Undirlag</Table.Th>
+                    <Table.Th>Landslag</Table.Th>
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>{rows}</Table.Tbody>

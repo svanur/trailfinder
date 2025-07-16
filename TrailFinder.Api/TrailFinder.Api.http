@@ -1,6 +1,22 @@
 ## Select environment via: Run with: [dev|...]
 ## See: TrailFinder.Api/http-client.env.json 
 
+### Get all trails
+GET {{hostAddress}}/api/trails
+Accept: application/json
+
+### Get a specific trail by id
+GET {{hostAddress}}/api/trails/{{trailId}}
+Accept: application/json
+
+### Get GpxInfo for specific trail
+GET {{hostAddress}}/api/trails/{{trailId}}/info
+Accept: application/json
+
+### Get a specific trail by slug
+GET {{hostAddress}}/api/trails/esja-ultra-marathon
+Accept: application/json
+
 ### Get all races
 GET {{hostAddress}}/api/races
 Accept: application/json
@@ -23,23 +39,6 @@ Accept: application/json
 
 ### Get a specific location by slug
 GET {{hostAddress}}/api/locations/landmannalaugar
-Accept: application/json
-
-### Get all trails
-GET {{hostAddress}}/api/trails
-Accept: application/json
-
-### Get a specific trail by id
-GET {{hostAddress}}/api/trails/{{trailId}}
-Accept: application/json
-
-### Get GpxInfo for specific trail
-GET {{hostAddress}}/api/trails/{{trailId}}/info
-Accept: application/json
-
-
-### Get a specific trail by slug
-GET {{hostAddress}}/api/trails/esja-ultra-marathon
 Accept: application/json
 
 ### When trail/s do not exist

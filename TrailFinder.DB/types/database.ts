@@ -23,6 +23,7 @@ export interface Trail {
     description: string;
     routeType: string;
     terrainType: string;
+    surfaceType: string;
     location: string;
     distance: number;
     elevationGain: number;

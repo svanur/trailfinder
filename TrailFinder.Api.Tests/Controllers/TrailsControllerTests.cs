@@ -41,9 +41,11 @@ public class TrailsControllerTests
         string description = "",
         double distance = 0,
         double elevationGain = 0,
+        
         DifficultyLevel difficultyLevel = DifficultyLevel.Unknown,
         RouteType routeType = RouteType.Unknown,
         TerrainType terrainType = TerrainType.Unknown,
+        SurfaceType surfaceType = SurfaceType.Unknown,
          
         LineString? routeGeom = null,
         string? webUrl = "",
@@ -60,6 +62,7 @@ public class TrailsControllerTests
             difficultyLevel,
             routeType,
             terrainType,
+            surfaceType,
             routeGeom,
             new GpxPoint(), //TODO ?
             new GpxPoint(),

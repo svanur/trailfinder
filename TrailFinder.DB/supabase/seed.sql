@@ -132,17 +132,31 @@ VALUES (
 ---
 --- Insert sample trails
 ---
-INSERT INTO public.trails (id, name, slug, description, distance, elevation_gain, difficulty_Level, web_url, has_gpx, user_id)
+INSERT INTO public.trails (id, name, slug, description, distance, elevation_gain, difficulty_Level, route_type, terrain_type, surface_type, web_url, has_gpx, user_id)
 VALUES
-    (gen_random_uuid(), 'Mt Esja Ultra maraþon', 'esja-ultra-marathon', 'Maraþon keppnisleiðin í hlíðum Esjunnar.', 0, 0, 'unknown', 'https://www.strava.com/activities/5495817983', false, seed_user_id),
-    (gen_random_uuid(), 'Mt Esja Ultra hálfmaraþon', 'esja-ultra-half-marathon', 'Hálfmaraþon keppnisleiðin í hlíðum Esjunnar', 0, 0, 'unknown', 'https://connect.garmin.com/modern/course/253641069', false, seed_user_id),
-    (gen_random_uuid(), 'Hengill Ultra 52', 'hengill-ultra-52', 'Hengill Ultra keppnishlaupið í Hveragerði', 0, 0, 'unknown', 'https://www.strava.com/routes/2829454378257603194', false, seed_user_id),
-    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 22km', 'hvitasunnuhlaup-hauka-22', '22km keppnisleiðin í Hvítasunnuhlaupi Hauka', 0, 0, 'unknown', 'https://www.strava.com/activities/1586469545', false, seed_user_id),
-    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 17km', 'hvitasunnuhlaup-hauka-17', '17km keppnisleiðin í Hvítasunnuhlaupi Hauka', 0, 0, 'unknown', 'https://connect.garmin.com/modern/course/60180539', false, seed_user_id),
-    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 14km', 'hvitasunnuhlaup-hauka-14', '14km keppnisleiðin í Hvítasunnuhlaupi Hauka', 0, 0, 'unknown', 'https://connect.garmin.com/modern/course/60180128', false, seed_user_id),
-    (gen_random_uuid(), 'Puffin Run', 'puffin-run', 'Puffin Run keppnishlaupið í Vestmannaeygjum', 0, 0, 'unknown', 'https://connect.garmin.com/modern/course/157776054', false, seed_user_id),
-    (gen_random_uuid(), 'Bakgarður Náttúruhlaupa við Elliðavatn', 'bakgardur-ellidavatn', 'Bakgarður Náttúruhlaupa við Elliðavatn', 0, 0, 'unknown', 'https://www.strava.com/segments/25811198', false, seed_user_id),
-    (gen_random_uuid(), 'Skaftafell Ultra', 'skaftafell-ultra', 'Náttúruhlaup í Skaftafelli', 0, 0, 'unknown', 'https://www.strava.com/routes/3207311786703399086', false, seed_user_id)
+    (gen_random_uuid(), 'Mt Esja Ultra maraþon', 'esja-ultra-marathon', 'Maraþon keppnisleiðin í hlíðum Esjunnar.', 43, 3245, 'extreme', 'circular', 'mountainous', 'trail','https://www.strava.com/activities/5495817983', false, seed_user_id),
+    (gen_random_uuid(), 'Mt Esja Ultra hálfmaraþon', 'esja-ultra-half-marathon', 'Hálfmaraþon keppnisleiðin í hlíðum Esjunnar', 0, 0, 'hard', 'circular', 'mountainous', 'trail', 'https://connect.garmin.com/modern/course/253641069', false, seed_user_id),
+    (gen_random_uuid(), 'Hengill Ultra 52', 'hengill-ultra-52', 'Hengill Ultra keppnishlaupið í Hveragerði', 0, 0, 'extreme', 'circular', 'mountainous', 'trail', 'https://www.strava.com/routes/2829454378257603194', false, seed_user_id),
+    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 22km', 'hvitasunnuhlaup-hauka-22', '22km keppnisleiðin í Hvítasunnuhlaupi Hauka', 0, 0, 'moderate', 'circular', 'hilly', 'trail', 'https://www.strava.com/activities/1586469545', false, seed_user_id),
+    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 17km', 'hvitasunnuhlaup-hauka-17', '17km keppnisleiðin í Hvítasunnuhlaupi Hauka', 0, 0, 'moderate', 'circular', 'hilly', 'trail', 'https://connect.garmin.com/modern/course/60180539', false, seed_user_id),
+    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 14km', 'hvitasunnuhlaup-hauka-14', '14km keppnisleiðin í Hvítasunnuhlaupi Hauka', 0, 0, 'easy', 'circular', 'rolling', 'trail', 'https://connect.garmin.com/modern/course/60180128', false, seed_user_id),
+    (gen_random_uuid(), 'Puffin Run', 'puffin-run', 'Puffin Run keppnishlaupið í Vestmannaeygjum', 0, 0, 'moderate', 'circular', 'hilly', 'trail', 'https://connect.garmin.com/modern/course/157776054', false, seed_user_id),
+    (gen_random_uuid(), 'Bakgarður Náttúruhlaupa við Elliðavatn', 'bakgardur-ellidavatn', 'Bakgarður Náttúruhlaupa við Elliðavatn', 0, 0, 'easy', 'circular', 'flat', 'trail', 'https://www.strava.com/segments/25811198', false, seed_user_id),
+    (gen_random_uuid(), 'Skaftafell Ultra', 'skaftafell-ultra', 'Náttúruhlaup í Skaftafelli', 0, 0, 'hard', 'circular', 'mountainous', 'trail', 'https://www.strava.com/routes/3207311786703399086', false, seed_user_id),
+    (
+           laugavegur_trail_id,
+           'Laugavegur Trail',
+           'laugavegur-trail',
+           'The famous Laugavegur hiking trail from Landmannalaugar to Þórsmörk.',
+           53,
+           1500,
+           'hard',
+           'point-to-point',
+           'hilly',
+           'trail',
+           'https://connect.garmin.com/modern/course/376837566',
+           true,
+           seed_user_id)
     ON CONFLICT (slug) DO NOTHING;
 
 ---
@@ -242,20 +256,6 @@ SELECT id INTO puffin_run_trail_id FROM public.trails WHERE slug = 'puffin-run';
 SELECT id INTO bakgardur_ellidavatn_trail_id FROM public.trails WHERE slug = 'bakgardur-ellidavatn';
 SELECT id INTO skaftafell_ultra_trail_id FROM public.trails WHERE slug = 'skaftafell-ultra';
 
--- NEW: Insert Laugavegur Trail if it doesn't exist (to ensure it's there for the race_trails link)
-INSERT INTO public.trails (id, name, slug, description, distance, elevation_gain, difficulty_Level, web_url, has_gpx, user_id)
-VALUES (
-           laugavegur_trail_id,
-           'Laugavegur Trail',
-           'laugavegur-trail',
-           'The famous Laugavegur hiking trail from Landmannalaugar to Þórsmörk.',
-           55,
-           2000,
-           'hard',
-           'https://connect.garmin.com/modern/course/376837566',
-           true,
-           seed_user_id
-       ) ON CONFLICT (id) DO NOTHING;
 
 ---
 --- Insert sample race_trails connections

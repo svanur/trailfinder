@@ -4,7 +4,7 @@ import {AppShell, Text, Container, NavLink} from '@mantine/core';
 //import { TrailList } from './components/TrailList';
 import {SearchSection} from "./components/SearchSection.tsx";
 import {TrailsTable} from "./components/TrailsTable.tsx";
-import {IconActivity} from "@tabler/icons-react";
+import { IconRun } from "@tabler/icons-react";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +20,7 @@ export function App() {
                     <NavLink
                         href="/"
                         label="Hlaupaleiðir"
-                        leftSection={<IconActivity size={16} stroke={1.5} />}
+                        leftSection={<IconRun size={16} stroke={1.5} />}
                     />
                 </Text>
             </AppShell.Header>

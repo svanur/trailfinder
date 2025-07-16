@@ -19,9 +19,10 @@ public class TrailDto
         string description,
         double distance,
         double elevationGain,
-        DifficultyLevel? difficultyLevel,
+        DifficultyLevel difficultyLevel,
         RouteType routeType,
         TerrainType terrainType,
+        SurfaceType surfaceType,
         LineString? routeGeom,
         GpxPoint startGpxPoint,
         GpxPoint endGpxPoint,
@@ -41,6 +42,7 @@ public class TrailDto
         DifficultyLevel = difficultyLevel;
         RouteType = routeType;
         TerrainType = terrainType;
+        SurfaceType = surfaceType;
         
         RouteGeom = routeGeom;
         WebUrl = webUrl;
@@ -62,9 +64,10 @@ public class TrailDto
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
     public double ElevationGain { get; set; }
 
-    public DifficultyLevel? DifficultyLevel { get; set; }
+    public DifficultyLevel DifficultyLevel { get; set; }
     public RouteType RouteType { get; set; }
     public TerrainType TerrainType { get; set; }
+    public SurfaceType SurfaceType { get; set; }
     
     public GpxPoint StartGpxPoint { get; set; }
     public GpxPoint EndGpxPoint { get; set; }

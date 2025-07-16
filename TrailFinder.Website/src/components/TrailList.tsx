@@ -19,6 +19,7 @@ import {
 import { useTrails } from '../hooks/useTrails';
 
 const getDifficultyColor = (difficulty: string) => {
+    console.log('difficulty: ', difficulty.toLowerCase());
     switch (difficulty.toLowerCase()) {
         case 'easy':
             return 'green';
