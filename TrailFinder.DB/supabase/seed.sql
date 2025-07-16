@@ -35,7 +35,7 @@ BEGIN
 
 -- Insert a test user first (using Supabase's auth.users table)
 INSERT INTO auth.users (id, email)
-VALUES (seed_user_id, 'svanur.karlsson@gmail.com')
+VALUES (seed_user_id, 'svanur@hlaupaleidir.is')
     ON CONFLICT (id) DO NOTHING;
 
 ---

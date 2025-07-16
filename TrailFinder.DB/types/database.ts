@@ -48,13 +48,30 @@ export interface Location {
     userId: string | null;
 }
 export const DifficultyLevel = {
+    Unknown: 'unknown',
     Easy: 'easy',
     Moderate: 'moderate',
     Hard: 'hard',
-    Expert: 'expert'
+    Extreme: 'extreme'
 } as const;
 export type DifficultyLevel = typeof DifficultyLevel[keyof typeof DifficultyLevel];
 
+export const RouteType = {
+    Unknown: 'unknown',
+    Circular: 'circular',
+    OutAndBack: 'out-and-back',
+    PointToPoint: 'point-to-point'
+} as const;
+export type RouteType = typeof RouteType[keyof typeof RouteType];
+
+export const TerrainType = {
+    Unknown: 'unknown',
+    Flat: 'flat',
+    Rolling: 'rolling',
+    Hilly: 'hilly',
+    Mountainous: 'mountainous'
+} as const;
+export type TerrainType = typeof TerrainType[keyof typeof TerrainType];
 
 export interface CreateTrailDTO {
     parentId: string;

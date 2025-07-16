@@ -21,6 +21,6 @@ public enum LocationType
     [PgName("end")]
     End = 4,
     
-    [PgName("end_and_end")]
+    [PgName("start_and_end")]
     StartAndEnd = 5
 }

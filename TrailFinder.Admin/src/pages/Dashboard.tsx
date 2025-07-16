@@ -14,7 +14,9 @@ interface Trail {
   name: string;
   distance_meters: number;
   elevation_gain_meters: number;
-  difficulty_level: 'easy' | 'moderate' | 'hard';
+  difficulty_level: 'unknown' | 'easy' | 'moderate' | 'hard' | 'extreme';
+  route_type: 'unknown' | 'circular' | 'out-and-back' | 'point-to-point';
+  terrain_type: 'unknown' | 'flat' | 'rolling' | 'hilly' | 'mountainous';
   created_at: string;
   route_geom: any;
 }
