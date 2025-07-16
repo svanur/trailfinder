@@ -53,6 +53,7 @@ A trail-finding application that helps users discover and navigate trails for ru
 
 # Project documentation
 
+
 ## Quick Start
 
 1. **Clone the repository**
