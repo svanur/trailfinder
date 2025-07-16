@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TrailFinder.Core.DTOs.Common;
 using TrailFinder.Core.DTOs.Trails.Requests;
+using TrailFinder.Core.DTOs.Trails.Responses;
 using TrailFinder.Core.Entities;
 using TrailFinder.Core.Interfaces.Repositories;
 
@@ -63,6 +64,18 @@ public class TrailRepository(ApplicationDbContext context)
             query = query.Where(t => t.DifficultyLevel == filter.DifficultyLevel.Value);
         }
 
+        if (filter.RouteType.HasValue)
+        {
+            query = query.Where(t => t.RouteType == filter.RouteType.Value);
+        }
+
+        if (filter.TerrainType.HasValue)
+        {
+            query = query.Where(t => t.TerrainType == filter.TerrainType.Value);
+        }
+        
+        //TODO: Add location to filter
+
         // Get a total count before pagination
         var totalCount = await query.CountAsync(cancellationToken);
 
@@ -81,6 +94,13 @@ public class TrailRepository(ApplicationDbContext context)
             "difficulty" => filter.Descending
                 ? query.OrderByDescending(t => t.DifficultyLevel)
                 : query.OrderBy(t => t.DifficultyLevel),
+            "route_type" => filter.Descending
+                ? query.OrderByDescending(t => t.RouteType)
+                : query.OrderBy(t => t.RouteType),
+            "terrain_type" => filter.Descending
+                ? query.OrderByDescending(t => t.TerrainType)
+                : query.OrderBy(t => t.TerrainType),
+            // location
             "created" => filter.Descending
                 ? query.OrderByDescending(t => t.CreatedAt)
                 : query.OrderBy(t => t.CreatedAt),
@@ -110,7 +130,37 @@ public class TrailRepository(ApplicationDbContext context)
     {
         return await DbSet
             .OrderByDescending(t => t.CreatedAt)
+            .Select(t => GetNewTrail(t))
             .ToListAsync(cancellationToken);
+    
+    }
+
+    public override async Task<Trail?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _dbSet
+            .Where(trail => trail.Id == id) 
+            .Select(trail => GetNewTrail(trail)) 
+            .FirstOrDefaultAsync(cancellationToken); // Get the firs°t (or default if not found)
+    }
+
+    private static Trail GetNewTrail(Trail trail)
+    {   //TODO: hmm, method gets a Trail parameter and returns Trail hmm...
+        return new Trail
+        (
+            trail.Id,
+            trail.Name,
+            trail.Description,
+            
+            0, //TODO: Placeholder
+            0.0, //TODO: Placeholder
+            
+            trail.DifficultyLevel,
+            trail.RouteType,
+            trail.TerrainType,
+            
+            trail.RouteGeom,
+            trail.UserId
+        );
     }
     */
 }
