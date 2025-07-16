@@ -1,6 +1,4 @@
-using Supabase.Postgrest.Attributes;
-using Supabase.Postgrest.Models;
-using TrailFinder.Core.Enums;
+
 /*
 [Table("trails")]
 public class SupabaseTrail : BaseModel
@@ -23,8 +21,8 @@ public class SupabaseTrail : BaseModel
     [Column("elevation_gain")]
     public double ElevationGain { get; set; }
     
-    [Column("difficulty_level")]
-    public DifficultyLevel? DifficultyLevel { get; set; }
+    //[Column("difficulty_level")]
+    //public DifficultyLevel? DifficultyLevel { get; set; }
     
     [Column("route_geom")]
     public object? RouteGeom { get; set; } // LINESTRING geometry
@@ -42,7 +40,7 @@ public class SupabaseTrail : BaseModel
     public bool? HasGpx { get; set; }
     
     [Column("user_id")]
-    public Guid? UserId { get; set; }
+    public Guid UserId { get; set; }
     
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }
