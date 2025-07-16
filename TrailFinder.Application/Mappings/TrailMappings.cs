@@ -1,6 +1,5 @@
 using AutoMapper;
 using TrailFinder.Core.DTOs.Common;
-using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.DTOs.Trails.Responses;
 using TrailFinder.Core.Entities;
 
@@ -11,11 +10,16 @@ public class TrailMappings : Profile
     public TrailMappings()
     {
         CreateMap<Trail, TrailDto>()
-
+            /*
             .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Id)
-            );
+            )
+            */
+            .ForMember(
+                dest => dest.TrailLocations, 
+                opt => opt.MapFrom(src => src.TrailLocations))
+            ;
 
         // List to PaginatedResult mapping
         CreateMap<List<Trail>, PaginatedResult<TrailDto>>()
@@ -26,5 +30,6 @@ public class TrailMappings : Profile
             .ForMember(dest => dest.TotalPages, opt => opt.MapFrom(src => 1))
             .ForMember(dest => dest.HasPreviousPage, opt => opt.MapFrom(src => false))
             .ForMember(dest => dest.HasNextPage, opt => opt.MapFrom(src => false));
+        
     }
 }

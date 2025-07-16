@@ -47,9 +47,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 x.UseNetTopologySuite();
                 x.EnableRetryOnFailure();
+                
+                // Map the enums
                 x.MapEnum<DifficultyLevel>();
-                x.MapEnum<RouteType>();
-                x.MapEnum<TerrainType>();
+                x.MapEnum<LocationType>();
+                x.MapEnum<RaceStatus>();
             })
         .EnableSensitiveDataLogging()
         .LogTo(message =>
