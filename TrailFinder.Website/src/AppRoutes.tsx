@@ -1,17 +1,25 @@
 // AppRoutes.tsx
 import { Routes, Route } from 'react-router-dom';
-import { Home } from './pages/Home.tsx';
-import {NotFound} from "./pages/NotFound.tsx";
-import {TrailDetails} from "./pages/TrailDetails.tsx";
+import { NotFound } from "./pages/NotFound.tsx";
+import { TrailDetails } from "./pages/TrailDetails.tsx";
+import { SearchSection } from './components/SearchSection.tsx';
+import { TrailsTable } from './components/TrailsTable.tsx';
+
 
 export function AppRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<Home />} />
-            {/* Aðrar routes koma hér fyrir neðan */}
+            {/* The Home page should contain SearchSection and TrailsTable */}
+            <Route path="/" element={
+                <>
+                    <SearchSection />
+                    <TrailsTable />
+                </>
+            } />
             <Route path="/hlaup/:slug" element={<TrailDetails />} />
+            {/* Only one catch-all route for Not Found */}
             <Route path="*" element={<NotFound />} />
-            <Route path="*" element={<div>Síða fannst ekki</div>} />
         </Routes>
     );
 }
+

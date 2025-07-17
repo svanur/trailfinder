@@ -1,4 +1,4 @@
-// src/pages/TrailDetails.tsx
+// src/pages/TrailDetails.tsx (No changes needed here for routing)
 import { useParams } from 'react-router-dom';
 import { useTrail } from '../hooks/useTrail';
 import { Container, Title, Text, Group, Stack, Badge, Loader, Card } from '@mantine/core';

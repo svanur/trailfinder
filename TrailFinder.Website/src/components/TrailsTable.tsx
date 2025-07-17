@@ -1,4 +1,7 @@
-import {NavLink, Table, Text} from '@mantine/core';
+// TrailsTable.tsx
+import { Table, Text } from '@mantine/core';
+import { NavLink as MantineNavLink } from '@mantine/core'; // Alias Mantine's NavLink
+import { NavLink as RouterNavLink } from 'react-router-dom'; // Import react-router-dom's NavLink
 
 import { useTrails } from '../hooks/useTrails';
 import { IconActivity } from "@tabler/icons-react";
@@ -21,8 +24,10 @@ export function TrailsTable() {
     const rows = trails.map((trail) => (
         <Table.Tr key={trail.id}>
             <Table.Td>
-                <NavLink
-                    href={`/hlaup/${trail.slug}`}
+                {/* Use MantineNavLink with component prop for router integration */}
+                <MantineNavLink
+                    component={RouterNavLink} // Tell MantineNavLink to render as RouterNavLink
+                    to={`/hlaup/${trail.slug}`} // Use 'to' prop for react-router-dom
                     label={trail.name}
                     description={trail.description}
                     leftSection={<IconActivity size={16} stroke={1.5} />}
