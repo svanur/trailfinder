@@ -1,7 +1,7 @@
 import {NavLink, Table, Text} from '@mantine/core';
 
 import { useTrails } from '../hooks/useTrails';
-import {IconActivity} from "@tabler/icons-react";
+import { IconActivity } from "@tabler/icons-react";
 
 export function TrailsTable() {
     const { data: trails, isLoading, error } = useTrails();

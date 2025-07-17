@@ -1,8 +1,8 @@
 // AppRoutes.tsx
 import { Routes, Route } from 'react-router-dom';
-import { Home } from './Pages/Home.tsx';
-import {NotFound} from "./Pages/NotFound.tsx";
-import {TrailDetails} from "./Pages/TrailDetails.tsx";
+import { Home } from './pages/Home.tsx';
+import {NotFound} from "./pages/NotFound.tsx";
+import {TrailDetails} from "./pages/TrailDetails.tsx";
 
 export function AppRoutes() {
     return (
