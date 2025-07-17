@@ -25,6 +25,7 @@ namespace TrailFinder.Infrastructure.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "difficulty_level", new[] { "unknown", "easy", "moderate", "hard", "extreme" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "route_type", new[] { "unknown", "circular", "out-and-back", "point-to-point" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "terrain_type", new[] { "unknown", "flat", "rolling", "hilly", "mountainous" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "surface_type", new[] { "unknown", "trail", "asphalt", "sand", "snow", "ice" });
             
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "race_status", new[] { "unknown", "active", "changed", "cancelled", "deprecated" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "location_type", new[] { "unknown", "start", "aid_station", "checkpoint", "end", "start_and_end" });

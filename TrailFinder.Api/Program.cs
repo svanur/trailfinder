@@ -50,7 +50,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 
                 // Map the enums
                 x.MapEnum<DifficultyLevel>();
+                x.MapEnum<RouteType>();
+                x.MapEnum<TerrainType>();
                 x.MapEnum<LocationType>();
+                x.MapEnum<SurfaceType>();
                 x.MapEnum<RaceStatus>();
             })
         .EnableSensitiveDataLogging()

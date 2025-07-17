@@ -10,25 +10,12 @@ public record CreateTrailCommand : IRequest<int>
     public string Description { get; init; }
     public decimal Distance { get; init; }
     public decimal ElevationGain { get; init; }
+    
     public DifficultyLevel? DifficultyLevel { get; init; }
+    public RouteType? RouteType { get; init; }
+    public TerrainType? TerrainType { get; init; }
+    public SurfaceType? SurfaceType { get; init; }
+    
     public string? WebUrl { get; init; }
     public Guid UserId { get; init; }
-
-    /*public static CreateTrailCommand FromDto(
-        CreateTrailDto dto)
-    {
-        return new CreateTrailCommand
-        {
-            Name = dto.Name,
-            Description = dto.Description,
-            Distance = dto.Distance,
-            ElevationGain = dto.ElevationGain,
-            DifficultyLevel = dto.DifficultyLevel,
-            //DifficultyLevel = dto.DifficultyLevel,
-            StartPointLatitude = dto.StartPointLatitude,
-            StartPointLongitude = dto.StartPointLongitude,
-            WebUrl = dto.WebUrl,
-            UserId = dto.UserId
-        };
-    }*/
 }

@@ -1,7 +1,10 @@
-import {NavLink, Table, Text} from '@mantine/core';
+// TrailsTable.tsx
+import { Table, Text } from '@mantine/core';
+import { NavLink as MantineNavLink } from '@mantine/core'; // Alias Mantine's NavLink
+import { NavLink as RouterNavLink } from 'react-router-dom'; // Import react-router-dom's NavLink
 
 import { useTrails } from '../hooks/useTrails';
-import {IconActivity} from "@tabler/icons-react";
+import { IconActivity } from "@tabler/icons-react";
 
 export function TrailsTable() {
     const { data: trails, isLoading, error } = useTrails();
@@ -21,8 +24,10 @@ export function TrailsTable() {
     const rows = trails.map((trail) => (
         <Table.Tr key={trail.id}>
             <Table.Td>
-                <NavLink
-                    href={`/hlaup/${trail.slug}`}
+                {/* Use MantineNavLink with component prop for router integration */}
+                <MantineNavLink
+                    component={RouterNavLink} // Tell MantineNavLink to render as RouterNavLink
+                    to={`/hlaup/${trail.slug}`} // Use 'to' prop for react-router-dom
                     label={trail.name}
                     description={trail.description}
                     leftSection={<IconActivity size={16} stroke={1.5} />}
@@ -30,6 +35,7 @@ export function TrailsTable() {
             </Table.Td>
             <Table.Td>{trail.distance}</Table.Td>
             <Table.Td>{trail.elevationGain}</Table.Td>
+            <Table.Td>{trail.surfaceType}</Table.Td>
             <Table.Td>{trail.difficultyLevel}</Table.Td>
             <Table.Td>{trail.routeType}</Table.Td>
             <Table.Td>{trail.terrainType}</Table.Td>
@@ -43,9 +49,10 @@ export function TrailsTable() {
                     <Table.Th>Nafn</Table.Th>
                     <Table.Th>Vegalengd</Table.Th>
                     <Table.Th>Hækkun</Table.Th>
+                    <Table.Th>Yfirborð</Table.Th>
                     <Table.Th>Erfiðleiki</Table.Th>
                     <Table.Th>Tegund</Table.Th>
-                    <Table.Th>Undirlag</Table.Th>
+                    <Table.Th>Landslag</Table.Th>
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>{rows}</Table.Tbody>

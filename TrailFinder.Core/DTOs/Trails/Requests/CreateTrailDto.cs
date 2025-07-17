@@ -10,9 +10,9 @@ public record CreateTrailDto(
     decimal Distance,
     decimal ElevationGain,
     DifficultyLevel DifficultyLevel,
-    RouteType routeType,
-    TerrainType terrainType,
- 
+    RouteType RouteType,
+    TerrainType TerrainType,
+    SurfaceType SurfaceType,
  
     string? WebUrl,
     bool HasGpx,

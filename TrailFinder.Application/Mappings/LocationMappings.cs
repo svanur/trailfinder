@@ -18,14 +18,25 @@ public class LocationMappings : Profile
                 opt => opt.MapFrom(src => src.Id)
             );
 */
+
+        CreateMap<Location, LocationDto>()
+            /*
+              .ForMember(
+                  dest => dest.ParentLocationDto,
+                  opt => opt.MapFrom(src => src.ParentLocation))
+              .ForMember(
+                  dest => dest.ChildrenLocationsDto,
+                  opt => opt.MapFrom(src => src.ChildrenLocations))
+                      */
+            ;
         
         CreateMap<Location, LocationLiteDto>()
-  /*
+  
             .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Id)
             )
-    */
+  
   /*
             .ForMember(
                 dest => dest.GpxPoint,
@@ -36,7 +47,7 @@ public class LocationMappings : Profile
             ;
 
         CreateMap<PaginatedResult<Location>, PaginatedResult<LocationDto>>()
-            .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items)) // Crucial: AutoMapper will use the Race -> RaceDto mapping for each item
+            .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items))
             .ForMember(dest => dest.PageNumber, opt => opt.MapFrom(src => src.PageNumber))
             .ForMember(dest => dest.PageSize, opt => opt.MapFrom(src => src.PageSize))
             .ForMember(dest => dest.TotalCount, opt => opt.MapFrom(src => src.TotalCount))
@@ -44,16 +55,13 @@ public class LocationMappings : Profile
             .ForMember(dest => dest.HasPreviousPage, opt => opt.MapFrom(src => src.HasPreviousPage))
             .ForMember(dest => dest.HasNextPage, opt => opt.MapFrom(src => src.HasNextPage));
         
-        /*
-        // List to PaginatedResult mapping
-        CreateMap<List<Location>, PaginatedResult<LocationDto>>()
-            .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src))
-            .ForMember(dest => dest.TotalCount, opt => opt.MapFrom(src => src.Count))
-            .ForMember(dest => dest.PageNumber, opt => opt.MapFrom(src => 1))
-            .ForMember(dest => dest.PageSize, opt => opt.MapFrom(src => src.Count))
-            .ForMember(dest => dest.TotalPages, opt => opt.MapFrom(src => 1))
-            .ForMember(dest => dest.HasPreviousPage, opt => opt.MapFrom(src => false))
-            .ForMember(dest => dest.HasNextPage, opt => opt.MapFrom(src => false));
-        */
+        CreateMap<PaginatedResult<Location>, PaginatedResult<LocationLiteDto>>()
+            .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items))
+            .ForMember(dest => dest.PageNumber, opt => opt.MapFrom(src => src.PageNumber))
+            .ForMember(dest => dest.PageSize, opt => opt.MapFrom(src => src.PageSize))
+            .ForMember(dest => dest.TotalCount, opt => opt.MapFrom(src => src.TotalCount))
+            .ForMember(dest => dest.TotalPages, opt => opt.MapFrom(src => src.TotalPages))
+            .ForMember(dest => dest.HasPreviousPage, opt => opt.MapFrom(src => src.HasPreviousPage))
+            .ForMember(dest => dest.HasNextPage, opt => opt.MapFrom(src => src.HasNextPage));
     }
 }

@@ -26,8 +26,8 @@ public class RaceRepository(ApplicationDbContext context)
     public async Task<Race?> GetByIdWithLocationsAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var race = await Context.Races // Your DbSet for Races
-            .Include(r => r.RaceTrails) // Eagerly load all TrailLocations for this Trail
-            .Include(r => r.RaceLocations) // Eagerly load all TrailLocations for this Trail
+            .Include(r => r.RaceTrails) // Eagerly load all RaceTrails for this Race
+            .Include(r => r.RaceLocations) // Eagerly load all RaceLocations for this Race
             .ThenInclude(rl => rl.Location) // Then, for each RaceLocation, eagerly load its associated Location
             .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
 

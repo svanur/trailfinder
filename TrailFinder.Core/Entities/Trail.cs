@@ -17,6 +17,9 @@ public class Trail : BaseEntity
         double distance,
         double elevationGain,
         DifficultyLevel difficultyLevel,
+        RouteType routeType,
+        TerrainType terrainType,
+        SurfaceType surfaceType,
         Guid userId
     )
     {
@@ -27,6 +30,9 @@ public class Trail : BaseEntity
         Distance = distance;
         ElevationGain = elevationGain;
         DifficultyLevel = difficultyLevel;
+        RouteType = routeType;
+        TerrainType = terrainType;
+        SurfaceType = surfaceType;
 
         UserId = userId;
         CreatedAt = DateTime.UtcNow;
@@ -43,14 +49,16 @@ public class Trail : BaseEntity
 
     public double ElevationGain { get; set; }
 
-    public DifficultyLevel? DifficultyLevel { get; set; }
+    public DifficultyLevel DifficultyLevel { get; set; }
+    public RouteType RouteType { get; set; }
+    public TerrainType TerrainType { get; set; }
+    public SurfaceType SurfaceType { get; set; }
 
     public LineString? RouteGeom { get; set; }
     public string? WebUrl { get; private set; }
     public bool HasGpx { get; set; }
 
-    // For EF Core to understand the relationships, and use Include,
+    // For EF Core to understand the relationships and use Include,
     // one needs navigation properties in the entity classes
     public ICollection<TrailLocation> TrailLocations { get; private set; } = new List<TrailLocation>();
-    
 }

@@ -101,16 +101,12 @@ public class TrailRepository(ApplicationDbContext context)
         );
     }
 
-    public Task<Trail?> GetByIdWithLocationsAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<Trail?> GetByIdWithLocationsAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var trail = await Context.Trails // Your DbSet for Trails
+            .Include(r => r.TrailLocations) // Eagerly load all TrailLocations for this Trail
+            .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
+
+        return trail;
     }
-    /*
-    public override async Task<IEnumerable<Trail>> GetAllAsync(CancellationToken cancellationToken = default)
-    {
-        return await DbSet
-            .OrderByDescending(t => t.CreatedAt)
-            .ToListAsync(cancellationToken);
-    }
-    */
 }

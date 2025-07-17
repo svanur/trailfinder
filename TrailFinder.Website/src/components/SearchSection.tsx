@@ -25,7 +25,8 @@ import {
     IconArrowForward,
     IconBabyCarriage,
     IconWalk,
-    IconRun
+    IconRun,
+    IconSandbox
 } from '@tabler/icons-react';
 import {type JSX, useState} from 'react';
 
@@ -113,6 +114,13 @@ const FilterSelect = ({ data, placeholder }: { data: FilterOption[], placeholder
 };
 
 
+const surfaceData = [
+    { value: 'trail', label: 'Utanvega', icon: <IconBabyCarriage style={{ width: 16, height: 16 }} /> },
+    { value: 'asphalt', label: 'Malbik', icon: <IconWalk style={{ width: 16, height: 16 }} /> },
+    { value: 'sand', label: 'Sandur', icon: <IconSandbox style={{ width: 16, height: 16 }} /> },
+    { value: 'snow', label: 'Snjór', icon: <IconMountain style={{ width: 16, height: 16 }} /> },
+    { value: 'ice', label: 'Ís', icon: <IconMountain style={{ width: 16, height: 16 }} /> }
+];
 const difficultyData = [
     { value: 'easy', label: 'Auðvelt', icon: <IconBabyCarriage style={{ width: 16, height: 16 }} /> },
     { value: 'moderate', label: 'Miðlungs', icon: <IconWalk style={{ width: 16, height: 16 }} /> },
@@ -210,6 +218,10 @@ export function SearchSection() {
 
                     <Group grow>
                         <FilterSelect
+                            data={surfaceData}
+                            placeholder="Undirlag"
+                        />
+                        <FilterSelect
                             data={difficultyData}
                             placeholder="Erfiðleikastig"
                         />
@@ -223,7 +235,7 @@ export function SearchSection() {
                         />
                         <FilterSelect
                             data={regionData}
-                            placeholder="Landshluti"
+                            placeholder="Staður"
                         />
                     </Group>
                 </Stack>
