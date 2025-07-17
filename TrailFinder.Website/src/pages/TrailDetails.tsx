@@ -1,25 +1,90 @@
-// src/pages/TrailDetails.tsx (No changes needed here for routing)
-import { useParams } from 'react-router-dom';
+// src/pages/TrailDetails.tsx
+import { useParams, useNavigate } from 'react-router-dom';
 import { useTrail } from '../hooks/useTrail';
-import { Container, Title, Text, Group, Stack, Badge, Loader, Card } from '@mantine/core';
-import { /*IconMapPin,*/ IconRuler, IconMountain, IconRoute } from '@tabler/icons-react';
+import { Container, Title, Text, Group, Stack, Badge, Card, Button } from '@mantine/core'; // Removed Loader import
+import { IconRuler, IconMountain, IconRoute, IconExternalLink } from '@tabler/icons-react';
+
+// Import your new custom loader component
+import { TrailLoader } from '../components/TrailLoader'; // Adjust path if needed
+import { useEffect } from 'react';
+import { TrailNotFound } from "./TrailNotFound.tsx";
+import {TrailNotFoundError} from "../types/api.ts";
+
 
 export function TrailDetails() {
     const { slug } = useParams<{ slug: string }>();
+    const navigate = useNavigate();
     const { data: trail, isLoading, error } = useTrail(slug ?? '');
 
+    const isTrailSpecificError = error instanceof TrailNotFoundError;
+    //const suggestions = isTrailSpecificError ? (error as TrailNotFoundError).suggestions : [];
+
+    // Log errors for debugging, but don't show to user directly unless it's a generic error
+    useEffect(() => {
+        if (error && !isTrailSpecificError) {
+            console.error("General error loading trail:", error);
+        }
+    }, [error, isTrailSpecificError]);
+
+
     if (isLoading) {
+        return <TrailLoader />; // Use your custom loader here!
+    }
+
+    if (isTrailSpecificError) {
         return (
-            <Container>
-                <Loader size="xl" />
-            </Container>
+            <TrailNotFound />
+            /*
+            <TrailNotFound>
+                {suggestions.length > 0 && (
+                    <>
+                        <Text mt="xl" size="lg" fw={700}>
+                            Kannski varstu að leita að einni af þessum slóðum:
+                        </Text>
+                        <Group spacing="xs" mt="sm" justify="center">
+                            {suggestions.map((sugTrail) => (
+                                <Button
+                                    key={sugTrail.id}
+                                    variant="outline"
+                                    onClick={() => navigate(`/hlaup/${sugTrail.slug}`)}
+                                >
+                                    {sugTrail.name}
+                                </Button>
+                            ))}
+                        </Group>
+                    </>
+                )}
+            </TrailNotFound>
+            */
         );
     }
 
-    if (error || !trail) {
+    if (error) { // This now only catches non-TrailNotFoundError errors
+        return <TrailNotFound />;
+        /*
         return (
-            <Container>
-                <Text color="red">Villa kom upp við að sækja upplýsingar um hlaupaleiðina</Text>
+            <Container ta="center" style={{ padding: '4rem 0' }}>
+                <Title order={2}>Úpps!</Title>
+                <Text mt="md">Eitthvað fórum við út af stígnum hérna.</Text>
+                
+                <Group justify="center">
+                    <Button size="md" onClick={() => navigate('/')}>
+                        Til baka á upphafsreit
+                    </Button>
+                </Group>
+            </Container>
+        );
+        */
+    }
+
+    if (!trail) {
+        // This should ideally only happen if 'error' is null but 'data' is also null
+        // which might indicate a problem that isn't a 404 or a clear error.
+        return (
+            <Container ta="center" style={{ padding: '4rem 0' }}>
+                <Title order={2}>Engin gögn fundust!</Title>
+                <Text mt="md">Einhver villa kom upp og engin gönguleiðargögn fundust.</Text>
+                <Button mt="lg" onClick={() => navigate('/')}>Aftur á forsíðu</Button>
             </Container>
         );
     }
@@ -68,23 +133,9 @@ export function TrailDetails() {
                     <Badge color="teal">{trail.surfaceType}</Badge>
                 </Group>
 
-                {/*{trail.trailLocations?.length > 0 && (
-                    <Card withBorder>
-                        <Text size="lg" fw={500} mb="md">Staðsetningar</Text>
-                        <Stack gap="xs">
-                            {trail.trailLocations.map((location) => (
-                                <Group key={location.id}>
-                                    <IconMapPin size={16} />
-                                    <Text>{location.name}</Text>
-                                </Group>
-                            ))}
-                        </Stack>
-                    </Card>
-                )}*/}
-
                 {trail.webUrl && (
                     <Text component="a" href={trail.webUrl} target="_blank" rel="noopener noreferrer">
-                        Nánar um hlaupaleiðina
+                        Skoða hlaupaleiðina <IconExternalLink size={20} />
                     </Text>
                 )}
             </Stack>
