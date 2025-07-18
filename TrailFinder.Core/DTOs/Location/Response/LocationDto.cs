@@ -1,35 +1,46 @@
 namespace TrailFinder.Core.DTOs.Location.Response;
 
-public class LocationDto
+public class LocationDto : BaseDto
 {
-    private LocationDto() { } // For EF Core
+    private LocationDto() { }
+
 
     public LocationDto(
         Guid id,
+        Guid? parentId,
         string name,
         string slug,
-        //Guid? parentId,
-        LocationLiteDto? parentLocationDto,
-        IEnumerable<LocationLiteDto>? childrenLocationsDto,
         string description,
         double latitude,
         double longitude,
-        Guid userId
+
+        LocationLiteDto? parentLocationDto,
+        IEnumerable<LocationLiteDto>? childrenLocationsDto,
+
+        Guid createdBy,
+        DateTime createdAt,
+        Guid? updatedBy,
+        DateTime? updatedAt
     )
     {
         Id = id;
+        ParentId = parentId;
         Name = name;
         Slug = slug;
         Description = description;
         Latitude = latitude;
         Longitude = longitude;
-        UserId = userId;
+        ParentLocationDto = parentLocationDto;
+        ChildrenLocationsDto = childrenLocationsDto;
 
-        //CreatedAt = DateTime.UtcNow;
-        //UpdatedAt = DateTime.UtcNow;
+        CreatedBy = createdBy;
+        CreatedAt = createdAt;
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
     }
+    // For EF Core
 
-    public Guid Id { get; set; }
+    public Guid? ParentId { get; set; }
     public string Name { get; private set; } = null!;
     public string Slug { get; private set; } = null!;
     public string Description { get; private set; } = null!;
@@ -40,6 +51,4 @@ public class LocationDto
 
     public LocationLiteDto? ParentLocationDto { get; set; }
     public IEnumerable<LocationLiteDto>? ChildrenLocationsDto { get; set; }
-
-    public Guid UserId { get; set; }
 }

@@ -6,12 +6,15 @@ namespace TrailFinder.Application.Features.Trails.Commands.UpdateTrail;
 
 public record UpdateTrailCommand(
     Guid TrailId,
-    double? Distance,
-    double? ElevationGain,
+    string? Name,
+    string? Description,
+    decimal? Distance,
+    decimal? ElevationGain,
     DifficultyLevel? DifficultyLevel,
     RouteType? RouteType,
     TerrainType? TerrainType,
- 
-    LineString? RouteGeom
-
+    SurfaceType? SurfaceType,
+    LineString? RouteGeom,
+    string? WebUrl,
+    Guid UpdatedBy
 ) : IRequest<Unit>;

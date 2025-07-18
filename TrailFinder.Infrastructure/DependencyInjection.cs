@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetTopologySuite;
 using NetTopologySuite.Geometries;
 using TrailFinder.Application.Services;
 using TrailFinder.Contract.Persistence;
@@ -59,6 +60,7 @@ public static class DependencyInjection
         services.AddTransient<IAnalyzer<TerrainAnalysisInput, TerrainType>, TerrainAnalyzer>();
         services.AddTransient<IAnalyzer<DifficultyAnalysisInput, DifficultyLevel>, DifficultyAnalyzer>();
         services.AddTransient<AnalysisService>(); // MyAnalysisService will resolve these
+        services.AddSingleton<GeometryFactory>(sp => NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326));
         
         return services;
     }

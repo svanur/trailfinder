@@ -66,9 +66,10 @@ public class TrailsControllerTests
             new GpxPoint(), //TODO ?
             new GpxPoint(),
             webUrl,
+            Guid.NewGuid(),
             DateTime.Now,
-            DateTime.Now,
-            Guid.NewGuid()
+            null,
+            null
         );
     }
 

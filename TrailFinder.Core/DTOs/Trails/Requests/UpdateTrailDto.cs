@@ -10,5 +10,6 @@ public record UpdateTrailDto(
     DifficultyLevel? DifficultyLevel,
     RouteType? RouteType,
     TerrainType? TerrainType,
-    string? WebUrl
+    string? WebUrl,
+    Guid UpdatedBy
 );

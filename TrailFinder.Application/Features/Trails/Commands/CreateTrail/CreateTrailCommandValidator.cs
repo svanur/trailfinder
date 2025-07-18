@@ -30,24 +30,29 @@ public class CreateTrailCommandValidator : AbstractValidator<CreateTrailCommand>
             .When(x => !string.IsNullOrEmpty(x.WebUrl))
             .WithMessage("Web URL must be a valid URL");
 
-        RuleFor(x => x.UserId)
+        RuleFor(x => x.CreatedBy)
             .NotEmpty()
             .WithMessage("User ID is required");
 
         RuleFor(x => x.DifficultyLevel)
-            .IsInEnum()
-            .WithMessage("Invalid difficulty level");
+            .NotNull().WithMessage("Difficulty level is required")
+            .IsInEnum().WithMessage("Invalid difficulty level");
 
         RuleFor(x => x.SurfaceType)
-            .IsInEnum()
-            .WithMessage("Invalid surface type");
+            .NotNull().WithMessage("Surface type is required")
+            .IsInEnum().WithMessage("Invalid surface type");
 
         RuleFor(x => x.RouteType)
-            .IsInEnum()
-            .WithMessage("Invalid route type");
+            .NotNull().WithMessage("Route type is required")
+            .IsInEnum().WithMessage("Invalid route type");
 
         RuleFor(x => x.TerrainType)
-            .IsInEnum()
-            .WithMessage("Invalid terrain type");
+            .NotNull().WithMessage("Terrain type is required")
+            .IsInEnum().WithMessage("Terrain type level");
+        
+        RuleFor(x => x.RouteGeom)
+            .NotNull().WithMessage("Trail geometry is required.") // If mandatory
+            .Must(geom => geom != null && geom.Coordinates.Length >= 2) // Basic LineString validation
+            .WithMessage("Trail geometry must be a valid LineString with at least two coordinates.");
     }
 }

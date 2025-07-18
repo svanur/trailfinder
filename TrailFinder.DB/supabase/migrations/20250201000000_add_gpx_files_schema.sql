@@ -28,16 +28,13 @@ CREATE TABLE gpx_files
     content_type       VARCHAR(100)                    NOT NULL,
 
     -- Timestamp when the GPX file metadata was first created/uploaded
-    uploaded_at        TIMESTamptz      DEFAULT NOW(),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
 
     -- User who uploaded the GPX file (references auth.users table)
-    uploaded_by        UUID REFERENCES auth.users (id) NOT NULL,
-
-    -- Timestamp of the last update to this GPX file metadata entry
-    updated_at         TIMESTamptz      DEFAULT NOW(),
-
-    -- User who last updated this GPX file metadata entry
-    updated_by         UUID REFERENCES auth.users (id) NOT NULL
+    created_by UUID REFERENCES auth.users(id) NOT NULL,
+    
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_by UUID REFERENCES auth.users(id)
 );
 
 -- Create an index on trail_id for faster lookups when retrieving

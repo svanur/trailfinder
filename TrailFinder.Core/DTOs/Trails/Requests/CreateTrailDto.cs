@@ -1,3 +1,4 @@
+using NetTopologySuite.Geometries;
 using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.Enums;
 
@@ -13,7 +14,9 @@ public record CreateTrailDto(
     RouteType RouteType,
     TerrainType TerrainType,
     SurfaceType SurfaceType,
- 
+    LineString? RouteGeom,
+    GpxPoint StartGpxPoint,
+    GpxPoint EndGpxPoint,
     string? WebUrl,
-    Guid UserId
+    Guid CreatedBy
 );

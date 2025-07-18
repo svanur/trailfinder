@@ -57,7 +57,8 @@ export interface Trail {
     surfaceType: SurfaceType;
     webUrl?: string;
     trailLocations?: TrailLocation[];
-    createdAt: string;
-    updatedAt: string;
-    userId: string;
+    createdBy: string | null;
+    createdAt: string; // ISO date string
+    updatedBy: string | null;
+    updatedAt: string; // ISO date string
 }

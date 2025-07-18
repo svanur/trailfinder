@@ -3,7 +3,7 @@ using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Core.DTOs.Race.Response;
 
-public class RaceDto
+public class RaceDto : BaseDto
 {
     public RaceDto()
     {
@@ -19,9 +19,10 @@ public class RaceDto
         int recurringMonth,
         int recurringWeek,
         int recurringWeekday,
+        Guid createdBy,
         DateTime createdAt,
-        DateTime updatedAt,
-        Guid userId
+        Guid? updatedBy,
+        DateTime? updatedAt
     )
     {
         Id = id;
@@ -35,13 +36,13 @@ public class RaceDto
         RecurringWeek = recurringWeek;
         RecurringWeekday = recurringWeekday;
 
+        CreatedBy = createdBy;
         CreatedAt = createdAt;
+        UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
-        UserId = userId;
     }
 
-    public Guid Id { get; set; }
-
+    public Guid LocationId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
@@ -53,9 +54,5 @@ public class RaceDto
     private int RecurringWeek { get; set; }
     private int RecurringWeekday { get; set; }
 
-    public IEnumerable<RaceLocationDto> RaceLocations { get; set; }
-
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-    public Guid UserId { get; set; }
+    public IEnumerable<RaceLocationDto>? RaceLocations { get; set; }
 }

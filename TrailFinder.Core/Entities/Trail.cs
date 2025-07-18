@@ -14,13 +14,16 @@ public class Trail : BaseEntity
         Guid id,
         string name,
         string description,
-        double distance,
-        double elevationGain,
+        decimal distance,
+        decimal elevationGain,
         DifficultyLevel difficultyLevel,
         RouteType routeType,
         TerrainType terrainType,
         SurfaceType surfaceType,
-        Guid userId
+        Guid createdBy,
+        DateTime createdAt,
+        Guid updatedBy,
+        DateTime updatedAt
     )
     {
         Id = id;
@@ -34,20 +37,21 @@ public class Trail : BaseEntity
         TerrainType = terrainType;
         SurfaceType = surfaceType;
 
-        UserId = userId;
-        CreatedAt = DateTime.UtcNow;
-        UpdatedAt = DateTime.UtcNow;
+        CreatedBy = createdBy;
+        CreatedAt = createdAt;
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
     }
     //private static readonly GeometryFactory GeometryFactory = 
     //    new GeometryFactory(new PrecisionModel(), 4326);
 
-    public string Name { get; private set; } = null!;
+    public string Name { get; set; } = null!;
     public string Slug { get; private set; } = null!;
-    public string Description { get; private set; } = null!;
+    public string Description { get; set; } = null!;
 
-    public double Distance { get; set; }
+    public decimal Distance { get; set; }
 
-    public double ElevationGain { get; set; }
+    public decimal ElevationGain { get; set; }
 
     public DifficultyLevel DifficultyLevel { get; set; }
     public RouteType RouteType { get; set; }
@@ -55,7 +59,7 @@ public class Trail : BaseEntity
     public SurfaceType SurfaceType { get; set; }
 
     public LineString? RouteGeom { get; set; }
-    public string? WebUrl { get; private set; }
+    public string? WebUrl { get; set; }
 
     // For EF Core to understand the relationships and use Include,
     // one needs navigation properties in the entity classes

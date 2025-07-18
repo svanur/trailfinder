@@ -76,18 +76,22 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
         builder.Property(t => t.CreatedAt)
             .HasColumnName("created_at")
             .HasColumnType("timestamp with time zone")
-            .IsRequired()
-            .ValueGeneratedOnAdd();
+            .ValueGeneratedOnAdd(); // Only set ValueGeneratedOnAdd if DB defaults it
 
         builder.Property(t => t.UpdatedAt)
             .HasColumnName("updated_at")
             .HasColumnType("timestamp with time zone")
-            .IsRequired()
-            .ValueGeneratedOnUpdate();
+            .ValueGeneratedOnUpdate(); // Only set ValueGeneratedOnUpdate if DB defaults it
 
-        builder.Property(t => t.UserId)
-            .HasColumnName("user_id")
+        // User IDs
+        builder.Property(t => t.CreatedBy)
+            .HasColumnName("created_by")
             .HasColumnType("uuid");
+        
+        builder.Property(t => t.UpdatedBy)
+            .HasColumnName("updated_by")
+            .HasColumnType("uuid")
+            .IsRequired(false);
 
         //
         // Indices
@@ -95,7 +99,7 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
         builder.HasIndex(t => t.Slug)
             .IsUnique();
 
-        builder.HasIndex(t => t.UserId);
+        builder.HasIndex(t => t.CreatedBy);
 
         builder.HasIndex(t => t.RouteGeom)
             .HasMethod("GIST");

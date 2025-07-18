@@ -6,7 +6,7 @@ using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Core.DTOs.Trails.Responses;
 
-public class TrailDto
+public class TrailDto : BaseDto
 {
     public TrailDto()
     {
@@ -27,9 +27,10 @@ public class TrailDto
         GpxPoint startGpxPoint,
         GpxPoint endGpxPoint,
         string? webUrl,
+        Guid createdBy,
         DateTime createdAt,
-        DateTime updatedAt,
-        Guid userId
+        Guid? updatedBy,
+        DateTime? updatedAt
     )
     {
         Id = id;
@@ -45,13 +46,13 @@ public class TrailDto
         
         RouteGeom = routeGeom;
         WebUrl = webUrl;
+
+        CreatedBy = createdBy;
         CreatedAt = createdAt;
+        UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
-        UserId = userId;
     }
-
-    public Guid Id { get; set; }
-
+    
     public string Name { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
@@ -75,8 +76,5 @@ public class TrailDto
     public string? WebUrl { get; set; }
 
     public IEnumerable<TrailLocationDto> TrailLocations { get; set; }
-
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-    public Guid UserId { get; set; }
+    
 }

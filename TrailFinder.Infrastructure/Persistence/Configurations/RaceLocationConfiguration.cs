@@ -24,7 +24,7 @@ public class RaceLocationConfiguration : IEntityTypeConfiguration<RaceLocation>
 
         builder.Property(t => t.RaceId)
             .HasColumnName("race_id");
-        
+
         builder.Property(t => t.LocationId)
             .HasColumnName("location_id");
 
@@ -43,8 +43,8 @@ public class RaceLocationConfiguration : IEntityTypeConfiguration<RaceLocation>
         builder.Property(t => t.DisplayOrder)
             .HasColumnName("display_order")
             .HasColumnType("numeric"); // Map numeric to int? or decimal? based on usage
-                                        // If it's always integers, `int?` in C# and `numeric` in DB is fine.
-                                        // EF Core generally handles this, but explicitly setting `numeric` can help.
+        // If it's always integers, `int?` in C# and `numeric` in DB is fine.
+        // EF Core generally handles this, but explicitly setting `numeric` can help.
 
         // Timestamps
         builder.Property(t => t.CreatedAt)
@@ -57,9 +57,15 @@ public class RaceLocationConfiguration : IEntityTypeConfiguration<RaceLocation>
             .HasColumnType("timestamp with time zone")
             .ValueGeneratedOnUpdate(); // Only set ValueGeneratedOnUpdate if DB defaults it
 
-        builder.Property(t => t.UserId)
-            .HasColumnName("user_id")
+        // User IDs
+        builder.Property(t => t.CreatedBy)
+            .HasColumnName("created_by")
             .HasColumnType("uuid");
+
+        builder.Property(t => t.UpdatedBy)
+            .HasColumnName("updated_by")
+            .HasColumnType("uuid")
+            .IsRequired(false);
 
         // Add foreign key relationships (EF Core needs these for navigation properties)
         // Add foreign key relationships (EF Core needs these for navigation properties)

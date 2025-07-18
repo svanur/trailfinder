@@ -99,13 +99,14 @@ public class TrailsController : BaseApiController
             return HandleException(ex);
         }
     }
-    
+    /*
     [HttpPut("{trailId:guid}/info")]
     public async Task<ActionResult> UpdateTrailGpxInfo(Guid trailId, UpdateGpxInfoDto gpxInfo)
     {
         try
         {
             var command = new UpdateTrailCommand(
+                
                 trailId,
                 gpxInfo.Distance,
                 gpxInfo.ElevationGain,
@@ -127,6 +128,7 @@ public class TrailsController : BaseApiController
             return HandleException(ex);
         }
     }
+    */
 
     [HttpPost("{trailId:guid}/gpx")]
     public async Task<ActionResult> UploadTrailGpx(Guid trailId, IFormFile file)
@@ -179,4 +181,19 @@ public class TrailsController : BaseApiController
     //     var trailId = await _mediator.Send(command);
     //     return Ok(trailId);
     // }
+    
+    /*
+    // Example Controller Action (ASP.NET Core C#)
+    [HttpPut("trails/{id}")] // Id is passed in the URL
+    public async Task<IActionResult> UpdateTrail(Guid id, [FromBody] UpdateTrailDto updateDto)
+    {
+        // 1. Fetch the existing trail from the database using 'id'.
+        // 2. Apply the nullable properties from 'updateDto' to the existing trail entity.
+        //    (e.g., if Name is not null in updateDto, update the trail's name)
+        // 3. Set the 'UpdatedBy' field on the entity from updateDto.UpdatedBy.
+        // 4. Set the 'UpdatedAt' field on the entity to DateTime.UtcNow.
+        // 5. Save the updated entity to the database.
+        // 6. Return appropriate response (e.g., NoContent, Ok with updated DTO).
+    }
+    */
 }

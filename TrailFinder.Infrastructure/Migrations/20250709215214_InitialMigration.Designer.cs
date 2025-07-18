@@ -95,7 +95,7 @@ namespace TrailFinder.Infrastructure.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("locations", (string)null);
                 });
@@ -169,7 +169,7 @@ namespace TrailFinder.Infrastructure.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("races", (string)null);
                 });
@@ -304,7 +304,7 @@ namespace TrailFinder.Infrastructure.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("trails", (string)null);
                 });

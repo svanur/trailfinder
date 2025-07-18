@@ -57,9 +57,15 @@ public class TrailLocationConfiguration : IEntityTypeConfiguration<TrailLocation
             .HasColumnType("timestamp with time zone")
             .ValueGeneratedOnUpdate(); // Only set ValueGeneratedOnUpdate if DB defaults it
 
-        builder.Property(t => t.UserId)
-            .HasColumnName("user_id")
+        // User IDs
+        builder.Property(t => t.CreatedBy)
+            .HasColumnName("created_by")
             .HasColumnType("uuid");
+        
+        builder.Property(t => t.UpdatedBy)
+            .HasColumnName("updated_by")
+            .HasColumnType("uuid")
+            .IsRequired(false);
 
         // Add foreign key relationships (EF Core needs these for navigation properties)
         builder.HasOne(tl => tl.Trail)
