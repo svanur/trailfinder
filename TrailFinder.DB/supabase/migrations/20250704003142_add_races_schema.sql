@@ -11,9 +11,10 @@ create table public.races
     recurring_week    smallint null,
     recurring_weekday smallint null,
 
-    user_id           UUID REFERENCES auth.users (id) NOT NULL,
-    created_at        timestamp with time zone not null default now(),
-    updated_at        TIMESTAMPTZ                       DEFAULT NOW(),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    created_by UUID REFERENCES auth.users(id) NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_by UUID REFERENCES auth.users(id),
 
     constraint races_location_id_fkey foreign KEY (location_id) references locations (id)
 );

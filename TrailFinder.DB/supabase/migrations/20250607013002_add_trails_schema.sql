@@ -20,11 +20,11 @@ CREATE TABLE trails (
                         route_geom geometry(LINESTRINGZ, 4326),
 
                         web_url TEXT,
-    
+
                         created_at TIMESTAMPTZ DEFAULT NOW(),
                         created_by UUID REFERENCES auth.users(id) NOT NULL,
                         updated_at TIMESTAMPTZ DEFAULT NOW(),
-                        updated_by UUID REFERENCES auth.users(id) NOT NULL
+                        updated_by UUID REFERENCES auth.users(id)
 );
 
 -- Create index for spatial queries
@@ -61,18 +61,18 @@ SELECT
 CREATE
 POLICY "Users can insert their own trails"
     ON trails FOR INSERT
-    WITH CHECK (auth.uid() = user_id);
+    WITH CHECK (auth.uid() = created_by);
 
 CREATE
 POLICY "Users can update own trails"
     ON trails FOR
 UPDATE
-    USING (auth.uid() = user_id);
+    USING (auth.uid() = created_by);
 
 CREATE
 POLICY "Users can delete own trails"
     ON trails FOR DELETE
-USING (auth.uid() = user_id);
+USING (auth.uid() = created_by);
 
 -- Create slugify function
 CREATE
