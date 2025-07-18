@@ -13,7 +13,7 @@ const pool = new Pool({
 
 async function updateTrailsGpxInfo() {
     try {
-        const result = await pool.query('SELECT id, name FROM trails WHERE has_gpx = true');
+        const result = await pool.query('SELECT id, name FROM trails WHERE route_geom IS NOT NULL');
 
         for (const trail of result.rows) {
             const trailId = trail.id;

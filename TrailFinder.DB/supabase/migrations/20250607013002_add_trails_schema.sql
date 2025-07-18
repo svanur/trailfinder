@@ -20,11 +20,11 @@ CREATE TABLE trails (
                         route_geom geometry(LINESTRINGZ, 4326),
 
                         web_url TEXT,
-                        has_gpx BOOLEAN,
     
-                        user_id UUID REFERENCES auth.users(id) NOT NULL,
                         created_at TIMESTAMPTZ DEFAULT NOW(),
-                        updated_at TIMESTAMPTZ DEFAULT NOW()
+                        created_by UUID REFERENCES auth.users(id) NOT NULL,
+                        updated_at TIMESTAMPTZ DEFAULT NOW(),
+                        updated_by UUID REFERENCES auth.users(id) NOT NULL
 );
 
 -- Create index for spatial queries

@@ -13,7 +13,7 @@ const pool = new Pool({
 
 async function updateTrailsGpxInfo() {
     try {
-        const result = await pool.query('SELECT * FROM trails WHERE has_gpx = true LIMIT 1;');
+        const result = await pool.query('SELECT * FROM trails WHERE route_geom IS NOT NULL LIMIT 1;');
 
         if (result.rowCount === 0) {
             console.info('No trail was found :( ');

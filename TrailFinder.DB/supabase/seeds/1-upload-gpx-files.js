@@ -55,9 +55,7 @@ async function uploadGpxFiles() {
                 console.error(`Error uploading ${file}:`, error);
                 continue;
             }
-
-            await pool.query('UPDATE trails SET has_gpx = true WHERE id = $1', [trailId]);
-
+            
             console.log(`Successfully uploaded ${file} to ${slug}/${trailId}.gpx`);
         }
     }

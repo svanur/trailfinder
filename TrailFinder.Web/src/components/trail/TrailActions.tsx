@@ -76,7 +76,7 @@ const TrailActions: React.FC<TrailActionsProps> = ({ trail }) => {
                 onClick={handleQrCode}
             />
 
-            {trail.hasGpx && (
+            {trail.routeGeom != null && (
                 <div className="contents">
                     <TrailGpxDownload trail={trail} />
                 </div>

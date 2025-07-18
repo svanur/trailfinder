@@ -10,7 +10,5 @@ public record UpdateTrailDto(
     DifficultyLevel? DifficultyLevel,
     RouteType? RouteType,
     TerrainType? TerrainType,
- 
-    string? WebUrl,
-    bool HasGpx //TODO ?
+    string? WebUrl
 );

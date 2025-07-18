@@ -61,13 +61,6 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
         builder.Property(t => t.SurfaceType)
             .HasColumnName("surface_type");
 
-        // Boolean property
-        builder.Property(t => t.HasGpx)
-            .HasColumnName("has_gpx")
-            .HasColumnType("boolean")
-            .IsRequired()
-            .HasDefaultValue(false);
-
         builder.Property(t => t.RouteGeom)
             .HasColumnName("route_geom")
             .HasColumnType("geometry(LineStringZ, 4326)") // Changed from LineString to LineStringZ

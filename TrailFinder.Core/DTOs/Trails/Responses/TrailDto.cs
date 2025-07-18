@@ -27,7 +27,6 @@ public class TrailDto
         GpxPoint startGpxPoint,
         GpxPoint endGpxPoint,
         string? webUrl,
-        bool hasGpx,
         DateTime createdAt,
         DateTime updatedAt,
         Guid userId
@@ -46,7 +45,6 @@ public class TrailDto
         
         RouteGeom = routeGeom;
         WebUrl = webUrl;
-        HasGpx = hasGpx;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         UserId = userId;
@@ -75,7 +73,6 @@ public class TrailDto
     public LineString? RouteGeom { get; set; }
 
     public string? WebUrl { get; set; }
-    public bool HasGpx { get; set; }
 
     public IEnumerable<TrailLocationDto> TrailLocations { get; set; }
 

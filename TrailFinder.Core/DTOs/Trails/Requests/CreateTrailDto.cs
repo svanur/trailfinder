@@ -15,6 +15,5 @@ public record CreateTrailDto(
     SurfaceType SurfaceType,
  
     string? WebUrl,
-    bool HasGpx,
     Guid UserId
 );

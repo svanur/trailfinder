@@ -247,12 +247,6 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasColumnType("double precision")
                         .HasColumnName("elevation_gain");
 
-                    b.Property<bool>("HasGpx")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false)
-                        .HasColumnName("has_gpx");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
