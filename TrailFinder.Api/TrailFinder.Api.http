@@ -9,10 +9,6 @@ Accept: application/json
 GET {{hostAddress}}/api/trails/{{trailId}}
 Accept: application/json
 
-### Get GpxInfo for specific trail
-GET {{hostAddress}}/api/trails/{{trailId}}/info
-Accept: application/json
-
 ### Get a specific trail by slug
 GET {{hostAddress}}/api/trails/esja-ultra-marathon
 Accept: application/json
