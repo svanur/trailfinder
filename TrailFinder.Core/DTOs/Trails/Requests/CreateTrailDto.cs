@@ -15,8 +15,8 @@ public record CreateTrailDto(
     TerrainType TerrainType,
     SurfaceType SurfaceType,
     LineString? RouteGeom,
-    GpxPoint StartGpxPoint,
-    GpxPoint EndGpxPoint,
+    //GpxPoint StartGpxPoint,
+    //GpxPoint EndGpxPoint,
     string? WebUrl,
     Guid CreatedBy
 );

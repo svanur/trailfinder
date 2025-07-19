@@ -46,12 +46,12 @@ CREATE TABLE public.gpx_files
     is_active BOOLEAN DEFAULT TRUE NOT NULL,
 
     -- Audit fields
-    created_at         TIMESTAMPTZ      DEFAULT NOW() NOT NULL, -- Added NOT NULL
+    created_at         TIMESTAMPTZ      DEFAULT NOW() NOT NULL,
     -- User who uploaded the GPX file (references auth.users table)
     created_by         UUID REFERENCES auth.users (id) NOT NULL,
 
     -- Timestamp of the last update, managed by a database trigger.
-    updated_at         TIMESTAMPTZ, -- No DEFAULT NOW() here, as the trigger handles it on update.
+    updated_at         TIMESTAMPTZ, 
     updated_by         UUID REFERENCES auth.users (id) -- User who last updated the metadata.
 );
 

@@ -35,7 +35,11 @@ public class GpxFileRepository : IGpxFileRepository
         // Get by TrailId, ensuring it's active
         return await _dbContext.GpxFiles
             .AsNoTracking()
-            .FirstOrDefaultAsync(gf => gf.TrailId == trailId && gf.IsActive, cancellationToken);
+            .FirstOrDefaultAsync(
+                gf => gf.TrailId == trailId
+                      && gf.IsActive, 
+                cancellationToken
+            );
     }
 
     public async Task<GpxFile?> GetByStoragePathAsync(string storagePath, CancellationToken cancellationToken = default)
@@ -58,16 +62,12 @@ public class GpxFileRepository : IGpxFileRepository
 
         // Apply sorting (basic example, can be extended with property mapping)
         if (!string.IsNullOrEmpty(sortBy))
-        {
             query = sortDescending
                 ? query.OrderByDescending(e => EF.Property<object>(e, sortBy))
                 : query.OrderBy(e => EF.Property<object>(e, sortBy));
-        }
         else
-        {
             // Default sort order if none specified
             query = query.OrderBy(e => e.CreatedAt);
-        }
 
         var totalCount = await query.CountAsync(cancellationToken);
         var items = await query
@@ -111,7 +111,8 @@ public class GpxFileRepository : IGpxFileRepository
         }
         catch (DbUpdateConcurrencyException ex)
         {
-            _logger.LogWarning(ex, "Concurrency conflict when updating GPX file metadata record ID: {GpxFileId}.", entity.Id);
+            _logger.LogWarning(ex, "Concurrency conflict when updating GPX file metadata record ID: {GpxFileId}.",
+                entity.Id);
             return null; // Or throw a specific concurrency exception
         }
         catch (Exception ex)
@@ -148,7 +149,9 @@ public class GpxFileRepository : IGpxFileRepository
     // Specific method for soft deletion if you want to pass updatedBy
     public async Task<bool> SoftDeleteAsync(Guid id, Guid updatedBy, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Attempting to soft delete GPX file metadata record with ID: {GpxFileId} by user {UpdatedBy}", id, updatedBy);
+        _logger.LogInformation(
+            "Attempting to soft delete GPX file metadata record with ID: {GpxFileId} by user {UpdatedBy}", id,
+            updatedBy);
 
         var gpxFile = await _dbContext.GpxFiles.FirstOrDefaultAsync(gf => gf.Id == id, cancellationToken);
         if (gpxFile == null)
@@ -162,7 +165,9 @@ public class GpxFileRepository : IGpxFileRepository
         // The trigger will set UpdatedAt
 
         await _dbContext.SaveChangesAsync(cancellationToken);
-        _logger.LogInformation("GPX file metadata record with ID: {GpxFileId} soft deleted successfully by user {UpdatedBy}.", id, updatedBy);
+        _logger.LogInformation(
+            "GPX file metadata record with ID: {GpxFileId} soft deleted successfully by user {UpdatedBy}.", id,
+            updatedBy);
         return true;
     }
 }

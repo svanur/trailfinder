@@ -80,13 +80,13 @@ Content-Type: multipart/form-data
 Content-Disposition: form-data; name="file"; filename="my-test-trail.gpx"
 Content-Type: application/gpx+xml
 
-<C:\path\to\your\file.gpx  // <-- IMPORTANT: Replace with actual local path to your GPX file
+C:\dev\trailfinder\TrailFinder.DB\supabase\seeds\gpx-files\esja-ultra-marathon.gpx
 --boundary_string--
 
 
 ### Get GPX file metadata for a specific trail
-# This fetches the metadata stored in your gpx_files table
-GET {{hostAddress}}/api/trails/{{trailId}}/gpx-files/metadata  // Assuming you add this endpoint
+# This fetches the metadata stored in your gpx_files table // TODO: add this endpoint
+GET {{hostAddress}}/api/trails/{{trailId}}/gpx-files/metadata
 Accept: application/json
 
 

@@ -1,6 +1,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TrailFinder.Application.Features.Trails.Commands.CreateTrail;
 using TrailFinder.Application.Features.Trails.Commands.UpdateTrail;
 using TrailFinder.Application.Features.Trails.Queries.GetTrail;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
@@ -12,6 +13,9 @@ using TrailFinder.Core.Interfaces.Services;
 
 namespace TrailFinder.Api.Controllers;
 
+/// <summary>
+/// Controller responsible for handling trail-related API operations.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class TrailsController : BaseApiController
@@ -95,7 +99,7 @@ public class TrailsController : BaseApiController
         try
         {
             // 1. Construct the command directly from the incoming parameters
-            var command = new UpdateTrailCommand(
+            var updateTrailCommand = new UpdateTrailCommand(
                 trailId, // Pass the trailId from the route
                 updateTrailDto.Name,
                 updateTrailDto.Description,
@@ -113,7 +117,7 @@ public class TrailsController : BaseApiController
             // 2. Send the command to MediatR.
             //    The MediatR pipeline (including the handler and FluentValidation)
             //    will handle all the business logic and persistence.
-            await _mediator.Send(command);
+            await _mediator.Send(updateTrailCommand);
 
             // 3. Return an appropriate HTTP response.
             //    204 No Content is often used for successful PUT/updates that don't return new data.
@@ -141,6 +145,59 @@ public class TrailsController : BaseApiController
         {
             // Catch any other unexpected exceptions.
             // HandleException() should log the error and return a generic 500 Internal Server Error.
+            return HandleException(ex);
+        }
+    }
+    
+    // [HttpPost]
+    // public async Task<ActionResult<int>> Create(CreateTrailDto dto)
+    // {
+    //     var command = CreateTrailCommand.FromDto(dto);
+    //     var trailId = await _mediator.Send(command);
+    //     return Ok(trailId);
+    // }
+    
+    [HttpPost("trails")]
+    public async Task<IActionResult> CreateTrail(
+        [FromBody] CreateTrailDto createTrailDto
+    )
+    {
+        try
+        {
+            var createTrailCommand = new CreateTrailCommand(
+                createTrailDto.Name,
+                createTrailDto.Description,
+                createTrailDto.Distance,
+                createTrailDto.ElevationGain,
+                createTrailDto.DifficultyLevel,
+                createTrailDto.RouteType,
+                createTrailDto.TerrainType,
+                createTrailDto.SurfaceType,
+                createTrailDto.RouteGeom,
+                createTrailDto.WebUrl,
+                createTrailDto.CreatedBy
+            );
+            
+            await _mediator.Send(createTrailCommand);
+
+            return NoContent(); // Or return Ok(); if you prefer
+        }
+        catch (TrailNotFoundException ex)
+        {
+            return NotFound(new ErrorResponse { Message = ex.Message });
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new ErrorResponse
+            {
+                Message = "Validation failed",
+                Details = ex.Errors
+                    .Select(e => e.ErrorMessage)
+                    .ToString()
+            });
+        }
+        catch (Exception ex)
+        {
             return HandleException(ex);
         }
     }
