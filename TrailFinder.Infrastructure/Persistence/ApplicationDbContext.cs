@@ -36,5 +36,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         modelBuilder.ApplyConfiguration(new RaceConfiguration());
         modelBuilder.ApplyConfiguration(new RaceTrailConfiguration());
         modelBuilder.ApplyConfiguration(new RaceLocationConfiguration());
+        modelBuilder.ApplyConfiguration(new GpxFilesConfiguration());
     }
 }
