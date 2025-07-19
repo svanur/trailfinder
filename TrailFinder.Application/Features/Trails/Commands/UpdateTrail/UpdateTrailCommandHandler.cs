@@ -60,18 +60,18 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
                 request.TrailId, trailToUpdate.Description, request.Description, request.UpdatedBy);
         }
         
-        if (request.Distance.HasValue && !request.Distance.Value.Equals(trailToUpdate.Distance))
+        if (request.Distance.HasValue && !request.Distance.Value.Equals(trailToUpdate.DistanceMeters))
         {
-            trailToUpdate.Distance = request.Distance.Value;
+            trailToUpdate.DistanceMeters = request.Distance.Value;
             _logger.LogInformation("Trail {RequestTrailId}: Distance changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
-                request.TrailId, trailToUpdate.Distance, request.Distance, request.UpdatedBy);
+                request.TrailId, trailToUpdate.DistanceMeters, request.Distance, request.UpdatedBy);
         }
 
-        if (request.ElevationGain.HasValue && !request.ElevationGain.Value.Equals((trailToUpdate.ElevationGain)))
+        if (request.ElevationGain.HasValue && !request.ElevationGain.Value.Equals((trailToUpdate.ElevationGainMeters)))
         {
-            trailToUpdate.ElevationGain = request.ElevationGain.Value;
+            trailToUpdate.ElevationGainMeters = request.ElevationGain.Value;
             _logger.LogInformation("Trail {RequestTrailId}: ElevationGain changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
-                request.TrailId, trailToUpdate.ElevationGain, request.ElevationGain, request.UpdatedBy);
+                request.TrailId, trailToUpdate.ElevationGainMeters, request.ElevationGain, request.UpdatedBy);
         }
 
         if (request.DifficultyLevel.HasValue && request.DifficultyLevel.Value != trailToUpdate.DifficultyLevel)

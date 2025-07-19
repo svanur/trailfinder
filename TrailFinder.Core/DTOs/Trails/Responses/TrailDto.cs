@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 using NetTopologySuite.Geometries;
 using TrailFinder.Core.DTOs.Gpx;
@@ -17,8 +18,8 @@ public class TrailDto : BaseDto
         string name,
         string slug,
         string description,
-        double distance,
-        double elevationGain,
+        double distanceMeters,
+        double elevationGainMeters,
         DifficultyLevel difficultyLevel,
         RouteType routeType,
         TerrainType terrainType,
@@ -37,8 +38,8 @@ public class TrailDto : BaseDto
         Name = name;
         Slug = slug;
         Description = description;
-        Distance = distance;
-        ElevationGain = elevationGain;
+        DistanceMeters = distanceMeters;
+        ElevationGainMeters = elevationGainMeters;
         DifficultyLevel = difficultyLevel;
         RouteType = routeType;
         TerrainType = terrainType;
@@ -58,10 +59,11 @@ public class TrailDto : BaseDto
     public string Description { get; set; } = string.Empty;
 
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
-    public double? Distance { get; set; }
+    public double? DistanceMeters { get; set; }
+    public double DistanceKm { get; set; }
 
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
-    public double? ElevationGain { get; set; }
+    public double? ElevationGainMeters { get; set; }
 
     public DifficultyLevel? DifficultyLevel { get; set; }
     public RouteType? RouteType { get; set; }

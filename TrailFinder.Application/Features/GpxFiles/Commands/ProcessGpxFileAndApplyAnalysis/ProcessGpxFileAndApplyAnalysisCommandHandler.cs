@@ -86,8 +86,8 @@ public class ProcessGpxFileAndApplyAnalysisCommandHandler(
         }
 
         logger.LogInformation("Updating Trail ID: {TrailId} with analysis results...", request.TrailId);
-        trailToUpdate.Distance = request.AnalyzedDistance;
-        trailToUpdate.ElevationGain = request.AnalyzedElevationGain;
+        trailToUpdate.DistanceMeters = request.AnalyzedDistance;
+        trailToUpdate.ElevationGainMeters = request.AnalyzedElevationGain;
         trailToUpdate.DifficultyLevel = request.AnalyzedDifficultyLevel;
         trailToUpdate.RouteType = request.AnalyzedRouteType;
         trailToUpdate.TerrainType = request.AnalyzedTerrainType;

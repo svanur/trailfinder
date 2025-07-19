@@ -41,12 +41,12 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasMaxLength(2000);
 
         // Numeric properties
-        builder.Property(t => t.Distance)
+        builder.Property(t => t.DistanceMeters)
             .HasColumnName("distance_meters")
             .HasConversion<DoubleToIntConverter>()
             .IsRequired();
 
-        builder.Property(t => t.ElevationGain)
+        builder.Property(t => t.ElevationGainMeters)
             .HasColumnName("elevation_gain_meters")
             .HasConversion<int>()
             .IsRequired();
