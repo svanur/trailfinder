@@ -3,26 +3,26 @@ using Microsoft.AspNetCore.Mvc;
 using TrailFinder.Core.Exceptions;
 using TrailFinder.Core.Interfaces.Services;
 using TrailFinder.Application.Features.Trails.Queries.GetTrail;
+using TrailFinder.Application.Features.GpxFiles.Commands.CreateGpxFileMetadata; // New command
 using System.IO;
 using System.Threading.Tasks;
+using TrailFinder.Core.DTOs.Trails.Responses; // Assuming GetTrailQuery returns this or similar
 
 namespace TrailFinder.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]/{trailId:guid}")]
+[Route("api/trails/{trailId:guid}/gpx-files")] // Updated route to be more precise
 public class GpxFilesController(
     ILogger<BaseApiController> logger,
     IMediator mediator,
-    ISupabaseStorageService storageService // Keep storage service here, or wrap in command
-)
-    : BaseApiController(logger) // Assuming BaseApiController handles common logging and exception mapping
+    ISupabaseStorageService storageService
+) : BaseApiController(logger)
 {
     private readonly IMediator _mediator = mediator;
     private readonly ISupabaseStorageService _storageService = storageService;
 
-
-    [HttpPost("upload")]
-    [Consumes("multipart/form-data")] // Explicitly state the content type
+    [HttpPost("upload")] // Route: api/trails/{trailId}/gpx-files/upload
+    [Consumes("multipart/form-data")]
     public async Task<ActionResult> Upload(Guid trailId, IFormFile file)
     {
         try
@@ -32,78 +32,57 @@ public class GpxFilesController(
                 return BadRequest("No file was uploaded or file is empty.");
             }
 
-            // Basic file type validation (can be more robust with content type checks too)
             if (!file.FileName.EndsWith(".gpx", StringComparison.OrdinalIgnoreCase))
             {
                 return BadRequest("File must be a GPX file.");
             }
 
-            // Use MediatR to get the trail slug
+            // Get Trail details (including slug) from the MediatR query
+            // Change to GetTrailDetailsQuery or similar if GetTrailQuery returns just the entity.
             var trail = await _mediator.Send(new GetTrailQuery(trailId));
 
             if (trail == null)
             {
-                // Let TrailNotFoundException be handled by your BaseApiController's HandleException or a middleware
                 throw new TrailNotFoundException(trailId);
             }
 
-            // Stream should be opened and kept alive for the upload operation
-            // No need for MemoryStream if storageService can take IFormFile.OpenReadStream() directly
             await using var stream = file.OpenReadStream();
 
-            var success = await _storageService.UploadGpxFileAsync(
-                trailId,
-                trail.Slug,
+            // Construct the storage path using your defined schema's logic
+            // Assuming storage_path should be: {trail.Slug}/{trailId}/{file.FileName}
+            // And file_name should be: file.FileName
+            var sanitizedFileName = Path.GetFileName(file.FileName); // Just in case, ensure no pathing in filename
+            var storagePath = $"{trail.Slug}/{trailId}/{sanitizedFileName}";
+
+            var uploadSuccess = await _storageService.UploadGpxFileAsync(
+                trailId, // Or perhaps just the storagePath?
+                trail.Slug, // This parameter might become redundant for upload if storagePath handles it
                 stream,
-                file.FileName);
+                sanitizedFileName); // Pass the final file name for storage service to potentially use
 
-            if (success)
+            if (!uploadSuccess)
             {
-                return Ok("GPX file uploaded successfully.");
+                _logger.LogError($"Failed to upload GPX file to Supabase for trail {trailId}.");
+                return StatusCode(500, "Failed to upload GPX file to storage.");
             }
 
-            _logger.LogError($"Failed to upload GPX file for trail {trailId}. Storage service returned false.");
-            return StatusCode(500, "Failed to upload GPX file due to an internal error.");
+            // File uploaded successfully to Supabase Storage, now create the metadata record
+            // You'll need to get the CreatedBy user ID, perhaps from claims or context
+            var createdByUserId = GetUserIdFromClaims(); // Implement this helper method
 
-        }
-        // Catch specific exceptions first if BaseApiController doesn't map them
-        catch (TrailNotFoundException ex)
-        {
-            return NotFound(new ErrorResponse { Message = ex.Message }); // Assuming ErrorResponse is defined
-        }
-        catch (Exception ex)
-        {
-            // Delegate to BaseApiController's general exception handler
-            return HandleException(ex);
-        }
-    }
+            var createMetadataCommand = new CreateGpxFileMetadataCommand(
+                TrailId: trailId,
+                StoragePath: storagePath,
+                OriginalFileName: file.FileName,
+                FileName: sanitizedFileName, // Using the sanitized version for the 'file_name' column
+                FileSize: file.Length,
+                ContentType: file.ContentType ?? "application/octet-stream", // Use provided content type or fallback
+                CreatedBy: createdByUserId
+            );
 
+            var gpxFileMetadataId = await _mediator.Send(createMetadataCommand);
 
-    [HttpGet("download")] // Changed to HttpGet for downloads
-    public async Task<ActionResult> Download(Guid trailId)
-    {
-        try
-        {
-            // Use MediatR to get the trail slug
-            var trail = await _mediator.Send(new GetTrailQuery(trailId));
-
-            if (trail == null)
-            {
-                throw new TrailNotFoundException(trailId);
-            }
-
-            var (fileStream, fileName) = await _storageService.DownloadGpxFileAsync(trailId, trail.Slug);
-
-            if (fileStream == null)
-            {
-                _logger.LogWarning($"GPX file not found for trail {trailId} (slug: {trail.Slug}).");
-                return NotFound($"GPX file not found for trail with ID {trailId}.");
-            }
-
-            // Set the content type and file name for the download
-            Response.Headers.Append("Content-Disposition", $"attachment; filename=\"{fileName}\"");
-            return File(fileStream, "application/gpx+xml"); // Standard GPX MIME type
-            // Or "application/octet-stream" if you want a generic download
+            return Ok(new { Message = "GPX file uploaded and metadata created successfully.", GpxFileMetadataId = gpxFileMetadataId });
         }
         catch (TrailNotFoundException ex)
         {
@@ -113,5 +92,49 @@ public class GpxFilesController(
         {
             return HandleException(ex);
         }
+    }
+
+    [HttpGet("download")] // Route: api/trails/{trailId}/gpx-files/download
+    public async Task<ActionResult> Download(Guid trailId)
+    {
+        try
+        {
+            // First, query the gpx_files metadata table to get the storage path and original filename
+            // You'll need a new MediatR query for this (e.g., GetGpxFileMetadataQuery)
+            var gpxMetadata = await _mediator.Send(new GetGpxFileMetadataQuery(trailId));
+
+            if (gpxMetadata == null)
+            {
+                _logger.LogWarning($"GPX file metadata not found for trail {trailId}.");
+                return NotFound($"No GPX file associated with trail ID {trailId}.");
+            }
+
+            // Use the storage_path from metadata to download the actual file
+            var (fileStream, downloadedFileName) = await _storageService.DownloadGpxFileAsync(
+                gpxMetadata.StoragePath); // Modify DownloadGpxFileAsync to take just storagePath
+
+            if (fileStream == null)
+            {
+                _logger.LogWarning($"GPX file not found in storage at path {gpxMetadata.StoragePath}. Metadata exists but file missing.");
+                // This could indicate a data inconsistency; might log as error.
+                return NotFound($"GPX file content not found for trail ID {trailId}.");
+            }
+
+            Response.Headers.Append("Content-Disposition", $"attachment; filename=\"{gpxMetadata.OriginalFileName}\"");
+            return File(fileStream, gpxMetadata.ContentType, gpxMetadata.OriginalFileName);
+        }
+        catch (Exception ex)
+        {
+            return HandleException(ex);
+        }
+    }
+
+    // You'll also need a helper for getting the user ID (e.g., from HttpContext.User.Claims)
+    private static Guid GetUserIdFromClaims()
+    {
+        // This is a placeholder. Implement proper JWT or authentication
+        // claim extraction here.
+        // Example: Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new UnauthorizedAccessException("User ID not found."));
+        return Guid.Parse("00000000-0000-0000-0000-000000000001"); // Dummy ID for now
     }
 }

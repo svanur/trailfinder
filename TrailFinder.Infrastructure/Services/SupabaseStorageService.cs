@@ -61,29 +61,35 @@ public class SupabaseStorageService : ISupabaseStorageService
         }
     }
     
-    public async Task<(Stream? fileStream, string? fileName)> DownloadGpxFileAsync(Guid trailId, string trailSlug)
+    public async Task<(Stream? fileStream, string? fileName)> DownloadGpxFileAsync(string storagePath)
     {
-        var filePath = $"{trailSlug}/{trailId}.gpx";
         try
         {
-            var bytes = await From(BucketName)
-                .Download(filePath, null);
+            var bytes = await From(BucketName).Download(storagePath, null);
 
-            if (bytes == null || bytes.Length == 0)
+            if (bytes.Length == 0)
             {
-                throw new FileNotFoundException($"GPX file not found at path {filePath}");
+                // This indicates file not found in storage, which is a common scenario.
+                // Don't throw FileNotFoundException here if you're returning null.
+                // Throw if you consider an empty file an error, otherwise return null stream.
+                return (null, null);
             }
 
             var stream = new MemoryStream(bytes);
 
-            // Or get from storage metadata when available
-            var retrievedFileName = trailSlug + "/" + trailId + ".gpx"; 
+            // Extract filename from storagePath for consistency.
+            // Or, better, the calling code (controller) will use the original_file_name from DB metadata.
+            // This returned fileName might not be strictly needed by the controller anymore.
+            var retrievedFileName = Path.GetFileName(storagePath);
 
             return (stream, retrievedFileName);
         }
         catch (Exception ex)
         {
-            throw new FileNotFoundException($"Error accessing GPX file for trail {trailId}: {ex.Message}", ex);
+            // Log the actual exception details here
+            _logger.LogError(ex, $"Error downloading GPX file from storage at path: {storagePath}");
+            // Re-throw if it's a critical error, or return (null, null) based on your error strategy
+            return (null, null); // Return nulls on error, let the caller handle NotFound
         }
     }
 }

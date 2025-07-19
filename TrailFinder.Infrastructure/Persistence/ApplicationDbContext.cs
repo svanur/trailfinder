@@ -18,6 +18,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<RaceTrail> RaceTrails { get; set; } = null!;
     public DbSet<RaceLocation> RaceLocations { get; set; } = null!;
     
+    public DbSet<GpxFile> GpxFiles { get; set; } = null!;
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
