@@ -20,4 +20,11 @@ public interface ISupabaseStorageService
     /// Returns a tuple containing the file's stream and its name. The stream is null if the file is not found.
     /// </returns>
     Task<(Stream? fileStream, string? fileName)> DownloadGpxFileAsync(string storagePath);
+
+    /// <summary>
+    /// Deletes a GPX file from the storage service based on the specified storage path.
+    /// </summary>
+    /// <param name="storagePath">The path of the GPX file to be deleted in the storage system.</param>
+    /// <returns>Returns a task representing the asynchronous operation. The task result contains a boolean value indicating whether the deletion was successful.</returns>
+    Task DeleteGpxFileAsync(string storagePath);
 }

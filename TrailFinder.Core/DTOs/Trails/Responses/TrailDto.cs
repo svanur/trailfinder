@@ -17,8 +17,8 @@ public class TrailDto : BaseDto
         string name,
         string slug,
         string description,
-        decimal distance,
-        decimal elevationGain,
+        double distance,
+        double elevationGain,
         DifficultyLevel difficultyLevel,
         RouteType routeType,
         TerrainType terrainType,
@@ -58,10 +58,10 @@ public class TrailDto : BaseDto
     public string Description { get; set; } = string.Empty;
 
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
-    public decimal? Distance { get; set; }
+    public double? Distance { get; set; }
 
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
-    public decimal? ElevationGain { get; set; }
+    public double? ElevationGain { get; set; }
 
     public DifficultyLevel? DifficultyLevel { get; set; }
     public RouteType? RouteType { get; set; }

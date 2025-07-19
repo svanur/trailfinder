@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetTopologySuite;
 using NetTopologySuite.Geometries;
+using TrailFinder.Application.Services;
 using TrailFinder.Contract.Persistence;
 using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.Enums;
@@ -37,7 +38,8 @@ public static class DependencyInjection
         services.AddScoped<ILocationRepository, LocationRepository>();
         services.AddScoped<IRaceRepository, RaceRepository>();
         services.AddScoped<IGpxFileRepository, GpxFileRepository>();
-
+        services.AddScoped<IGpxService , GpxService>();
+        
         // Add Supabase configuration
         services.Configure<SupabaseSettings>(settings =>
         {
@@ -57,7 +59,7 @@ public static class DependencyInjection
         services.AddTransient<IAnalyzer<List<GpxPoint>, RouteType>, RouteAnalyzer>();
         services.AddTransient<IAnalyzer<TerrainAnalysisInput, TerrainType>, TerrainAnalyzer>();
         services.AddTransient<IAnalyzer<DifficultyAnalysisInput, DifficultyLevel>, DifficultyAnalyzer>();
-        services.AddTransient<AnalysisService>(); // MyAnalysisService will resolve these
+        services.AddTransient<AnalysisService>();
         services.AddSingleton<GeometryFactory>(sp => NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326));
         
         return services;

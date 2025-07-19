@@ -74,14 +74,14 @@ Accept: application/json
 # Replace {{trailId}} with an actual valid Trail ID
 # Replace path/to/your/file.gpx with the actual local path to a GPX file
 POST {{hostAddress}}/api/trails/{{trailId}}/gpx-files/upload
-Content-Type: multipart/form-data
+Content-Type: multipart/form-data; boundary=----------Boundary12345
 
---boundary_string
-Content-Disposition: form-data; name="file"; filename="my-test-trail.gpx"
+------------Boundary12345
+Content-Disposition: form-data; name="file"; filename="laugavegur-ultra.gpx"
 Content-Type: application/gpx+xml
 
-C:\dev\trailfinder\TrailFinder.DB\supabase\seeds\gpx-files\esja-ultra-marathon.gpx
---boundary_string--
+< C:\dev\trailfinder\TrailFinder.DB\supabase\seeds\gpx-files\laugavegur-ultra.gpx
+------------Boundary12345--
 
 
 ### Get GPX file metadata for a specific trail

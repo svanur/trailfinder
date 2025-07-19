@@ -4,7 +4,9 @@ using TrailFinder.Core.Exceptions;
 using TrailFinder.Core.Interfaces.Services;
 using TrailFinder.Application.Features.Trails.Queries.GetTrail;
 using TrailFinder.Application.Features.GpxFiles.Commands.CreateGpxFileMetadata;
-using TrailFinder.Application.Features.GpxFiles.Queries.GetGpxFileMetadata; // New command
+using TrailFinder.Application.Features.GpxFiles.Commands.ProcessGpxFileAndApplyAnalysis;
+using TrailFinder.Application.Features.GpxFiles.Queries.GetGpxFileMetadata;
+using TrailFinder.Application.Services; // New command
 
 namespace TrailFinder.Api.Controllers;
 
@@ -17,13 +19,14 @@ namespace TrailFinder.Api.Controllers;
 public class GpxFilesController(
     ILogger<BaseApiController> logger,
     IMediator mediator,
-    ISupabaseStorageService storageService
+    ISupabaseStorageService storageService,
+    IGpxService gpxService
 ) : BaseApiController(logger)
 {
-    private readonly IMediator _mediator = mediator;
-    private readonly ISupabaseStorageService _storageService = storageService;
+    // Use the injected service
 
-    [HttpPost("upload")] // Route: api/trails/{trailId}/gpx-files/upload
+
+    [HttpPost("upload")]
     [Consumes("multipart/form-data")]
     public async Task<ActionResult> Upload(Guid trailId, IFormFile file)
     {
@@ -33,34 +36,31 @@ public class GpxFilesController(
             {
                 return BadRequest("No file was uploaded or file is empty.");
             }
-
             if (!file.FileName.EndsWith(".gpx", StringComparison.OrdinalIgnoreCase))
             {
                 return BadRequest("File must be a GPX file.");
             }
 
-            // Get Trail details (including slug) from the MediatR query
-            // Change to GetTrailDetailsQuery or similar if GetTrailQuery returns just the entity.
-            var trail = await _mediator.Send(new GetTrailQuery(trailId));
-
+            var trail = await mediator.Send(new GetTrailQuery(trailId));
             if (trail == null)
             {
                 throw new TrailNotFoundException(trailId);
             }
 
-            await using var stream = file.OpenReadStream();
+            // --- Step 1: Upload File to Supabase Storage ---
+            // Copy the file stream to a MemoryStream so it can be read multiple times (for upload and analysis)
+            await using var fileMemoryStream = new MemoryStream();
+            await file.OpenReadStream().CopyToAsync(fileMemoryStream);
+            fileMemoryStream.Position = 0; // Reset position for reading
 
-            // Construct the storage path using your defined schema's logic
-            // Assuming storage_path should be: {trail.Slug}/{trailId}/{file.FileName}
-            // And file_name should be: file.FileName
-            var sanitizedFileName = Path.GetFileName(file.FileName); // Just in case, ensure no pathing in filename
+            var sanitizedFileName = Path.GetFileName(file.FileName);
             var storagePath = $"{trail.Slug}/{trailId}/{sanitizedFileName}";
 
-            var uploadSuccess = await _storageService.UploadGpxFileAsync(
-                trailId, // Or perhaps just the storagePath?
-                trail.Slug, // This parameter might become redundant for upload if storagePath handles it
-                stream,
-                sanitizedFileName); // Pass the final file name for storage service to potentially use
+            var uploadSuccess = await storageService.UploadGpxFileAsync(
+                trailId, // Or adapt storage service to just take storagePath
+                trail.Slug,
+                fileMemoryStream, // Pass MemoryStream for upload
+                sanitizedFileName);
 
             if (!uploadSuccess)
             {
@@ -68,27 +68,43 @@ public class GpxFilesController(
                 return StatusCode(500, "Failed to upload GPX file to storage.");
             }
 
-            // File uploaded successfully to Supabase Storage, now create the metadata record
-            // You'll need to get the CreatedBy user ID, perhaps from claims or context
+            // --- Step 2: Analyze GPX File ---
+            fileMemoryStream.Position = 0; // Reset stream position again for analysis
+            var gpxAnalysisInfo = await gpxService.ExtractGpxInfo(fileMemoryStream);
+            
+            // --- Step 3: Dispatch Command to Process Analysis and Update DB ---
             var createdByUserId = GetUserIdFromClaims(); // Implement this helper method
 
-            var createMetadataCommand = new CreateGpxFileMetadataCommand(
+            var processCommand = new ProcessGpxFileAndApplyAnalysisCommand(
                 TrailId: trailId,
                 StoragePath: storagePath,
                 OriginalFileName: file.FileName,
-                FileName: sanitizedFileName, // Using the sanitized version for the 'file_name' column
+                FileName: sanitizedFileName,
                 FileSize: file.Length,
-                ContentType: file.ContentType ?? "application/octet-stream", // Use provided content type or fallback
-                CreatedBy: createdByUserId
+                ContentType: file.ContentType ?? "application/octet-stream",
+                CreatedBy: createdByUserId, // This user is the 'CreatedBy' for GpxFile and 'UpdatedBy' for Trail
+
+                // Analysis results
+                AnalyzedDistance: gpxAnalysisInfo.Distance,
+                AnalyzedElevationGain: gpxAnalysisInfo.ElevationGain,
+                AnalyzedDifficultyLevel: gpxAnalysisInfo.DifficultyLevel,
+                AnalyzedRouteType: gpxAnalysisInfo.RouteType,
+                AnalyzedTerrainType: gpxAnalysisInfo.TerrainType,
+                AnalyzedRouteGeom: gpxAnalysisInfo.RouteGeom
             );
 
-            var gpxFileMetadataId = await _mediator.Send(createMetadataCommand);
+            var gpxFileMetadataId = await mediator.Send(processCommand);
 
-            return Ok(new { Message = "GPX file uploaded and metadata created successfully.", GpxFileMetadataId = gpxFileMetadataId });
+            return Ok(new { Message = "GPX file uploaded, analyzed, and trail updated successfully.", GpxFileMetadataId = gpxFileMetadataId });
         }
         catch (TrailNotFoundException ex)
         {
             return NotFound(new ErrorResponse { Message = ex.Message });
+        }
+        catch (InvalidOperationException ex) // Catch errors from GpxService/AnalysisService
+        {
+            _logger.LogError(ex, "Error during GPX file analysis for trail {TrailId}.", trailId);
+            return BadRequest(new ErrorResponse { Message = $"GPX file analysis failed: {ex.Message}" });
         }
         catch (Exception ex)
         {
@@ -103,7 +119,7 @@ public class GpxFilesController(
         {
             // First, query the gpx_files metadata table to get the storage path and original filename
             // You'll need a new MediatR query for this (e.g., GetGpxFileMetadataQuery)
-            var gpxMetadata = await _mediator.Send(new GetGpxFileMetadataQuery(trailId));
+            var gpxMetadata = await mediator.Send(new GetGpxFileMetadataQuery(trailId));
 
             if (gpxMetadata == null)
             {
@@ -112,7 +128,7 @@ public class GpxFilesController(
             }
 
             // Use the storage_path from metadata to download the actual file
-            var (fileStream, downloadedFileName) = await _storageService.DownloadGpxFileAsync(
+            var (fileStream, downloadedFileName) = await storageService.DownloadGpxFileAsync(
                 gpxMetadata.StoragePath); // Modify DownloadGpxFileAsync to take just storagePath
 
             if (fileStream == null)
@@ -138,7 +154,7 @@ public class GpxFilesController(
         {
             // First, query the gpx_files metadata table to get the storage path and original filename
             // You'll need a new MediatR query for this (e.g., GetGpxFileMetadataQuery)
-            var gpxMetadata = await _mediator.Send(new GetGpxFileMetadataQuery(trailId));
+            var gpxMetadata = await mediator.Send(new GetGpxFileMetadataQuery(trailId));
 
             if (gpxMetadata == null)
             {

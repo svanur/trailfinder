@@ -14,8 +14,8 @@ public class Trail : BaseEntity
         Guid id,
         string name,
         string description,
-        decimal distance,
-        decimal elevationGain,
+        double distance,
+        double elevationGain,
         DifficultyLevel difficultyLevel,
         RouteType routeType,
         TerrainType terrainType,
@@ -49,9 +49,9 @@ public class Trail : BaseEntity
     public string Slug { get; private set; } = null!;
     public string Description { get; set; } = null!;
 
-    public decimal Distance { get; set; }
+    public double Distance { get; set; }
 
-    public decimal ElevationGain { get; set; }
+    public double ElevationGain { get; set; }
 
     public DifficultyLevel DifficultyLevel { get; set; }
     public RouteType RouteType { get; set; }

@@ -6,8 +6,8 @@ namespace TrailFinder.Core.DTOs.Trails.Requests;
 public record UpdateTrailDto(
     string? Name,
     string? Description,
-    decimal? Distance,
-    decimal? ElevationGain,
+    double? Distance,
+    double? ElevationGain,
     DifficultyLevel? DifficultyLevel,
     RouteType? RouteType,
     TerrainType? TerrainType,

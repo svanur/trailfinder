@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TrailFinder.Core.Entities;
+using TrailFinder.Infrastructure.Persistence.Converters;
 
 namespace TrailFinder.Infrastructure.Persistence.Configurations;
 
@@ -36,18 +37,19 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
 
         builder.Property(t => t.Description)
             .HasColumnName("description")
-            .IsRequired();
+            .IsRequired()
+            .HasMaxLength(2000);
 
         // Numeric properties
         builder.Property(t => t.Distance)
-            .HasColumnName("distance")
-            .HasColumnType("decimal(10,2)")
+            .HasColumnName("distance_meters")
+            .HasConversion<DoubleToIntConverter>()
             .IsRequired();
 
         builder.Property(t => t.ElevationGain)
-            .HasColumnName("elevation_gain")
-            .HasColumnType("double precision") // PostgreSQL type for double
-            .IsRequired(); // This is actually the default for non-nullable types
+            .HasColumnName("elevation_gain_meters")
+            .HasConversion<int>()
+            .IsRequired();
 
         builder.Property(t => t.DifficultyLevel)
             .HasColumnName("difficulty_level");

@@ -7,6 +7,7 @@ using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TrailFinder.Core.Enums;
 using TrailFinder.Infrastructure.Persistence;
+using TrailFinder.Infrastructure.Persistence.Converters;
 
 #nullable disable
 
@@ -43,7 +44,8 @@ namespace TrailFinder.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("description");
+                        .HasColumnName("description")
+                        .HasMaxLength(2000);
 
                     b.Property<double>("Latitude")
                         .HasColumnType("double precision")
@@ -107,7 +109,8 @@ namespace TrailFinder.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("description");
+                        .HasColumnName("description")
+                        .HasMaxLength(2000);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -239,20 +242,25 @@ namespace TrailFinder.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("description");
+                        .HasColumnName("description")
+                        .HasMaxLength(2000);
 
                     b.Property<DifficultyLevel?>("DifficultyLevel")
                         .HasColumnType("difficulty_level")
                         .HasColumnName("difficulty_level");
 
                     b.Property<double>("Distance")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("distance");
+                        .HasColumnType("int")
+                        .HasColumnName("distance_meters")
+                        .HasConversion<DoubleToIntConverter>()
+                        .IsRequired();
 
                     b.Property<double>("ElevationGain")
-                        .HasColumnType("double precision")
-                        .HasColumnName("elevation_gain");
-
+                        .HasColumnType("int")
+                        .HasColumnName("elevation_gain")
+                        .HasConversion<int>()
+                        .IsRequired();
+                    
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)

@@ -60,14 +60,14 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
                 request.TrailId, trailToUpdate.Description, request.Description, request.UpdatedBy);
         }
         
-        if (request.Distance.HasValue && request.Distance.Value != trailToUpdate.Distance)
+        if (request.Distance.HasValue && !request.Distance.Value.Equals(trailToUpdate.Distance))
         {
             trailToUpdate.Distance = request.Distance.Value;
             _logger.LogInformation("Trail {RequestTrailId}: Distance changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
                 request.TrailId, trailToUpdate.Distance, request.Distance, request.UpdatedBy);
         }
 
-        if (request.ElevationGain.HasValue && request.ElevationGain.Value != trailToUpdate.ElevationGain)
+        if (request.ElevationGain.HasValue && !request.ElevationGain.Value.Equals((trailToUpdate.ElevationGain)))
         {
             trailToUpdate.ElevationGain = request.ElevationGain.Value;
             _logger.LogInformation("Trail {RequestTrailId}: ElevationGain changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 

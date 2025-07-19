@@ -5,10 +5,10 @@ namespace TrailFinder.Core.DTOs.Trails.Requests;
 
 public record TrailFilterDto(
     string? SearchTerm = null,
-    decimal? MinDistance = null,
-    decimal? MaxDistance = null,
-    decimal? MinElevation = null,
-    decimal? MaxElevation = null,
+    double? MinDistance = null,
+    double? MaxDistance = null,
+    double? MinElevation = null,
+    double? MaxElevation = null,
     DifficultyLevel? DifficultyLevel = null,
     RouteType? RouteType = null,
     TerrainType? TerrainType = null,

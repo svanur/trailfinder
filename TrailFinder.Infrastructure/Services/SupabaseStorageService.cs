@@ -55,8 +55,7 @@ public class SupabaseStorageService : ISupabaseStorageService
         }
         catch (Exception ex)
         {
-            // Inject ILogger into SupabaseStorageService
-            _logger.LogError(ex, "Failed to upload GPX file for trail {TrailId} to path {FilePath}", trailId, filePath);
+            _logger.LogError(ex, "Failed to upload GPX file for trail {TrailId} to path {FilePath}. Error: {ErrorMessage}", trailId, filePath, ex.Message);
             return false;
         }
     }
@@ -91,5 +90,10 @@ public class SupabaseStorageService : ISupabaseStorageService
             // Re-throw if it's a critical error, or return (null, null) based on your error strategy
             return (null, null); // Return nulls on error, let the caller handle NotFound
         }
+    }
+
+    public Task DeleteGpxFileAsync(string storagePath)
+    {
+        throw new NotImplementedException();
     }
 }

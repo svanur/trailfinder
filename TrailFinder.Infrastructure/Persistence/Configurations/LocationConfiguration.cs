@@ -40,7 +40,7 @@ public class LocationConfiguration : IEntityTypeConfiguration<Location>
 
         builder.Property(t => t.Description)
             .HasColumnName("description")
-            .IsRequired();
+            .HasMaxLength(2000);
 
         // Numeric properties
         builder.Property(t => t.Latitude)
