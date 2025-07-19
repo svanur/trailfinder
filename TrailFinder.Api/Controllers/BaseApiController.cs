@@ -11,7 +11,7 @@ public class ErrorResponse
 [ApiController]
 public class BaseApiController : ControllerBase
 {
-    private readonly ILogger<BaseApiController> _logger;
+    protected readonly ILogger<BaseApiController> _logger;
     
     public BaseApiController(
         ILogger<BaseApiController> logger

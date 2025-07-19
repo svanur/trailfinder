@@ -39,8 +39,8 @@ public class TrailsControllerTests
         
         string slug = "",
         string description = "",
-        double distance = 0,
-        double elevationGain = 0,
+        decimal distance = 0,
+        decimal elevationGain = 0,
         
         DifficultyLevel difficultyLevel = DifficultyLevel.Unknown,
         RouteType routeType = RouteType.Unknown,

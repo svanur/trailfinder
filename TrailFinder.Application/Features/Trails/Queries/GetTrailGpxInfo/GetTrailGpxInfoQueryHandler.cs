@@ -32,7 +32,8 @@ public class GetTrailGpxInfoQueryHandler : IRequestHandler<GetTrailGpxInfoQuery,
             throw new TrailNotFoundException(request.TrailId);
         }
 
-        await using var gpxStream = await _storageService.GetGpxFileFromStorage(trail.Id, trail.Slug);
-        return await _gpxService.ExtractGpxInfo(gpxStream);
+       // await using var gpxStream = await _storageService.GetGpxFileFromStorage(trail.Id, trail.Slug);
+        //return await _gpxService.ExtractGpxInfo(gpxStream);
+        return null;
     }
 }

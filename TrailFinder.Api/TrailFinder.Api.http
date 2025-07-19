@@ -52,7 +52,7 @@ GET {{hostAddress}}/api/trails/slug-does-not-exist
 Accept: application/json
 
 ### Update trail info by id
-PUT {{hostAddress}}/api/trails/{{trailId}}/info
+PUT {{hostAddress}}/api/trails/{{trailId}}
 Content-Type: application/json
 
 {

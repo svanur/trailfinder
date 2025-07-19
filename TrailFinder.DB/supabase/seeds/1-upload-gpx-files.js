@@ -37,10 +37,11 @@ async function uploadGpxFiles() {
 
             const trailId = result.rows[0].id;
 
-            // Upload file to Supabase Storage with folder structure
+            // Upload a file to Supabase Storage with folder structure
+            //const folder = `/trails/${trailId}/${slug}.gpx`;
             const { data, error } = await supabase.storage
                 .from('gpx-files')
-                .upload(`${slug}/${trailId}.gpx`, fileContent, {  // Note the folder structure here
+                .upload(`${slug}/${trailId}.gpx`, fileContent, {
                     contentType: 'application/gpx+xml',
                     upsert: true,
                     duplex: 'half',

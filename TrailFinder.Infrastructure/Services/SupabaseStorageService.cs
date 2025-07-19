@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Supabase;
 using Supabase.Storage;
@@ -10,17 +11,24 @@ namespace TrailFinder.Infrastructure.Services;
 
 public class SupabaseStorageService : ISupabaseStorageService
 {
-    private readonly Client _supabaseClient;
+    private readonly Client _supabaseClient; //  ensure it's registered as such in the DI container
     private const string BucketName = "gpx-files";
-    
+    private readonly ILogger<SupabaseStorageService> _logger;
+
     public IStorageBucketApi<Bucket> Storage => _supabaseClient.Storage;
     public IStorageFileApi<FileObject> From(string bucket) => _supabaseClient.Storage.From(bucket);
 
-    public SupabaseStorageService(IOptions<SupabaseSettings> settings)
+    public SupabaseStorageService(
+        IOptions<SupabaseSettings> settings, 
+        ILogger<SupabaseStorageService> logger
+    )
     {
+        _logger = logger;
         var options = new SupabaseOptions
         {
-            AutoRefreshToken = true,
+            // If using only Storage and not Realtime subscriptions, this might be unnecessary overhead.
+            // Consider setting it to false if Realtime isn't used by the Storage service.
+            AutoRefreshToken = false,
             AutoConnectRealtime = true
         };
 
@@ -28,52 +36,6 @@ public class SupabaseStorageService : ISupabaseStorageService
             settings.Value.Url,
             settings.Value.Key,
             options);
-    }
-    
-    
-    public async Task<Stream> GetGpxFileFromStorage(Guid trailId, string trailSlug)
-    {
-        var fileName = $"{trailSlug}/{trailId}.gpx";
-
-        try
-        {
-            // First, check if the bucket exists
-            /*
-            var buckets = await _storageService
-                .Storage
-                .ListBuckets();
-
-            if (buckets != null && buckets.All(b => b.Name != BucketName))
-            {
-                await _storageService
-                    .Storage
-                    .CreateBucket(BucketName);
-            }
-
-            // List files in the bucket to check if our file exists
-            var files = await _storageService
-                .From(BucketName)
-                .List();
-
-            if (files != null && files.All(f => f.Name != fileName))
-            {
-                throw new FileNotFoundException($"GPX file {fileName} not found in storage");
-            }
-            */
-
-            
-            var response = await From(BucketName)
-                .Download(fileName, null);
-
-            if (response == null || response.Length == 0)
-                throw new InvalidOperationException($"Downloaded file {fileName} is empty");
-
-            return new MemoryStream(response);
-        }
-        catch (Exception ex)
-        {
-            throw new FileNotFoundException($"Error accessing GPX file for trail {trailId}: {ex.Message}", ex);
-        }
     }
     
     public async Task<bool> UploadGpxFileAsync(Guid trailId, string trailSlug, Stream fileStream, string fileName)
@@ -85,19 +47,21 @@ public class SupabaseStorageService : ISupabaseStorageService
             using var memoryStream = new MemoryStream();
             await fileStream.CopyToAsync(memoryStream);
             var fileBytes = memoryStream.ToArray();
-
+            
             var uploadResult = await From(BucketName)
                 .Upload(fileBytes, filePath);
 
             return !string.IsNullOrEmpty(uploadResult);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            // Inject ILogger into SupabaseStorageService
+            _logger.LogError(ex, "Failed to upload GPX file for trail {TrailId} to path {FilePath}", trailId, filePath);
             return false;
         }
     }
     
-    public async Task<Stream> DownloadGpxFileAsync(Guid trailId, string trailSlug)
+    public async Task<(Stream? fileStream, string? fileName)> DownloadGpxFileAsync(Guid trailId, string trailSlug)
     {
         var filePath = $"{trailSlug}/{trailId}.gpx";
         try
@@ -110,7 +74,12 @@ public class SupabaseStorageService : ISupabaseStorageService
                 throw new FileNotFoundException($"GPX file not found at path {filePath}");
             }
 
-            return new MemoryStream(bytes);
+            var stream = new MemoryStream(bytes);
+
+            // Or get from storage metadata when available
+            var retrievedFileName = trailSlug + "/" + trailId + ".gpx"; 
+
+            return (stream, retrievedFileName);
         }
         catch (Exception ex)
         {

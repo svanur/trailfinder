@@ -9,9 +9,10 @@ public class UpdateTrailCommandValidator : AbstractValidator<UpdateTrailCommand>
     public UpdateTrailCommandValidator()
     {
         // 1. Validate the TrailId (crucial for update commands)
-        RuleFor(x => x.TrailId)
-            .NotEmpty()
-            .WithMessage("Trail ID is required for updating.");
+        RuleFor(t => t.TrailId)
+            .NotEmpty().WithMessage("Trail ID cannot be empty")
+            .Must(id => id != Guid.Empty).WithMessage("Trail ID cannot be an empty GUID")
+            .Must(BeValidGuid).WithMessage("Trail ID must be a valid GUID format");
 
         // 2. Validate 'Name'
         //    - It's nullable in UpdateTrailCommand, so `NotEmpty()` is conditional.
@@ -83,5 +84,12 @@ public class UpdateTrailCommandValidator : AbstractValidator<UpdateTrailCommand>
         // You could also add more advanced geometry validation if needed, e.g.:
         // .Must(geom => geom.IsValid) // Requires NetTopologySuite's IsValid property/method
         // .WithMessage("Trail geometry is not valid.");
+    }
+    
+    private static bool BeValidGuid(Guid id)
+    {
+        // Additional custom validation, if needed
+        // For example, checking if it follows a specific format or pattern
+        return id.ToString().Length == 36; // Standard GUID length
     }
 }

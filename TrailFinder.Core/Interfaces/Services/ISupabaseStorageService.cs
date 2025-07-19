@@ -2,19 +2,21 @@ namespace TrailFinder.Core.Interfaces.Services;
 
 public interface ISupabaseStorageService
 {
-
     /// <summary>
-    ///     Retrieves the GPX file stream from the storage based on the specified trail identifier.
+    /// Uploads a GPX file to the storage service with the specified trail details.
     /// </summary>
-    /// <param name="trailId">The unique identifier of the trail for which the GPX file is to be retrieved.</param>
-    /// <param name="trailSlug">The slug of the trail.</param>
-    /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains a stream of the GPX file
-    ///     associated with the given trail identifier.
-    /// </returns>
-    Task<Stream> GetGpxFileFromStorage(Guid trailId, string trailSlug);
-
+    /// <param name="trailId">The unique identifier of the trail.</param>
+    /// <param name="trailSlug">The slug representing the trail.</param>
+    /// <param name="fileStream">The stream of the file to be uploaded.</param>
+    /// <param name="fileName">The name of the file to be uploaded.</param>
+    /// <returns>Returns a boolean value indicating whether the upload was successful.</returns>
     Task<bool> UploadGpxFileAsync(Guid trailId, string trailSlug, Stream fileStream, string fileName);
 
-    Task<Stream> DownloadGpxFileAsync(Guid trailId, string trailSlug);
+    /// <summary>
+    /// Downloads a GPX file from the storage service associated with the specified trail details.
+    /// </summary>
+    /// <param name="trailId">The unique identifier of the trail.</param>
+    /// <param name="trailSlug">The slug representing the trail.</param>
+    /// <returns>Returns a tuple containing a stream of the file and its name, or null values if the file is not found.</returns>
+    Task<(Stream? fileStream, string? fileName)> DownloadGpxFileAsync(Guid trailId, string trailSlug);
 }

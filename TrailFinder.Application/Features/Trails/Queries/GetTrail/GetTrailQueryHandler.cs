@@ -27,13 +27,12 @@ public class GetTrailQueryHandler : IRequestHandler<GetTrailQuery, TrailDto>
 
     public async Task<TrailDto> Handle(GetTrailQuery request, CancellationToken cancellationToken)
     {
-        // Use the new method that includes related data
         var trail = await _trailRepository.GetByIdWithLocationsAsync(request.Id, cancellationToken);
-        if (trail == null) throw new TrailNotFoundException(request.Id);
+        if (trail == null)
+        {
+            throw new TrailNotFoundException(request.Id);
+        }
 
-        // AutoMapper should be configured to map the nested collections
-        var trailDto = _mapper.Map<TrailDto>(trail);
-
-        return trailDto;
+        return _mapper.Map<TrailDto>(trail);
     }
 }
