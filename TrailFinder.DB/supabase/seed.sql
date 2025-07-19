@@ -126,7 +126,7 @@ VALUES (
 ---
 --- Insert sample trails
 ---
-INSERT INTO public.trails (id, name, slug, description, distance, elevation_gain, difficulty_Level, route_type, terrain_type, surface_type, web_url, created_by, created_at)
+INSERT INTO public.trails (id, name, slug, description, distance_meters, elevation_gain_meters, difficulty_Level, route_type, terrain_type, surface_type, web_url, created_by, created_at)
 VALUES
     (gen_random_uuid(), 'Mt Esja Ultra maraþon', 'esja-ultra-marathon', 'Maraþon keppnisleiðin í hlíðum Esjunnar.', 43, 3245, 'extreme', 'circular', 'mountainous', 'trail','https://www.strava.com/activities/5495817983', seed_created_by, NOW()),
     (gen_random_uuid(), 'Mt Esja Ultra hálfmaraþon', 'esja-ultra-half-marathon', 'Hálfmaraþon keppnisleiðin í hlíðum Esjunnar', 0, 0, 'hard', 'circular', 'mountainous', 'trail', 'https://connect.garmin.com/modern/course/253641069', seed_created_by, NOW()),
@@ -172,7 +172,7 @@ VALUES (
            sudurland_id, -- General location for the race
            'Hengill Ultra',
            'hengill-ultra',
-           'Trail running event in the geothermal Hengill area with multiple distances.',
+           'Trail running event in the geothermal Hengill area with multiple distance_meterss.',
            'https://www.vikingamot.is/hengill-ultra/', 
            'active',
            6, -- June
@@ -189,7 +189,7 @@ VALUES (
            reykjavik_id, -- Primary location is Reykjavik city
            'Reykjavík Marathon',
            'reykjavik-marathon',
-           'Annual road running event in the capital city, offering various distances.',
+           'Annual road running event in the capital city, offering various distance_meterss.',
            'active',
            8, -- August
            3, -- Third week
@@ -216,7 +216,7 @@ VALUES (
 
 -- NEW: Esja Ultra Race (conceptual race for Esja trails)
 INSERT INTO public.races (id, location_id, name, slug, description, race_status, recurring_month, recurring_week, recurring_weekday, created_by, created_at)
-VALUES (esja_ultra_race_id, reykjavik_id, 'Mt Esja Ultra', 'mt-esja-ultra', 'Mountain ultra marathon on Mt. Esja, offering multiple distances.', 'active', 7, 4, 6, seed_created_by, NOW())
+VALUES (esja_ultra_race_id, reykjavik_id, 'Mt Esja Ultra', 'mt-esja-ultra', 'Mountain ultra marathon on Mt. Esja, offering multiple distance_meterss.', 'active', 7, 4, 6, seed_created_by, NOW())
     ON CONFLICT (id) DO NOTHING;
 
 -- NEW: Hvítasunnuhlaup Hauka Race (conceptual race)
@@ -263,7 +263,7 @@ VALUES (esja_ultra_race_id, esja_ultra_half_marathon_trail_id, 'active', 'The ha
 
 -- Hvítasunnuhlaup Hauka
 INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, created_by)
-VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_22_trail_id, 'active', 'Longest distance for the event.', 1, NOW(), seed_created_by)
+VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_22_trail_id, 'active', 'Longest distance_meters for the event.', 1, NOW(), seed_created_by)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, created_by)
@@ -271,12 +271,12 @@ VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_17_trail_id, 'active', NU
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, created_by)
-VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_14_trail_id, 'active', 'Shortest distance, suitable for beginners.', 3, NOW(), seed_created_by)
+VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_14_trail_id, 'active', 'Shortest distance_meters, suitable for beginners.', 3, NOW(), seed_created_by)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 -- Reykjavík Marathon
 INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, created_by)
-VALUES (reykjavik_marathon_id, bakgardur_ellidavatn_trail_id, 'unknown', 'Used for a popular shorter distance, official course may vary slightly.', NULL, NOW(), seed_created_by)
+VALUES (reykjavik_marathon_id, bakgardur_ellidavatn_trail_id, 'unknown', 'Used for a popular shorter distance_meters, official course may vary slightly.', NULL, NOW(), seed_created_by)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 -- Ice Ultra
@@ -304,7 +304,7 @@ VALUES (laugavegur_id, thorsmork_id, 'end', 2, 'Official race finish line.', NOW
 -- Main location around Hveragerði, which is within Sudurland. Let's use Sudurland as the general area.
 -- If you had a more specific "Hveragerði" location, you'd use that.
 INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at, created_by)
-VALUES (hengill_ultra_id, sudurland_id, 'unknown', 1, 'General area for the race, specific start/end varies by distance.', NOW(), seed_created_by)
+VALUES (hengill_ultra_id, sudurland_id, 'unknown', 1, 'General area for the race, specific start/end varies by distance_meters.', NOW(), seed_created_by)
     ON CONFLICT (race_id, location_id) DO NOTHING;
 
 
