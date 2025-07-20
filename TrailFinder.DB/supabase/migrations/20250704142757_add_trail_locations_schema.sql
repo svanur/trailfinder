@@ -6,10 +6,11 @@ create table public.trail_locations
     location_type public.location_type not null default 'unknown'::location_type,
     display_order numeric null,
     comment       text null,
-    
-    user_id          UUID REFERENCES auth.users (id) NOT NULL,
-    created_at       TIMESTAMPTZ      DEFAULT NOW(),
-    updated_at       TIMESTAMPTZ      DEFAULT NOW(),
+
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    created_by UUID REFERENCES auth.users(id) NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_by UUID REFERENCES auth.users(id),
 
     constraint trail_locations_pkey primary key (id), -- PRIMARY KEY
     -- ADD a UNIQUE constraint on the 'trail_id + location_id' combination

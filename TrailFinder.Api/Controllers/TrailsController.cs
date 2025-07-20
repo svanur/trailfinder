@@ -1,18 +1,21 @@
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TrailFinder.Application.Features.Trails.Commands.CreateTrail;
 using TrailFinder.Application.Features.Trails.Commands.UpdateTrail;
 using TrailFinder.Application.Features.Trails.Queries.GetTrail;
 using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
-using TrailFinder.Application.Features.Trails.Queries.GetTrailGpxInfo;
 using TrailFinder.Application.Features.Trails.Queries.GetTrails;
-using TrailFinder.Core.DTOs.Gpx.Requests;
-using TrailFinder.Core.DTOs.Gpx.Responses;
+using TrailFinder.Core.DTOs.Trails.Requests;
 using TrailFinder.Core.DTOs.Trails.Responses;
 using TrailFinder.Core.Exceptions;
 using TrailFinder.Core.Interfaces.Services;
 
 namespace TrailFinder.Api.Controllers;
 
+/// <summary>
+/// Controller responsible for handling trail-related API operations.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class TrailsController : BaseApiController
@@ -54,6 +57,7 @@ public class TrailsController : BaseApiController
             return HandleException(ex);
         }
     }
+
     [HttpGet("{trailId:guid}")]
     public async Task<ActionResult<TrailDto?>> GetTrailById(Guid trailId)
     {
@@ -85,93 +89,66 @@ public class TrailsController : BaseApiController
             return HandleException(ex);
         }
     }
-    
-    [HttpGet("{trailId:guid}/info")]
-    public async Task<ActionResult<GpxInfoDto>> GetTrailGpxInfo(Guid trailId)
+
+    [HttpPut("trails/{trailId:guid}")]
+    public async Task<IActionResult> UpdateTrail(
+        Guid trailId,
+        [FromBody] UpdateTrailDto updateTrailDto
+    )
     {
         try
         {
-            var result = await _mediator.Send(new GetTrailGpxInfoQuery(trailId));
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return HandleException(ex);
-        }
-    }
-    
-    [HttpPut("{trailId:guid}/info")]
-    public async Task<ActionResult> UpdateTrailGpxInfo(Guid trailId, UpdateGpxInfoDto gpxInfo)
-    {
-        try
-        {
-            var command = new UpdateTrailCommand(
-                trailId,
-                gpxInfo.Distance,
-                gpxInfo.ElevationGain,
-                gpxInfo.DifficultyLevel,
-                gpxInfo.RouteType,
-                gpxInfo.TerrainType,
-                gpxInfo.RouteGeom
+            // 1. Construct the command directly from the incoming parameters
+            var updateTrailCommand = new UpdateTrailCommand(
+                trailId, // Pass the trailId from the route
+                updateTrailDto.Name,
+                updateTrailDto.Description,
+                updateTrailDto.Distance,
+                updateTrailDto.ElevationGain,
+                updateTrailDto.DifficultyLevel,
+                updateTrailDto.RouteType,
+                updateTrailDto.TerrainType,
+                updateTrailDto.SurfaceType,
+                updateTrailDto.RouteGeom,
+                updateTrailDto.WebUrl,
+                updateTrailDto.UpdatedBy
             );
-        
-            await _mediator.Send(command);
-            return Ok();
+
+            // 2. Send the command to MediatR.
+            //    The MediatR pipeline (including the handler and FluentValidation)
+            //    will handle all the business logic and persistence.
+            await _mediator.Send(updateTrailCommand);
+
+            // 3. Return an appropriate HTTP response.
+            //    204 No Content is often used for successful PUT/updates that don't return new data.
+            //    200 OK is also fine if you prefer.
+            return NoContent(); // Or return Ok(); if you prefer
         }
         catch (TrailNotFoundException ex)
         {
+            // Catch specific custom exceptions and map them to appropriate HTTP responses.
             return NotFound(new ErrorResponse { Message = ex.Message });
         }
-        catch (Exception ex)
+        catch (ValidationException ex) // Catches validation errors from the pipeline
         {
-            return HandleException(ex);
-        }
-    }
-
-    [HttpPost("{trailId:guid}/gpx")]
-    public async Task<ActionResult> UploadTrailGpx(Guid trailId, IFormFile file)
-    {
-        try
-        {
-            if (file.Length == 0)
+            // If you have a custom validation error handling middleware, it might catch this.
+            // Otherwise, you can handle it explicitly here.
+            return BadRequest(new ErrorResponse
             {
-                return BadRequest("No file was uploaded");
-            }
-
-            if (!file.FileName.EndsWith(".gpx", StringComparison.OrdinalIgnoreCase))
-            {
-                return BadRequest("File must be a GPX file");
-            }
-
-            var trailResult = await GetTrailById(trailId);
-            if (trailResult.Value == null)
-            {
-                throw new TrailNotFoundException(trailId);
-            }
-
-            using var stream = new MemoryStream();
-            await file.CopyToAsync(stream);
-            stream.Position = 0;
-
-            var success = await _storageService.UploadGpxFileAsync(
-                trailId,
-                trailResult.Value.Slug,
-                stream, 
-                file.FileName);
-
-            if (!success)
-            {
-                return StatusCode(500, "Failed to upload GPX file");
-            }
-
-            return Ok();
+                Message = "Validation failed",
+                Details = ex.Errors
+                    .Select(e => e.ErrorMessage)
+                    .ToString()
+            });
         }
         catch (Exception ex)
         {
+            // Catch any other unexpected exceptions.
+            // HandleException() should log the error and return a generic 500 Internal Server Error.
             return HandleException(ex);
         }
     }
-
+    
     // [HttpPost]
     // public async Task<ActionResult<int>> Create(CreateTrailDto dto)
     // {
@@ -179,4 +156,49 @@ public class TrailsController : BaseApiController
     //     var trailId = await _mediator.Send(command);
     //     return Ok(trailId);
     // }
+    
+    [HttpPost("trails")]
+    public async Task<IActionResult> CreateTrail(
+        [FromBody] CreateTrailDto createTrailDto
+    )
+    {
+        try
+        {
+            var createTrailCommand = new CreateTrailCommand(
+                createTrailDto.Name,
+                createTrailDto.Description,
+                createTrailDto.Distance,
+                createTrailDto.ElevationGain,
+                createTrailDto.DifficultyLevel,
+                createTrailDto.RouteType,
+                createTrailDto.TerrainType,
+                createTrailDto.SurfaceType,
+                createTrailDto.RouteGeom,
+                createTrailDto.WebUrl,
+                createTrailDto.CreatedBy
+            );
+            
+            await _mediator.Send(createTrailCommand);
+
+            return NoContent(); // Or return Ok(); if you prefer
+        }
+        catch (TrailNotFoundException ex)
+        {
+            return NotFound(new ErrorResponse { Message = ex.Message });
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new ErrorResponse
+            {
+                Message = "Validation failed",
+                Details = ex.Errors
+                    .Select(e => e.ErrorMessage)
+                    .ToString()
+            });
+        }
+        catch (Exception ex)
+        {
+            return HandleException(ex);
+        }
+    }
 }

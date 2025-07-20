@@ -1,5 +1,5 @@
 ## Select environment via: Run with: [dev|...]
-## See: TrailFinder.Api/http-client.env.json 
+## See: TrailFinder.Api/http-client.env.json
 
 ### Get all trails
 GET {{hostAddress}}/api/trails
@@ -7,10 +7,6 @@ Accept: application/json
 
 ### Get a specific trail by id
 GET {{hostAddress}}/api/trails/{{trailId}}
-Accept: application/json
-
-### Get GpxInfo for specific trail
-GET {{hostAddress}}/api/trails/{{trailId}}/info
 Accept: application/json
 
 ### Get a specific trail by slug
@@ -52,13 +48,14 @@ GET {{hostAddress}}/api/trails/slug-does-not-exist
 Accept: application/json
 
 ### Update trail info by id
-PUT {{hostAddress}}/api/trails/{{trailId}}/info
+PUT {{hostAddress}}/api/trails/{{trailId}}
 Content-Type: application/json
 
 {
   "distance": 15500.50,
   "elevationGain": 850.0,
-  "difficultyLevel": "extreme"
+  "difficultyLevel": "extreme",
+  "updatedBy": "{{userId}}"
 }
 
 
@@ -67,3 +64,33 @@ Content-Type: application/json
 ### guid is not the right length
 GET {{hostAddress}}/api/trails/366-66fba19c4240
 Accept: application/json
+
+
+#############################################################
+### GPX File Operations (Controller: GpxFilesController) ###
+#############################################################
+
+### Upload GPX file for a specific trail
+# Replace {{trailId}} with an actual valid Trail ID
+# Replace path/to/your/file.gpx with the actual local path to a GPX file
+POST {{hostAddress}}/api/trails/{{trailId}}/gpx-files/upload
+Content-Type: multipart/form-data; boundary=----------Boundary12345
+
+------------Boundary12345
+Content-Disposition: form-data; name="file"; filename="laugavegur-ultra.gpx"
+Content-Type: application/gpx+xml
+
+< C:\dev\trailfinder\TrailFinder.DB\supabase\seeds\gpx-files\laugavegur-ultra.gpx
+------------Boundary12345--
+
+
+### Get GPX file metadata for a specific trail
+# This fetches the metadata stored in your gpx_files table // TODO: add this endpoint
+GET {{hostAddress}}/api/trails/{{trailId}}/gpx-files/metadata
+Accept: application/json
+
+
+### Download GPX file for a specific trail
+# This fetches the actual GPX file content from Supabase Storage
+GET {{hostAddress}}/api/trails/{{trailId}}/gpx-files/download
+Accept: application/gpx+xml

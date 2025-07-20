@@ -32,10 +32,8 @@ public class UpdateTrailGpxInfoCommandHandler : IRequestHandler<UpdateTrailGpxIn
     
             // trail.Distance = request.Distance;
             // trail.ElevationGain = request.ElevationGain;
-    
-           
+            
             trail.RouteGeom = request.RouteGeom;
-            trail.HasGpx = true;
             trail.UpdatedAt = DateTime.UtcNow;
     
             await _context.SaveChangesAsync(cancellationToken);

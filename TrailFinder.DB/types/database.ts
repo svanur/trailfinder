@@ -33,7 +33,8 @@ export interface Trail {
     hasGpx: boolean;
     createdAt: string; // ISO date string
     updatedAt: string; // ISO date string
-    userId: string | null;
+    createdBy: string | null;
+    updatedBy: string | null;
 }
 
 export interface Location {
@@ -46,7 +47,8 @@ export interface Location {
     longitude: number;
     createdAt: string; // ISO date string
     updatedAt: string; // ISO date string
-    userId: string | null;
+    createdBy: string | null;
+    updatedBy: string | null;
 }
 export const DifficultyLevel = {
     Unknown: 'unknown',
@@ -86,5 +88,5 @@ export interface CreateTrailDTO {
     start_point: unknown;
     web_url?: string;
     gpx_file_path?: string;
-    user_id: string;
+    createdBy: string | null;
 }

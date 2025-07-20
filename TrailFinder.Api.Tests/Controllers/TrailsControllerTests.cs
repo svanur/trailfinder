@@ -48,8 +48,7 @@ public class TrailsControllerTests
         SurfaceType surfaceType = SurfaceType.Unknown,
          
         LineString? routeGeom = null,
-        string? webUrl = "",
-        bool hasGpx = false
+        string? webUrl = ""
     )
     {
         return new TrailDto(
@@ -67,10 +66,10 @@ public class TrailsControllerTests
             new GpxPoint(), //TODO ?
             new GpxPoint(),
             webUrl,
-            hasGpx,
+            Guid.NewGuid(),
             DateTime.Now,
-            DateTime.Now,
-            Guid.NewGuid()
+            null,
+            null
         );
     }
 

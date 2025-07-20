@@ -10,12 +10,13 @@ public class TrailMappings : Profile
     public TrailMappings()
     {
         CreateMap<Trail, TrailDto>()
-            /*
+            
             .ForMember(
-                dest => dest.Id,
-                opt => opt.MapFrom(src => src.Id)
+                dest => dest.DistanceKm,
+                opt => opt.MapFrom(src => Math.Round(src.DistanceMeters / 1000.0, 2) // Convert meters to KM for display, round to 2 decimals
+                )
             )
-            */
+            
             .ForMember(
                 dest => dest.TrailLocations, 
                 opt => opt.MapFrom(src => src.TrailLocations))

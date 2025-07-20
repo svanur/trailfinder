@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 using NetTopologySuite.Geometries;
 using TrailFinder.Core.DTOs.Gpx;
@@ -6,7 +7,7 @@ using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Core.DTOs.Trails.Responses;
 
-public class TrailDto
+public class TrailDto : BaseDto
 {
     public TrailDto()
     {
@@ -17,8 +18,8 @@ public class TrailDto
         string name,
         string slug,
         string description,
-        double distance,
-        double elevationGain,
+        double distanceMeters,
+        double elevationGainMeters,
         DifficultyLevel difficultyLevel,
         RouteType routeType,
         TerrainType terrainType,
@@ -27,18 +28,18 @@ public class TrailDto
         GpxPoint startGpxPoint,
         GpxPoint endGpxPoint,
         string? webUrl,
-        bool hasGpx,
+        Guid createdBy,
         DateTime createdAt,
-        DateTime updatedAt,
-        Guid userId
+        Guid? updatedBy,
+        DateTime? updatedAt
     )
     {
         Id = id;
         Name = name;
         Slug = slug;
         Description = description;
-        Distance = distance;
-        ElevationGain = elevationGain;
+        DistanceMeters = distanceMeters;
+        ElevationGainMeters = elevationGainMeters;
         DifficultyLevel = difficultyLevel;
         RouteType = routeType;
         TerrainType = terrainType;
@@ -46,28 +47,28 @@ public class TrailDto
         
         RouteGeom = routeGeom;
         WebUrl = webUrl;
-        HasGpx = hasGpx;
+
+        CreatedBy = createdBy;
         CreatedAt = createdAt;
+        UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
-        UserId = userId;
     }
-
-    public Guid Id { get; set; }
-
+    
     public string Name { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
-    public double Distance { get; set; }
+    public double? DistanceMeters { get; set; }
+    public double DistanceKm { get; set; }
 
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
-    public double ElevationGain { get; set; }
+    public double? ElevationGainMeters { get; set; }
 
-    public DifficultyLevel DifficultyLevel { get; set; }
-    public RouteType RouteType { get; set; }
-    public TerrainType TerrainType { get; set; }
-    public SurfaceType SurfaceType { get; set; }
+    public DifficultyLevel? DifficultyLevel { get; set; }
+    public RouteType? RouteType { get; set; }
+    public TerrainType? TerrainType { get; set; }
+    public SurfaceType? SurfaceType { get; set; }
     
     public GpxPoint StartGpxPoint { get; set; }
     public GpxPoint EndGpxPoint { get; set; }
@@ -75,11 +76,7 @@ public class TrailDto
     public LineString? RouteGeom { get; set; }
 
     public string? WebUrl { get; set; }
-    public bool HasGpx { get; set; }
 
     public IEnumerable<TrailLocationDto> TrailLocations { get; set; }
-
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-    public Guid UserId { get; set; }
+    
 }

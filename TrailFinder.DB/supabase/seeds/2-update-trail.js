@@ -11,9 +11,9 @@ const pool = new Pool({
     password: 'postgres'
 });
 
-async function updateTrailsGpxInfo() {
+async function updateTrail() {
     try {
-        const result = await pool.query('SELECT id, name FROM trails WHERE has_gpx = true');
+        const result = await pool.query('SELECT id, name FROM trails WHERE route_geom IS NOT NULL');
 
         for (const trail of result.rows) {
             const trailId = trail.id;
@@ -21,23 +21,24 @@ async function updateTrailsGpxInfo() {
 
             try {
                 // Get GPX info for the trail
-                const gpxInfoResponse = await axios.get(`${API_BASE_URL}/trails/${trailId}/info`);
-                const gpxInfo = gpxInfoResponse.data;
+                const trailResponse = await axios.get(`${API_BASE_URL}/trails/${trailId}`);
+                const trailDetails = trailResponse.data;
 
                 // Sanitize numeric values before sending
                 const sanitizedGpxInfo = {
-                    distance: sanitizeNumber(gpxInfo.distance),
-                    elevationGain: sanitizeNumber(gpxInfo.elevationGain),
-                    difficultyLevel: gpxInfo.difficultyLevel,
-                    routeType: gpxInfo.routeType,
-                    terrainType: gpxInfo.terrainType,
-                    startGpxPoint: gpxInfo.startGpxPoint,
-                    endGpxPoint: gpxInfo.endGpxPoint,
-                    routeGeom: gpxInfo.routeGeom
+                    distance: sanitizeNumber(trailDetails.distance),
+                    elevationGain: sanitizeNumber(trailDetails.elevationGain),
+                    difficultyLevel: trailDetails.difficultyLevel,
+                    routeType: trailDetails.routeType,
+                    terrainType: trailDetails.terrainType,
+                    startGpxPoint: trailDetails.startGpxPoint,
+                    endGpxPoint: trailDetails.endGpxPoint,
+                    routeGeom: trailDetails.routeGeom
                 };
 
                 // Update the trail with the GPX info
-                await axios.put(`${API_BASE_URL}/trails/${trailId}/info`, sanitizedGpxInfo);
+                //await axios.put(`${API_BASE_URL}/trails/${trailId}/info`, sanitizedGpxInfo);
+                await axios.put(`${API_BASE_URL}/trails/${trailId}`, sanitizedGpxInfo);
 
                 console.log(`Successfully updated information for "${trailName}" (${trailId})`);
                 console.log({
@@ -85,9 +86,9 @@ function sanitizeNumber(value) {
 
 async function main() {
     try {
-        console.log('Begin updating trail information');
-        await updateTrailsGpxInfo();
-        console.log('Finished updating trail information');
+        console.log('Begin updating trail');
+        await updateTrail();
+        console.log('Finished updating trailupdateTrail');
     } catch (error) {
         console.error('Error in main:', error);
         process.exit(1);

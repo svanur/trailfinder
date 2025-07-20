@@ -35,7 +35,7 @@ public class Location : BaseEntity
         string description,
         double latitude,
         double longitude,
-        Guid userId
+        Guid createdBy
     )
     {
         Id = Guid.NewGuid();
@@ -45,7 +45,7 @@ public class Location : BaseEntity
         Description = description;
         Latitude = latitude;
         Longitude = longitude;
-        UserId = userId;
+        CreatedBy = createdBy;
         
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;

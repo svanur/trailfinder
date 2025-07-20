@@ -8,6 +8,7 @@ using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TrailFinder.Core.Enums;
 using TrailFinder.Infrastructure.Persistence;
+using TrailFinder.Infrastructure.Persistence.Converters;
 
 #nullable disable
 
@@ -43,15 +44,11 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("description");
+                        .HasColumnName("description")
+                        .HasMaxLength(2000);
 
                     b.Property<double>("Latitude")
                         .HasColumnType("double precision")
@@ -76,22 +73,31 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("slug");
+                    
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+                    
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("locations", (string)null);
                 });
@@ -103,15 +109,11 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("description");
+                        .HasColumnName("description")
+                        .HasMaxLength(2000);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -142,14 +144,23 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasColumnType("character varying(255)")
                         .HasColumnName("slug");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+                    
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnName("updated_by");
 
                     b.Property<string>("WebUrl")
                         .HasMaxLength(2048)
@@ -161,7 +172,7 @@ namespace TrailFinder.Infrastructure.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("races", (string)null);
                 });
@@ -177,11 +188,6 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("comment");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
 
                     b.Property<decimal?>("DisplayOrder")
                         .HasColumnType("numeric")
@@ -199,14 +205,23 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("race_id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+                    
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -225,33 +240,27 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("description");
+                        .HasColumnName("description")
+                        .HasMaxLength(2000);
 
                     b.Property<DifficultyLevel?>("DifficultyLevel")
                         .HasColumnType("difficulty_level")
                         .HasColumnName("difficulty_level");
 
                     b.Property<double>("Distance")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("distance");
+                        .HasColumnType("int")
+                        .HasColumnName("distance_meters")
+                        .HasConversion<DoubleToIntConverter>()
+                        .IsRequired();
 
                     b.Property<double>("ElevationGain")
-                        .HasColumnType("double precision")
-                        .HasColumnName("elevation_gain");
-
-                    b.Property<bool>("HasGpx")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false)
-                        .HasColumnName("has_gpx");
+                        .HasColumnType("int")
+                        .HasColumnName("elevation_gain")
+                        .HasConversion<int>()
+                        .IsRequired();
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -268,20 +277,31 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("slug");
+                    
+                    b.Property<string>("WebUrl")
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)")
+                        .HasColumnName("web_url");
+                    
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+                    
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnName("updated_by");
 
-                    b.Property<string>("WebUrl")
-                        .HasMaxLength(2048)
-                        .HasColumnType("character varying(2048)")
-                        .HasColumnName("web_url");
+
 
                     b.HasKey("Id");
 
@@ -292,7 +312,7 @@ namespace TrailFinder.Infrastructure.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("trails", (string)null);
                 });
@@ -308,12 +328,7 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("comment");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
+                    
                     b.Property<decimal?>("DisplayOrder")
                         .HasColumnType("numeric")
                         .HasColumnName("display_order");
@@ -330,14 +345,23 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("trail_id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+                    
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 

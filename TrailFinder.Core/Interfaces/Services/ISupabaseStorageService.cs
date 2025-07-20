@@ -2,19 +2,29 @@ namespace TrailFinder.Core.Interfaces.Services;
 
 public interface ISupabaseStorageService
 {
-
     /// <summary>
-    ///     Retrieves the GPX file stream from the storage based on the specified trail identifier.
+    /// Uploads a GPX file to the storage service with the specified trail details.
     /// </summary>
-    /// <param name="trailId">The unique identifier of the trail for which the GPX file is to be retrieved.</param>
-    /// <param name="trailSlug">The slug of the trail.</param>
-    /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains a stream of the GPX file
-    ///     associated with the given trail identifier.
-    /// </returns>
-    Task<Stream> GetGpxFileFromStorage(Guid trailId, string trailSlug);
-
+    /// <param name="trailId">The unique identifier of the trail.</param>
+    /// <param name="trailSlug">The slug representing the trail.</param>
+    /// <param name="fileStream">The stream of the file to be uploaded.</param>
+    /// <param name="fileName">The name of the file to be uploaded.</param>
+    /// <returns>Returns a boolean value indicating whether the upload was successful.</returns>
     Task<bool> UploadGpxFileAsync(Guid trailId, string trailSlug, Stream fileStream, string fileName);
 
-    Task<Stream> DownloadGpxFileAsync(Guid trailId, string trailSlug);
+    /// <summary>
+    /// Downloads a GPX file from the storage service using the specified storage path.
+    /// </summary>
+    /// <param name="storagePath">The path in the storage where the GPX file is located.</param>
+    /// <returns>
+    /// Returns a tuple containing the file's stream and its name. The stream is null if the file is not found.
+    /// </returns>
+    Task<(Stream? fileStream, string? fileName)> DownloadGpxFileAsync(string storagePath);
+
+    /// <summary>
+    /// Deletes a GPX file from the storage service based on the specified storage path.
+    /// </summary>
+    /// <param name="storagePath">The path of the GPX file to be deleted in the storage system.</param>
+    /// <returns>Returns a task representing the asynchronous operation. The task result contains a boolean value indicating whether the deletion was successful.</returns>
+    Task DeleteGpxFileAsync(string storagePath);
 }

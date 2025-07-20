@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetTopologySuite;
 using NetTopologySuite.Geometries;
 using TrailFinder.Application.Services;
 using TrailFinder.Contract.Persistence;
@@ -32,10 +33,13 @@ public static class DependencyInjection
         services.AddScoped<IApplicationDbContext>(provider =>
             provider.GetRequiredService<ApplicationDbContext>());
 
+        // Repository dependency injection
         services.AddScoped<ITrailRepository, TrailRepository>();
         services.AddScoped<ILocationRepository, LocationRepository>();
         services.AddScoped<IRaceRepository, RaceRepository>();
-
+        services.AddScoped<IGpxFileRepository, GpxFileRepository>();
+        services.AddScoped<IGpxService , GpxService>();
+        
         // Add Supabase configuration
         services.Configure<SupabaseSettings>(settings =>
         {
@@ -48,9 +52,6 @@ public static class DependencyInjection
 
         // Register GeometryFactory as a singleton since it's thread-safe
         services.AddSingleton<GeometryFactory>();
-        
-        // Register GpxService from Infrastructure as implementation of IGpxService from Application
-        services.AddScoped<IGpxService, GpxService>();
 
         //
         // Dependency injection
@@ -58,7 +59,8 @@ public static class DependencyInjection
         services.AddTransient<IAnalyzer<List<GpxPoint>, RouteType>, RouteAnalyzer>();
         services.AddTransient<IAnalyzer<TerrainAnalysisInput, TerrainType>, TerrainAnalyzer>();
         services.AddTransient<IAnalyzer<DifficultyAnalysisInput, DifficultyLevel>, DifficultyAnalyzer>();
-        services.AddTransient<AnalysisService>(); // MyAnalysisService will resolve these
+        services.AddTransient<AnalysisService>();
+        services.AddSingleton<GeometryFactory>(sp => NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326));
         
         return services;
     }

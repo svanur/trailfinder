@@ -1,9 +1,7 @@
 using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NetTopologySuite.Geometries;
-using TrailFinder.Contract.Persistence;
 using TrailFinder.Core.Exceptions;
 using TrailFinder.Core.Interfaces.Repositories;
 
@@ -14,163 +12,139 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
     private readonly ILogger<UpdateTrailCommandHandler> _logger;
     private readonly IMapper _mapper;
     private readonly ITrailRepository _trailRepository;
-    
-    private static readonly GeometryFactory GeometryFactory = 
-        new GeometryFactory(new PrecisionModel(), 4326); // SRID 4326 is for WGS84 (standard GPS coordinates)
+    private readonly GeometryFactory _geometryFactory;
     
     public UpdateTrailCommandHandler(
-        ILogger<UpdateTrailCommandHandler> logger,
+        ITrailRepository trailRepository,
+        GeometryFactory geometryFactory, 
         IMapper mapper,
-        ITrailRepository trailRepository
+        ILogger<UpdateTrailCommandHandler> logger
     )
     {
         _logger = logger;
         _mapper = mapper;
         _trailRepository = trailRepository;
+        _geometryFactory = geometryFactory; 
     }
 
     public async Task<Unit> Handle(UpdateTrailCommand request, CancellationToken cancellationToken)
     {
-         //var trail = await _context.Set<Core.Entities.Trail>()
-           // .FirstOrDefaultAsync(t => t.Id == request.TrailId, cancellationToken);
-        var trail = await _trailRepository.GetByIdAsync(request.TrailId, cancellationToken);
+        _logger.LogInformation(
+            $"Attempting to update trail {request.TrailId} with data: {request}"); // Use request.TrailId for clarity
 
-        if (trail == null)
+        var trailToUpdate = await _trailRepository.GetByIdAsync(request.TrailId, cancellationToken); // Use request.TrailId
+
+        if (trailToUpdate == null)
         {
+            _logger.LogWarning($"Trail with ID {request.TrailId} not found for update.");
             throw new TrailNotFoundException(request.TrailId);
         }
 
-        // Add at the start of the Handle method:
-        _logger.LogInformation($"Updating trail {request.TrailId} with values: Distance={request.Distance}, Elevation={request.ElevationGain}, Difficulty={request.DifficultyLevel}");
+        // Apply updates only if the request field is not null AND it's different from the current value
+        // This avoids unnecessary database updates if no change occurred
 
-        // Handle nullable values
-        if (request.Distance.HasValue)
+        if (request.Name is not null &&
+            !string.Equals(request.Name, trailToUpdate.Name,
+                StringComparison.Ordinal)) // Or OrdinalIgnoreCase if name comparison is case-insensitive
         {
-            trail.Distance = request.Distance.Value;
+            trailToUpdate.Name = request.Name;
+            _logger.LogInformation("Trail {RequestTrailId}: Name changed from '{Name}' to '{RequestName}' by {RequestUpdatedBy}", 
+                request.TrailId, trailToUpdate.Name, request.Name, request.UpdatedBy);
+        }
+
+        if (request.Description is not null &&
+            !string.Equals(request.Description, trailToUpdate.Description, StringComparison.Ordinal))
+        {
+            trailToUpdate.Description = request.Description;
+            _logger.LogInformation("Trail {RequestTrailId}: Name changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
+                request.TrailId, trailToUpdate.Description, request.Description, request.UpdatedBy);
         }
         
-        if (request.ElevationGain.HasValue)
+        if (request.Distance.HasValue && !request.Distance.Value.Equals(trailToUpdate.DistanceMeters))
         {
-            trail.ElevationGain = request.ElevationGain.Value;
+            trailToUpdate.DistanceMeters = request.Distance.Value;
+            _logger.LogInformation("Trail {RequestTrailId}: Distance changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
+                request.TrailId, trailToUpdate.DistanceMeters, request.Distance, request.UpdatedBy);
         }
 
-        if (request.DifficultyLevel.HasValue)
+        if (request.ElevationGain.HasValue && !request.ElevationGain.Value.Equals((trailToUpdate.ElevationGainMeters)))
         {
-            trail.DifficultyLevel = request.DifficultyLevel.Value;
+            trailToUpdate.ElevationGainMeters = request.ElevationGain.Value;
+            _logger.LogInformation("Trail {RequestTrailId}: ElevationGain changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
+                request.TrailId, trailToUpdate.ElevationGainMeters, request.ElevationGain, request.UpdatedBy);
         }
 
-        // Update geometry points
-        /*
-        if (request.StartPoint.HasValue)
+        if (request.DifficultyLevel.HasValue && request.DifficultyLevel.Value != trailToUpdate.DifficultyLevel)
         {
-            var startPoint = request.StartPoint.Value;
-            trail.StartPoint = GeometryFactory.CreatePoint(
-                new CoordinateZ(startPoint.Longitude, startPoint.Latitude, 0));
+            trailToUpdate.DifficultyLevel = request.DifficultyLevel.Value;
+            _logger.LogInformation("Trail {RequestTrailId}: DifficultyLevel changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
+                request.TrailId, trailToUpdate.DifficultyLevel, request.DifficultyLevel, request.UpdatedBy);
         }
 
-        if (request.EndPoint.HasValue)
+        if (request.RouteType.HasValue && request.RouteType.Value != trailToUpdate.RouteType)
         {
-            var endPoint = request.EndPoint.Value;
-            trail.EndPoint = GeometryFactory.CreatePoint(
-                new CoordinateZ(endPoint.Longitude, endPoint.Latitude, 0));
+            trailToUpdate.RouteType = request.RouteType.Value;
+            _logger.LogInformation("Trail {RequestTrailId}: RouteType changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
+                request.TrailId, trailToUpdate.RouteType, request.RouteType, request.UpdatedBy);
         }
-        */
+
+        if (request.TerrainType.HasValue && request.TerrainType.Value != trailToUpdate.TerrainType)
+        {
+            trailToUpdate.TerrainType = request.TerrainType.Value;
+            _logger.LogInformation("Trail {RequestTrailId}: TerrainType changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
+                request.TrailId, trailToUpdate.TerrainType, request.TerrainType, request.UpdatedBy);
+        }
+
+        if (request.SurfaceType.HasValue && request.SurfaceType.Value != trailToUpdate.SurfaceType)
+        {
+            trailToUpdate.SurfaceType = request.SurfaceType.Value;
+            _logger.LogInformation("Trail {RequestTrailId}: SurfaceType changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
+                request.TrailId, trailToUpdate.SurfaceType, request.SurfaceType, request.UpdatedBy);
+        }
 
         // For RouteGeom, we need to ensure it has Z coordinates as well
         if (request.RouteGeom != null)
         {
             // Create a new LineString with Z coordinates if the incoming one doesn't have them
             var coordinates = request.RouteGeom.Coordinates;
-            var coordsWithZ = coordinates.Select(c => 
+            var coordsWithZ = coordinates.Select(c =>
                 c is CoordinateZ ? c : new CoordinateZ(c.X, c.Y, 0)).ToArray();
-            
-            trail.RouteGeom = GeometryFactory.CreateLineString(coordsWithZ);
+
+            trailToUpdate.RouteGeom = _geometryFactory.CreateLineString(coordsWithZ);
+            _logger.LogInformation("Trail {RequestTrailId}: RouteGeom changed by {RequestUpdatedBy}", 
+                request.TrailId, request.UpdatedBy);
         }
 
+        // If you want to allow clearing WebUrl by passing null:
+        //trailToUpdate.WebUrl = request.WebUrl;
+        // If null means "no change", then:
+        if (request.WebUrl is not null &&
+            !string.Equals(request.WebUrl, trailToUpdate.WebUrl,
+                StringComparison.OrdinalIgnoreCase)) // Often URLs are case-insensitive for comparison
+        {
+            trailToUpdate.WebUrl = request.WebUrl;
+            _logger.LogInformation("Trail {RequestTrailId}: WebUrl changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
+                request.TrailId, trailToUpdate.WebUrl, request.WebUrl, request.UpdatedBy);
+        }
 
-        trail.HasGpx = true;
-
-        //_context.Set<Core.Entities.Trail>().Update(trail);
+        // Set audit fields
+        trailToUpdate.UpdatedBy = request.UpdatedBy;
+        trailToUpdate.UpdatedAt = DateTime.UtcNow;
 
         try
         {
-            //var result = await _context.SaveChangesAsync(cancellationToken);
-            var updatedTrail = await _trailRepository.UpdateAsync(trail, cancellationToken);
-            if (updatedTrail == null)
-            {
-                throw new Exception("No changes were saved to the database.");
-            }
+            await _trailRepository.UpdateAsync(trailToUpdate, cancellationToken);
+            // If UpdateAsync always throws on failure, no need for the `if (updatedTrail == null)` check here.
+            // The return value of UpdateAsync is not being used, so you can just await it.
         }
         catch (Exception ex)
         {
-            throw new Exception($"Failed to update trail {request.TrailId}", ex);
+            _logger.LogError(ex, $"Failed to update trail {request.TrailId}."); // Log the exception details
+            throw new Exception($"Failed to update trail {request.TrailId}", ex); // Re-throw with context
         }
 
-        // Add before returning:
-        _logger.LogInformation($"Trail {request.TrailId} updated successfully");
+        _logger.LogInformation($"Trail {request.TrailId} updated successfully: {trailToUpdate}.");
 
         return Unit.Value;
     }
-    
-    /*public async Task<Unit> Handle(UpdateTrailCommand request, CancellationToken cancellationToken)
-    {
-        var trail = await _context.Set<Core.Entities.Trail>()
-            .FirstOrDefaultAsync(t => t.Id == request.TrailId, cancellationToken);
-
-        if (trail == null)
-        {
-            throw new TrailNotFoundException(request.TrailId);
-        }
-
-        // Handle nullable values
-        if (request.Distance.HasValue)
-        {
-            trail.Distance = request.Distance.Value;
-        }
-    
-        if (request.ElevationGain.HasValue)
-        {
-            trail.ElevationGain = request.ElevationGain.Value;
-        }
-    
-        if (request.DifficultyLevel.HasValue)
-        {
-            trail.DifficultyLevel = request.DifficultyLevel.Value;
-        }
-        
-        /*
-        // Update points only if they are provided
-        if (request.StartPoint.HasValue)
-        {
-            var startPoint = request.StartPoint.Value;
-            trail.StartPoint = GeometryFactory.CreatePoint(
-                new Coordinate(startPoint.Longitude, startPoint.Latitude));
-        }
-
-        if (request.EndPoint.HasValue)
-        {
-            var endPoint = request.EndPoint.Value;
-            trail.EndPoint = GeometryFactory.CreatePoint(
-                new Coordinate(endPoint.Longitude, endPoint.Latitude));
-        }
-
-        if (request.RouteGeom != null)
-        {
-            trail.RouteGeom = request.RouteGeom;
-        }
-        #1#
-
-        trail.HasGpx = true;
-
-        try
-        {
-            await _context.SaveChangesAsync(cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            throw new TrailNotFoundException(request.TrailId, ex);
-        }
-
-        return Unit.Value;
-    }*/
 }

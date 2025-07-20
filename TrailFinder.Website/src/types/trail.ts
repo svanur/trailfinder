@@ -56,9 +56,9 @@ export interface Trail {
     terrainType: TerrainType;
     surfaceType: SurfaceType;
     webUrl?: string;
-    hasGpx: boolean;
     trailLocations?: TrailLocation[];
-    createdAt: string;
-    updatedAt: string;
-    userId: string;
+    createdBy: string | null;
+    createdAt: string; // ISO date string
+    updatedBy: string | null;
+    updatedAt: string; // ISO date string
 }

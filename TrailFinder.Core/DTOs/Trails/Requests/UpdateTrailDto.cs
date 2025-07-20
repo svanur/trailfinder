@@ -1,3 +1,4 @@
+using NetTopologySuite.Geometries;
 using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Core.DTOs.Trails.Requests;
@@ -5,12 +6,13 @@ namespace TrailFinder.Core.DTOs.Trails.Requests;
 public record UpdateTrailDto(
     string? Name,
     string? Description,
-    decimal? Distance,
-    decimal? ElevationGain,
+    double? Distance,
+    double? ElevationGain,
     DifficultyLevel? DifficultyLevel,
     RouteType? RouteType,
     TerrainType? TerrainType,
- 
+    SurfaceType? SurfaceType,
+    LineString? RouteGeom,
     string? WebUrl,
-    bool HasGpx //TODO ?
+    Guid UpdatedBy
 );

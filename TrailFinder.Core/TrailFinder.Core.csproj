@@ -19,4 +19,8 @@
     <ProjectReference Include="..\TrailFinder.Contract\TrailFinder.Contract.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\GpxFile\Requests\" />
+  </ItemGroup>
+
 </Project>

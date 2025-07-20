@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TrailFinder.Core.Entities;
+using TrailFinder.Infrastructure.Persistence.Converters;
 
 namespace TrailFinder.Infrastructure.Persistence.Configurations;
 
@@ -36,18 +37,19 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
 
         builder.Property(t => t.Description)
             .HasColumnName("description")
-            .IsRequired();
+            .IsRequired()
+            .HasMaxLength(2000);
 
         // Numeric properties
-        builder.Property(t => t.Distance)
-            .HasColumnName("distance")
-            .HasColumnType("decimal(10,2)")
+        builder.Property(t => t.DistanceMeters)
+            .HasColumnName("distance_meters")
+            .HasConversion<DoubleToIntConverter>()
             .IsRequired();
 
-        builder.Property(t => t.ElevationGain)
-            .HasColumnName("elevation_gain")
-            .HasColumnType("double precision") // PostgreSQL type for double
-            .IsRequired(); // This is actually the default for non-nullable types
+        builder.Property(t => t.ElevationGainMeters)
+            .HasColumnName("elevation_gain_meters")
+            .HasConversion<int>()
+            .IsRequired();
 
         builder.Property(t => t.DifficultyLevel)
             .HasColumnName("difficulty_level");
@@ -60,13 +62,6 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
         
         builder.Property(t => t.SurfaceType)
             .HasColumnName("surface_type");
-
-        // Boolean property
-        builder.Property(t => t.HasGpx)
-            .HasColumnName("has_gpx")
-            .HasColumnType("boolean")
-            .IsRequired()
-            .HasDefaultValue(false);
 
         builder.Property(t => t.RouteGeom)
             .HasColumnName("route_geom")
@@ -83,18 +78,22 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
         builder.Property(t => t.CreatedAt)
             .HasColumnName("created_at")
             .HasColumnType("timestamp with time zone")
-            .IsRequired()
-            .ValueGeneratedOnAdd();
+            .ValueGeneratedOnAdd(); // Only set ValueGeneratedOnAdd if DB defaults it
 
         builder.Property(t => t.UpdatedAt)
             .HasColumnName("updated_at")
             .HasColumnType("timestamp with time zone")
-            .IsRequired()
-            .ValueGeneratedOnUpdate();
+            .ValueGeneratedOnUpdate(); // Only set ValueGeneratedOnUpdate if DB defaults it
 
-        builder.Property(t => t.UserId)
-            .HasColumnName("user_id")
+        // User IDs
+        builder.Property(t => t.CreatedBy)
+            .HasColumnName("created_by")
             .HasColumnType("uuid");
+        
+        builder.Property(t => t.UpdatedBy)
+            .HasColumnName("updated_by")
+            .HasColumnType("uuid")
+            .IsRequired(false);
 
         //
         // Indices
@@ -102,7 +101,7 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
         builder.HasIndex(t => t.Slug)
             .IsUnique();
 
-        builder.HasIndex(t => t.UserId);
+        builder.HasIndex(t => t.CreatedBy);
 
         builder.HasIndex(t => t.RouteGeom)
             .HasMethod("GIST");

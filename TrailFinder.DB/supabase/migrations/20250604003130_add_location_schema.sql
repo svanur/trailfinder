@@ -10,9 +10,10 @@ create table public.locations
     longitude   DOUBLE PRECISION,
     --point_geom geometry(LINESTRINGZ, 4326),
 
-    user_id     UUID REFERENCES auth.users (id) NOT NULL,
-    created_at  TIMESTAMPTZ      DEFAULT NOW(),
-    updated_at  TIMESTAMPTZ      DEFAULT NOW(),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    created_by UUID REFERENCES auth.users(id) NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_by UUID REFERENCES auth.users(id),
 
     constraint locations_parent_id_fkey foreign KEY (parent_id) references locations (id),
 

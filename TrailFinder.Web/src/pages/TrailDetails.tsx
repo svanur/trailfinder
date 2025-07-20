@@ -19,7 +19,7 @@ const TrailDetails: React.FC = () => {
     const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
 
     const loadGpxData = useCallback(async () => {
-        if (trail?.hasGpx) {
+        if (trail?.routeGeom != null) {
             try {
                 setIsLoadingGpx(true);
                 const trailInfo = await getGpxContent(trail.id);
@@ -91,7 +91,7 @@ const TrailDetails: React.FC = () => {
                 <div className="space-y-4">
                     <TrailHeader trail={trail} />
 
-                    {trail.hasGpx && parsedGpxData.length > 0 && (
+                    {trail.routeGeom != null && parsedGpxData.length > 0 && (
                         <TrailVisualization
                             parsedGpxData={parsedGpxData}
                             hoveredPoint={hoveredPoint}
