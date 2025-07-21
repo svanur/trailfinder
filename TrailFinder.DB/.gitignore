@@ -55,3 +55,4 @@ supabase/.branches/
 supabase/.temp/
 supabase/.env
 .branches/
+supabase/seeds/gpx-files/*.gpx
