@@ -4,22 +4,24 @@ import { NotFound } from "./pages/NotFound.tsx";
 import { TrailDetails } from "./pages/TrailDetails.tsx";
 import { SearchSection } from './components/SearchSection.tsx';
 import { TrailsTable } from './components/TrailsTable.tsx';
-import { useState } from 'react'; // Import useState for managing searchTerm
-import { Container, Title } from '@mantine/core'; // Import Title for the page heading
+import { useState } from 'react';
+import { Container, Title } from '@mantine/core';
+import {type TrailFilters, initialTrailFilters } from './types/filters'; // Import filter types
 
 export function AppRoutes() {
-    const [searchTerm, setSearchTerm] = useState(''); // Manage searchTerm state here
+    // Manage the full filter state object here
+    const [filters, setFilters] = useState<TrailFilters>(initialTrailFilters);
 
     return (
         <Routes>
             <Route path="/" element={
-                // Wrap the content with a Fragment or div
                 <>
-                    <Container size="lg" py="md"> {/* Add a container for general page padding */}
-                        <Title order={1} mb="md">Gönguleiðir</Title> {/* Page title */}
-                        <SearchSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-                        {/* Pass searchTerm to TrailsTable */}
-                        <TrailsTable searchTerm={searchTerm} />
+                    <Container size="lg" py="md">
+                        <Title order={1} mb="md">Gönguleiðir</Title>
+                        {/* Pass the entire filters object and its setter to SearchSection */}
+                        <SearchSection filters={filters} setFilters={setFilters} />
+                        {/* Pass the entire filters object to TrailsTable */}
+                        <TrailsTable filters={filters} />
                     </Container>
                 </>
             } />
