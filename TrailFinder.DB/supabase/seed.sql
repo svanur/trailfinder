@@ -28,7 +28,13 @@ DECLARE
     hvitasunnuhlaup_hauka_14_trail_id UUID;
     puffin_run_trail_id UUID;
     bakgardur_ellidavatn_trail_id UUID;
-    skaftafell_ultra_trail_id UUID;
+    skaftafell_ultra_trail_id UUID;     
+    hafnarfjall_ultra_seven_peaks_id UUID;
+    hafnarfjall_ultra_summit_id UUID;
+    hellisheidi_sunnan_vega_id UUID;
+    sveifluhals_id UUID;
+    ulfarsfellsslaufan_id UUID;
+                          
     laugavegur_trail_id UUID := '30000000-0000-0000-0000-000000000001'; -- New, specifically for Laugavegur
 
 BEGIN
@@ -126,22 +132,26 @@ VALUES (
 ---
 --- Insert sample trails
 ---
-INSERT INTO public.trails (id, name, slug, description, distance_meters, elevation_gain_meters, difficulty_Level, route_type, terrain_type, surface_type, web_url, created_by, created_at)
+INSERT INTO public.trails (id, name, slug, description, distance_meters, elevation_gain_meters, difficulty_Level, route_type, terrain_type, surface_type, created_by, created_at)
 VALUES
-    (gen_random_uuid(), 'Mt Esja Ultra maraþon', 'esja-ultra-marathon', 'Maraþon keppnisleiðin í hlíðum Esjunnar.', 43, 3245, 'extreme', 'circular', 'mountainous', 'trail','https://www.strava.com/activities/5495817983', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Mt Esja Ultra hálfmaraþon', 'esja-ultra-half-marathon', 'Hálfmaraþon keppnisleiðin í hlíðum Esjunnar', 0, 0, 'hard', 'circular', 'mountainous', 'trail', 'https://connect.garmin.com/modern/course/253641069', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hengill Ultra 52', 'hengill-ultra-52', 'Hengill Ultra keppnishlaupið í Hveragerði', 0, 0, 'extreme', 'circular', 'mountainous', 'trail', 'https://www.strava.com/routes/2829454378257603194', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 22km', 'hvitasunnuhlaup-hauka-22', '22km keppnisleiðin í Hvítasunnuhlaupi Hauka', 0, 0, 'unknown', 'out-and-back', 'hilly', 'trail', 'https://www.strava.com/activities/1586469545', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 17km', 'hvitasunnuhlaup-hauka-17', '17km keppnisleiðin í Hvítasunnuhlaupi Hauka', 0, 0, 'moderate', 'unknown', 'hilly', 'trail', 'https://connect.garmin.com/modern/course/60180539', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 14km', 'hvitasunnuhlaup-hauka-14', '14km keppnisleiðin í Hvítasunnuhlaupi Hauka', 0, 0, 'easy', 'circular', 'rolling', 'trail', 'https://connect.garmin.com/modern/course/60180128', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Puffin Run', 'puffin-run', 'Puffin Run keppnishlaupið í Vestmannaeygjum', 0, 0, 'moderate', 'circular', 'hilly', 'trail', 'https://connect.garmin.com/modern/course/157776054', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Bakgarður Náttúruhlaupa við Elliðavatn', 'bakgardur-ellidavatn', 'Bakgarður Náttúruhlaupa við Elliðavatn', 0, 0, 'easy', 'circular', 'flat', 'trail', 'https://www.strava.com/segments/25811198', seed_created_by, NOW()),
-    (gen_random_uuid(), '5km hlaup HHFH og 66°N', 'hlaupaseria-66', 'Hlaupasería 66°N og Hlaupahóps FH', 5, 44, 'easy', 'out-and-back', 'flat', 'asphalt', '', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Sandhlaupið', 'sandhlaupid', 'hlaupið í sandi', 11, 0, 'easy', 'unknown', 'flat', 'sand', '', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Snjóhlaupið', 'snjohlaupid', 'hlaupið í snjó', 22, 0, 'moderate', 'unknown', 'flat', 'snow', '', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Íshlaupið', 'islaupid', 'hlaupið á jökli', 33, 0, 'hard', 'out-and-back', 'flat', 'ice', '', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Skaftafell Ultra', 'skaftafell-ultra', 'Náttúruhlaup í Skaftafelli', 0, 0, 'hard', 'circular', 'mountainous', 'trail', 'https://www.strava.com/routes/3207311786703399086', seed_created_by, NOW()),
-    ( laugavegur_trail_id, 'Laugavegur Trail', 'laugavegur-ultra', 'The famous Laugavegur hiking trail from Landmannalaugar to Þórsmörk.', 53, 1500, 'hard', 'point-to-point', 'hilly', 'trail', 'https://connect.garmin.com/modern/course/376837566', seed_created_by, NOW()
+    (gen_random_uuid(), 'Mt Esja Ultra maraþon', 'esja-ultra-marathon', 'Maraþon keppnisleiðin í hlíðum Esjunnar.', 43, 3245, 'unknown', 'unknown','unknown','unknown',seed_created_by, NOW()),
+    (gen_random_uuid(), 'Mt Esja Ultra hálfmaraþon', 'esja-ultra-half-marathon', 'Hálfmaraþon keppnisleiðin í hlíðum Esjunnar', 0, 0, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hengill Ultra 52', 'hengill-ultra-52', 'Hengill Ultra keppnishlaupið í Hveragerði', 0, 0, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 22km', 'hvitasunnuhlaup-hauka-22', '22km keppnisleiðin í Hvítasunnuhlaupi Hauka', 0, 0, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 17km', 'hvitasunnuhlaup-hauka-17', '17km keppnisleiðin í Hvítasunnuhlaupi Hauka', 0, 0, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 14km', 'hvitasunnuhlaup-hauka-14', '14km keppnisleiðin í Hvítasunnuhlaupi Hauka', 0, 0, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Puffin Run', 'puffin-run', 'Puffin Run keppnishlaupið í Vestmannaeygjum', 0, 0, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Bakgarður Náttúruhlaupa við Elliðavatn', 'bakgardur-ellidavatn', 'Bakgarður Náttúruhlaupa við Elliðavatn', 0, 0, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()),
+    (gen_random_uuid(), '5km hlaup HHFH og 66°N', 'hlaupaseria-66', 'Hlaupasería 66°N og Hlaupahóps FH', 5, 44, 'unknown', 'unknown','unknown','unknown',seed_created_by, NOW()),
+    (gen_random_uuid(), 'Skaftafell Ultra', 'skaftafell-ultra', 'Náttúruhlaup í Skaftafelli', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
+    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar', 'hafnarfjall-ultra-seven-peaks', '7 tindur. Keppnisleið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hafnarfjall Ultra 1 tindur', 'hafnarfjall-ultra-summit', '1 tindur. Keppnisleið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hellisheiði sunnan vega', 'hellisheidi-sunnan-vega', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Sveifluháls', 'sveifluhals', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Úlfarsfellsslaufan', 'ulfarsfellsslaufan', '3 Úllar, mismunandi leiðir upp og niður', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
+    ( laugavegur_trail_id, 'Laugavegur Trail', 'laugavegur-ultra', 'The famous Laugavegur hiking trail from Landmannalaugar to Þórsmörk.', 53, 1500, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()
 ) ON CONFLICT (slug) DO NOTHING;
 
 ---
@@ -237,6 +247,11 @@ SELECT id INTO puffin_run_trail_id FROM public.trails WHERE slug = 'puffin-run';
 SELECT id INTO bakgardur_ellidavatn_trail_id FROM public.trails WHERE slug = 'bakgardur-ellidavatn';
 SELECT id INTO skaftafell_ultra_trail_id FROM public.trails WHERE slug = 'skaftafell-ultra';
 
+SELECT id INTO hafnarfjall_ultra_seven_peaks_id FROM public.trails WHERE slug = 'hafnarfjall-ultra-seven-peaks';
+SELECT id INTO hafnarfjall_ultra_summit_id FROM public.trails WHERE slug = 'hafnarfjall-ultra-summit';
+SELECT id INTO hellisheidi_sunnan_vega_id FROM public.trails WHERE slug = 'hellisheidi-sunnan-vega';
+SELECT id INTO sveifluhals_id FROM public.trails WHERE slug = 'sveifluhals';
+SELECT id INTO ulfarsfellsslaufan_id FROM public.trails WHERE slug = 'ulfarsfellsslaufan';
 
 ---
 --- Insert sample race_trails connections

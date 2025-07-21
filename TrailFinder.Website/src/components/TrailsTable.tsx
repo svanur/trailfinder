@@ -33,8 +33,8 @@ export function TrailsTable() {
                     leftSection={<IconActivity size={16} stroke={1.5} />}
                 />
             </Table.Td>
-            <Table.Td>{trail.distance}</Table.Td>
-            <Table.Td>{trail.elevationGain}</Table.Td>
+            <Table.Td>{trail.distanceMeters}</Table.Td>
+            <Table.Td>{trail.elevationGainMeters}</Table.Td>
             <Table.Td>{trail.surfaceType}</Table.Td>
             <Table.Td>{trail.difficultyLevel}</Table.Td>
             <Table.Td>{trail.routeType}</Table.Td>

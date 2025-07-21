@@ -40,12 +40,6 @@ public class UpdateTrailCommandValidator : AbstractValidator<UpdateTrailCommand>
             .WithMessage("Elevation gain cannot be negative.")
             .When(x => x.ElevationGain.HasValue); // Apply if ElevationGain is provided
 
-        // 6. Validate 'WebUrl'
-        RuleFor(x => x.WebUrl)
-            .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _)) // Check if it's a valid URI
-            .When(x => !string.IsNullOrEmpty(x.WebUrl)) // Only if a non-empty string is provided
-            .WithMessage("Web URL must be a valid URL.");
-
         // 7. Validate 'UpdatedBy' (mandatory for audit)
         RuleFor(x => x.UpdatedBy)
             .NotEmpty()

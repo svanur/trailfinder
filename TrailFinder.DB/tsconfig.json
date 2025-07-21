@@ -5,8 +5,12 @@
     "declaration": true,
     "outDir": "./dist",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "rootDir": "." // Ensure rootDir is '.' to maintain relative paths in dist
   },
-  "include": ["./**/*.ts"],
+  "include": [
+    "index.ts",     // <--- Explicitly include the root index.ts
+    "types/**/*.ts" // <--- Include all .ts files under the types folder
+  ],
   "exclude": ["node_modules", "dist"]
 }

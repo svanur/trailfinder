@@ -1,7 +1,7 @@
 // src/services/trailsApi.ts
 import { apiClient } from './api';
 import { API_CONFIG } from '../config/api';
-import type { Trail } from '@trailfinder/db-types/database';
+import type { Trail } from '@trailfinder/db-types';
 import axios from "axios";
 import type { PaginatedResponse } from '../types/api';
 

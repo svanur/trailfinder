@@ -24,9 +24,9 @@ namespace TrailFinder.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "difficulty_level", new[] { "unknown", "easy", "moderate", "hard", "extreme" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "route_type", new[] { "unknown", "circular", "out-and-back", "point-to-point" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "route_type", new[] { "unknown", "circular", "outAndBack", "pointToPoint" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "terrain_type", new[] { "unknown", "flat", "rolling", "hilly", "mountainous" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "surface_type", new[] { "unknown", "trail", "asphalt", "sand", "snow", "ice" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "surface_type", new[] { "unknown", "trail", "paved", "mixed" });
             
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "race_status", new[] { "unknown", "active", "changed", "cancelled", "deprecated" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "location_type", new[] { "unknown", "start", "aid_station", "checkpoint", "end", "start_and_end" });
@@ -276,12 +276,7 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("slug");
-                    
-                    b.Property<string>("WebUrl")
-                        .HasMaxLength(2048)
-                        .HasColumnType("character varying(2048)")
-                        .HasColumnName("web_url");
-                    
+                       
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")

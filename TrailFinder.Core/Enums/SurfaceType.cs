@@ -10,15 +10,9 @@ public enum SurfaceType
     [PgName("trail")]
     Trail = 1,
     
-    [PgName("asphalt")]
-    Asphalt = 2,
+    [PgName("paved")]
+    Paved = 2,
     
-    [PgName("sand")]
-    Sand = 3,
-    
-    [PgName("snow")]
-    Snow = 4,
-    
-    [PgName("ice")]
-    Ice = 5
+    [PgName("mixed")]
+    Mixed = 3
 }

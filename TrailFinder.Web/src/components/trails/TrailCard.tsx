@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Trail } from '@trailfinder/db-types/database';
+import { Trail } from '@trailfinder/db-types';
 import {DistanceUnit, formatDistance} from "../../utils/distanceUtils.ts";
 interface TrailCardProps {
     trail: Trail;

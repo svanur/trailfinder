@@ -13,6 +13,5 @@ public record UpdateTrailDto(
     TerrainType? TerrainType,
     SurfaceType? SurfaceType,
     LineString? RouteGeom,
-    string? WebUrl,
     Guid UpdatedBy
 );

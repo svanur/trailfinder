@@ -116,29 +116,27 @@ const FilterSelect = ({ data, placeholder }: { data: FilterOption[], placeholder
 
 const surfaceData = [
     { value: 'trail', label: 'Utanvega', icon: <IconBabyCarriage style={{ width: 16, height: 16 }} /> },
-    { value: 'asphalt', label: 'Malbik', icon: <IconWalk style={{ width: 16, height: 16 }} /> },
-    { value: 'sand', label: 'Sandur', icon: <IconSandbox style={{ width: 16, height: 16 }} /> },
-    { value: 'snow', label: 'Snjór', icon: <IconMountain style={{ width: 16, height: 16 }} /> },
-    { value: 'ice', label: 'Ís', icon: <IconMountain style={{ width: 16, height: 16 }} /> }
+    { value: 'paved', label: 'Malbik', icon: <IconWalk style={{ width: 16, height: 16 }} /> },
+    { value: 'mixed', label: 'Sandur', icon: <IconSandbox style={{ width: 16, height: 16 }} /> }
 ];
 const difficultyData = [
     { value: 'easy', label: 'Auðvelt', icon: <IconBabyCarriage style={{ width: 16, height: 16 }} /> },
-    { value: 'moderate', label: 'Miðlungs', icon: <IconWalk style={{ width: 16, height: 16 }} /> },
+    { value: 'moderate', label: 'Í meðallagi', icon: <IconWalk style={{ width: 16, height: 16 }} /> },
     { value: 'hard', label: 'Erfitt', icon: <IconRun style={{ width: 16, height: 16 }} /> },
     { value: 'extreme', label: 'Mjög erfitt', icon: <IconMountain style={{ width: 16, height: 16 }} /> }
 ];
 
 const routeData = [
-    { value: 'circular', label: 'Hringleið', icon: <IconCircle style={{ width: 16, height: 16 }} /> },
-    { value: 'out-and-back', label: 'Fram og til baka', icon: <IconArrowBack style={{ width: 16, height: 16 }} /> },
-    { value: 'point-to-point', label: 'Punkt í punkt', icon: <IconArrowForward style={{ width: 16, height: 16 }} /> }
+    { value: 'circular', label: 'Hringur', icon: <IconCircle style={{ width: 16, height: 16 }} /> },
+    { value: 'outAndBack', label: 'Fram og til baka', icon: <IconArrowBack style={{ width: 16, height: 16 }} /> },
+    { value: 'pointToPoint', label: 'A til B', icon: <IconArrowForward style={{ width: 16, height: 16 }} /> }
 ];
 
 const terrainData = [
     { value: 'flat', label: 'Flatlendi', icon: <IconRipple style={{ width: 16, height: 16 }} /> },
-    { value: 'rolling', label: 'Öldótt', icon: <IconWaveSine style={{ width: 16, height: 16 }} /> },
-    { value: 'hilly', label: 'Hólótt', icon: <IconMountainOff style={{ width: 16, height: 16 }} /> },
-    { value: 'mountainous', label: 'Fjöllendi', icon: <IconMountain style={{ width: 16, height: 16 }} /> }
+    { value: 'rolling', label: 'Rúllandi', icon: <IconWaveSine style={{ width: 16, height: 16 }} /> },
+    { value: 'hilly', label: 'Hæðótt', icon: <IconMountainOff style={{ width: 16, height: 16 }} /> },
+    { value: 'mountainous', label: 'Fjalllendi', icon: <IconMountain style={{ width: 16, height: 16 }} /> }
 ];
 
 const regionData = [

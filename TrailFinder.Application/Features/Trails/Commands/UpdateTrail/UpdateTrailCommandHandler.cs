@@ -115,18 +115,6 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
                 request.TrailId, request.UpdatedBy);
         }
 
-        // If you want to allow clearing WebUrl by passing null:
-        //trailToUpdate.WebUrl = request.WebUrl;
-        // If null means "no change", then:
-        if (request.WebUrl is not null &&
-            !string.Equals(request.WebUrl, trailToUpdate.WebUrl,
-                StringComparison.OrdinalIgnoreCase)) // Often URLs are case-insensitive for comparison
-        {
-            trailToUpdate.WebUrl = request.WebUrl;
-            _logger.LogInformation("Trail {RequestTrailId}: WebUrl changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
-                request.TrailId, trailToUpdate.WebUrl, request.WebUrl, request.UpdatedBy);
-        }
-
         // Set audit fields
         trailToUpdate.UpdatedBy = request.UpdatedBy;
         trailToUpdate.UpdatedAt = DateTime.UtcNow;

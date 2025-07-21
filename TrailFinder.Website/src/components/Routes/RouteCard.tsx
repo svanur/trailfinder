@@ -29,7 +29,7 @@ export function RouteCard({ route, onFavoriteClick }: RouteCardProps) {
 
                 <Group gap="xs">
                     <Text size="sm" c="dimmed">
-                        {route.distance}km
+                        {route.distanceKm}km
                     </Text>
                     <Text size="sm" c="dimmed">•</Text>
                     <Text size="sm" c="dimmed">
@@ -46,9 +46,9 @@ export function RouteCard({ route, onFavoriteClick }: RouteCardProps) {
                         <Badge variant="light" color="blue">
                             {route.terrainType}
                         </Badge>
-                        {route.elevation && (
+                        {route.elevationMeters && (
                             <Badge variant="light" color="grape">
-                                {route.elevation.gain}m hækkun
+                                {route.elevationMeters.gain}m hækkun
                             </Badge>
                         )}
                     </Group>

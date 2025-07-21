@@ -25,11 +25,6 @@ public class CreateTrailCommandValidator : AbstractValidator<CreateTrailCommand>
             .GreaterThanOrEqualTo(0)
             .WithMessage("Elevation gain cannot be negative");
 
-        RuleFor(x => x.WebUrl)
-            .Must(uri => string.IsNullOrEmpty(uri) || Uri.TryCreate(uri, UriKind.Absolute, out _))
-            .When(x => !string.IsNullOrEmpty(x.WebUrl))
-            .WithMessage("Web URL must be a valid URL");
-
         RuleFor(x => x.CreatedBy)
             .NotEmpty()
             .WithMessage("User ID is required");
