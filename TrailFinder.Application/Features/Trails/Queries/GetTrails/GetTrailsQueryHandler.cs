@@ -7,7 +7,7 @@ using TrailFinder.Core.Interfaces.Repositories;
 
 namespace TrailFinder.Application.Features.Trails.Queries.GetTrails;
 
-public class GetTrailsQueryHandler : IRequestHandler<GetTrailsQuery, PaginatedResult<TrailDto>>
+public class GetTrailsQueryHandler : IRequestHandler<GetTrailsQuery, List<TrailDto>>
 {
     private readonly ILogger<GetTrailsQueryHandler> _logger;
     private readonly IMapper _mapper;
@@ -24,20 +24,12 @@ public class GetTrailsQueryHandler : IRequestHandler<GetTrailsQuery, PaginatedRe
         _trailRepository = trailRepository;
     }
 
-    public async Task<PaginatedResult<TrailDto>> Handle(
+    public async Task<List<TrailDto>> Handle(
         GetTrailsQuery request,
         CancellationToken cancellationToken)
     {
-        var paginatedTrails = await _trailRepository.GetPaginatedAsync(
-            request.PageNumber,
-            request.PageSize,
-            request.SortBy,
-            request.SortDescending,
-            cancellationToken
-        );
-
-        // AutoMapper setup for PaginatedResult<TSource> to PaginatedResult<TDestination>
-        // ensures that all properties (Items, PageNumber, etc.) are correctly mapped.
-        return _mapper.Map<PaginatedResult<TrailDto>>(paginatedTrails);
+        var allTrails = await _trailRepository.GetAllAsync(cancellationToken);
+        
+        return _mapper.Map<List<TrailDto>>(allTrails);
     }
 }

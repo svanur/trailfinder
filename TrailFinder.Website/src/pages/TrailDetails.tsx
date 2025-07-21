@@ -50,7 +50,7 @@ export function TrailDetails() {
         return (
             <Container ta="center" style={{ padding: '4rem 0' }}>
                 <Title order={2}>Engin gögn fundust!</Title>
-                <Text mt="md">Einhver villa kom upp og engin gönguleiðargögn fundust eða slóðin er ógild.</Text>
+                <Text mt="md">Einhver villa kom upp og engar leiðir fundust eða slóðin er ógild.</Text>
                 <Button mt="lg" onClick={() => navigate('/')}>Aftur á forsíðu</Button>
             </Container>
         );

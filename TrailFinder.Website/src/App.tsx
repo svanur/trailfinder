@@ -1,28 +1,28 @@
 // App.tsx
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AppShell, Text, Container, NavLink as MantineNavLink } from '@mantine/core'; // Alias Mantine's NavLink
+import { AppShell, Text, Container, NavLink as MantineNavLink } from '@mantine/core';
 import { IconRun } from "@tabler/icons-react";
-import { BrowserRouter, NavLink as RouterNavLink } from 'react-router-dom'; // Import BrowserRouter and RouterNavLink
+import { BrowserRouter, NavLink as RouterNavLink } from 'react-router-dom';
 
-import { AppRoutes } from './AppRoutes.tsx'; // Import AppRoutes
+import { AppRoutes } from './AppRoutes.tsx';
 
 const queryClient = new QueryClient();
 
 export function App() {
     return (
         <QueryClientProvider client={queryClient}>
-            {/* BrowserRouter must wrap everything that uses routing */}
             <BrowserRouter>
                 <AppShell
                     header={{ height: 60 }}
                     padding="md"
                 >
                     <AppShell.Header p="xs">
-                        <Text size="xl" fw={700}>
-                            {/* Use MantineNavLink with component prop for router integration */}
+                        {/* CHANGE HERE: Use component="div" or component="span" for Text */}
+                        {/* Or, if you want it to be a semantic heading, use component="h1" (though adjust size/styles accordingly) */}
+                        <Text size="xl" fw={700} component="div">
                             <MantineNavLink
-                                component={RouterNavLink} // Tell MantineNavLink to render as RouterNavLink
-                                to="/" // Use 'to' prop for react-router-dom
+                                component={RouterNavLink}
+                                to="/"
                                 label="Hlaupaleiðir"
                                 leftSection={<IconRun size={16} stroke={1.5} />}
                             />
@@ -31,7 +31,6 @@ export function App() {
 
                     <AppShell.Main>
                         <Container>
-                            {/* Render AppRoutes here to enable routing */}
                             <AppRoutes />
                         </Container>
                     </AppShell.Main>

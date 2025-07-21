@@ -10,7 +10,10 @@
         
         Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
         
+        Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
+        
         // Add a generic paginated method
+        /*
         Task<PaginatedResult<TEntity>> GetPaginatedAsync(
             int pageNumber,
             int pageSize,
@@ -18,6 +21,7 @@
             bool sortDescending = false,
             CancellationToken cancellationToken = default
          );
+        */
         
         Task<TEntity> CreateAsync(TEntity entity, CancellationToken cancellationToken = default);
         

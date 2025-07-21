@@ -85,8 +85,8 @@ public class TrailsControllerTests
             NewTrailDto("Trail 2" )
         };
 
-        var expectedTrails = new PaginatedResult<TrailDto>(
-            trails, 2, 1, 1
+        var expectedTrails = new List<TrailDto>(
+            trails
         );
 
         _mediatorMock
@@ -98,7 +98,7 @@ public class TrailsControllerTests
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        var returnedTrails = Assert.IsType<PaginatedResult<TrailDto>>(okResult.Value, false);
+        var returnedTrails = Assert.IsType<List<TrailDto>>(okResult.Value, false);
         Assert.Equal(expectedTrails, returnedTrails);
 
         _mediatorMock.Verify(
@@ -110,9 +110,8 @@ public class TrailsControllerTests
     public async Task GetTrails_WhenNoTrailsFound_ReturnsEmptyCollection()
     {
         // Arrange
-        var emptyResult = new PaginatedResult<TrailDto>(
-            new List<TrailDto>(),
-            0
+        var emptyResult = new List<TrailDto>(
+            new List<TrailDto>()
         );
 
         _mediatorMock

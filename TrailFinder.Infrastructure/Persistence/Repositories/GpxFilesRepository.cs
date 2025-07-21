@@ -50,34 +50,16 @@ public class GpxFileRepository : IGpxFileRepository
             .FirstOrDefaultAsync(gf => gf.StoragePath == storagePath && gf.IsActive, cancellationToken);
     }
 
-    public async Task<PaginatedResult<GpxFile>> GetPaginatedAsync(
-        int pageNumber,
-        int pageSize,
-        string? sortBy = null,
-        bool sortDescending = false,
-        CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<GpxFile>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        // Implement pagination logic, filtering by IsActive = true
         var query = _dbContext.GpxFiles.Where(gf => gf.IsActive);
-
-        // Apply sorting (basic example, can be extended with property mapping)
-        if (!string.IsNullOrEmpty(sortBy))
-            query = sortDescending
-                ? query.OrderByDescending(e => EF.Property<object>(e, sortBy))
-                : query.OrderBy(e => EF.Property<object>(e, sortBy));
-        else
-            // Default sort order if none specified
-            query = query.OrderBy(e => e.CreatedAt);
-
+        
         var totalCount = await query.CountAsync(cancellationToken);
         var items = await query
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
             .ToListAsync(cancellationToken);
 
-        return new PaginatedResult<GpxFile>(items, totalCount, pageNumber, pageSize);
+        return new List<GpxFile>(items);
     }
-
 
     public async Task<GpxFile> CreateAsync(GpxFile entity, CancellationToken cancellationToken = default)
     {
