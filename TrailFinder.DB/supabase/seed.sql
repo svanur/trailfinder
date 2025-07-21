@@ -28,7 +28,13 @@ DECLARE
     hvitasunnuhlaup_hauka_14_trail_id UUID;
     puffin_run_trail_id UUID;
     bakgardur_ellidavatn_trail_id UUID;
-    skaftafell_ultra_trail_id UUID;
+    skaftafell_ultra_trail_id UUID;     
+    hafnarfjall_ultra_seven_peaks_id UUID;
+    hafnarfjall_ultra_summit_id UUID;
+    hellisheidi_sunnan_vega_id UUID;
+    sveifluhals_id UUID;
+    ulfarsfellsslaufan_id UUID;
+                          
     laugavegur_trail_id UUID := '30000000-0000-0000-0000-000000000001'; -- New, specifically for Laugavegur
 
 BEGIN
@@ -138,6 +144,13 @@ VALUES
     (gen_random_uuid(), 'Bakgarður Náttúruhlaupa við Elliðavatn', 'bakgardur-ellidavatn', 'Bakgarður Náttúruhlaupa við Elliðavatn', 0, 0, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()),
     (gen_random_uuid(), '5km hlaup HHFH og 66°N', 'hlaupaseria-66', 'Hlaupasería 66°N og Hlaupahóps FH', 5, 44, 'unknown', 'unknown','unknown','unknown',seed_created_by, NOW()),
     (gen_random_uuid(), 'Skaftafell Ultra', 'skaftafell-ultra', 'Náttúruhlaup í Skaftafelli', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
+    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar', 'hafnarfjall-ultra-seven-peaks', '7 tindur. Keppnisleið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hafnarfjall Ultra 1 tindur', 'hafnarfjall-ultra-summit', '1 tindur. Keppnisleið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hellisheiði sunnan vega', 'hellisheidi-sunnan-vega', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Sveifluháls', 'sveifluhals', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Úlfarsfellsslaufan', 'ulfarsfellsslaufan', '3 Úllar, mismunandi leiðir upp og niður', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
     ( laugavegur_trail_id, 'Laugavegur Trail', 'laugavegur-ultra', 'The famous Laugavegur hiking trail from Landmannalaugar to Þórsmörk.', 53, 1500, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()
 ) ON CONFLICT (slug) DO NOTHING;
 
@@ -234,6 +247,11 @@ SELECT id INTO puffin_run_trail_id FROM public.trails WHERE slug = 'puffin-run';
 SELECT id INTO bakgardur_ellidavatn_trail_id FROM public.trails WHERE slug = 'bakgardur-ellidavatn';
 SELECT id INTO skaftafell_ultra_trail_id FROM public.trails WHERE slug = 'skaftafell-ultra';
 
+SELECT id INTO hafnarfjall_ultra_seven_peaks_id FROM public.trails WHERE slug = 'hafnarfjall-ultra-seven-peaks';
+SELECT id INTO hafnarfjall_ultra_summit_id FROM public.trails WHERE slug = 'hafnarfjall-ultra-summit';
+SELECT id INTO hellisheidi_sunnan_vega_id FROM public.trails WHERE slug = 'hellisheidi-sunnan-vega';
+SELECT id INTO sveifluhals_id FROM public.trails WHERE slug = 'sveifluhals';
+SELECT id INTO ulfarsfellsslaufan_id FROM public.trails WHERE slug = 'ulfarsfellsslaufan';
 
 ---
 --- Insert sample race_trails connections

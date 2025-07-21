@@ -3,10 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTrail } from '../hooks/useTrail';
 // Removed: useSwipeable, useTrailsList
 
-import { Container, Title, Text, Group, Stack, Badge, Card, Button, Divider, Menu, ActionIcon } from '@mantine/core';
+import { Container, Title, Text, Group, Stack, Badge, Tooltip, Card, Button, Divider
+    //, Menu, ActionIcon 
+} from '@mantine/core';
 import {
-    IconRuler, IconMountain, IconQrcode, IconShare, IconBrandFacebook, IconBrandTwitter,
-    IconDownload, IconMapPin, IconSun // Removed: IconChevronLeft, IconChevronRight
+    IconRuler, IconMountain, IconMapPin
+    //, IconQrcode, IconShare, IconBrandFacebook, IconBrandTwitter, IconDownload, IconSun 
 } from '@tabler/icons-react';
 
 // Import your new custom loader component
@@ -57,12 +59,22 @@ export function TrailDetails() {
     // Removed: Swipe Handlers (handlers const)
 
     // Format createdAt date for Icelandic display
-    const createdAtDate = new Date(trail.createdAt).toLocaleDateString('is-IS', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        timeZone: 'UTC'
-    });
+    const trailCreatedAt = new Date(trail.createdAt);
+    // Options for formatting the date and time
+    const options: Intl.DateTimeFormatOptions = { // Explicitly define type for better type-checking
+        year: 'numeric',   // Correct: use literal 'numeric'
+        month: 'numeric',  // Correct: use literal 'numeric'
+        day: 'numeric',    // Correct: use literal 'numeric'
+        hour: 'numeric',   // Correct: use literal 'numeric'
+        minute: 'numeric', // Correct: use literal 'numeric'
+        second: 'numeric', // Correct: use literal 'numeric'
+        hour12: false,     // Correct: boolean
+        timeZone: 'Atlantic/Reykjavik' // Correct: string
+    };
+    // Create a DateTimeFormat object for Icelandic locale
+    const formatter = new Intl.DateTimeFormat('is-IS', options);
+    // Format the date
+    const trailAddedDate = formatter.format(trailCreatedAt);
 
     const DynamicRouteIcon = getRouteTypeIcon(trail.routeType);
 
@@ -70,12 +82,13 @@ export function TrailDetails() {
     const userDistanceToTrail = 42.0; //TODO: Implement actual user location logic later
 
     // TODO: Implement actual QR code generation logic later
-    const handleGenerateQrCode = () => { /* ... */ };
+    //const handleGenerateQrCode = () => { /* ... */ };
     // TODO: Implement actual sharing logic later
-    const handleShareFacebook = () => { /* ... */ };
-    const handleShareTwitter = () => { /* ... */ };
+    //const handleShareFacebook = () => { /* ... */ };
+    //const handleShareTwitter = () => { /* ... */ };
+    
     // TODO: Implement actual GPX download logic later
-    const handleDownloadGpx = () => { /* ... */ };
+    //const handleDownloadGpx = () => { /* ... */ };
 
 
     return (
@@ -86,9 +99,12 @@ export function TrailDetails() {
 
                 {/* Badges with Translations */}
                 <Group gap="xs">
-                    <Badge color="blue">{getDifficultyLevelTranslation(trail.difficultyLevel)}</Badge>
-                    <Badge color="grape">{getTerrainTypeTranslation(trail.terrainType)}</Badge>
-                    <Badge color="teal">{getSurfaceTypeTranslation(trail.surfaceType)}</Badge>
+                    <Tooltip label="Hvernig er leiðin?" position="bottom" offset={2} arrowOffset={14} arrowSize={4} withArrow>
+                        <Badge color="blue">{getDifficultyLevelTranslation(trail.difficultyLevel)}</Badge></Tooltip>
+                    <Tooltip label="Hvernig er landslagið?" position="bottom" offset={2} arrowOffset={14} arrowSize={4} withArrow>
+                        <Badge color="grape">{getTerrainTypeTranslation(trail.terrainType)}</Badge></Tooltip>
+                    <Tooltip label="Malbik eða mói?" position="bottom" offset={2} arrowOffset={14} arrowSize={4} withArrow>
+                        <Badge color="teal">{getSurfaceTypeTranslation(trail.surfaceType)}</Badge></Tooltip>
                 </Group>
 
                 {/* Trail Overview Card - Now with QR, Share, and GPX icons */}
@@ -122,11 +138,11 @@ export function TrailDetails() {
                         </Group>
 
                         {/* Fjarlægð frá þér (Distance from you) */}
-                        {userDistanceToTrail !== null && (
+                        {userDistanceToTrail > 0 && (
                             <Group>
                                 <IconMapPin size={20} />
                                 <div>
-                                    <Text size="sm" c="dimmed">Fjarlægð frá þér</Text>
+                                    <Text size="sm" c="dimmed">Fjarlægð að leið</Text>
                                     <Text>{userDistanceToTrail.toFixed(1)} km</Text>
                                 </div>
                             </Group>
@@ -134,9 +150,8 @@ export function TrailDetails() {
 
                         {/* QR Code, Social Sharing, and GPX Icons - Pushed to the right */}
                         <Group ml="auto" gap="xs">
-                            {/* Removed: Previous Trail Button */}
 
-                            {/* GPX Download Icon (Conditional) */}
+                            {/* GPX Download Icon (Conditional) 
                             {trail.routeGeom != null && (
                                 <ActionIcon
                                     variant="default"
@@ -148,8 +163,9 @@ export function TrailDetails() {
                                     <IconDownload style={{ width: '70%', height: '70%' }} stroke={1.5} />
                                 </ActionIcon>
                             )}
+                            */}
 
-                            {/* QR Code Icon */}
+                            {/* QR Code Icon 
                             <ActionIcon
                                 variant="default"
                                 size="lg"
@@ -159,8 +175,9 @@ export function TrailDetails() {
                             >
                                 <IconQrcode style={{ width: '70%', height: '70%' }} stroke={1.5} />
                             </ActionIcon>
+                            */}
 
-                            {/* Share Menu Icon */}
+                            {/* Share Menu Icon 
                             <Menu shadow="md" width={200}>
                                 <Menu.Target>
                                     <ActionIcon
@@ -183,17 +200,19 @@ export function TrailDetails() {
                                     </Menu.Item>
                                 </Menu.Dropdown>
                             </Menu>
-
-                            {/* Removed: Next Trail Button */}
+                            */}
+                            
                         </Group>
                     </Group>
                 </Card>
 
                 {/* Description Card */}
+                {trail.description !== "" && (
                 <Card withBorder>
                     <Text size="lg" fw={500} mb="md">Um hlaupaleiðina</Text>
                     <Text>{trail.description}</Text>
                 </Card>
+                )}
 
                 {/* Elevation Graph Placeholder */}
                 <Card withBorder>
@@ -211,7 +230,7 @@ export function TrailDetails() {
                     </div>
                 </Card>
 
-                {/* Location Details Card */}
+                {/* Location Details Card 
                 <Card withBorder>
                     <Group mb="md">
                         <IconMapPin size={24} />
@@ -219,8 +238,9 @@ export function TrailDetails() {
                     </Group>
                     <Text>{trail.location}</Text>
                 </Card>
+                */}
 
-                {/* Weather Info Placeholder */}
+                {/* Weather Info Placeholder 
                 <Card withBorder>
                     <Group mb="md">
                         <IconSun size={24} />
@@ -230,12 +250,13 @@ export function TrailDetails() {
                         <Text c="dimmed">Hér kemur veðurspá (Weather Forecast)</Text>
                     </div>
                 </Card>
+                */}
 
                 {/* Created At - Bottom Right */}
                 <Divider my="md" />
                 <Group justify="flex-end">
                     <Text size="sm" c="dimmed">
-                        Búin til: {createdAtDate}
+                        Bætt við: {trailAddedDate}
                     </Text>
                 </Group>
             </Stack>

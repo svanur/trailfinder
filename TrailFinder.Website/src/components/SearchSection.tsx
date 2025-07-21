@@ -121,21 +121,21 @@ const surfaceData = [
 ];
 const difficultyData = [
     { value: 'easy', label: 'Auðvelt', icon: <IconBabyCarriage style={{ width: 16, height: 16 }} /> },
-    { value: 'moderate', label: 'Miðlungs', icon: <IconWalk style={{ width: 16, height: 16 }} /> },
+    { value: 'moderate', label: 'Í meðallagi', icon: <IconWalk style={{ width: 16, height: 16 }} /> },
     { value: 'hard', label: 'Erfitt', icon: <IconRun style={{ width: 16, height: 16 }} /> },
     { value: 'extreme', label: 'Mjög erfitt', icon: <IconMountain style={{ width: 16, height: 16 }} /> }
 ];
 
 const routeData = [
-    { value: 'circular', label: 'Hringleið', icon: <IconCircle style={{ width: 16, height: 16 }} /> },
+    { value: 'circular', label: 'Hringur', icon: <IconCircle style={{ width: 16, height: 16 }} /> },
     { value: 'outAndBack', label: 'Fram og til baka', icon: <IconArrowBack style={{ width: 16, height: 16 }} /> },
     { value: 'pointToPoint', label: 'A til B', icon: <IconArrowForward style={{ width: 16, height: 16 }} /> }
 ];
 
 const terrainData = [
     { value: 'flat', label: 'Flatlendi', icon: <IconRipple style={{ width: 16, height: 16 }} /> },
-    { value: 'rolling', label: 'Hæðótt', icon: <IconWaveSine style={{ width: 16, height: 16 }} /> },
-    { value: 'hilly', label: 'Hólótt', icon: <IconMountainOff style={{ width: 16, height: 16 }} /> },
+    { value: 'rolling', label: 'Rúllandi', icon: <IconWaveSine style={{ width: 16, height: 16 }} /> },
+    { value: 'hilly', label: 'Hæðótt', icon: <IconMountainOff style={{ width: 16, height: 16 }} /> },
     { value: 'mountainous', label: 'Fjalllendi', icon: <IconMountain style={{ width: 16, height: 16 }} /> }
 ];
 

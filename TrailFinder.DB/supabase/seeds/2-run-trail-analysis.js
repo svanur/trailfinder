@@ -86,7 +86,7 @@ function sanitizeNumber(value) {
 
 async function main() {
     try {
-        console.log('Beginning trail analysis');
+        console.log('Start trail analysis');
         await updateTrail();
         console.log('Trail analysis finished');
     } catch (error) {

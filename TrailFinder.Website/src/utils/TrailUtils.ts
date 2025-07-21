@@ -45,32 +45,32 @@ export const getRouteTypeIcon = (routeType: RouteType): React.FC<any> => {
 export const getDifficultyLevelTranslation = (difficultyLevel: DifficultyLevel): string => {
     switch (difficultyLevel) {
         case DifficultyLevel.Easy:
-            return 'Auðvelt';
+            return 'Auðveld';
         case DifficultyLevel.Moderate:
             return 'Í meðallagi';
         case DifficultyLevel.Hard:
-            return 'Erfitt';
+            return 'Erfið';
         case DifficultyLevel.Extreme:
-            return 'Mjög erfitt';
+            return 'Mjög erfið';
         case DifficultyLevel.Unknown:
         default:
-            return 'Óþekkt';
+            return 'Óskráð';
     }
 };
 
 export const getTerrainTypeTranslation = (terrainType: TerrainType): string => {
     switch (terrainType) {
         case TerrainType.Flat:
-            return 'Slétt';
+            return 'Flatlendi';
         case TerrainType.Rolling:
-            return 'Litlar hæðir';
+            return 'Rúllandi';
         case TerrainType.Hilly:
             return 'Hæðótt';
         case TerrainType.Mountainous:
             return 'Fjalllendi';
         case TerrainType.Unknown:
         default:
-            return 'Óþekkt';
+            return 'Óskráð';
     }
 };
 
@@ -85,6 +85,6 @@ export const getSurfaceTypeTranslation = (surfaceType: SurfaceType): string => {
             return 'Blandað';
         case SurfaceType.Unknown:
         default:
-            return 'Óþekkt';
+            return 'Óskráð';
     }
 };
