@@ -15,7 +15,7 @@
     "@mantine/hooks": "^8.1.2",
     "@tabler/icons-react": "^3.34.0",
     "@tanstack/react-query": "^5.81.2",
-    "@trailfinder/db-types": "file:../TrailFinder.DB/types",
+    "@trailfinder/db-types": "file:../TrailFinder.DB",
     "@types/leaflet": "^1.9.19",
     "autoprefixer": "^10.4.21",
     "axios": "^1.10.0",

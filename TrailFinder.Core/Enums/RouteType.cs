@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using NpgsqlTypes;
 
 namespace TrailFinder.Core.Enums;
@@ -10,10 +11,10 @@ public enum RouteType
     [PgName("circular")]
     Circular = 1,
     
-    [PgName("out-and-back")]
+    [PgName("outAndBack")]
     OutAndBack = 2,
     
-    [PgName("point-to-point")]
+    [PgName("pointToPoint")]
     PointToPoint = 3,
     
     

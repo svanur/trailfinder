@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trail } from '@trailfinder/db-types/database';
+import { Trail } from '@trailfinder/db-types';
 import TrailActions from './TrailActions';
 import TrailStats from './TrailStats';
 

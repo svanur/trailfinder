@@ -1,10 +1,9 @@
 // src/services/trailsApi.ts
-import type { Trail } from '@trailfinder/db-types/database';
+import type { Trail } from '@trailfinder/db-types';
 import axios from "axios";
 import type { PaginatedResponse } from './types/api';
 import { apiClient } from './services/api';
 import {API_CONFIG} from "./config/api.ts";
-
 
 export const trailsApi = {
     getAll: async () => {

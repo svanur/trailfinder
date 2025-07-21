@@ -1,14 +1,24 @@
 // src/pages/TrailDetails.tsx
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTrail } from '../hooks/useTrail';
-import { Container, Title, Text, Group, Stack, Badge, Card, Button } from '@mantine/core'; // Removed Loader import
-import { IconRuler, IconMountain, IconRoute, IconExternalLink } from '@tabler/icons-react';
+import { Container, Title, Text, Group, Stack, Badge, Card, Button } from '@mantine/core';
+import { IconRuler, IconMountain } from '@tabler/icons-react'; // Removed IconRoute, will be dynamic
+
 
 // Import your new custom loader component
-import { TrailLoader } from '../components/TrailLoader'; // Adjust path if needed
+import { TrailLoader } from '../components/TrailLoader';
 import { useEffect } from 'react';
 import { TrailNotFound } from "./TrailNotFound.tsx";
-import {TrailNotFoundError} from "../types/api.ts";
+import { TrailNotFoundError } from "../types/api.ts";
+
+// Import the utility functions
+import {
+    getRouteTypeIcon,
+    getRouteTypeTranslation,
+    getDifficultyLevelTranslation,
+    getTerrainTypeTranslation,
+    getSurfaceTypeTranslation
+} from '../utils/TrailUtils'; // Adjust path if needed
 
 
 export function TrailDetails() {
@@ -17,9 +27,7 @@ export function TrailDetails() {
     const { data: trail, isLoading, error } = useTrail(slug ?? '');
 
     const isTrailSpecificError = error instanceof TrailNotFoundError;
-    //const suggestions = isTrailSpecificError ? (error as TrailNotFoundError).suggestions : [];
 
-    // Log errors for debugging, but don't show to user directly unless it's a generic error
     useEffect(() => {
         if (error && !isTrailSpecificError) {
             console.error("General error loading trail:", error);
@@ -28,58 +36,18 @@ export function TrailDetails() {
 
 
     if (isLoading) {
-        return <TrailLoader />; // Use your custom loader here!
+        return <TrailLoader />;
     }
 
     if (isTrailSpecificError) {
-        return (
-            <TrailNotFound />
-            /*
-            <TrailNotFound>
-                {suggestions.length > 0 && (
-                    <>
-                        <Text mt="xl" size="lg" fw={700}>
-                            Kannski varstu að leita að einni af þessum slóðum:
-                        </Text>
-                        <Group spacing="xs" mt="sm" justify="center">
-                            {suggestions.map((sugTrail) => (
-                                <Button
-                                    key={sugTrail.id}
-                                    variant="outline"
-                                    onClick={() => navigate(`/hlaup/${sugTrail.slug}`)}
-                                >
-                                    {sugTrail.name}
-                                </Button>
-                            ))}
-                        </Group>
-                    </>
-                )}
-            </TrailNotFound>
-            */
-        );
+        return <TrailNotFound />;
     }
 
-    if (error) { // This now only catches non-TrailNotFoundError errors
+    if (error) {
         return <TrailNotFound />;
-        /*
-        return (
-            <Container ta="center" style={{ padding: '4rem 0' }}>
-                <Title order={2}>Úpps!</Title>
-                <Text mt="md">Eitthvað fórum við út af stígnum hérna.</Text>
-                
-                <Group justify="center">
-                    <Button size="md" onClick={() => navigate('/')}>
-                        Til baka á upphafsreit
-                    </Button>
-                </Group>
-            </Container>
-        );
-        */
     }
 
     if (!trail) {
-        // This should ideally only happen if 'error' is null but 'data' is also null
-        // which might indicate a problem that isn't a 404 or a clear error.
         return (
             <Container ta="center" style={{ padding: '4rem 0' }}>
                 <Title order={2}>Engin gögn fundust!</Title>
@@ -89,6 +57,9 @@ export function TrailDetails() {
         );
     }
 
+    // Get the correct icon component based on routeType
+    const DynamicRouteIcon = getRouteTypeIcon(trail.routeType);
+
     return (
         <Container size="lg">
             <Stack gap="md">
@@ -96,27 +67,30 @@ export function TrailDetails() {
 
                 <Card withBorder>
                     <Group gap="xl">
+                        {/* Vegalengd (Distance) */}
                         <Group>
                             <IconRuler size={20} />
                             <div>
                                 <Text size="sm" c="dimmed">Vegalengd</Text>
-                                <Text>{trail.distance.toFixed(1)} km</Text>
+                                <Text>{trail.distanceKm.toFixed(1)} km</Text>
                             </div>
                         </Group>
 
+                        {/* Hækkun (Elevation) */}
                         <Group>
                             <IconMountain size={20} />
                             <div>
                                 <Text size="sm" c="dimmed">Hækkun</Text>
-                                <Text>{trail.elevationGain} m</Text>
+                                <Text>{trail.elevationGainMeters} m</Text>
                             </div>
                         </Group>
 
+                        {/* Tegund leiðar (Route Type) */}
                         <Group>
-                            <IconRoute size={20} />
+                            <DynamicRouteIcon size={20} /> {/* Use the dynamic icon */}
                             <div>
                                 <Text size="sm" c="dimmed">Tegund leiðar</Text>
-                                <Text>{trail.routeType}</Text>
+                                <Text>{getRouteTypeTranslation(trail.routeType)}</Text> {/* Use translation */}
                             </div>
                         </Group>
                     </Group>
@@ -127,17 +101,19 @@ export function TrailDetails() {
                     <Text>{trail.description}</Text>
                 </Card>
 
+                {/* Badges with Translations */}
                 <Group gap="xs">
-                    <Badge color="blue">{trail.difficultyLevel}</Badge>
-                    <Badge color="grape">{trail.terrainType}</Badge>
-                    <Badge color="teal">{trail.surfaceType}</Badge>
+                    <Badge color="blue">{getDifficultyLevelTranslation(trail.difficultyLevel)}</Badge>
+                    <Badge color="grape">{getTerrainTypeTranslation(trail.terrainType)}</Badge>
+                    <Badge color="teal">{getSurfaceTypeTranslation(trail.surfaceType)}</Badge>
                 </Group>
 
-                {trail.webUrl && (
+                {/* Removed webUrl as per our discussion */}
+                {/* {trail.webUrl && (
                     <Text component="a" href={trail.webUrl} target="_blank" rel="noopener noreferrer">
                         Skoða hlaupaleiðina <IconExternalLink size={20} />
                     </Text>
-                )}
+                )} */}
             </Stack>
         </Container>
     );

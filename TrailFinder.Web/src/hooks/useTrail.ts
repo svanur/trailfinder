@@ -4,7 +4,6 @@ import { trailsApi } from '../services/trailsApi';
 import axios from "axios";
 import {Trail} from "@trailfinder/db-types/database";
 
-
 export function useTrail(slug: string) {
     return useQuery<Trail, Error>({
         queryKey: ['trail', slug],

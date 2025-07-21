@@ -1,5 +1,5 @@
 // src/types/trail.ts
-
+/*
 export declare const DifficultyLevel: {
     readonly Unknown: "unknown";
     readonly Easy: "easy";
@@ -29,10 +29,8 @@ export type TerrainType = typeof TerrainType[keyof typeof TerrainType];
 export declare const SurfaceType: {
     readonly Unknown: "unknown";
     readonly Trail: "trail";
-    readonly Asphalt: "asphalt";
-    readonly Sand: "sand";
-    readonly Snow: "snow";
-    readonly Ice: "ice";
+    readonly Paved: "paved";
+    readonly Mixed: "mixed";
 };
 export type SurfaceType = typeof SurfaceType[keyof typeof SurfaceType];
 
@@ -49,8 +47,8 @@ export interface Trail {
     name: string;
     slug: string;
     description: string;
-    distance: number;
-    elevationGain: number;
+    distanceMeters: number;
+    elevationGainMeters: number;
     difficultyLevel: DifficultyLevel;
     routeType: RouteType;
     terrainType: TerrainType;
@@ -62,3 +60,4 @@ export interface Trail {
     updatedBy: string | null;
     updatedAt: string; // ISO date string
 }
+ */

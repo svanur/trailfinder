@@ -5,7 +5,7 @@ public abstract class BaseEntity
 {
     public Guid Id { get; protected set; }
     
-    public Guid CreatedBy { get; protected set; }
+    public Guid CreatedBy { get; set; }
     public DateTime CreatedAt { get; set; }
     
     public Guid? UpdatedBy { get; set; }

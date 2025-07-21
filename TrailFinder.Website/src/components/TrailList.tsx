@@ -15,7 +15,7 @@ import {
     IconRoute,
     IconMountain
 } from '@tabler/icons-react';
-//import {DifficultyLevel} from "@trailfinder/db-types/database";
+//import {DifficultyLevel} from "@trailfinder/db-types";
 import { useTrails } from '../hooks/useTrails';
 
 const getDifficultyColor = (difficulty: string) => {
@@ -34,8 +34,8 @@ const getDifficultyColor = (difficulty: string) => {
     }
 };
 
-const formatDistance = (distance: number) => {
-    return `${distance.toFixed(1)} km`;
+const formatDistance = (distanceMeters: number) => {
+    return `${distanceMeters.toFixed(1)} km`;
 };
 
 const formatElevation = (elevation: number) => {
@@ -89,14 +89,14 @@ export function TrailList() {
                             <Group gap="xs">
                                 <IconRuler size={16} style={{ opacity: 0.7 }} />
                                 <Text size="sm" c="dimmed">
-                                    {formatDistance(trail.distance)}
+                                    {formatDistance(trail.distanceMeters)}
                                 </Text>
                             </Group>
 
                             <Group gap="xs">
                                 <IconArrowUpRight size={16} style={{ opacity: 0.7 }} />
                                 <Text size="sm" c="dimmed">
-                                    {formatElevation(trail.elevationGain || 0)}
+                                    {formatElevation(trail.elevationGainMeters || 0)}
                                 </Text>
                             </Group>
 
