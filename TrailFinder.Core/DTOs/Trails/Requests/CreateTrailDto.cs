@@ -17,6 +17,5 @@ public record CreateTrailDto(
     LineString? RouteGeom,
     //GpxPoint StartGpxPoint,
     //GpxPoint EndGpxPoint,
-    string? WebUrl,
     Guid CreatedBy
 );

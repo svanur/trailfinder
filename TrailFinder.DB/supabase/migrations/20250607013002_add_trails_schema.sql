@@ -19,8 +19,6 @@ CREATE TABLE trails (
 
                         route_geom geometry(LINESTRINGZ, 4326),
 
-                        web_url TEXT,
-
                         created_at TIMESTAMPTZ DEFAULT NOW(),
                         created_by UUID REFERENCES auth.users(id) NOT NULL,
                         updated_at TIMESTAMPTZ DEFAULT NOW(),

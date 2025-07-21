@@ -15,6 +15,5 @@ public record UpdateTrailCommand(
     TerrainType? TerrainType,
     SurfaceType? SurfaceType,
     LineString? RouteGeom,
-    string? WebUrl,
     Guid? UpdatedBy
 ) : IRequest<Unit>;

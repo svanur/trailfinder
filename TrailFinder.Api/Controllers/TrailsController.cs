@@ -110,7 +110,6 @@ public class TrailsController : BaseApiController
                 updateTrailDto.TerrainType,
                 updateTrailDto.SurfaceType,
                 updateTrailDto.RouteGeom,
-                updateTrailDto.WebUrl,
                 updateTrailDto.UpdatedBy
             );
 
@@ -174,7 +173,6 @@ public class TrailsController : BaseApiController
                 createTrailDto.TerrainType,
                 createTrailDto.SurfaceType,
                 createTrailDto.RouteGeom,
-                createTrailDto.WebUrl,
                 createTrailDto.CreatedBy
             );
             

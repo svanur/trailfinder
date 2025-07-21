@@ -67,13 +67,7 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasColumnName("route_geom")
             .HasColumnType("geometry(LineStringZ, 4326)") // Changed from LineString to LineStringZ
             .IsRequired(false);
-
-        // Optional string property
-        builder.Property(t => t.WebUrl)
-            .HasColumnName("web_url")
-            .HasMaxLength(2048)
-            .IsRequired(false);
-
+        
         // Timestamps
         builder.Property(t => t.CreatedAt)
             .HasColumnName("created_at")

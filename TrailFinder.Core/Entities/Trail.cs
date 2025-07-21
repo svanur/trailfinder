@@ -59,7 +59,6 @@ public class Trail : BaseEntity
     public SurfaceType SurfaceType { get; set; }
 
     public LineString? RouteGeom { get; set; }
-    public string? WebUrl { get; set; }
 
     // For EF Core to understand the relationships and use Include,
     // one needs navigation properties in the entity classes

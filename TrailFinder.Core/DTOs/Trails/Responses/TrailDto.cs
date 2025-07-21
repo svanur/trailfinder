@@ -27,7 +27,6 @@ public class TrailDto : BaseDto
         LineString? routeGeom,
         GpxPoint startGpxPoint,
         GpxPoint endGpxPoint,
-        string? webUrl,
         Guid createdBy,
         DateTime createdAt,
         Guid? updatedBy,
@@ -46,7 +45,6 @@ public class TrailDto : BaseDto
         SurfaceType = surfaceType;
         
         RouteGeom = routeGeom;
-        WebUrl = webUrl;
 
         CreatedBy = createdBy;
         CreatedAt = createdAt;
@@ -74,9 +72,7 @@ public class TrailDto : BaseDto
     public GpxPoint EndGpxPoint { get; set; }
     
     public LineString? RouteGeom { get; set; }
-
-    public string? WebUrl { get; set; }
-
+    
     public IEnumerable<TrailLocationDto> TrailLocations { get; set; }
     
 }

@@ -14,6 +14,5 @@ public record CreateTrailCommand(
     TerrainType? TerrainType,
     SurfaceType? SurfaceType,
     LineString? RouteGeom,
-    string? WebUrl,
     Guid CreatedBy
 ) : IRequest<Guid>; // Returns the ID of the new gpx_file metadata record

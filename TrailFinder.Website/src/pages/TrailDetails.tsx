@@ -107,13 +107,6 @@ export function TrailDetails() {
                     <Badge color="grape">{getTerrainTypeTranslation(trail.terrainType)}</Badge>
                     <Badge color="teal">{getSurfaceTypeTranslation(trail.surfaceType)}</Badge>
                 </Group>
-
-                {/* Removed webUrl as per our discussion */}
-                {/* {trail.webUrl && (
-                    <Text component="a" href={trail.webUrl} target="_blank" rel="noopener noreferrer">
-                        Skoða hlaupaleiðina <IconExternalLink size={20} />
-                    </Text>
-                )} */}
             </Stack>
         </Container>
     );
