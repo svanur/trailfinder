@@ -45,13 +45,13 @@ export const getRouteTypeIcon = (routeType: RouteType): React.FC<any> => {
 export const getDifficultyLevelTranslation = (difficultyLevel: DifficultyLevel): string => {
     switch (difficultyLevel) {
         case DifficultyLevel.Easy:
-            return 'Auðveld';
+            return 'Auðvelt';
         case DifficultyLevel.Moderate:
-            return 'Meðal';
+            return 'Í meðallagi';
         case DifficultyLevel.Hard:
-            return 'Erfið';
+            return 'Erfitt';
         case DifficultyLevel.Extreme:
-            return 'Mjög erfið';
+            return 'Mjög erfitt';
         case DifficultyLevel.Unknown:
         default:
             return 'Óþekkt';

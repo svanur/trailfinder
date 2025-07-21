@@ -31,12 +31,11 @@ export interface Trail {
     surfaceType: SurfaceType;
     location: string;
     routeGeom?: any; // or more specific GeoJSON type if needed
-    webUrl?: string;
-    hasGpx: boolean;
-    createdAt: string; // ISO date string
-    updatedAt: string; // ISO date string
+
     createdBy: string | null;
+    createdAt: string; // ISO date string
     updatedBy: string | null;
+    updatedAt: string; // ISO date string
 }
 
 export interface Location {

@@ -86,9 +86,9 @@ function sanitizeNumber(value) {
 
 async function main() {
     try {
-        console.log('Begin updating trail');
+        console.log('Beginning trail analysis');
         await updateTrail();
-        console.log('Finished updating trailupdateTrail');
+        console.log('Trail analysis finished');
     } catch (error) {
         console.error('Error in main:', error);
         process.exit(1);
