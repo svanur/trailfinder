@@ -5,8 +5,9 @@ import { TrailDetails } from "./pages/TrailDetails.tsx";
 import { SearchSection } from './components/SearchSection.tsx';
 import { TrailsTable } from './components/TrailsTable.tsx';
 import { useState } from 'react';
-import { Container, Title } from '@mantine/core';
-import {type TrailFilters, initialTrailFilters } from './types/filters'; // Import filter types
+import {Container, MantineProvider, Title} from '@mantine/core';
+import {type TrailFilters, initialTrailFilters } from './types/filters';
+import AboutUsPage from "./pages/AboutUs.tsx"; // Import filter types
 
 export function AppRoutes() {
     // Manage the full filter state object here
@@ -27,6 +28,11 @@ export function AppRoutes() {
             } />
             <Route path="/hlaup/:slug" element={<TrailDetails />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/um" element={
+                <MantineProvider>
+                    <AboutUsPage />
+                </MantineProvider>
+            } />
         </Routes>
     );
 }
