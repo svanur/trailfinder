@@ -12,9 +12,17 @@ import { initialTrailFilters, type TrailFilters } from '../types/filters';
 export function HomePage() {
     const [filters, setFilters] = useState<TrailFilters>(initialTrailFilters);
 
+    // Breakpoint for typical mobile devices (<= 768px)
     const isMobile = useMediaQuery('(max-width: 768px)');
+    // New breakpoint for very small mobile devices (e.g., <= 480px or your desired narrowest point)
+    const isExtraSmallScreen = useMediaQuery('(max-width: 480px)');
 
-    const [viewMode, setViewMode] = useState<'table' | 'cards'>(isMobile ? 'cards' : 'table');
+    // State for view mode: 'table' or 'cards'
+    // Default to 'cards' on extra small or mobile, 'table' on larger desktops
+    const [viewMode, setViewMode] = useState<'table' | 'cards'>(isExtraSmallScreen || isMobile ? 'cards' : 'table');
+
+    // Determine if the view toggle should be shown
+    const showViewToggle = !isExtraSmallScreen;
 
     return (
         <Container size="xl" py="xl">
@@ -24,11 +32,44 @@ export function HomePage() {
                 </Title>
 
                 {/* Combined Search and View Toggle Section */}
-                {isMobile ? (
-                    // On mobile, stack them vertically for better usability
+                {isMobile ? ( // This handles mobile layouts (stacked)
                     <Stack gap="md">
                         <SearchSection filters={filters} setFilters={setFilters} />
-                        <Group justify="center"> {/* Center the toggle on mobile */}
+                        {showViewToggle && ( // Only show toggle if not on extra small screen
+                            <Group justify="center">
+                                <SegmentedControl
+                                    value={viewMode}
+                                    onChange={(value) => setViewMode(value as 'table' | 'cards')}
+                                    data={[
+                                        {
+                                            value: 'table',
+                                            label: (
+                                                <Center style={{ gap: 10 }}>
+                                                    <IconTable size={16} />
+                                                    <Box>Tafla</Box>
+                                                </Center>
+                                            ),
+                                        },
+                                        {
+                                            value: 'cards',
+                                            label: (
+                                                <Center style={{ gap: 10 }}>
+                                                    <IconLayoutGrid size={16} />
+                                                    <Box>Spjöld</Box>
+                                                </Center>
+                                            ),
+                                        },
+                                    ]}
+                                />
+                            </Group>
+                        )}
+                    </Stack>
+                ) : ( // This handles desktop layouts (side-by-side)
+                    <Flex justify="space-between" align="center" wrap="nowrap" gap="md">
+                        <Box style={{ flexGrow: 1 }}>
+                            <SearchSection filters={filters} setFilters={setFilters} />
+                        </Box>
+                        {showViewToggle && ( // Only show toggle if not on extra small screen
                             <SegmentedControl
                                 value={viewMode}
                                 onChange={(value) => setViewMode(value as 'table' | 'cards')}
@@ -53,53 +94,22 @@ export function HomePage() {
                                     },
                                 ]}
                             />
-                        </Group>
-                    </Stack>
+                        )}
+                    </Flex>
+                )}
+
+
+                {/* Conditional Rendering based on viewMode. If extra small, always show cards. */}
+                {isExtraSmallScreen || viewMode === 'cards' ? (
+                    <TrailList filters={filters} />
                 ) : (
-                    // On desktop, place them side-by-side with appropriate spacing
-                    <Flex justify="space-between" align="center" wrap="nowrap" gap="md">
-                    <Box style={{ flexGrow: 1 }}>
-                <SearchSection filters={filters} setFilters={setFilters} />
-            </Box>
-            <SegmentedControl
-                value={viewMode}
-                onChange={(value) => setViewMode(value as 'table' | 'cards')}
-                data={[
-                    {
-                        value: 'table',
-                        label: (
-                            <Center style={{ gap: 10 }}>
-                                <IconTable size={16} />
-                                <Box>Tafla</Box>
-                            </Center>
-                        ),
-                    },
-                    {
-                        value: 'cards',
-                        label: (
-                            <Center style={{ gap: 10 }}>
-                                <IconLayoutGrid size={16} />
-                                <Box>Spjöld</Box>
-                            </Center>
-                        ),
-                    },
-                ]}
-            />
-        </Flex>
-)}
+                    <TrailsTable filters={filters} />
+                )}
 
-
-{/* Conditional Rendering based on viewMode */}
-{viewMode === 'table' ? (
-        <TrailsTable filters={filters} />
-    ) : (
-        <TrailList filters={filters} />
-    )}
-
-    <Text ta="center" c="dimmed" mt="xl">
-        Sýni X hlaupaleiðir sem passa við valdar síur.
-    </Text>
-</Stack>
-</Container>
-);
+                <Text ta="center" c="dimmed" mt="xl">
+                    Sýni X hlaupaleiðir sem passa við valdar síur.
+                </Text>
+            </Stack>
+        </Container>
+    );
 }
