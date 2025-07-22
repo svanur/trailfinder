@@ -1,4 +1,4 @@
-// src/pages/Home.tsx
+// TrailFinder.Website\src\pages\Home.tsx
 import { useState, useMemo } from 'react';
 import { Container, Title, Text, TextInput, Stack, Card, Group, Badge, Loader, Center } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
