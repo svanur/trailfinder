@@ -48,7 +48,7 @@ interface TrailListProps {
     filters: TrailFilters;
 }
 
-export function TrailList({ filters }: TrailListProps) {
+export function TrailCards({ filters }: TrailListProps) {
     const { data: allTrails, isLoading, error } = useTrails();
 
     const filteredTrails = useMemo(() => {

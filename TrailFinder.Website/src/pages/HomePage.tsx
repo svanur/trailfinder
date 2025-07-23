@@ -1,12 +1,12 @@
-// src/pages/HomePage.tsx
+// TrailFinder.Website\src\pages\HomePage.tsx
 import { useState } from 'react';
-import { Container, Title, Text, Stack, SegmentedControl, Group, Center, Box, Flex } from '@mantine/core';
+import { Container, Title, Stack, SegmentedControl, Group, Center, Box, Flex, Tooltip } from '@mantine/core';
 import { IconTable, IconLayoutGrid } from '@tabler/icons-react';
 import { useMediaQuery } from '@mantine/hooks';
 
 import { SearchSection } from '../components/SearchSection';
 import { TrailsTable } from '../components/TrailsTable';
-import { TrailList } from '../components/TrailList';
+import { TrailCards } from '../components/TrailCards.tsx';
 import { initialTrailFilters, type TrailFilters } from '../types/filters';
 
 export function HomePage() {
@@ -14,11 +14,11 @@ export function HomePage() {
 
     // Breakpoint for typical mobile devices (<= 768px)
     const isMobile = useMediaQuery('(max-width: 768px)');
-    // New breakpoint for very small mobile devices (e.g., <= 480px or your desired narrowest point)
+    // New breakpoint for very small mobile devices (e.g., <= 480 px or your desired narrowest point)
     const isExtraSmallScreen = useMediaQuery('(max-width: 480px)');
 
     // State for view mode: 'table' or 'cards'
-    // Default to 'cards' on extra small or mobile, 'table' on larger desktops
+    // Default to 'cards' on a small screen or mobile, 'table' on larger desktops
     const [viewMode, setViewMode] = useState<'table' | 'cards'>(isExtraSmallScreen || isMobile ? 'cards' : 'table');
 
     // Determine if the view toggle should be shown
@@ -28,14 +28,14 @@ export function HomePage() {
         <Container size="xl" py="xl">
             <Stack gap="xl">
                 <Title order={1} ta="center" mt="md" mb="sm">
-                    Finndu þína fullkomnu hlaupaleið
+                    Finndu þína leið
                 </Title>
 
                 {/* Combined Search and View Toggle Section */}
                 {isMobile ? ( // This handles mobile layouts (stacked)
                     <Stack gap="md">
                         <SearchSection filters={filters} setFilters={setFilters} />
-                        {showViewToggle && ( // Only show toggle if not on extra small screen
+                        {showViewToggle && ( // Only show toggle if not on a small screen
                             <Group justify="center">
                                 <SegmentedControl
                                     value={viewMode}
@@ -46,7 +46,6 @@ export function HomePage() {
                                             label: (
                                                 <Center style={{ gap: 10 }}>
                                                     <IconTable size={16} />
-                                                    <Box>Tafla</Box>
                                                 </Center>
                                             ),
                                         },
@@ -55,7 +54,6 @@ export function HomePage() {
                                             label: (
                                                 <Center style={{ gap: 10 }}>
                                                     <IconLayoutGrid size={16} />
-                                                    <Box>Spjöld</Box>
                                                 </Center>
                                             ),
                                         },
@@ -69,7 +67,7 @@ export function HomePage() {
                         <Box style={{ flexGrow: 1 }}>
                             <SearchSection filters={filters} setFilters={setFilters} />
                         </Box>
-                        {showViewToggle && ( // Only show toggle if not on extra small screen
+                        {showViewToggle && ( // Only show toggle if not on a small screen
                             <SegmentedControl
                                 value={viewMode}
                                 onChange={(value) => setViewMode(value as 'table' | 'cards')}
@@ -78,8 +76,9 @@ export function HomePage() {
                                         value: 'table',
                                         label: (
                                             <Center style={{ gap: 10 }}>
-                                                <IconTable size={16} />
-                                                <Box>Tafla</Box>
+                                                <Tooltip label="Tafla" withArrow>
+                                                    <IconTable size={16} />
+                                                </Tooltip>
                                             </Center>
                                         ),
                                     },
@@ -87,8 +86,9 @@ export function HomePage() {
                                         value: 'cards',
                                         label: (
                                             <Center style={{ gap: 10 }}>
-                                                <IconLayoutGrid size={16} />
-                                                <Box>Spjöld</Box>
+                                                <Tooltip label="Spjöld" withArrow>
+                                                    <IconLayoutGrid size={16} />
+                                                </Tooltip> 
                                             </Center>
                                         ),
                                     },
@@ -98,17 +98,12 @@ export function HomePage() {
                     </Flex>
                 )}
 
-
-                {/* Conditional Rendering based on viewMode. If extra small, always show cards. */}
+                {/* Conditional Rendering based on viewMode. If small screen, always show cards. */}
                 {isExtraSmallScreen || viewMode === 'cards' ? (
-                    <TrailList filters={filters} />
+                    <TrailCards filters={filters} />
                 ) : (
                     <TrailsTable filters={filters} />
                 )}
-
-                <Text ta="center" c="dimmed" mt="xl">
-                    Sýni X hlaupaleiðir sem passa við valdar síur.
-                </Text>
             </Stack>
         </Container>
     );

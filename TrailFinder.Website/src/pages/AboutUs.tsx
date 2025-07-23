@@ -1,44 +1,55 @@
 import { Container, Avatar, Text, Title, Paper, Group, Divider, Timeline } from '@mantine/core';
 
 import {
-    //IconClockHour4,
-    IconMapPin, // For locations
-    //IconTrekking, // For general outdoors/trekking
-    IconBarcode, // For QR code scanning
-    //IconRun, // For running
-    IconAward, // For competition/awards
+    //IconBarcode, // For QR code scanning
+    IconGitPullRequest, // For new updates
     IconRocket, // For launch!
-    IconShare // For social media sharing
+    //IconShare // For social media sharing
+    //IconClockHour4,
+    //IconMapPin, // For locations
+    //IconTrekking, // For general outdoors/trekking
+    
+    //IconRun, // For running
+    //IconAward, // For competition/awards
 } from '@tabler/icons-react';
 import {useEffect} from "react";
 
 function AboutUsPage() {
-    const updates = [
+    const nextUpdate =
+        {
+            description: 'Hlaupa Laugaveginn á sub 4 #teamSub4',
+            icon: <IconGitPullRequest size={18} />
+        };
+    
+    const updateHistory = [
         {
             date: 'July 25, 2025',
-            description: 'Hlaupaleiðir fer í loftið :D Víííí...',
-            icon: <IconRocket size={18} />, // Changed to a rocket for "going live"
+            description: 'Hlaupaleiðir fer í loftið :D #GAMAN',
+            icon: <IconRocket size={18} />, // a rocket for "going live"
+        },
+
+        // Add more updateHistory as needed with relevant icons
+        /*
+        {
+            date: 'July 26, 2025',
+            description: 'Skanna hlaupaleið í síma með QR kóða',
+            icon: <IconBarcode size={18} />
         },
         {
             date: 'July 26, 2025',
             description: 'Staðsetningar leiða komnar á vefinn',
-            icon: <IconMapPin size={18} />, // Changed to a map pin for locations
+            icon: <IconMapPin size={18} />, // a map pin for locations
         },
         {
             date: 'July 27, 2025',
             description: 'Upplýsingar um keppni eru með',
-            icon: <IconAward size={18} />, // Changed to an award for competitions
+            icon: <IconAward size={18} />, // an award for competitions
         },
-        {
-            date: 'July 28, 2025',
-            description: 'Skanna hlaupaleið í síma með QR kóða',
-            icon: <IconBarcode size={18} />, // Changed to a barcode for QR code scanning
-        },
-        // Add more updates as needed with relevant icons
+        */
     ];
 
-    // Sort updates: Newest first (descending order by date)
-    const sortedUpdates = [...updates].sort((a, b) =>
+    // Sort updateHistory: Newest first (descending order by date)
+    const sortedUpdates = [...updateHistory].sort((a, b) =>
         new Date(b.date).getTime() - new Date(a.date).getTime()
     );
 
@@ -61,8 +72,8 @@ function AboutUsPage() {
             <Paper shadow="sm" p="xl" withBorder>
                 <Group align="center" gap="lg">
                     <Avatar
-                        src="https://images.unsplash.com/photo-1535713875002-d1d0cfd176db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTIyMDF8MHwxfHNlYXJjaHwxfHxwcm9maWxlJTIwcGljdHVyZXxlbnwwfHx8fDE3MjE2NzcwOTl8MA&ixlib=rb-4.0.3&q=80&w=400"
-                        alt="Company Avatar"
+                        src="/um.jpg"
+                        alt="Svanur Karlsson"
                         size={120}
                         radius="50%"
                     />
@@ -82,7 +93,7 @@ function AboutUsPage() {
                     Markmiðið
                 </Title>
                 <Text ta="center">
-                    Að hlauparar og útivistarfólk hafi þennan stað til að finna og deila skemmtilegum hlaupaleiðum út um allt land. Sjáumst á hlaupum :D
+                    Að hlauparar og útivistarfólk hafi þennan stað til að finna og deila skemmtilegum hlaupaleiðum út um allt land. Sjáumst á hlaupum.
                 </Text>
 
                 <Divider my="xl" />
@@ -93,14 +104,14 @@ function AboutUsPage() {
                 <Timeline active={sortedUpdates.length} bulletSize={24} lineWidth={2}>
                     {/* "Coming Up" / Next Update Section */}
                     <Timeline.Item
-                        bullet={<IconShare size={18} />} // Changed to IconShare for social media
-                        title={<Text c="dimmed" fs="italic">Næst á dagskrá...</Text>}
+                        bullet={nextUpdate.icon}
+                        title={<Text c="dimmed" fs="italic">Næsta viðbót</Text>}
                         lineVariant="dotted"
                         color="gray"
                         p="md"
                     >
                         <Text c="dimmed" size="sm" fs="italic">
-                            Deila hlaupaleiðum á samfélagsmiðla
+                            {nextUpdate.description}
                         </Text>
                     </Timeline.Item>
 

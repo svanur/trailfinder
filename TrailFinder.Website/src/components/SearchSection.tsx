@@ -1,7 +1,7 @@
 // src/components/SearchSection.tsx
 import {
     TextInput,
-    ActionIcon,
+    //ActionIcon,
     Collapse,
     Stack,
     Group,
@@ -15,7 +15,7 @@ import {
 } from '@mantine/core';
 import {
     IconSearch,
-    IconFilter,
+    //IconFilter,
     IconMountain,
     IconRipple,
     IconMountainOff,
@@ -161,7 +161,9 @@ interface SearchSectionProps {
 }
 
 export function SearchSection({ filters, setFilters }: SearchSectionProps) {
-    const [showFilters, setShowFilters] = useState(false);
+    const [showFilters, 
+    //    setShowFilters
+    ] = useState(false);
 
     const handleSearchTermChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         // Use optional chaining (?.) and nullish coalescing (??) for safety
@@ -188,6 +190,7 @@ export function SearchSection({ filters, setFilters }: SearchSectionProps) {
                 value={filters.searchTerm}
                 onChange={handleSearchTermChange}
                 leftSection={<IconSearch size={16} />}
+                /* 
                 rightSection={
                     <ActionIcon
                         variant="subtle"
@@ -204,6 +207,7 @@ export function SearchSection({ filters, setFilters }: SearchSectionProps) {
                         />
                     </ActionIcon>
                 }
+                */
                 size="md"
                 radius="md"
             />
