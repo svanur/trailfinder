@@ -1,17 +1,17 @@
 // TrailFinder.DB\supabase\seeds\1-upload-gpx-files.js
 const fs = require('fs');
 const path = require('path');
-const fetch = require('node-fetch'); // Keep node-fetch for the HTTP request itself
-const FormData = require('form-data'); // <--- NEW: Import FormData from 'form-data'
+const fetch = require('node-fetch');  
+const FormData = require('form-data'); 
 const {Pool} = require('pg');
 
 // --- API Configuration ---
-const apiHostAddress = 'http://localhost:5263'; // Check your actual API port
+const apiHostAddress = 'http://localhost:5263'; 
 const serviceUserId = '00000000-0000-0000-0000-000000000001'; // Valid UUID for the user performing the upload
+
 // If your API requires authentication, uncomment and configure these:
 // const authToken = 'YOUR_API_AUTH_TOKEN'; // e.g., a JWT token
 // const authHeader = authToken ? { 'Authorization': `Bearer ${authToken}` } : {};
-
 
 // PostgreSQL connection for querying trail IDs
 const pool = new Pool({
@@ -41,7 +41,6 @@ async function uploadGpxFilesViaApi() {
             }
 
             const trailId = result.rows[0].id;
-            // Corrected API URL (removed double /api)
             const uploadApiUrl = `${apiHostAddress}/api/trails/${trailId}/gpx-files/upload`;
 
             console.log(`Attempting to upload ${file} for Trail ID: ${trailId} via API: ${uploadApiUrl}`);
@@ -49,19 +48,17 @@ async function uploadGpxFilesViaApi() {
             // Prepare multipart/form-data using the 'form-data' package
             const formData = new FormData();
             formData.append('file', fileStream, {
-                filename: file, // Use the original file name
-                contentType: 'application/gpx+xml' // Explicitly set content type for the part
+                filename: file,
+                contentType: 'application/gpx+xml' 
             });
 
             try {
                 const response = await fetch(uploadApiUrl, {
                     method: 'POST',
                     body: formData,
-                    // When using 'form-data' package, do NOT set 'Content-Type' header manually.
-                    // FormData.getHeaders() will return the correct 'Content-Type' with boundary.
                     headers: {
                         // ...authHeader, // Uncomment if using authentication
-                        ...formData.getHeaders() // <--- IMPORTANT: Get the headers from formData
+                        ...formData.getHeaders() // <--- Get the headers from formData
                     }
                 });
 
@@ -82,7 +79,6 @@ async function uploadGpxFilesViaApi() {
 }
 
 console.log('GPX file upload process finished.'); // Moved here to ensure it always logs at the end of loop
-
 
 async function main() {
     console.log('Starting GPX file upload via API...');

@@ -41,8 +41,8 @@ public class GpxFilesController(
                 return BadRequest("File must be a GPX file.");
             }
 
-            var trail = await mediator.Send(new GetTrailQuery(trailId));
-            if (trail == null)
+            var trailDto = await mediator.Send(new GetTrailQuery(trailId));
+            if (trailDto == null)
             {
                 throw new TrailNotFoundException(trailId);
             }
@@ -54,11 +54,11 @@ public class GpxFilesController(
             fileMemoryStream.Position = 0; // Reset position for reading
 
             var sanitizedFileName = Path.GetFileName(file.FileName);
-            var storagePath = $"{trail.Slug}/{trailId}/{sanitizedFileName}";
+            var storagePath = $"{trailDto.Slug}/{trailId}/{sanitizedFileName}";
 
             var uploadSuccess = await storageService.UploadGpxFileAsync(
                 trailId, // Or adapt storage service to just take storagePath
-                trail.Slug,
+                trailDto.Slug,
                 fileMemoryStream, // Pass MemoryStream for upload
                 sanitizedFileName);
 
