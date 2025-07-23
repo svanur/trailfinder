@@ -1,17 +1,16 @@
 // TrailFinder.Website\src\App.tsx
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AppShell, Text, Container, NavLink as MantineNavLink, Group, useMantineTheme } from '@mantine/core'; // Added useMantineTheme
-import { IconRun, IconInfoCircle, 
-//    IconMapPin, IconTrophy 
-} from "@tabler/icons-react"; // Import new icons
+import { AppShell, Text, Container, NavLink as MantineNavLink, Group, useMantineTheme } from '@mantine/core';
+import { IconRun } from "@tabler/icons-react";
 import { BrowserRouter, NavLink as RouterNavLink } from 'react-router-dom';
 
 import { AppRoutes } from './AppRoutes.tsx';
+import { MainMenu } from './components/MainMenu.tsx'; // Import the new component
 
 const queryClient = new QueryClient();
 
 export function App() {
-    const theme = useMantineTheme(); // Hook to access Mantine theme
+    const theme = useMantineTheme();
 
     return (
         <QueryClientProvider client={queryClient}>
@@ -22,7 +21,7 @@ export function App() {
                 >
                     <AppShell.Header p="xs">
                         <Group h="100%" px="md" justify="flex-start" gap="lg">
-                            {/* Logo/Title - This now serves as the primary Home link */}
+                            {/* Logo/Title */}
                             <Text size="xl" fw={700} component="div">
                                 <MantineNavLink
                                     component={RouterNavLink}
@@ -32,50 +31,12 @@ export function App() {
                                     variant="subtle"
                                     py={0}
                                     pr="xs"
-                                    c={theme.colors.gray[8]} // Example: Using a specific gray for the logo text
-                                    // Or you could use a hex code: c="#333"
+                                    c={theme.colors.gray[8]}
                                 />
                             </Text>
-
-                            {/* Navigation Links Group */}
-                            <Group gap="md" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap' }}>
-                                
-                                {/* Placeholder for future menu items */}
-                                {/* Example: "Staðir" */}
-                                {/*
-                                <MantineNavLink
-                                    component={RouterNavLink}
-                                    to="/stadir"
-                                    label="Staðir"
-                                    leftSection={<IconMapPin size={16} stroke={1.5} />}
-                                    py={0}
-                                    c={theme.colors.gray[7]}
-                                />
-                                */}
-                                {/* Example: "Keppni" */}
-                                {/*
-                                <MantineNavLink
-                                    component={RouterNavLink}
-                                    to="/keppni"
-                                    label="Keppni"
-                                    leftSection={<IconTrophy size={16} stroke={1.5} />}
-                                    py={0}
-                                    c={theme.colors.gray[7]}
-                                />
-                                */}
-
-                                <MantineNavLink
-                                    component={RouterNavLink}
-                                    to="/um"
-                                    label="Um"
-                                    leftSection={<IconInfoCircle size={16} stroke={1.5} />} // Added icon
-                                    py={0}
-                                    c={theme.colors.gray[7]} // Dimmed color using Mantine theme
-                                    // Or: c="dimmed" for a built-in dimmed effect
-                                    // Or: c={theme.colors.dark[4]} for a specific dark shade
-                                />
-                                
-                            </Group>
+                            
+                            <MainMenu />
+                            
                         </Group>
                     </AppShell.Header>
 
