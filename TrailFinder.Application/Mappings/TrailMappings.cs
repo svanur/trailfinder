@@ -23,6 +23,7 @@ public class TrailMappings : Profile
             ;
 
         // List to PaginatedResult mapping
+        /*
         CreateMap<PaginatedResult<Trail>, PaginatedResult<TrailDto>>()
             .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items))
             .ForMember(dest => dest.PageNumber, opt => opt.MapFrom(src => src.PageNumber))
@@ -31,6 +32,6 @@ public class TrailMappings : Profile
             .ForMember(dest => dest.TotalPages, opt => opt.MapFrom(src => src.TotalPages))
             .ForMember(dest => dest.HasPreviousPage, opt => opt.MapFrom(src => src.HasPreviousPage))
             .ForMember(dest => dest.HasNextPage, opt => opt.MapFrom(src => src.HasNextPage));
-        
+        */
     }
 }

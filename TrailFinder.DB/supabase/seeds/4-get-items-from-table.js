@@ -11,25 +11,28 @@ const pool = new Pool({
     password: 'postgres'
 });
 
-async function getItems(table_name) {
+async function getItems(itemTable) {
     try {
-        const query = `SELECT id FROM ${table_name}`;
+        const query = `SELECT id FROM ${itemTable}`;
         const result = await pool.query(query);
-        console.log(query);
-        console.log("Got: " + result.rows.length, 'items from', table_name, 'table');
-
+        
+        const url = `${API_BASE_URL}/${itemTable}`;
+        console.log(`GET ${url}`);
+        const response = await axios.get(url);
+        const data = response.data;
+        
         for (const item of result.rows) {
-            const item_id = item.id;
-            //const item_name = item.name;
-
-            const url = `${API_BASE_URL}/${table_name}`;
+            const itemId = item.id;
+            
             try {
-                console.log(`GET ${url}`);
-                const response = await axios.get(url);
-                const data = response.data;
-                console.log(`Successfully got data from ${table_name}`);
+                let itemUrl = `${url}/${itemId}`; 
+                console.log(`GET ${itemUrl}`);
+                const response = await axios.get(itemUrl);
+                const itemData = response.data;
+                console.log(`Success: ${itemData.name}`);
+                console.log(' ');
             } catch (error) {
-                console.error(`Error getting data from ${table_name}:`, error.code);
+                console.error(`Error getting data for ${itemId}:`, error.code);
                 if (error.response && error.response.status) {
                     console.error(error.response.status + " " + error.response.statusText);
 
@@ -37,23 +40,15 @@ async function getItems(table_name) {
                         console.error(error.response.data.message);
                 }
                 return;
-            }
-
-            try {
-               // console.log(`Try to get item ${item_id} from ${table_name}`);
-                const item_url = `${API_BASE_URL}/${table_name}/${item_id}`;
-                console.log(`GET ${item_url}`);
-                const item_response = await axios.get(item_url);
-                const item_data = item_response.data;
-                console.log(`Successfully got item from ${table_name}: ${item_data.id}`);
-
-            } catch (error) {
-                console.error(`Error getting item from ${table_name}`);
-                if (error.data)
-                    console.error("Error: " + error.data);
-            }
-            
+            }            
         }
+        console.log(`Successfully got ${data.length} rows from table: ${itemTable}`);
+        let jff = "";
+        for (const item of result.rows) {
+            jff += "-";
+        }
+        console.log(jff);
+        
     } catch (error) {
         console.error('Database error:', error);
     } finally {
@@ -78,5 +73,6 @@ async function main(items) {
     }
 }
 
-main('trails')
-    .then(r => console.log('Done'));
+const tableName = 'trails';
+main(tableName)
+    .then(r => console.log('Done with table:', tableName));

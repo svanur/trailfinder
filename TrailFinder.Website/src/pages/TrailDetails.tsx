@@ -50,30 +50,25 @@ export function TrailDetails() {
         return (
             <Container ta="center" style={{ padding: '4rem 0' }}>
                 <Title order={2}>Engin gögn fundust!</Title>
-                <Text mt="md">Einhver villa kom upp og engin gönguleiðargögn fundust eða slóðin er ógild.</Text>
+                <Text mt="md">Einhver villa kom upp og engar leiðir fundust eða slóðin er bara ekki til.</Text>
                 <Button mt="lg" onClick={() => navigate('/')}>Aftur á forsíðu</Button>
             </Container>
         );
     }
 
-    // Removed: Swipe Handlers (handlers const)
-
-    // Format createdAt date for Icelandic display
     const trailCreatedAt = new Date(trail.createdAt);
-    // Options for formatting the date and time
     const options: Intl.DateTimeFormatOptions = { // Explicitly define type for better type-checking
-        year: 'numeric',   // Correct: use literal 'numeric'
-        month: 'numeric',  // Correct: use literal 'numeric'
-        day: 'numeric',    // Correct: use literal 'numeric'
-        hour: 'numeric',   // Correct: use literal 'numeric'
-        minute: 'numeric', // Correct: use literal 'numeric'
-        second: 'numeric', // Correct: use literal 'numeric'
-        hour12: false,     // Correct: boolean
-        timeZone: 'Atlantic/Reykjavik' // Correct: string
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: false,
+        timeZone: 'Atlantic/Reykjavik'
     };
     // Create a DateTimeFormat object for Icelandic locale
     const formatter = new Intl.DateTimeFormat('is-IS', options);
-    // Format the date
     const trailAddedDate = formatter.format(trailCreatedAt);
 
     const DynamicRouteIcon = getRouteTypeIcon(trail.routeType);

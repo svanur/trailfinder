@@ -17,7 +17,7 @@ DECLARE
     reykjavik_marathon_id UUID := '20000000-0000-0000-0000-000000000003';
     ice_ultra_id UUID := '20000000-0000-0000-0000-000000000004';
     esja_ultra_race_id UUID := '20000000-0000-0000-0000-000000000005';
-    hvitasunnuhlaup_race_id UUID := '20000000-0000-0000-0000-000000000006';
+    hvitasunnuhlaup_hauka_race_id UUID := '20000000-0000-0000-0000-000000000006';
 
     -- Declare UUID variables for new trail IDs (fetched by slug or declared if new)
     esja_ultra_marathon_trail_id UUID;
@@ -29,8 +29,10 @@ DECLARE
     puffin_run_trail_id UUID;
     bakgardur_ellidavatn_trail_id UUID;
     skaftafell_ultra_trail_id UUID;     
+    hafnarfjall_ultra_seven_peaks_and_two_walleys_id UUID;
     hafnarfjall_ultra_seven_peaks_id UUID;
     hafnarfjall_ultra_summit_id UUID;
+    hafnarfjall_ultra_family_run_id UUID;
     hellisheidi_sunnan_vega_id UUID;
     sveifluhals_id UUID;
     ulfarsfellsslaufan_id UUID;
@@ -144,14 +146,17 @@ VALUES
     (gen_random_uuid(), 'Bakgarður Náttúruhlaupa við Elliðavatn', 'bakgardur-ellidavatn', 'Bakgarður Náttúruhlaupa við Elliðavatn', 0, 0, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()),
     (gen_random_uuid(), '5km hlaup HHFH og 66°N', 'hlaupaseria-66', 'Hlaupasería 66°N og Hlaupahóps FH', 5, 44, 'unknown', 'unknown','unknown','unknown',seed_created_by, NOW()),
     (gen_random_uuid(), 'Skaftafell Ultra', 'skaftafell-ultra', 'Náttúruhlaup í Skaftafelli', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
-    
-    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar', 'hafnarfjall-ultra-seven-peaks', '7 tindur. Keppnisleið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+
+    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar og tveir dalis', 'hafnarfjall-ultra-seven-peaks-and-two-walleys', '7 tindar. Keppnisleið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar', 'hafnarfjall-ultra-seven-peaks', '7 tindar og tveir dalir. Keppnisleið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Hafnarfjall Ultra 1 tindur', 'hafnarfjall-ultra-summit', '1 tindur. Keppnisleið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hafnarfjall Ultra fjölskylduhlaup', 'hafnarfjall-ultra-family-run', 'Fjölskylduhlaupið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
     (gen_random_uuid(), 'Hellisheiði sunnan vega', 'hellisheidi-sunnan-vega', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Sveifluháls', 'sveifluhals', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Úlfarsfellsslaufan', 'ulfarsfellsslaufan', '3 Úllar, mismunandi leiðir upp og niður', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     
-    ( laugavegur_trail_id, 'Laugavegur Trail', 'laugavegur-ultra', 'The famous Laugavegur hiking trail from Landmannalaugar to Þórsmörk.', 53, 1500, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()
+    ( laugavegur_trail_id, 'Laugavegur Trail', 'laugavegur-ultra', 'Laugavegshlaupið er 55 km utanvegahlaup en Laugavegurinn tengir saman Landmannalaugar og Þórsmörk á sunnanverðu hálendi Íslands, tvær sannkallaðar náttúruperlur. Göngugarpar eru venjulega 4 daga á leið sinni um Laugaveginn en hröðustu hlaupararnir fara leiðina á 4-5 klukkustundum.', 53, 1500, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()
 ) ON CONFLICT (slug) DO NOTHING;
 
 ---
@@ -231,7 +236,7 @@ VALUES (esja_ultra_race_id, reykjavik_id, 'Mt Esja Ultra', 'mt-esja-ultra', 'Mou
 
 -- NEW: Hvítasunnuhlaup Hauka Race (conceptual race)
 INSERT INTO public.races (id, location_id, name, slug, description, race_status, recurring_month, recurring_week, recurring_weekday, created_by, created_at)
-VALUES (hvitasunnuhlaup_race_id, reykjavik_id, 'Hvítasunnuhlaup Hauka', 'hvitasunnuhlaup-hauka', 'Annual race by Haukar athletic club, held near Hafnarfjörður.', 'active', 6, 2, 7, seed_created_by, NOW())
+VALUES (hvitasunnuhlaup_hauka_race_id, reykjavik_id, 'Hvítasunnuhlaup Hauka', 'hvitasunnuhlaupid', 'Annual race by Haukar athletic club, held near Hafnarfjörður.', 'active', 6, 2, 7, seed_created_by, NOW())
     ON CONFLICT (id) DO NOTHING;
 
 ---
@@ -247,8 +252,10 @@ SELECT id INTO puffin_run_trail_id FROM public.trails WHERE slug = 'puffin-run';
 SELECT id INTO bakgardur_ellidavatn_trail_id FROM public.trails WHERE slug = 'bakgardur-ellidavatn';
 SELECT id INTO skaftafell_ultra_trail_id FROM public.trails WHERE slug = 'skaftafell-ultra';
 
+SELECT id INTO hafnarfjall_ultra_seven_peaks_and_two_walleys_id FROM public.trails WHERE slug = 'hafnarfjall-ultra-seven-peaks-and-two-walleys';
 SELECT id INTO hafnarfjall_ultra_seven_peaks_id FROM public.trails WHERE slug = 'hafnarfjall-ultra-seven-peaks';
 SELECT id INTO hafnarfjall_ultra_summit_id FROM public.trails WHERE slug = 'hafnarfjall-ultra-summit';
+SELECT id INTO hafnarfjall_ultra_family_run_id FROM public.trails WHERE slug = 'hafnarfjall-ultra-family-run';
 SELECT id INTO hellisheidi_sunnan_vega_id FROM public.trails WHERE slug = 'hellisheidi-sunnan-vega';
 SELECT id INTO sveifluhals_id FROM public.trails WHERE slug = 'sveifluhals';
 SELECT id INTO ulfarsfellsslaufan_id FROM public.trails WHERE slug = 'ulfarsfellsslaufan';
@@ -278,15 +285,15 @@ VALUES (esja_ultra_race_id, esja_ultra_half_marathon_trail_id, 'active', 'The ha
 
 -- Hvítasunnuhlaup Hauka
 INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, created_by)
-VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_22_trail_id, 'active', 'Longest distance_meters for the event.', 1, NOW(), seed_created_by)
+VALUES (hvitasunnuhlaup_hauka_race_id, hvitasunnuhlaup_hauka_22_trail_id, 'active', 'Longest distance_meters for the event.', 1, NOW(), seed_created_by)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, created_by)
-VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_17_trail_id, 'active', NULL, 2, NOW(), seed_created_by)
+VALUES (hvitasunnuhlaup_hauka_race_id, hvitasunnuhlaup_hauka_17_trail_id, 'active', NULL, 2, NOW(), seed_created_by)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 INSERT INTO public.race_trails (race_id, trail_id, race_status, comment, display_order, created_at, created_by)
-VALUES (hvitasunnuhlaup_race_id, hvitasunnuhlaup_hauka_14_trail_id, 'active', 'Shortest distance_meters, suitable for beginners.', 3, NOW(), seed_created_by)
+VALUES (hvitasunnuhlaup_hauka_race_id, hvitasunnuhlaup_hauka_14_trail_id, 'active', 'Shortest distance_meters, suitable for beginners.', 3, NOW(), seed_created_by)
     ON CONFLICT (race_id, trail_id) DO NOTHING;
 
 -- Reykjavík Marathon
@@ -339,10 +346,10 @@ INSERT INTO public.race_locations (race_id, location_id, location_type, display_
 VALUES (esja_ultra_race_id, reykjavik_id, 'unknown', 1, 'Race located on Mt. Esja, near Reykjavík.', NOW(), seed_created_by)
     ON CONFLICT (race_id, location_id) DO NOTHING;
 
--- Hvítasunnuhlaup Hauka (hvitasunnuhlaup_race_id)
+-- Hvítasunnuhlaup Hauka (hvitasunnuhlaup_hauka_race_id)
 -- Location: Reykjavík (assuming it's in the greater capital area)
 INSERT INTO public.race_locations (race_id, location_id, location_type, display_order, comment, created_at, created_by)
-VALUES (hvitasunnuhlaup_race_id, reykjavik_id, 'unknown', 1, 'Race takes place in the greater Reykjavík area.', NOW(), seed_created_by)
+VALUES (hvitasunnuhlaup_hauka_race_id, reykjavik_id, 'unknown', 1, 'Race takes place in the greater Reykjavík area.', NOW(), seed_created_by)
     ON CONFLICT (race_id, location_id) DO NOTHING;
 
 -- Ice Ultra (ice_ultra_id)

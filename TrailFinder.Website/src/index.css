@@ -1,4 +1,4 @@
-/* index.css */
+/* TrailFinder.Website\src\index.css */
 html, body {
   margin: 0;
   padding: 0;
@@ -12,6 +12,12 @@ html, body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
 .leaflet-container {

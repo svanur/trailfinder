@@ -81,8 +81,8 @@ public class TrailsController : BaseApiController
     {
         try
         {
-            var paginatedResult = await _mediator.Send(new GetTrailsQuery());
-            return Ok(paginatedResult);
+            var allTrails = await _mediator.Send(new GetTrailsQuery());
+            return Ok(allTrails);
         }
         catch (Exception ex)
         {

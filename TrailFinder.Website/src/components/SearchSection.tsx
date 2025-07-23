@@ -1,7 +1,7 @@
-// components/SearchSection.tsx
+// src/components/SearchSection.tsx
 import {
     TextInput,
-    ActionIcon,
+    //ActionIcon,
     Collapse,
     Stack,
     Group,
@@ -15,7 +15,7 @@ import {
 } from '@mantine/core';
 import {
     IconSearch,
-    IconFilter,
+    //IconFilter,
     IconMountain,
     IconRipple,
     IconMountainOff,
@@ -28,7 +28,8 @@ import {
     IconRun,
     IconSandbox
 } from '@tabler/icons-react';
-import {type JSX, useState} from 'react';
+import React, {type JSX, useState} from 'react'; // Import React for React.Dispatch
+import {type TrailFilters } from '../types/filters'; // Import the new filter types
 
 interface FilterOption {
     value: string;
@@ -36,21 +37,25 @@ interface FilterOption {
     icon: JSX.Element;
 }
 
-const FilterSelect = ({ data, placeholder }: { data: FilterOption[], placeholder: string }) => {
+// Re-using your FilterSelect component logic
+const FilterSelect = ({ data, placeholder, value, onValueChange }: { data: FilterOption[], placeholder: string, value: string[], onValueChange: (newValue: string[]) => void }) => {
     const combobox = useCombobox({
         onDropdownClose: () => combobox.resetSelectedOption(),
         onDropdownOpen: () => combobox.updateSelectedOptionIndex('active'),
     });
 
-    const [value, setValue] = useState<string[]>([]);
+    // CORRECTED: Calculate the new array *before* calling onValueChange
+    const handleValueSelect = (val: string) => {
+        const newValue = value.includes(val) ? value.filter((v) => v !== val) : [...value, val];
+        onValueChange(newValue); // Pass the new array directly
+    };
 
-    const handleValueSelect = (val: string) =>
-        setValue((current) =>
-            current.includes(val) ? current.filter((v) => v !== val) : [...current, val]
-        );
+    // CORRECTED: Calculate the new array *before* calling onValueChange
+    const handleValueRemove = (val: string) => {
+        const newValue = value.filter((v) => v !== val);
+        onValueChange(newValue); // Pass the new array directly
+    };
 
-    const handleValueRemove = (val: string) =>
-        setValue((current) => current.filter((v) => v !== val));
 
     const values = value.map((item) => {
         const option = data.find(opt => opt.value === item);
@@ -150,14 +155,42 @@ const regionData = [
     { value: 'sudurland', label: 'Suðurland', icon: <IconCircle style={{ width: 16, height: 16 }} /> },
 ];
 
-export function SearchSection() {
-    const [showFilters, setShowFilters] = useState(false);
+interface SearchSectionProps {
+    filters: TrailFilters;
+    setFilters: React.Dispatch<React.SetStateAction<TrailFilters>>;
+}
+
+export function SearchSection({ filters, setFilters }: SearchSectionProps) {
+    const [showFilters, 
+    //    setShowFilters
+    ] = useState(false);
+
+    const handleSearchTermChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        // Use optional chaining (?.) and nullish coalescing (??) for safety
+        const newSearchTerm = event.currentTarget?.value ?? '';
+        setFilters(prev => ({ ...prev, searchTerm: newSearchTerm }));
+    };
+
+    const handleDistanceChange = (value: [number, number]) => {
+        setFilters(prev => ({ ...prev, distance: { min: value[0], max: value[1] } }));
+    };
+
+    const handleElevationChange = (value: [number, number]) => {
+        setFilters(prev => ({ ...prev, elevation: { min: value[0], max: value[1] } }));
+    };
+
+    const handleFilterSelect = (filterKey: keyof TrailFilters) => (newValue: string[]) => {
+        setFilters(prev => ({ ...prev, [filterKey]: newValue }));
+    };
 
     return (
         <Stack my="md">
             <TextInput
                 placeholder="Leita að hlaupaleiðum..."
+                value={filters.searchTerm}
+                onChange={handleSearchTermChange}
                 leftSection={<IconSearch size={16} />}
+                /* 
                 rightSection={
                     <ActionIcon
                         variant="subtle"
@@ -174,6 +207,7 @@ export function SearchSection() {
                         />
                     </ActionIcon>
                 }
+                */
                 size="md"
                 radius="md"
             />
@@ -188,6 +222,8 @@ export function SearchSection() {
                                 max={50}
                                 step={1}
                                 minRange={0}
+                                value={[filters.distance.min, filters.distance.max]}
+                                onChange={handleDistanceChange}
                                 marks={[
                                     { value: 0, label: '0' },
                                     { value: 25, label: '25' },
@@ -204,6 +240,8 @@ export function SearchSection() {
                                 max={2000}
                                 step={100}
                                 minRange={0}
+                                value={[filters.elevation.min, filters.elevation.max]}
+                                onChange={handleElevationChange}
                                 marks={[
                                     { value: 0, label: '0' },
                                     { value: 1000, label: '1000' },
@@ -218,22 +256,32 @@ export function SearchSection() {
                         <FilterSelect
                             data={surfaceData}
                             placeholder="Undirlag"
+                            value={filters.surfaceTypes}
+                            onValueChange={handleFilterSelect('surfaceTypes')}
                         />
                         <FilterSelect
                             data={difficultyData}
                             placeholder="Erfiðleikastig"
+                            value={filters.difficultyLevels}
+                            onValueChange={handleFilterSelect('difficultyLevels')}
                         />
                         <FilterSelect
                             data={routeData}
                             placeholder="Tegund leiðar"
+                            value={filters.routeTypes}
+                            onValueChange={handleFilterSelect('routeTypes')}
                         />
                         <FilterSelect
                             data={terrainData}
-                            placeholder="Undirlag"
+                            placeholder="Landslag"
+                            value={filters.terrainTypes}
+                            onValueChange={handleFilterSelect('terrainTypes')}
                         />
                         <FilterSelect
                             data={regionData}
                             placeholder="Staður"
+                            value={filters.regions}
+                            onValueChange={handleFilterSelect('regions')}
                         />
                     </Group>
                 </Stack>
