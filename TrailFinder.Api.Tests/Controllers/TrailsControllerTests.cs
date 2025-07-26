@@ -8,6 +8,7 @@ using TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 using TrailFinder.Application.Features.Trails.Queries.GetTrails;
 using TrailFinder.Core.DTOs.Common;
 using TrailFinder.Core.DTOs.Gpx;
+using TrailFinder.Core.DTOs.GpxFile;
 using TrailFinder.Core.DTOs.Trails.Responses;
 using TrailFinder.Core.Enums;
 using TrailFinder.Core.Interfaces.Services;
@@ -94,7 +95,7 @@ public class TrailsControllerTests
             .ReturnsAsync(expectedTrails);
 
         // Act
-        var result = await _controller.GetAllTrails();
+        var result = await _controller.GetAllTrails(null,null);
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -119,7 +120,7 @@ public class TrailsControllerTests
             .ReturnsAsync(emptyResult);
 
         // Act
-        var result = await _controller.GetAllTrails();
+        var result = await _controller.GetAllTrails(null, null);
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -138,7 +139,7 @@ public class TrailsControllerTests
             .ThrowsAsync(expectedException);
 
         // Act
-        var result = await _controller.GetAllTrails();
+        var result = await _controller.GetAllTrails(null, null);
 
         // Assert
         // Note: The exact return type here depends on your HandleException implementation

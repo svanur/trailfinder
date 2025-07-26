@@ -147,14 +147,44 @@ VALUES
     (gen_random_uuid(), '5km hlaup HHFH og 66°N', 'hlaupaseria-66', 'Hlaupasería 66°N og Hlaupahóps FH', 5, 44, 'unknown', 'unknown','unknown','unknown',seed_created_by, NOW()),
     (gen_random_uuid(), 'Skaftafell Ultra', 'skaftafell-ultra', 'Náttúruhlaup í Skaftafelli', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar og tveir dalis', 'hafnarfjall-ultra-seven-peaks-and-two-walleys', '7 tindar. Keppnisleið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar', 'hafnarfjall-ultra-seven-peaks', '7 tindar og tveir dalir. Keppnisleið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar og tveir dalis', 'hafnarfjall-ultra-sjo-tindar-og-tveir-dalir', '7 tindar. Keppnisleið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar', 'hafnarfjall-ultra-sjo-tindar', '7 tindar og tveir dalir. Keppnisleið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Hafnarfjall Ultra 1 tindur', 'hafnarfjall-ultra-summit', '1 tindur. Keppnisleið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hafnarfjall Ultra fjölskylduhlaup', 'hafnarfjall-ultra-family-run', 'Fjölskylduhlaupið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hafnarfjall Ultra fjölskylduhlaup', 'hafnarfjall-ultra-fjolskylduhlaup', 'Fjölskylduhlaupið í Hafnarfjall Ultra seríunni', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     
     (gen_random_uuid(), 'Hellisheiði sunnan vega', 'hellisheidi-sunnan-vega', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Sveifluháls', 'sveifluhals', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Úlfarsfellsslaufan', 'ulfarsfellsslaufan', '3 Úllar, mismunandi leiðir upp og niður', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
+    (gen_random_uuid(), 'Adidas boost', 'adidas-boost', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Austur Ultra 18km', 'austur-ultra-18', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Austur Ultra 50km', 'austur-ultra-50', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Austur Ultra 8km', 'austur-ultra-8', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Bláskógarskokk 16km', 'blaskogarskokk-16', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Bláskógarskokk 8km', 'blaskogarskokk-8', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
+    (gen_random_uuid(), 'Botnsvatnshlaup 3km', 'botnsvatnshlaup-3', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Botnvatnshlaup 8km', 'botnvatnshlaup-8', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Eldslóðin 10km', 'eldslodin-10', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Eldslóðin 29km', 'eldslodin-29', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Eldslóðin 5km', 'eldslodin-5', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
+    (gen_random_uuid(), 'Fimmvörðuhálshlaupið', 'fimmvorduhalshlaupid', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 21km', 'hvitasunnuhlaup-hauka-21', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Pósthlaupið 7km', 'posthlaupid-7', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Austur Ultra 50km', 'austur-ultra-50', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
+    (gen_random_uuid(), 'Pósthlaupið 26km', 'posthlaupid-26', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Pósthlaupið 50km', 'posthlaupid-50', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Pósthlaupið 12km', 'posthlaupid-12', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Súlur Vertical - Fálkinn', 'sulur-vertical-falkinn', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Súlur Vertical - Gyðjan', 'sulur-vertical-gydjan', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
+    (gen_random_uuid(), 'Súlur Vertical - Súlur', 'sulur-vertical-sulur', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Súlur Vertical - Tröllið', 'sulur-vertical-trollid', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Vatnsmýrarhlaupið', 'vatnsmyrarhlaupid', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Vatnsnes Trail run - 10km', 'vatnsnes-trail-run-10', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Vatnsnes Trail run- 20km', 'vatnsnes-trail-run-20', '', 0, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     
     ( laugavegur_trail_id, 'Laugavegur Trail', 'laugavegur-ultra', 'Laugavegshlaupið er 55 km utanvegahlaup en Laugavegurinn tengir saman Landmannalaugar og Þórsmörk á sunnanverðu hálendi Íslands, tvær sannkallaðar náttúruperlur. Göngugarpar eru venjulega 4 daga á leið sinni um Laugaveginn en hröðustu hlaupararnir fara leiðina á 4-5 klukkustundum.', 53, 1500, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()
 ) ON CONFLICT (slug) DO NOTHING;

@@ -1,4 +1,4 @@
-// TrailFinder.Website\src\components\TrailList.tsx
+// src/components/TrailCards.tsx
 import {
     Card,
     Group,
@@ -13,30 +13,26 @@ import {
     IconArrowUpRight,
     IconMap,
     IconRoute,
-    IconMountain
+    IconMountain,
+    IconMapPin // Added IconMapPin
 } from '@tabler/icons-react';
 import { useTrails } from '../hooks/useTrails';
-import { useMemo } from 'react';
-import {type TrailFilters } from '../types/filters'; // Ensure imported
-//import type { Trail } from "@trailfinder/db-types";
+import { useMemo, useEffect, useState } from 'react'; // Added useEffect, useState
+import {type TrailFilters } from '../types/filters';
+import {useUserLocation} from "../hooks/useUserLocation.ts";
+import type { Trail } from "@trailfinder/db-types"; // Correct type import
 
 const getDifficultyColor = (difficulty: string) => {
-    // console.log('difficulty: ', difficulty.toLowerCase()); // Remove console.log in production code
     switch (difficulty.toLowerCase()) {
-        case 'easy':
-            return 'green';
-        case 'moderate':
-            return 'yellow';
-        case 'hard':
-            return 'orange';
-        case 'extreme':
-            return 'red';
-        default:
-            return 'gray';
+        case 'easy': return 'green';
+        case 'moderate': return 'yellow';
+        case 'hard': return 'orange';
+        case 'extreme': return 'red';
+        default: return 'gray';
     }
 };
 
-const formatDistance = (distanceKm: number) => { // Changed param name from distanceMeters for clarity based on data
+const formatDistance = (distanceKm: number) => {
     return `${distanceKm.toFixed(1)} km`;
 };
 
@@ -49,18 +45,41 @@ interface TrailListProps {
 }
 
 export function TrailCards({ filters }: TrailListProps) {
-    const { data: allTrails, isLoading, error } = useTrails();
+    const userLocation = useUserLocation();
 
-    const filteredTrails = useMemo(() => {
+    const { data: allTrails, isLoading, error } = useTrails({
+        userLatitude: userLocation.latitude,
+        userLongitude: userLocation.longitude
+    });
+
+    // We'll manage sorting directly in this component for the cards
+    const [sortKey, setSortKey] = useState<keyof Trail | null>(null);
+    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+
+    // Default sort for cards: by distance if location available, otherwise by name
+    useEffect(() => {
+        if (!sortKey) {
+            if (userLocation.latitude && userLocation.longitude) {
+                setSortKey('distanceToUserKm');
+                setSortDirection('asc');
+            } else {
+                setSortKey('name');
+                setSortDirection('asc');
+            }
+        }
+    }, [userLocation.latitude, userLocation.longitude, sortKey]);
+
+
+    const filteredAndSortedTrails = useMemo(() => {
         if (!allTrails) {
             return [];
         }
 
-        let currentFiltered = [...allTrails]; // Always start with a copy
+        let currentFiltered = [...allTrails];
 
         const lowerCaseSearchTerm = filters.searchTerm.toLowerCase();
 
-        // 1. Search Term Filter
+        // Filtering logic (same as TrailsTable)
         if (lowerCaseSearchTerm) {
             currentFiltered = currentFiltered.filter(trail =>
                 trail.name.toLowerCase().includes(lowerCaseSearchTerm) ||
@@ -69,51 +88,70 @@ export function TrailCards({ filters }: TrailListProps) {
             );
         }
 
-        // 2. Distance Filter
         currentFiltered = currentFiltered.filter(trail =>
             trail.distanceKm >= filters.distance.min && trail.distanceKm <= filters.distance.max
         );
 
-        // 3. Elevation Filter
         currentFiltered = currentFiltered.filter(trail =>
             trail.elevationGainMeters >= filters.elevation.min && trail.elevationGainMeters <= filters.elevation.max
         );
 
-        // 4. Surface Type Filter
         if (filters.surfaceTypes.length > 0) {
             currentFiltered = currentFiltered.filter(trail =>
                 filters.surfaceTypes.includes(trail.surfaceType)
             );
         }
 
-        // 5. Difficulty Level Filter
         if (filters.difficultyLevels.length > 0) {
             currentFiltered = currentFiltered.filter(trail =>
                 filters.difficultyLevels.includes(trail.difficultyLevel)
             );
         }
 
-        // 6. Route Type Filter
         if (filters.routeTypes.length > 0) {
             currentFiltered = currentFiltered.filter(trail =>
                 filters.routeTypes.includes(trail.routeType)
             );
         }
 
-        // 7. Terrain Type Filter
         if (filters.terrainTypes.length > 0) {
             currentFiltered = currentFiltered.filter(trail =>
                 filters.terrainTypes.includes(trail.terrainType)
             );
         }
 
-        // 8. Region Filter
         if (filters.regions.length > 0) {
             currentFiltered = currentFiltered.filter(trail =>
                 filters.regions.some(region =>
                     trail.location && trail.location.toLowerCase().includes(region.toLowerCase())
                 )
             );
+        }
+
+        // Sorting logic (duplicated from TrailsTable, but necessary here too)
+        if (sortKey === 'distanceToUserKm') {
+            currentFiltered.sort((a, b) => {
+                const aDist = a.distanceToUserKm ?? Infinity;
+                const bDist = b.distanceToUserKm ?? Infinity;
+                return sortDirection === 'asc' ? aDist - bDist : bDist - aDist;
+            });
+        } else if (sortKey) {
+            currentFiltered.sort((a, b) => {
+                const aValue = a[sortKey];
+                const bValue = b[sortKey];
+
+                if (aValue === null || aValue === undefined) return sortDirection === 'asc' ? 1 : -1;
+                if (bValue === null || bValue === undefined) return sortDirection === 'asc' ? -1 : 1;
+
+                if (typeof aValue === 'number' && typeof bValue === 'number') {
+                    return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
+                }
+                if (typeof aValue === 'string' && typeof bValue === 'string') {
+                    const comparison = aValue.localeCompare(bValue, 'is', { sensitivity: 'base' });
+                    return sortDirection === 'asc' ? comparison : -comparison;
+                }
+                return 0;
+            });
         }
 
         return currentFiltered;
@@ -127,23 +165,30 @@ export function TrailCards({ filters }: TrailListProps) {
         filters.routeTypes,
         filters.terrainTypes,
         filters.regions,
+        sortKey, // Add sort dependencies
+        sortDirection, // Add sort dependencies
     ]);
 
-    if (isLoading) {
-        return <Text>Hleð inn hlaupaleiðum...</Text>;
+
+    if (isLoading || userLocation.isLoading) {
+        return <Text>Hleð inn hlaupaleiðum og staðsetningu notanda...</Text>;
+    }
+
+    if (userLocation.error) {
+        return <Text c="orange">Gat ekki náð í staðsetningu notanda: {userLocation.error.message}. Hlaupaleiðir verða ekki flokkaðar eftir fjarlægð.</Text>;
     }
 
     if (error) {
-        return <Text color="red">Villa kom upp við að sækja hlaupaleiðir</Text>;
+        return <Text c="red">Villa kom upp við að sækja hlaupaleiðir</Text>;
     }
 
-    if (!filteredTrails?.length) {
+    if (!filteredAndSortedTrails?.length) {
         return <Text>Engar hlaupaleiðir fundust sem passa við valdar síur.</Text>;
     }
 
     return (
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="md">
-            {filteredTrails.map((trail) => (
+            {filteredAndSortedTrails.map((trail) => ( // Use filteredAndSortedTrails
                 <Card key={trail.id} shadow="sm" padding="lg" radius="md" withBorder>
                     <Stack gap="xs">
                         <Text fw={500} size="lg">{trail.name}</Text>
@@ -187,6 +232,16 @@ export function TrailCards({ filters }: TrailListProps) {
                             <Badge variant="light">
                                 {trail.terrainType}
                             </Badge>
+
+                            {/* Display distance to user in card */}
+                            {trail.distanceToUserKm !== null && trail.distanceToUserKm !== undefined && (
+                                <Group gap="xs">
+                                    <IconMapPin size={16} style={{ opacity: 0.7 }} />
+                                    <Text size="sm" c="dimmed">
+                                        {trail.distanceToUserKm.toFixed(2)} km
+                                    </Text>
+                                </Group>
+                            )}
                         </Group>
                     </Stack>
                 </Card>

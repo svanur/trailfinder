@@ -1,3 +1,4 @@
+// TrailFinder.Core\Entities\Trail.cs
 using NetTopologySuite.Geometries;
 using TrailFinder.Core.Entities.Common;
 using TrailFinder.Core.Enums;

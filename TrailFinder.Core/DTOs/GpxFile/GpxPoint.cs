@@ -1,6 +1,8 @@
+// TrailFinder.Core\DTOs\GpxFile\GpxPoint.cs
 using System.Xml.Linq;
+using NetTopologySuite.Geometries;
 
-namespace TrailFinder.Core.DTOs.Gpx;
+namespace TrailFinder.Core.DTOs.GpxFile;
 
 public readonly record struct GpxPoint
 {
@@ -24,6 +26,13 @@ public readonly record struct GpxPoint
             Longitude = longitude;
         }
         Elevation = elevation;
+    }
+
+    public GpxPoint(Point point)
+    {
+        Latitude = point.Coordinate.Y;
+        Longitude = point.Coordinate.X;
+        Elevation = point.Coordinate.Z;
     }
 
     public static GpxPoint FromXElement(XElement point, XNamespace ns)
@@ -68,17 +77,17 @@ public readonly record struct GpxPoint
     {
         const double radiansPerDegree = Math.PI / 180;
         
-        var lat1Rad = Latitude * radiansPerDegree;
+        var lat1Rad = (double)(Latitude * radiansPerDegree);
         var lon1Rad = Longitude * radiansPerDegree;
-        var lat2Rad = other.Latitude * radiansPerDegree;
+        var lat2Rad = (double)(other.Latitude * radiansPerDegree);
         var lon2Rad = other.Longitude * radiansPerDegree;
 
         var latDiff = lat2Rad - lat1Rad;
         var lonDiff = lon2Rad - lon1Rad;
 
-        var a = Math.Sin(latDiff / 2) * Math.Sin(latDiff / 2) +
+        var a = Math.Sin((double)(latDiff / 2)) * Math.Sin((double)(latDiff / 2)) +
                 Math.Cos(lat1Rad) * Math.Cos(lat2Rad) *
-                Math.Sin(lonDiff / 2) * Math.Sin(lonDiff / 2);
+                Math.Sin((double)(lonDiff / 2)) * Math.Sin((double)(lonDiff / 2));
         
         if (double.IsNaN(a) || a > 1)
         {

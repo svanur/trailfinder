@@ -1,19 +1,31 @@
-// src/services/trailsApi.ts
+// TrailFinder.Website\src\services\trailsApi.ts
 import { apiClient } from './api';
 import { API_CONFIG } from '../config/api';
-import type { Trail } from '@trailfinder/db-types';
+import type { Trail } from '@trailfinder/db-types'; // Your current DB type
 import axios from "axios";
 
-
 export const trailsApi = {
-    getAll: async (): Promise<Trail[]> => {
-        const response = await axios.get<Trail[]>(`${API_CONFIG.ENDPOINTS.TRAILS}`);
-        return response.data; // This MUST be the array directly
+    // Modify getAll to accept optional lat/lon
+    getAll: async (latitude?: number | null, longitude?: number | null): Promise<Trail[]> => { // Return TrailDto
+        let url = `${API_CONFIG.ENDPOINTS.TRAILS}`;
+        const params = new URLSearchParams();
+console.log('getAll: ', latitude, longitude, '')
+        if (latitude !== null && latitude !== undefined && longitude !== null && longitude !== undefined) {
+            params.append('userLatitude', latitude.toString());
+            params.append('userLongitude', longitude.toString());
+        }
+
+        if (params.toString()) {
+            url = `${url}?${params.toString()}`;
+        }
+
+        const response = await axios.get<Trail[]>(url); // Expect TrailDto[]
+        return response.data;
     },
 
-    getBySlug: async (slug: string): Promise<Trail> => {
+    getBySlug: async (slug: string): Promise<Trail> => { // Adjust return type to TrailDto
         try {
-            const response = await apiClient.get<Trail>(
+            const response = await apiClient.get<Trail>( // Expect TrailDto
                 `${API_CONFIG.ENDPOINTS.TRAILS}/${slug}`
             );
 
@@ -29,5 +41,5 @@ export const trailsApi = {
             throw error;
         }
     }
-    
+
 };

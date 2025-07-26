@@ -1,4 +1,5 @@
 using NetTopologySuite.Geometries;
+using TrailFinder.Core.DTOs.GpxFile;
 using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Core.DTOs.Gpx.Responses;

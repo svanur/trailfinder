@@ -11,6 +11,14 @@ public class TrailRepository(ApplicationDbContext context)
     : BaseRepository<Trail>(context), ITrailRepository
 {
     
+    public override async Task<IEnumerable<Trail>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await DbSet
+            .Where(trail => trail.RouteGeom != null ) //TODO: remove this line
+            .OrderByDescending(t => t.CreatedAt)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<Trail?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default)
     {
         return await DbSet
@@ -23,6 +31,7 @@ public class TrailRepository(ApplicationDbContext context)
             .AnyAsync(t => t.Slug == slug, cancellationToken);
     }
 
+    //TODO: ath með PaginatedResult
     public async Task<PaginatedResult<Trail>> GetFilteredAsync(
         TrailFilterDto filter, 
         CancellationToken cancellationToken = default)

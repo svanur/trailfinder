@@ -31,7 +31,9 @@ export interface Trail {
     surfaceType: SurfaceType;
     location: string;
     routeGeom?: any; // or more specific GeoJSON type if needed
-
+    // missing start and end points
+    distanceToUserKm: number | null;
+    gpxFilePath: string | null;
     createdBy: string | null;
     createdAt: string; // ISO date string
     updatedBy: string | null;

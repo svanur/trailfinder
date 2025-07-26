@@ -5,7 +5,7 @@ using NetTopologySuite;
 using NetTopologySuite.Geometries;
 using TrailFinder.Application.Services;
 using TrailFinder.Contract.Persistence;
-using TrailFinder.Core.DTOs.Gpx;
+using TrailFinder.Core.DTOs.GpxFile;
 using TrailFinder.Core.Enums;
 using TrailFinder.Core.Interfaces.Repositories;
 using TrailFinder.Core.Interfaces.Services;

@@ -1,5 +1,6 @@
 using AutoMapper;
 using TrailFinder.Core.DTOs.Common;
+using TrailFinder.Core.DTOs.GpxFile;
 using TrailFinder.Core.DTOs.Trails.Responses;
 using TrailFinder.Core.Entities;
 
@@ -16,6 +17,21 @@ public class TrailMappings : Profile
                 opt => opt.MapFrom(src => Math.Round(src.DistanceMeters / 1000.0, 2) // Convert meters to KM for display, round to 2 decimals
                 )
             )
+            
+            .ForMember(dest => dest.StartGpxPoint, opt => opt.MapFrom(src =>
+                    src.RouteGeom != null && src.RouteGeom.NumPoints > 0
+                        ? new GpxPoint(src.RouteGeom.StartPoint)
+                        : default(GpxPoint) // Or null, depending on if GpxPoint can be null
+            ))
+            .ForMember(dest => dest.EndGpxPoint, opt => opt.MapFrom(src =>
+                    src.RouteGeom != null && src.RouteGeom.NumPoints > 0
+                        ? new GpxPoint(src.RouteGeom.EndPoint)
+                        : default(GpxPoint) // Or null
+            ))
+            
+            // Ensure other mappings are present, including DistanceToUserMeters/Km if the repository adds it
+            .ForMember(dest => dest.DistanceToUserMeters, opt => opt.Ignore()) // Calculated in handler/repo
+            .ForMember(dest => dest.DistanceToUserKm, opt => opt.Ignore()) // Calculated in handler/repo
             
             .ForMember(
                 dest => dest.TrailLocations, 

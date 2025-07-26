@@ -1,10 +1,12 @@
-// src/components/TrailsTable.tsx
-import { Table, Text, Group, Flex } from '@mantine/core'; // Flex should now be fine
+// src/components/TrailsTable.tsx (Update this file)
+import { Table, Text, Group, Flex } from '@mantine/core';
 import { NavLink as MantineNavLink } from '@mantine/core';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 
-import { useTrails } from '../hooks/useTrails';
-import { IconActivity, IconRuler, IconMountain, IconArrowUp, IconArrowDown } from "@tabler/icons-react"; // Arrow icons should now be fine
+// Import the new useUserLocation hook
+import { useUserLocation } from '../hooks/useUserLocation';
+
+import { IconActivity, IconRuler, IconMountain, IconArrowUp, IconArrowDown, IconMapPin } from "@tabler/icons-react";
 
 import {
     getDifficultyLevelTranslation,
@@ -12,24 +14,46 @@ import {
     getSurfaceTypeTranslation,
     getRouteTypeTranslation
 } from '../utils/TrailUtils';
-import {useMemo, useState} from 'react';
+import {useMemo, useState, useEffect} from 'react'; // Import useEffect
 import {type TrailFilters } from '../types/filters';
+import {useTrails} from "../hooks/useTrails.ts";
 import type {Trail} from "@trailfinder/db-types";
 
 interface TrailsTableProps {
     filters: TrailFilters;
 }
 
-type SortKey = keyof Trail | null;
+// We'll sort by distanceToUserKm, name, distanceKm, etc.
+type SortKey = keyof Trail | 'distanceToUserKm' | null; // Allow sorting by new distance field
 type SortDirection = 'asc' | 'desc';
 
 export function TrailsTable({ filters }: TrailsTableProps) {
-    const { data: allTrails, isLoading, error } = useTrails();
+    // Get user location
+    const userLocation = useUserLocation();
+    console.log('userLocation', userLocation);
+
+    // Pass user location to useTrails hook
+    const { data: allTrails, isLoading, error } = useTrails({
+        userLatitude: userLocation.latitude,
+        userLongitude: userLocation.longitude,
+    });
 
     const [sortKey, setSortKey] = useState<SortKey>(null);
     const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
-    const handleSort = (key: keyof Trail) => {
+    // Default sort to distance if location available, otherwise by name
+    useEffect(() => {
+        if (userLocation.latitude && userLocation.longitude && !sortKey) {
+            setSortKey('distanceToUserKm');
+            setSortDirection('asc');
+        } else if (!userLocation.latitude && !userLocation.longitude && !sortKey) {
+            setSortKey('name'); // Default back to name if location not available
+            setSortDirection('asc');
+        }
+    }, [userLocation.latitude, userLocation.longitude, sortKey]);
+
+
+    const handleSort = (key: SortKey) => { // Use SortKey type
         if (sortKey === key) {
             setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
         } else {
@@ -38,7 +62,7 @@ export function TrailsTable({ filters }: TrailsTableProps) {
         }
     };
 
-    const renderSortIcon = (key: keyof Trail) => {
+    const renderSortIcon = (key: SortKey) => { // Use SortKey type
         if (sortKey === key) {
             return sortDirection === 'asc'
                 ? <IconArrowUp size={14} />
@@ -47,97 +71,104 @@ export function TrailsTable({ filters }: TrailsTableProps) {
         return null;
     };
 
-    const filteredAndSortedTrails = useMemo(() => { // Renamed for clarity, was 'filteredTrails'
+    const filteredAndSortedTrails = useMemo(() => {
         if (!allTrails) {
             return [];
         }
 
-        // --- FILTERING LOGIC (keep as is) ---
-        let currentFiltered = [...allTrails]; // ***CRUCIAL: Create a copy here before filtering/sorting***
+        let currentFiltered = [...allTrails];
+
+        // --- FILTERING LOGIC (keep as is, adjusted to TrailDto) ---
         const lowerCaseSearchTerm = filters.searchTerm.toLowerCase();
 
         // 1. Search Term Filter
         if (lowerCaseSearchTerm) {
             currentFiltered = currentFiltered.filter(trail =>
-                trail.name.toLowerCase().includes(lowerCaseSearchTerm) ||
-                (trail.description && trail.description.toLowerCase().includes(lowerCaseSearchTerm)) ||
-                (trail.location && trail.location.toLowerCase().includes(lowerCaseSearchTerm))
+                    trail.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+                    (trail.description && trail.description.toLowerCase().includes(lowerCaseSearchTerm))
+                // You had trail.location here, but TrailDto doesn't have it directly.
+                // If you want to filter by location string, ensure it's in TrailDto or derived.
             );
         }
 
-        // 2. Distance Filter
+        // 2. Distance Filter (using DistanceKm from TrailDto)
         currentFiltered = currentFiltered.filter(trail =>
+            trail.distanceKm !== null &&
             trail.distanceKm >= filters.distance.min && trail.distanceKm <= filters.distance.max
         );
 
-        // 3. Elevation Filter
+        // 3. Elevation Filter (using ElevationGainMeters from TrailDto)
         currentFiltered = currentFiltered.filter(trail =>
+            trail.elevationGainMeters !== null &&
             trail.elevationGainMeters >= filters.elevation.min && trail.elevationGainMeters <= filters.elevation.max
         );
 
         // 4. Surface Type Filter
         if (filters.surfaceTypes.length > 0) {
             currentFiltered = currentFiltered.filter(trail =>
-                filters.surfaceTypes.includes(trail.surfaceType)
+                trail.surfaceType !== null && filters.surfaceTypes.includes(trail.surfaceType)
             );
         }
 
         // 5. Difficulty Level Filter
         if (filters.difficultyLevels.length > 0) {
             currentFiltered = currentFiltered.filter(trail =>
-                filters.difficultyLevels.includes(trail.difficultyLevel)
+                trail.difficultyLevel !== null && filters.difficultyLevels.includes(trail.difficultyLevel)
             );
         }
 
         // 6. Route Type Filter
         if (filters.routeTypes.length > 0) {
             currentFiltered = currentFiltered.filter(trail =>
-                filters.routeTypes.includes(trail.routeType)
+                trail.routeType !== null && filters.routeTypes.includes(trail.routeType)
             );
         }
 
         // 7. Terrain Type Filter
         if (filters.terrainTypes.length > 0) {
             currentFiltered = currentFiltered.filter(trail =>
-                filters.terrainTypes.includes(trail.terrainType)
+                trail.terrainType !== null && filters.terrainTypes.includes(trail.terrainType)
             );
         }
 
-        // 8. Region Filter
+        // 8. Region Filter - This part needs attention if 'location' is not directly in TrailDto
+        // You'll need to decide how regions are represented in TrailDto if not directly from a 'location' string.
+        // For now, I'll comment it out or you'll need to adapt it based on TrailLocationDto.
+        /*
         if (filters.regions.length > 0) {
             currentFiltered = currentFiltered.filter(trail =>
                 filters.regions.some(region =>
-                    trail.location && trail.location.toLowerCase().includes(region.toLowerCase())
+                    trail.TrailLocations?.some(loc => loc.name.toLowerCase().includes(region.toLowerCase()))
                 )
             );
         }
+        */
 
-        // --- RE-ADDING SORTING LOGIC ---
-        if (sortKey) {
+        // --- SORTING LOGIC ---
+        // If sorting by distance to user, ensure those with null distance are last
+        if (sortKey === 'distanceToUserKm') {
+            currentFiltered.sort((a, b) => {
+                const aDist = a.distanceToUserKm ?? Infinity; // Treat null as very far
+                const bDist = b.distanceToUserKm ?? Infinity; // Treat null as very far
+                return sortDirection === 'asc' ? aDist - bDist : bDist - aDist;
+            });
+        }
+        else if (sortKey) {
             currentFiltered.sort((a, b) => {
                 const aValue = a[sortKey];
                 const bValue = b[sortKey];
 
-                // Handle null/undefined values for consistent sorting
-                // Puts null/undefined at the end for asc, at the beginning for desc
                 if (aValue === null || aValue === undefined) return sortDirection === 'asc' ? 1 : -1;
                 if (bValue === null || bValue === undefined) return sortDirection === 'asc' ? -1 : 1;
 
-                // Numeric comparison
                 if (typeof aValue === 'number' && typeof bValue === 'number') {
                     return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
                 }
-                // String comparison (case-insensitive for names/descriptions/locations)
                 if (typeof aValue === 'string' && typeof bValue === 'string') {
-                    // 'is' for Icelandic collation, sensitivity:'base' for case-insensitive
                     const comparison = aValue.localeCompare(bValue, 'is', { sensitivity: 'base' });
                     return sortDirection === 'asc' ? comparison : -comparison;
                 }
-                // Fallback for other types or if types are mixed
-                // This will use default JavaScript comparison for non-number/string types
-                if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
-                if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
-                return 0; // Equal
+                return 0;
             });
         }
 
@@ -151,25 +182,31 @@ export function TrailsTable({ filters }: TrailsTableProps) {
         filters.difficultyLevels,
         filters.routeTypes,
         filters.terrainTypes,
-        filters.regions,
-        sortKey,       // Add sort dependencies
-        sortDirection, // Add sort dependencies
+        filters.regions, // Keep for now, but adjust filtering logic
+        sortKey,
+        sortDirection,
     ]);
 
 
-    if (isLoading) {
-        return <Text>Hleð inn hlaupaleiðum...</Text>;
+    // Loading states based on both trail data and user location
+    if (isLoading || userLocation.isLoading) {
+        return <Text>Hleð inn hlaupaleiðum og staðsetningu notanda...</Text>;
     }
 
     if (error) {
-        return <Text color="red">Villa kom upp við að sækja hlaupaleiðir: {error.message}</Text>;
+        return <Text c="red">Villa kom upp við að sækja hlaupaleiðir: {error.message}</Text>;
     }
 
-    if (!filteredAndSortedTrails?.length) { // Use the new variable name
+    if (userLocation.error) {
+        // Inform user if geolocation failed
+        return <Text c="orange">Gat ekki náð í staðsetningu notanda: {userLocation.error.message}. Hlaupaleiðir verða ekki flokkaðar eftir fjarlægð.</Text>;
+    }
+
+    if (!filteredAndSortedTrails?.length) {
         return <Text>Engar hlaupaleiðir fundust sem passa við valdar síur.</Text>;
     }
 
-    const rows = filteredAndSortedTrails.map((trail) => ( // Use the new variable name
+    const rows = filteredAndSortedTrails.map((trail) => (
         <Table.Tr key={trail.id}>
             <Table.Td>
                 <MantineNavLink
@@ -180,22 +217,34 @@ export function TrailsTable({ filters }: TrailsTableProps) {
                     leftSection={<IconActivity size={16} stroke={1.5} />}
                 />
             </Table.Td>
+            {/* Display distance to user if available */}
             <Table.Td>
                 <Group gap="xs">
                     <IconRuler size={16} />
-                    <Text size="sm">{trail.distanceKm.toFixed(1)} km</Text>
+                    <Text size="sm">{trail.distanceKm?.toFixed(1) ?? 'N/A'} km</Text>
                 </Group>
             </Table.Td>
             <Table.Td>
                 <Group gap="xs">
                     <IconMountain size={16} />
-                    <Text size="sm">{trail.elevationGainMeters} m</Text>
+                    <Text size="sm">{trail.elevationGainMeters ?? 'N/A'} m</Text>
                 </Group>
             </Table.Td>
             <Table.Td>{getSurfaceTypeTranslation(trail.surfaceType)}</Table.Td>
             <Table.Td>{getDifficultyLevelTranslation(trail.difficultyLevel)}</Table.Td>
             <Table.Td>{getRouteTypeTranslation(trail.routeType)}</Table.Td>
             <Table.Td>{getTerrainTypeTranslation(trail.terrainType)}</Table.Td>
+            {/* New column for distance to user */}
+            <Table.Td>
+                {trail.distanceToUserKm !== null && trail.distanceToUserKm !== undefined ? (
+                    <Group gap="xs">
+                        <IconMapPin size={16} />
+                        <Text size="sm">{trail.distanceToUserKm.toFixed(2)} km</Text>
+                    </Group>
+                ) : (
+                    <Text size="sm" c="dimmed">Ófáanlegt</Text>
+                )}
+            </Table.Td>
         </Table.Tr>
     ));
 
@@ -203,60 +252,45 @@ export function TrailsTable({ filters }: TrailsTableProps) {
         <Table stickyHeader striped highlightOnHover withTableBorder withColumnBorders stickyHeaderOffset={60}>
             <Table.Thead>
                 <Table.Tr>
-                    <Table.Th
-                        onClick={() => handleSort('name')}
-                        style={{ cursor: 'pointer' }}
-                    >
+                    <Table.Th onClick={() => handleSort('name')} style={{ cursor: 'pointer' }}>
                         <Flex align="center" gap="xs">
                             Nafn {renderSortIcon('name')}
                         </Flex>
                     </Table.Th>
-                    <Table.Th
-                        onClick={() => handleSort('distanceKm')}
-                        style={{ cursor: 'pointer' }}
-                    >
+                    <Table.Th onClick={() => handleSort('distanceKm')} style={{ cursor: 'pointer' }}> {/* Use uppercase for DTO prop */}
                         <Flex align="center" gap="xs">
                             Vegalengd {renderSortIcon('distanceKm')}
                         </Flex>
                     </Table.Th>
-                    <Table.Th
-                        onClick={() => handleSort('elevationGainMeters')}
-                        style={{ cursor: 'pointer' }}
-                    >
+                    <Table.Th onClick={() => handleSort('elevationGainMeters')} style={{ cursor: 'pointer' }}> {/* Use uppercase for DTO prop */}
                         <Flex align="center" gap="xs">
                             Hækkun {renderSortIcon('elevationGainMeters')}
                         </Flex>
                     </Table.Th>
-                    <Table.Th
-                        onClick={() => handleSort('surfaceType')}
-                        style={{ cursor: 'pointer' }}
-                    >
+                    <Table.Th onClick={() => handleSort('surfaceType')} style={{ cursor: 'pointer' }}> {/* Use uppercase for DTO prop */}
                         <Flex align="center" gap="xs">
                             Yfirborð {renderSortIcon('surfaceType')}
                         </Flex>
                     </Table.Th>
-                    <Table.Th
-                        onClick={() => handleSort('difficultyLevel')}
-                        style={{ cursor: 'pointer' }}
-                    >
+                    <Table.Th onClick={() => handleSort('difficultyLevel')} style={{ cursor: 'pointer' }}> {/* Use uppercase for DTO prop */}
                         <Flex align="center" gap="xs">
                             Erfiðleiki {renderSortIcon('difficultyLevel')}
                         </Flex>
                     </Table.Th>
-                    <Table.Th
-                        onClick={() => handleSort('routeType')}
-                        style={{ cursor: 'pointer' }}
-                    >
+                    <Table.Th onClick={() => handleSort('routeType')} style={{ cursor: 'pointer' }}> {/* Use uppercase for DTO prop */}
                         <Flex align="center" gap="xs">
                             Tegund {renderSortIcon('routeType')}
                         </Flex>
                     </Table.Th>
-                    <Table.Th
-                        onClick={() => handleSort('terrainType')}
-                        style={{ cursor: 'pointer' }}
-                    >
+                    <Table.Th onClick={() => handleSort('terrainType')} style={{ cursor: 'pointer' }}> {/* Use uppercase for DTO prop */}
                         <Flex align="center" gap="xs">
                             Landslag {renderSortIcon('terrainType')}
+                        </Flex>
+                    </Table.Th>
+                    {/* New sortable header for distance to user */}
+                    <Table.Th onClick={() => handleSort('distanceToUserKm')} style={{ cursor: 'pointer' }}>
+                        <Flex align="center" gap="xs">
+                            Fjarlægð {renderSortIcon('distanceToUserKm')}
                         </Flex>
                     </Table.Th>
                 </Table.Tr>

@@ -3,6 +3,7 @@ using NetTopologySuite.Geometries;
 using TrailFinder.Application.Services;
 using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.DTOs.Gpx.Responses;
+using TrailFinder.Core.DTOs.GpxFile;
 
 namespace TrailFinder.Infrastructure.Services;
 

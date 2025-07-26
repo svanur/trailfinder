@@ -1,4 +1,5 @@
 using TrailFinder.Core.DTOs.Gpx;
+using TrailFinder.Core.DTOs.GpxFile;
 using TrailFinder.Core.Enums;
 using TrailFinder.Core.Interfaces.Repositories;
 

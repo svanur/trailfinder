@@ -76,18 +76,22 @@ public class TrailsController : BaseApiController
         }
     }
 
+    // GET api/trails
+    // GET api/trails?userLatitude=...&userLongitude=...
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TrailDto>>> GetAllTrails()
+    public async Task<ActionResult<List<TrailDto>>> GetAllTrails(
+        [FromQuery] double? userLatitude, // Bind from query string
+        [FromQuery] double? userLongitude  // Bind from query string
+    )
     {
-        try
+        var query = new GetTrailsQuery
         {
-            var allTrails = await _mediator.Send(new GetTrailsQuery());
-            return Ok(allTrails);
-        }
-        catch (Exception ex)
-        {
-            return HandleException(ex);
-        }
+            UserLatitude = userLatitude,
+            UserLongitude = userLongitude
+        };
+
+        var trails = await _mediator.Send(query);
+        return Ok(trails);
     }
 
     [HttpPut("trails/{trailId:guid}")]

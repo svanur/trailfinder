@@ -1,7 +1,8 @@
-using System.ComponentModel;
+// TrailFinder.Core\DTOs\Trails\Responses\TrailDto.cs
 using System.Text.Json.Serialization;
 using NetTopologySuite.Geometries;
 using TrailFinder.Core.DTOs.Gpx;
+using TrailFinder.Core.DTOs.GpxFile;
 using TrailFinder.Core.DTOs.Location.Response;
 using TrailFinder.Core.Enums;
 
@@ -30,7 +31,8 @@ public class TrailDto : BaseDto
         Guid createdBy,
         DateTime createdAt,
         Guid? updatedBy,
-        DateTime? updatedAt
+        DateTime? updatedAt,
+        double? distanceToUserMeters = null
     )
     {
         Id = id;
@@ -50,6 +52,11 @@ public class TrailDto : BaseDto
         CreatedAt = createdAt;
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
+        
+        StartGpxPoint = startGpxPoint;
+        EndGpxPoint = endGpxPoint;
+        DistanceToUserMeters = distanceToUserMeters;
+        DistanceToUserKm = distanceToUserMeters / 1000;
     }
     
     public string Name { get; set; } = string.Empty;
@@ -68,10 +75,13 @@ public class TrailDto : BaseDto
     public TerrainType? TerrainType { get; set; }
     public SurfaceType? SurfaceType { get; set; }
     
-    public GpxPoint StartGpxPoint { get; set; }
-    public GpxPoint EndGpxPoint { get; set; }
+    public GpxPoint? StartGpxPoint { get; set; }
+    public GpxPoint? EndGpxPoint { get; set; }
     
     public LineString? RouteGeom { get; set; }
+    
+    public double? DistanceToUserMeters { get; set; }
+    public double? DistanceToUserKm { get; set; }
     
     public IEnumerable<TrailLocationDto> TrailLocations { get; set; }
     
