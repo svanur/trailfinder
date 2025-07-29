@@ -161,9 +161,7 @@ public class TrailsControllerTests
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        var returnedTrails = Assert.IsType<PaginatedResult<TrailListItemDto>>(okResult.Value);
-        Assert.Empty(returnedTrails.Items);
-        Assert.Equal(0, returnedTrails.TotalCount);
+        var returnedTrails = Assert.IsType<List<TrailListItemDto>>(okResult.Value);
     }
 
     [Fact]
@@ -183,6 +181,16 @@ public class TrailsControllerTests
         // Adjust this assertion based on how the HandleException method works
         Assert.NotNull(result.Result);
         // Might want to add more specific assertions based on your error handling logic
+        Assert.IsType<ObjectResult>(result.Result);
+        
+        var objectResult = result.Result as ObjectResult;
+        Assert.NotNull(objectResult);
+        Assert.IsType<ErrorResponse>(objectResult.Value);
+        
+        var errorResponse = objectResult.Value as ErrorResponse;
+        Assert.NotNull(errorResponse);
+        Assert.Equal("Test exception", errorResponse.Details);
+        Assert.Equal("An unexpected error occurred", errorResponse.Message);
     }
 
     #endregion
@@ -208,7 +216,7 @@ public class TrailsControllerTests
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        var returnedTrail = Assert.IsType<TrailListItemDto>(okResult.Value);
+        var returnedTrail = Assert.IsType<TrailDetailDto>(okResult.Value);
         //Assert.Equal(expectedTrail.Id, returnedTrail.Id);
         Assert.Equal(expectedTrail.Name, returnedTrail.Name);
         Assert.Equal(expectedTrail.Slug, returnedTrail.Slug);

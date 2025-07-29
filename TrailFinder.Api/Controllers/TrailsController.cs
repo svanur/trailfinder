@@ -14,7 +14,7 @@ using TrailFinder.Core.Interfaces.Services;
 namespace TrailFinder.Api.Controllers;
 
 /// <summary>
-/// Controller responsible for handling trail-related API operations.
+///     Controller responsible for handling trail-related API operations.
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
@@ -80,18 +80,44 @@ public class TrailsController : BaseApiController
     // GET api/trails?userLatitude=...&userLongitude=...
     [HttpGet]
     public async Task<ActionResult<List<TrailListItemDto>>> GetAllTrails(
-        [FromQuery] double? userLatitude, // Bind from query string
-        [FromQuery] double? userLongitude  // Bind from query string
+        [FromQuery] double? userLatitude,
+        [FromQuery] double? userLongitude
     )
     {
-        var query = new GetTrailsQuery
+        try
         {
-            UserLatitude = userLatitude,
-            UserLongitude = userLongitude
-        };
+            var query = new GetTrailsQuery
+            {
+                UserLatitude = userLatitude,
+                UserLongitude = userLongitude
+            };
 
-        var trails = await _mediator.Send(query);
-        return Ok(trails);
+            var trails = await _mediator.Send(query);
+            return Ok(trails);
+        }
+        catch (TrailNotFoundException ex)
+        {
+            // Catch specific custom exceptions and map them to appropriate HTTP responses.
+            return NotFound(new ErrorResponse { Message = ex.Message });
+        }
+        catch (ValidationException ex) // Catches validation errors from the pipeline
+        {
+            // If you have a custom validation error handling middleware, it might catch this.
+            // Otherwise, you can handle it explicitly here.
+            return BadRequest(new ErrorResponse
+            {
+                Message = "Validation failed",
+                Details = ex.Errors
+                    .Select(e => e.ErrorMessage)
+                    .ToString()
+            });
+        }
+        catch (Exception ex)
+        {
+            // Catch any other unexpected exceptions.
+            // HandleException() should log the error and return a generic 500 Internal Server Error.
+            return HandleException(ex);
+        }
     }
 
     [HttpPut("trails/{trailId:guid}")]
@@ -151,7 +177,7 @@ public class TrailsController : BaseApiController
             return HandleException(ex);
         }
     }
-    
+
     // [HttpPost]
     // public async Task<ActionResult<int>> Create(CreateTrailDto dto)
     // {
@@ -159,7 +185,7 @@ public class TrailsController : BaseApiController
     //     var trailId = await _mediator.Send(command);
     //     return Ok(trailId);
     // }
-    
+
     [HttpPost("trails")]
     public async Task<IActionResult> CreateTrail(
         [FromBody] CreateTrailDto createTrailDto
@@ -179,7 +205,7 @@ public class TrailsController : BaseApiController
                 createTrailDto.RouteGeom,
                 createTrailDto.CreatedBy
             );
-            
+
             await _mediator.Send(createTrailCommand);
 
             return NoContent(); // Or return Ok(); if you prefer
