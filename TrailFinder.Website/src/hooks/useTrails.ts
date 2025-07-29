@@ -10,7 +10,7 @@ interface UseTrailsOptions {
 
 export function useTrails(options?: UseTrailsOptions) {
     // Use a query key that includes the user location for re-fetching when location changes
-    return useQuery<Trail[], Error>({ // Use TrailDto here
+    return useQuery<Trail[], Error>({ // Use Trail here
         queryKey: ['trailsList', options?.userLatitude, options?.userLongitude],
         queryFn: async () => {
             const trails = await trailsApi.getAll(options?.userLatitude, options?.userLongitude);

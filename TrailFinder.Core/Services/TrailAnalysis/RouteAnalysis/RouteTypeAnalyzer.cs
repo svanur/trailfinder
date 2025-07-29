@@ -1,9 +1,8 @@
-using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.DTOs.GpxFile;
 using TrailFinder.Core.Enums;
 using TrailFinder.Core.Interfaces.Repositories;
 
-namespace TrailFinder.Core.Services.TrailAnalysis;
+namespace TrailFinder.Core.Services.TrailAnalysis.RouteAnalysis;
 
 public class RouteAnalyzer: IAnalyzer<List<GpxPoint>, RouteType>
 {

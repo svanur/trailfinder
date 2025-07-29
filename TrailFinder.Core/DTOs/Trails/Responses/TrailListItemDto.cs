@@ -1,4 +1,4 @@
-// TrailFinder.Core\DTOs\Trails\Responses\TrailDto.cs
+// TrailFinder.Core\DTOs\Trails\Responses\TrailListItemDto.cs
 using System.Text.Json.Serialization;
 using NetTopologySuite.Geometries;
 using TrailFinder.Core.DTOs.Gpx;
@@ -8,13 +8,13 @@ using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Core.DTOs.Trails.Responses;
 
-public class TrailDto : BaseDto
+public class TrailListItemDto : BaseDto
 {
-    public TrailDto()
+    public TrailListItemDto()
     {
     }
 
-    public TrailDto(
+    public TrailListItemDto(
         Guid id,
         string name,
         string slug,
@@ -46,7 +46,7 @@ public class TrailDto : BaseDto
         TerrainType = terrainType;
         SurfaceType = surfaceType;
         
-        RouteGeom = routeGeom;
+        //RouteGeom = routeGeom;
 
         CreatedBy = createdBy;
         CreatedAt = createdAt;
@@ -78,7 +78,7 @@ public class TrailDto : BaseDto
     public GpxPoint? StartGpxPoint { get; set; }
     public GpxPoint? EndGpxPoint { get; set; }
     
-    public LineString? RouteGeom { get; set; }
+//    public LineString? RouteGeom { get; set; }
     
     public double? DistanceToUserMeters { get; set; }
     public double? DistanceToUserKm { get; set; }

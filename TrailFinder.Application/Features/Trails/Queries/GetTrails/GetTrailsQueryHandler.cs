@@ -4,11 +4,12 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using NetTopologySuite.Geometries;
 using TrailFinder.Core.DTOs.Trails.Responses;
+using TrailFinder.Core.Entities;
 using TrailFinder.Core.Interfaces.Repositories;
 
 namespace TrailFinder.Application.Features.Trails.Queries.GetTrails;
 
-public class GetTrailsQueryHandler : IRequestHandler<GetTrailsQuery, List<TrailDto>>
+public class GetTrailsQueryHandler : IRequestHandler<GetTrailsQuery, List<TrailListItemDto>>
 {
     private readonly ILogger<GetTrailsQueryHandler> _logger;
     private readonly IMapper _mapper;
@@ -27,12 +28,12 @@ public class GetTrailsQueryHandler : IRequestHandler<GetTrailsQuery, List<TrailD
         _geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
     }
 
-    public async Task<List<TrailDto>> Handle(
+    public async Task<List<TrailListItemDto>> Handle(
         GetTrailsQuery request,
         CancellationToken cancellationToken)
     {
         var trails = await _trailRepository.GetAllAsync(cancellationToken);
-        var trailDtos = _mapper.Map<List<TrailDto>>(trails);
+        var trailDtos = _mapper.Map<List<TrailListItemDto>>(trails);
         
         _logger.LogInformation($"Request: ${request.UserLatitude}, ${request.UserLongitude}");
 
@@ -44,13 +45,16 @@ public class GetTrailsQueryHandler : IRequestHandler<GetTrailsQuery, List<TrailD
 
             foreach (var dto in trailDtos)
             {
+                /*
                 if (dto.RouteGeom == null || dto.RouteGeom.NumPoints <= 0)
                 {
                     continue;
                 }
+                */
 
                 // Calculate distance to user
-                dto.DistanceToUserMeters = dto.RouteGeom.Distance(userLocationPoint);
+                var trail = trails.First(trail => trail.Id == dto.Id);
+                dto.DistanceToUserMeters = trail.RouteGeom?.Distance(userLocationPoint);
                 dto.DistanceToUserKm = dto.DistanceToUserMeters / 1000;
             }
 

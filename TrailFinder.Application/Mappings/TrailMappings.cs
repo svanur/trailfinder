@@ -10,7 +10,7 @@ public class TrailMappings : Profile
 {// In use by AutoMapper
     public TrailMappings()
     {
-        CreateMap<Trail, TrailDto>()
+        CreateMap<Trail, TrailListItemDto>()
             
             .ForMember(
                 dest => dest.DistanceKm,
@@ -38,6 +38,17 @@ public class TrailMappings : Profile
                 opt => opt.MapFrom(src => src.TrailLocations))
             ;
 
+        // Mapping for detail view (includes full RouteGeom)
+        CreateMap<Trail, TrailDetailDto>()
+            // Copy all properties from Trail to TrailDetailDto
+            //.IncludeBase<Trail, BaseDto>() // If TrailDetailDto inherits TrailListItemDto
+            // Or map each property individually if not inheriting:
+            // .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            // ...
+            // And explicitly map RouteGeom
+            .ForMember(dest => dest.RouteGeom, opt => opt.MapFrom(src => src.RouteGeom));
+
+        
         // List to PaginatedResult mapping
         /*
         CreateMap<PaginatedResult<Trail>, PaginatedResult<TrailDto>>()

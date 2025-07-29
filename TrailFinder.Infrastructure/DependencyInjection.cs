@@ -3,14 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetTopologySuite;
 using NetTopologySuite.Geometries;
-using TrailFinder.Application.Services;
 using TrailFinder.Contract.Persistence;
-using TrailFinder.Core.DTOs.GpxFile;
-using TrailFinder.Core.Enums;
 using TrailFinder.Core.Interfaces.Repositories;
 using TrailFinder.Core.Interfaces.Services;
 using TrailFinder.Core.Services.TrailAnalysis;
-using TrailFinder.Core.ValueObjects;
+using TrailFinder.Core.Services.TrailAnalysis.DifficultyAnalysis;
 using TrailFinder.Infrastructure.Configuration;
 using TrailFinder.Infrastructure.Persistence;
 using TrailFinder.Infrastructure.Persistence.Repositories;
@@ -38,7 +35,7 @@ public static class DependencyInjection
         services.AddScoped<ILocationRepository, LocationRepository>();
         services.AddScoped<IRaceRepository, RaceRepository>();
         services.AddScoped<IGpxFileRepository, GpxFileRepository>();
-        services.AddScoped<IGpxService , GpxService>();
+        services.AddScoped<IGpxService, GpxService>();
         
         // Add Supabase configuration
         services.Configure<SupabaseSettings>(settings =>
@@ -56,12 +53,15 @@ public static class DependencyInjection
         //
         // Dependency injection
         //
-        services.AddTransient<IAnalyzer<List<GpxPoint>, RouteType>, RouteAnalyzer>();
-        services.AddTransient<IAnalyzer<TerrainAnalysisInput, TerrainType>, TerrainAnalyzer>();
-        services.AddTransient<IAnalyzer<DifficultyAnalysisInput, DifficultyLevel>, DifficultyAnalyzer>();
+        services.AddTransient<PavedRouteDifficultyAnalyzer>();
+        services.AddTransient<TrailRouteDifficultyAnalyzer>();
+        services.AddTransient<DifficultyAnalyzer>(); // A difficulty analyzer fallback
+        services.AddTransient<DifficultyAnalyzerFactory>(); // Register the factory
         services.AddTransient<AnalysisService>();
-        services.AddSingleton<GeometryFactory>(sp => NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326));
+        services.AddTransient<IOsmLookupService, OsmLookupService>();
         
+        services.AddSingleton<GeometryFactory>(sp => NtsGeometryServices.Instance.CreateGeometryFactory(4326));
+
         return services;
     }
 }

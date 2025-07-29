@@ -6,8 +6,8 @@ namespace TrailFinder.Core.ValueObjects;
 
 public class AnalysisResult
 {
-    public double Distance { get; }
-    public double ElevationGain { get; }
+    public double TotalDistance { get; }
+    public double TotalElevationGain { get; }
     public RouteType RouteType { get; }
     public TerrainType TerrainType { get; }
     public DifficultyLevel DifficultyLevel { get; }
@@ -15,8 +15,8 @@ public class AnalysisResult
     public GpxPoint EndGpxPoint { get; }
 
     public AnalysisResult(
-        double totalDistance,
-        double elevationGain,
+        double totalTotalDistance,
+        double totalElevationGain,
         RouteType routeType, 
         TerrainType terrainType, 
         DifficultyLevel difficultyLevel,
@@ -24,8 +24,8 @@ public class AnalysisResult
         GpxPoint endGpxPoint
     )
     {
-        Distance = totalDistance;
-        ElevationGain = elevationGain;
+        TotalDistance = totalTotalDistance;
+        TotalElevationGain = totalElevationGain;
         RouteType = routeType;
         TerrainType = terrainType;
         DifficultyLevel = difficultyLevel;

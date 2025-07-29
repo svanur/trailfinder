@@ -4,7 +4,7 @@ using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Core.DTOs.Gpx.Responses;
 
-public record GpxInfoDto(
+public record GpxAnalysisResult(
     double Distance,
     double ElevationGain,
     DifficultyLevel DifficultyLevel,

@@ -78,7 +78,7 @@ export function TrailsTable({ filters }: TrailsTableProps) {
 
         let currentFiltered = [...allTrails];
 
-        // --- FILTERING LOGIC (keep as is, adjusted to TrailDto) ---
+        // --- FILTERING LOGIC ---
         const lowerCaseSearchTerm = filters.searchTerm.toLowerCase();
 
         // 1. Search Term Filter
@@ -86,18 +86,16 @@ export function TrailsTable({ filters }: TrailsTableProps) {
             currentFiltered = currentFiltered.filter(trail =>
                     trail.name.toLowerCase().includes(lowerCaseSearchTerm) ||
                     (trail.description && trail.description.toLowerCase().includes(lowerCaseSearchTerm))
-                // You had trail.location here, but TrailDto doesn't have it directly.
-                // If you want to filter by location string, ensure it's in TrailDto or derived.
             );
         }
 
-        // 2. Distance Filter (using DistanceKm from TrailDto)
+        // 2. Distance Filter (using DistanceKm from Trail)
         currentFiltered = currentFiltered.filter(trail =>
             trail.distanceKm !== null &&
             trail.distanceKm >= filters.distance.min && trail.distanceKm <= filters.distance.max
         );
 
-        // 3. Elevation Filter (using ElevationGainMeters from TrailDto)
+        // 3. Elevation Filter (using ElevationGainMeters from Trail)
         currentFiltered = currentFiltered.filter(trail =>
             trail.elevationGainMeters !== null &&
             trail.elevationGainMeters >= filters.elevation.min && trail.elevationGainMeters <= filters.elevation.max
@@ -131,8 +129,8 @@ export function TrailsTable({ filters }: TrailsTableProps) {
             );
         }
 
-        // 8. Region Filter - This part needs attention if 'location' is not directly in TrailDto
-        // You'll need to decide how regions are represented in TrailDto if not directly from a 'location' string.
+        // 8. Region Filter - This part needs attention if 'location' is not directly in Trail
+        // You'll need to decide how regions are represented in Trail if not directly from a 'location' string.
         // For now, I'll comment it out or you'll need to adapt it based on TrailLocationDto.
         /*
         if (filters.regions.length > 0) {

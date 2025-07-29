@@ -1,7 +1,7 @@
 // TrailFinder.Application/Features/GpxFiles/Commands/ProcessGpxFileAndApplyAnalysis/ProcessGpxFileAndApplyAnalysisCommand.cs
 using MediatR;
 using NetTopologySuite.Geometries;
-using TrailFinder.Core.DTOs.Gpx.Responses; // For GpxInfoDto
+using TrailFinder.Core.DTOs.Gpx.Responses; // For GpxAnalysisResult
 using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Application.Features.GpxFiles.Commands.ProcessGpxFileAndApplyAnalysis;
@@ -16,7 +16,7 @@ public record ProcessGpxFileAndApplyAnalysisCommand(
     string ContentType,
     Guid CreatedBy, // Or UpdatedBy if it's a replacement
     
-    // Data for updating the Trail entity, derived from GpxInfoDto
+    // Data for updating the Trail entity, derived from GpxAnalysisResult
     double AnalyzedDistance,
     double AnalyzedElevationGain,
     DifficultyLevel AnalyzedDifficultyLevel,

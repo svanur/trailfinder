@@ -73,9 +73,9 @@ export function TrailDetails() {
 
     const DynamicRouteIcon = getRouteTypeIcon(trail.routeType);
 
-    // Placeholder for user's current location and distance to trail
-    const userDistanceToTrail = 42.0; //TODO: Implement actual user location logic later
-
+    //TODO: reconsider:
+    trail.distanceToUserKm = trail.distanceToUserKm || 0; // Set default value to 0 if undefined
+    
     // TODO: Implement actual QR code generation logic later
     //const handleGenerateQrCode = () => { /* ... */ };
     // TODO: Implement actual sharing logic later
@@ -132,13 +132,13 @@ export function TrailDetails() {
                             </div>
                         </Group>
 
-                        {/* Fjarlægð frá þér (Distance from you) */}
-                        {userDistanceToTrail > 0 && (
+                        {/* Fjarlægð leiðar frá staðsetningu notanta */}
+                        {trail.distanceToUserKm > 0 && (
                             <Group>
                                 <IconMapPin size={20} />
                                 <div>
                                     <Text size="sm" c="dimmed">Fjarlægð að leið</Text>
-                                    <Text>{userDistanceToTrail.toFixed(1)} km</Text>
+                                    <Text>{trail.distanceToUserKm.toFixed(1)} km</Text>
                                 </div>
                             </Group>
                         )}

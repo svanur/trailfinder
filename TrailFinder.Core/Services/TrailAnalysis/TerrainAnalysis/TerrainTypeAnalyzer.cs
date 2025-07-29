@@ -2,7 +2,7 @@ using TrailFinder.Core.Enums;
 using TrailFinder.Core.Interfaces.Repositories;
 using TrailFinder.Core.ValueObjects;
 
-namespace TrailFinder.Core.Services.TrailAnalysis;
+namespace TrailFinder.Core.Services.TrailAnalysis.TerrainAnalysis;
 
 public class TerrainAnalyzer : IAnalyzer<TerrainAnalysisInput, TerrainType>
 {

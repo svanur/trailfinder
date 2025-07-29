@@ -1,8 +1,10 @@
+// \TrailFinder.Core\Services\TrailAnalysis\DifficultyAnalyzer.cs
+
 using TrailFinder.Core.Enums;
 using TrailFinder.Core.Interfaces.Repositories;
 using TrailFinder.Core.ValueObjects;
 
-namespace TrailFinder.Core.Services.TrailAnalysis;
+namespace TrailFinder.Core.Services.TrailAnalysis.DifficultyAnalysis;
 
 /// <summary>
 /// Provides methods to analyze the difficulty level of a trail
@@ -36,7 +38,7 @@ namespace TrailFinder.Core.Services.TrailAnalysis;
 /// </remarks>
 public class DifficultyAnalyzer: IAnalyzer<DifficultyAnalysisInput, DifficultyLevel>
 {
-    private const int MaxScore = 100;
+    //private const int MaxScore = 100;
     
     // Distance factors (in meters)
     private const double ShortDistance = 5000;     // 5km

@@ -6,7 +6,7 @@ import axios from "axios";
 
 export const trailsApi = {
     // Modify getAll to accept optional lat/lon
-    getAll: async (latitude?: number | null, longitude?: number | null): Promise<Trail[]> => { // Return TrailDto
+    getAll: async (latitude?: number | null, longitude?: number | null): Promise<Trail[]> => { // Return Trail
         let url = `${API_CONFIG.ENDPOINTS.TRAILS}`;
         const params = new URLSearchParams();
 console.log('getAll: ', latitude, longitude, '')
@@ -19,13 +19,13 @@ console.log('getAll: ', latitude, longitude, '')
             url = `${url}?${params.toString()}`;
         }
 
-        const response = await axios.get<Trail[]>(url); // Expect TrailDto[]
+        const response = await axios.get<Trail[]>(url);
         return response.data;
     },
 
-    getBySlug: async (slug: string): Promise<Trail> => { // Adjust return type to TrailDto
+    getBySlug: async (slug: string): Promise<Trail> => {
         try {
-            const response = await apiClient.get<Trail>( // Expect TrailDto
+            const response = await apiClient.get<Trail>(
                 `${API_CONFIG.ENDPOINTS.TRAILS}/${slug}`
             );
 

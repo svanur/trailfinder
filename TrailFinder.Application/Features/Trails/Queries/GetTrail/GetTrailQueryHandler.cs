@@ -7,7 +7,7 @@ using TrailFinder.Core.Interfaces.Repositories;
 
 namespace TrailFinder.Application.Features.Trails.Queries.GetTrail;
 
-public class GetTrailQueryHandler : IRequestHandler<GetTrailQuery, TrailDto>
+public class GetTrailQueryHandler : IRequestHandler<GetTrailQuery, TrailDetailDto>
 {
     private readonly ILogger<GetTrailQueryHandler> _logger;
     private readonly IMapper _mapper;
@@ -25,7 +25,7 @@ public class GetTrailQueryHandler : IRequestHandler<GetTrailQuery, TrailDto>
         _trailRepository = trailRepository;
     }
 
-    public async Task<TrailDto> Handle(GetTrailQuery request, CancellationToken cancellationToken)
+    public async Task<TrailDetailDto> Handle(GetTrailQuery request, CancellationToken cancellationToken)
     {
         var trail = await _trailRepository.GetByIdWithLocationsAsync(request.Id, cancellationToken);
         if (trail == null)
@@ -33,6 +33,6 @@ public class GetTrailQueryHandler : IRequestHandler<GetTrailQuery, TrailDto>
             throw new TrailNotFoundException(request.Id);
         }
 
-        return _mapper.Map<TrailDto>(trail);
+        return _mapper.Map<TrailDetailDto>(trail);
     }
 }

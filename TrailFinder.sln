@@ -20,9 +20,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Application", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Contract", "TrailFinder.Contract\TrailFinder.Contract.csproj", "{3D30C55B-E523-4882-B0D9-D0E85AA974A6}"
 EndProject
-Project("{FAE04EC0 s-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Website", "TrailFinder.Website\TrailFinder.Website.csproj", "{8FC7A367-5640-4D90-A875-3752870CD206}"
+Project("{00000000-0000-0000-0000-000000000000}") = "TrailFinder.Website", "TrailFinder.Website\TrailFinder.Website.csproj", "{8FC7A367-5640-4D90-A875-3752870CD206}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Admin", "TrailFinder.Admin\TrailFinder.Admin.csproj", "{8FC7A367-5640-4D90-A875-3752870CD206}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Infrastructure.Tests", "TrailFinder.Infrastructure.Tests\TrailFinder.Infrastructure.Tests.csproj", "{362D5668-7EFE-4F8E-826B-F629CFF566C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailFinder.Core.Tests", "TrailFinder.Core.Tests\TrailFinder.Core.Tests.csproj", "{B09626D1-0E23-4BB1-BE0D-0B50DCEA56EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,9 +74,19 @@ Global
 		{8FC7A367-5640-4D90-A875-3752870CD206}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FC7A367-5640-4D90-A875-3752870CD206}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FC7A367-5640-4D90-A875-3752870CD206}.Release|Any CPU.Build.0 = Release|Any CPU
+		{362D5668-7EFE-4F8E-826B-F629CFF566C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{362D5668-7EFE-4F8E-826B-F629CFF566C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{362D5668-7EFE-4F8E-826B-F629CFF566C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{362D5668-7EFE-4F8E-826B-F629CFF566C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B09626D1-0E23-4BB1-BE0D-0B50DCEA56EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B09626D1-0E23-4BB1-BE0D-0B50DCEA56EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B09626D1-0E23-4BB1-BE0D-0B50DCEA56EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B09626D1-0E23-4BB1-BE0D-0B50DCEA56EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DDEA7B5F-F120-48B8-9B16-F0897EED0E58} = {296F7DD0-6A6B-44A1-8DF8-484091D935E9}
 		{6CE53C57-2894-46F3-8F61-163C07301C87} = {296F7DD0-6A6B-44A1-8DF8-484091D935E9}
+		{362D5668-7EFE-4F8E-826B-F629CFF566C5} = {296F7DD0-6A6B-44A1-8DF8-484091D935E9}
+		{B09626D1-0E23-4BB1-BE0D-0B50DCEA56EE} = {296F7DD0-6A6B-44A1-8DF8-484091D935E9}
 	EndGlobalSection
 EndGlobal

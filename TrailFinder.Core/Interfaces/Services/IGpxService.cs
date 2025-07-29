@@ -1,6 +1,10 @@
+// TrailFinder.Core.Interfaces.Services\IGpxService.cs (Update or create this file)
+
 using TrailFinder.Core.DTOs.Gpx.Responses;
 
-namespace TrailFinder.Application.Services;
+// Assuming GpxAnalysisResult will be here
+
+namespace TrailFinder.Core.Interfaces.Services;
 
 public interface IGpxService
 {
@@ -9,9 +13,8 @@ public interface IGpxService
     /// </summary>
     /// <param name="gpxStream">The stream containing the GPX data to be processed.</param>
     /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains a <see cref="GpxInfoDto" /> object
+    ///     A task that represents the asynchronous operation. The task result contains a <see cref="GpxAnalysisResult" /> object
     ///     with details such as distance, elevation gain, and start point.
     /// </returns>
-    Task<GpxInfoDto> ExtractGpxInfo(Stream gpxStream);
+    Task<GpxAnalysisResult> AnalyzeGpxTrack(Stream gpxStream);
 }
-

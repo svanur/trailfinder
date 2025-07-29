@@ -31,7 +31,7 @@ public class LocationsController : BaseApiController
     }
 
     [HttpGet("{slug}")]
-    public async Task<ActionResult<TrailDto>> GetLocationBySlug(string slug)
+    public async Task<ActionResult<TrailListItemDto>> GetLocationBySlug(string slug)
     {
         try
         {

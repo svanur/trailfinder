@@ -1,24 +1,28 @@
 using System.Xml.Linq;
 using NetTopologySuite.Geometries;
-using TrailFinder.Application.Services;
-using TrailFinder.Core.DTOs.Gpx;
 using TrailFinder.Core.DTOs.Gpx.Responses;
 using TrailFinder.Core.DTOs.GpxFile;
+using TrailFinder.Core.Interfaces.Services;
 
 namespace TrailFinder.Infrastructure.Services;
 
 public class GpxService : IGpxService
 {
-    private readonly GeometryFactory _geometryFactory;
     private readonly AnalysisService _analysisService;
+    private readonly GeometryFactory _geometryFactory;
+    private readonly IOsmLookupService _osmLookupService;
 
-    public GpxService(GeometryFactory geometryFactory, AnalysisService analysisService)
+    public GpxService(
+        GeometryFactory geometryFactory,
+        AnalysisService analysisService,
+        IOsmLookupService osmLookupService)
     {
         _geometryFactory = geometryFactory;
         _analysisService = analysisService;
+        _osmLookupService = osmLookupService;
     }
 
-    public async Task<GpxInfoDto> ExtractGpxInfo(Stream gpxStream)
+    public async Task<GpxAnalysisResult> AnalyzeGpxTrack(Stream gpxStream)
     {
         try
         {
@@ -26,23 +30,25 @@ public class GpxService : IGpxService
 
             var (trackPoints, ns) = await LoadTrackPoints(gpxStream);
             var points = trackPoints.Select(p => GpxPoint.FromXElement(p, ns)).ToList();
-            
+
             var coordinates = points
-                .Select(
-                    p => new CoordinateZ(p.Longitude, p.Latitude, p.Elevation)
+                .Select(p => new CoordinateZ(p.Longitude, p.Latitude, p.Elevation)
                 )
                 .Cast<Coordinate>()
                 .ToArray();
-            
+
             var routeGeom = _geometryFactory.CreateLineString(coordinates);
-            
-            var analysisResult = _analysisService.Analyze(points);
-            
-            return new GpxInfoDto(
-                analysisResult.Distance,
-                analysisResult.ElevationGain,
+
+            // Determine SurfaceType using the new service
+            var surfaceType = await _osmLookupService.DetermineSurfaceType(points); // Pass the points
+
+            var analysisResult = _analysisService.Analyze(points, surfaceType); // Pass the determined surfaceType
+
+            return new GpxAnalysisResult(
+                analysisResult.TotalDistance,
+                analysisResult.TotalElevationGain,
                 analysisResult.DifficultyLevel,
-                analysisResult.RouteType, 
+                analysisResult.RouteType,
                 analysisResult.TerrainType,
                 analysisResult.StartGpxPoint,
                 analysisResult.EndGpxPoint,

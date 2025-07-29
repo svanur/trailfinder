@@ -35,7 +35,7 @@ public class TrailsControllerTests
         );
     }
 
-    private static TrailDto NewTrailDto(
+    private static TrailListItemDto NewTrailListItemDto(
         string name,
         
         string slug = "",
@@ -51,8 +51,45 @@ public class TrailsControllerTests
         LineString? routeGeom = null
     )
     {
-        return new TrailDto(
+        return new TrailListItemDto(
             Guid.NewGuid(),
+            name,
+            slug,
+            description,
+            distance,
+            elevationGain,
+            difficultyLevel,
+            routeType,
+            terrainType,
+            surfaceType,
+            routeGeom,
+            new GpxPoint(), //TODO ?
+            new GpxPoint(),
+            Guid.NewGuid(),
+            DateTime.Now,
+            null,
+            null
+        );
+    }
+
+    private static TrailDetailDto NewTrailDetailDto(
+        string name,
+        
+        string slug = "",
+        string description = "",
+        double distance = 0,
+        double elevationGain = 0,
+        
+        DifficultyLevel difficultyLevel = DifficultyLevel.Unknown,
+        RouteType routeType = RouteType.Unknown,
+        TerrainType terrainType = TerrainType.Unknown,
+        SurfaceType surfaceType = SurfaceType.Unknown,
+         
+        LineString? routeGeom = null
+    )
+    {
+        return new TrailDetailDto(
+            //Guid.NewGuid(),
             name,
             slug,
             description,
@@ -80,13 +117,13 @@ public class TrailsControllerTests
         // Arrange
  
 
-        var trails = new List<TrailDto>
+        var trails = new List<TrailListItemDto>
         {
-            NewTrailDto("Trail 1" ),
-            NewTrailDto("Trail 2" )
+            NewTrailListItemDto("Trail 1" ),
+            NewTrailListItemDto("Trail 2" )
         };
 
-        var expectedTrails = new List<TrailDto>(
+        var expectedTrails = new List<TrailListItemDto>(
             trails
         );
 
@@ -99,7 +136,7 @@ public class TrailsControllerTests
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        var returnedTrails = Assert.IsType<List<TrailDto>>(okResult.Value, false);
+        var returnedTrails = Assert.IsType<List<TrailListItemDto>>(okResult.Value, false);
         Assert.Equal(expectedTrails, returnedTrails);
 
         _mediatorMock.Verify(
@@ -111,8 +148,8 @@ public class TrailsControllerTests
     public async Task GetTrails_WhenNoTrailsFound_ReturnsEmptyCollection()
     {
         // Arrange
-        var emptyResult = new List<TrailDto>(
-            new List<TrailDto>()
+        var emptyResult = new List<TrailListItemDto>(
+            new List<TrailListItemDto>()
         );
 
         _mediatorMock
@@ -124,7 +161,7 @@ public class TrailsControllerTests
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        var returnedTrails = Assert.IsType<PaginatedResult<TrailDto>>(okResult.Value);
+        var returnedTrails = Assert.IsType<PaginatedResult<TrailListItemDto>>(okResult.Value);
         Assert.Empty(returnedTrails.Items);
         Assert.Equal(0, returnedTrails.TotalCount);
     }
@@ -158,7 +195,7 @@ public class TrailsControllerTests
         // Arrange
         const string slug = "test-trail";
  
-        var expectedTrail = NewTrailDto(
+        var expectedTrail = NewTrailDetailDto(
             "Trail 1" 
         );
 
@@ -171,7 +208,7 @@ public class TrailsControllerTests
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        var returnedTrail = Assert.IsType<TrailDto>(okResult.Value);
+        var returnedTrail = Assert.IsType<TrailListItemDto>(okResult.Value);
         //Assert.Equal(expectedTrail.Id, returnedTrail.Id);
         Assert.Equal(expectedTrail.Name, returnedTrail.Name);
         Assert.Equal(expectedTrail.Slug, returnedTrail.Slug);
@@ -181,10 +218,10 @@ public class TrailsControllerTests
     public async Task GetTrail_WithNonExistentSlug_ReturnsNotFound()
     {
         // Arrange
-        var slug = "non-existent-trail";
+        const string slug = "non-existent-trail";
         _mediatorMock
             .Setup(m => m.Send(It.Is<GetTrailBySlugQuery>(q => q.Slug == slug), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((TrailDto)null);
+            .ReturnsAsync((TrailDetailDto)null!);
 
         // Act
         var result = await _controller.GetTrailBySlug(slug);

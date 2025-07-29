@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using TrailFinder.Core.Exceptions;
 using TrailFinder.Core.Interfaces.Services;
 using TrailFinder.Application.Features.Trails.Queries.GetTrail;
-using TrailFinder.Application.Features.GpxFiles.Commands.CreateGpxFileMetadata;
 using TrailFinder.Application.Features.GpxFiles.Commands.ProcessGpxFileAndApplyAnalysis;
 using TrailFinder.Application.Features.GpxFiles.Queries.GetGpxFileMetadata;
-using TrailFinder.Application.Services; // New command
 
 namespace TrailFinder.Api.Controllers;
 
@@ -15,16 +13,14 @@ namespace TrailFinder.Api.Controllers;
 /// Provides endpoints to upload, download, and retrieve metadata for GPX files.
 /// </summary>
 [ApiController]
-[Route("api/trails/{trailId:guid}/gpx-files")] // Updated route to be more precise
-public class GpxFilesController(
+[Route("api/trails/{trailId:guid}/gpx-file")] // Updated route to be more precise
+public class GpxFileController(
     ILogger<BaseApiController> logger,
     IMediator mediator,
     ISupabaseStorageService storageService,
     IGpxService gpxService
 ) : BaseApiController(logger)
 {
-    // Use the injected service
-
 
     [HttpPost("upload")]
     [Consumes("multipart/form-data")]
@@ -70,7 +66,7 @@ public class GpxFilesController(
 
             // --- Step 2: Analyze GPX File ---
             fileMemoryStream.Position = 0; // Reset stream position again for analysis
-            var gpxAnalysisInfo = await gpxService.ExtractGpxInfo(fileMemoryStream);
+            var gpxAnalysisInfo = await gpxService.AnalyzeGpxTrack(fileMemoryStream);
             
             // --- Step 3: Dispatch Command to Process Analysis and Update DB ---
             var createdByUserId = GetUserIdFromClaims(); // Implement this helper method
@@ -112,7 +108,7 @@ public class GpxFilesController(
         }
     }
 
-    [HttpGet("download")] // Route: api/trails/{trailId}/gpx-files/download
+    [HttpGet("download")] // Route: api/trails/{trailId}/gpx-file/download
     public async Task<ActionResult> Download(Guid trailId)
     {
         try
@@ -147,7 +143,7 @@ public class GpxFilesController(
         }
     }
 
-    [HttpGet("metadata")] // Route: api/trails/{trailId}/gpx-files/metadata
+    [HttpGet("metadata")] // Route: api/trails/{trailId}/gpx-file/metadata
     public async Task<ActionResult> GetMetadata(Guid trailId)
     {
         try

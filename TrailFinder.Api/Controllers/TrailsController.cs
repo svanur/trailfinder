@@ -37,7 +37,7 @@ public class TrailsController : BaseApiController
     }
 
     [HttpGet("{trailSlug}")]
-    public async Task<ActionResult<TrailDto>> GetTrailBySlug(string trailSlug)
+    public async Task<ActionResult<TrailListItemDto>> GetTrailBySlug(string trailSlug)
     {
         try
         {
@@ -59,7 +59,7 @@ public class TrailsController : BaseApiController
     }
 
     [HttpGet("{trailId:guid}")]
-    public async Task<ActionResult<TrailDto?>> GetTrailById(Guid trailId)
+    public async Task<ActionResult<TrailListItemDto?>> GetTrailById(Guid trailId)
     {
         try
         {
@@ -79,7 +79,7 @@ public class TrailsController : BaseApiController
     // GET api/trails
     // GET api/trails?userLatitude=...&userLongitude=...
     [HttpGet]
-    public async Task<ActionResult<List<TrailDto>>> GetAllTrails(
+    public async Task<ActionResult<List<TrailListItemDto>>> GetAllTrails(
         [FromQuery] double? userLatitude, // Bind from query string
         [FromQuery] double? userLongitude  // Bind from query string
     )
