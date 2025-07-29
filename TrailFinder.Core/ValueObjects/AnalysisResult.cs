@@ -8,6 +8,7 @@ public class AnalysisResult
 {
     public double TotalDistance { get; }
     public double TotalElevationGain { get; }
+    public double VerticalRatio { get; }
     public RouteType RouteType { get; }
     public TerrainType TerrainType { get; }
     public DifficultyLevel DifficultyLevel { get; }

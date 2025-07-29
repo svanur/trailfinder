@@ -34,11 +34,16 @@ public class AnalysisService : IAnalysisService
         var elevationPoints = points.Select(p => p.Elevation);
         var elevationGain = CalculateElevationGain(elevationPoints);
         
+        // Calculate Vertical Ratio (as a percentage, e.g., 5% = 5m per 100m horizontal)
+        // Be careful with division by zero for very short or zero-distance routes
+        var verticalRatio = totalDistance > 0 ? (elevationGain / totalDistance) * 100 : 0; 
+        
         var terrainType = _terrainAnalyzer.Analyze(
             new TerrainAnalysisInput
             {
                 TotalDistance = totalDistance,
-                ElevationGain = elevationGain
+                ElevationGain = elevationGain,
+                VerticalRatio = verticalRatio
             }
         );
         
@@ -52,6 +57,7 @@ public class AnalysisService : IAnalysisService
             .WithElevationGain(elevationGain)
             .WithTerrainType(terrainType)
             .WithRouteType(routeType)
+            .WithVerticalRatio(verticalRatio)
             .Build();
 
         // Use the specific analyzer

@@ -41,9 +41,9 @@ public class DifficultyAnalyzer: IAnalyzer<DifficultyAnalysisInput, DifficultyLe
     //private const int MaxScore = 100;
     
     // Distance factors (in meters)
-    private const double ShortDistance = 5000;     // 5km
-    private const double ModerateDistance = 10000; // 10km
-    private const double LongDistance = 21000;     // 20km
+    private const double ShortDistance = 10000;     // 10 km
+    private const double ModerateDistance = 21000;  // 21 km
+    private const double LongDistance = 42000;      // 42 km
 
     // Elevation factors (in meters)
     private const double LowElevationGain = 200;    
@@ -56,31 +56,32 @@ public class DifficultyAnalyzer: IAnalyzer<DifficultyAnalysisInput, DifficultyLe
     }
 
     public static DifficultyLevel AnalyzeDifficulty(
-        double distance,
-        double elevationGain,
+        double totalDistance,
+        double totalElevationGain,
         TerrainType terrainType,
         RouteType routeType)
     {
         var score = 0;
 
         // Distance Score (0-30 points)
-        score += CalculateDistanceScore(distance);
+        score += CalculateDistanceScore(totalDistance);
 
         // Elevation Score (0-30 points)
-        score += CalculateElevationScore(elevationGain);
+        var verticalRatio = totalDistance > 0 ? (totalElevationGain / totalDistance) * 100 : 0; 
+        score += CalculateElevationScore(totalElevationGain, verticalRatio);
 
         // Terrain Score (0-25 points)
         score += CalculateTerrainScore(terrainType);
 
-        // Route Type Score (0-15 points)
+        // Route Type Score (0-8 points)
         score += CalculateRouteTypeScore(routeType);
 
         // Convert score to difficulty level
         return score switch
         {
-            < 20 => DifficultyLevel.Easy,
-            < 40 => DifficultyLevel.Moderate,
-            < 60 => DifficultyLevel.Hard,
+            < 30 => DifficultyLevel.Easy,
+            < 50 => DifficultyLevel.Moderate,
+            < 70 => DifficultyLevel.Hard,
             _ => DifficultyLevel.Extreme
             /*
             < 60 => DifficultyLevel.Challenging,
@@ -130,22 +131,30 @@ public class DifficultyAnalyzer: IAnalyzer<DifficultyAnalysisInput, DifficultyLe
     {
         return distance switch
         {
-            <= ShortDistance => 5,
-            <= ModerateDistance => 15,
-            <= LongDistance => 23,
+            <= ShortDistance => 5,      // 10.000
+            <= ModerateDistance => 15,  // 21.000
+            <= LongDistance => 23,      // 42.000
             _ => 30
         };
     }
 
-    private static int CalculateElevationScore(double elevationGain)
+// Inside CalculateElevationScore or a new CalculateVerticalRatioScore
+    private static int CalculateElevationScore(double elevationGain, double verticalRatio) // Adjusted signature
     {
-        return elevationGain switch
+        // Combine logic or add a new scoring component based on the vertical ratio
+        var score = 0;
+        if (verticalRatio > 5.0)
         {
-            <= LowElevationGain => 5,
-            <= ModerateElevationGain => 15,
-            <= HighElevationGain => 23,
-            _ => 30
-        };
+            score += 10; // High steepness
+        }
+
+        if (verticalRatio > 10.0)
+        {
+            score += 15; // Very high steepness
+        }
+        // ... then apply elevation gain logic on top of this or in a blended way
+
+        return score;
     }
 
     private static int CalculateTerrainScore(TerrainType terrainType)
@@ -164,9 +173,9 @@ public class DifficultyAnalyzer: IAnalyzer<DifficultyAnalysisInput, DifficultyLe
     {
         return routeType switch
         {
-            RouteType.Circular => 8,      // Easier as you don't need to arrange transport
-            RouteType.OutAndBack => 10,   // Moderate as you can turn back if needed
-            RouteType.PointToPoint => 15, // Harder as you need to complete the whole route
+            RouteType.Circular => 4,     // Easier as you don't need to arrange transport
+            RouteType.OutAndBack => 6,   // Moderate as you can turn back if needed
+            RouteType.PointToPoint => 8, // Harder as you need to complete the whole route
             _ => 10
         };
     }

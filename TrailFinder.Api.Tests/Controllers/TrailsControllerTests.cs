@@ -79,6 +79,7 @@ public class TrailsControllerTests
         string description = "",
         double distance = 0,
         double elevationGain = 0,
+        double verticalRatio = 0,
         
         DifficultyLevel difficultyLevel = DifficultyLevel.Unknown,
         RouteType routeType = RouteType.Unknown,
@@ -95,6 +96,7 @@ public class TrailsControllerTests
             description,
             distance,
             elevationGain,
+            verticalRatio,
             difficultyLevel,
             routeType,
             terrainType,
