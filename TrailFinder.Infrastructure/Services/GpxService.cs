@@ -42,7 +42,7 @@ public class GpxService : IGpxService
             // Determine SurfaceType using the new service
             var surfaceType = await _osmLookupService.DetermineSurfaceType(points); // Pass the points
 
-            var analysisResult = _analysisService.Analyze(points, surfaceType); // Pass the determined surfaceType
+            var analysisResult = _analysisService.AnalyzeGpxPointsBySurfaceType(points, surfaceType); // Pass the determined surfaceType
 
             return new GpxAnalysisResult(
                 analysisResult.TotalDistance,

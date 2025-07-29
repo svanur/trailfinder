@@ -48,7 +48,7 @@ public class AnalysisServiceTests
     }
 
     // Existing tests for CalculateTotalDistance and CalculateElevationGain are still valid
-    // as those methods are private and tested indirectly via the Analyze method's results.
+    // as those methods are private and tested indirectly via the AnalyzeGpxPointsBySurfaceType method's results.
 
     [Fact]
     public void Analyze_PassesCorrectDataAndSurfaceTypeToAnalyzers()
@@ -81,7 +81,7 @@ public class AnalysisServiceTests
         ))).Returns(DifficultyLevel.Extreme);
 
         // Act
-        var result = _analysisService.Analyze(points, surfaceType); // Pass the surfaceType
+        var result = _analysisService.AnalyzeGpxPointsBySurfaceType(points, surfaceType); // Pass the surfaceType
 
         // Assert
         result.Should().NotBeNull();
@@ -94,7 +94,7 @@ public class AnalysisServiceTests
         // Verify that the factory was asked for the correct analyzer
         _mockDifficultyAnalyzerFactory.Verify(f => f.GetAnalyzer(surfaceType), Times.Once);
 
-        // Verify that the correct specific difficulty analyzer's Analyze method was called
+        // Verify that the correct specific difficulty analyzer's AnalyzeGpxPointsBySurfaceType method was called
         _mockSpecificDifficultyAnalyzer.Verify(a => a.Analyze(It.Is<DifficultyAnalysisInput>(input =>
             input.TotalDistance == expectedTotalDistance &&
             input.ElevationGain == expectedElevationGain &&

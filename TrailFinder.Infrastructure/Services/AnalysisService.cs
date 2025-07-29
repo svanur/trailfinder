@@ -3,11 +3,12 @@
 using TrailFinder.Core.DTOs.GpxFile;
 using TrailFinder.Core.Enums;
 using TrailFinder.Core.Interfaces.Repositories;
+using TrailFinder.Core.Interfaces.Services;
 using TrailFinder.Core.Services.TrailAnalysis;
 using TrailFinder.Core.ValueObjects;
 namespace TrailFinder.Infrastructure.Services;
 
-public class AnalysisService
+public class AnalysisService : IAnalysisService
 {
     private const double EarthRadiusMeters = 6371e3;
     private const int ElevationPrecisionDecimals = 0;
@@ -27,7 +28,7 @@ public class AnalysisService
         _difficultyAnalyzerFactory = difficultyAnalyzerFactory;
     }
 
-    public AnalysisResult Analyze(List<GpxPoint> points, SurfaceType surfaceType)
+    public AnalysisResult AnalyzeGpxPointsBySurfaceType(List<GpxPoint> points, SurfaceType surfaceType)
     {
         var totalDistance = CalculateTotalDistance(points);
         var elevationPoints = points.Select(p => p.Elevation);

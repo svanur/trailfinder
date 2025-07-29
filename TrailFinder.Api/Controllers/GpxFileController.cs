@@ -64,7 +64,7 @@ public class GpxFileController(
                 return StatusCode(500, "Failed to upload GPX file to storage.");
             }
 
-            // --- Step 2: Analyze GPX File ---
+            // --- Step 2: AnalyzeGpxPointsBySurfaceType GPX File ---
             fileMemoryStream.Position = 0; // Reset stream position again for analysis
             var gpxAnalysisInfo = await gpxService.AnalyzeGpxTrack(fileMemoryStream);
             
