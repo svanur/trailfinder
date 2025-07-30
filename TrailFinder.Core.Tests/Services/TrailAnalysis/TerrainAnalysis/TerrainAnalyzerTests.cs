@@ -55,6 +55,6 @@ public class TerrainAnalyzerTests
         Action act = () => TerrainAnalyzer.AnalyzeTerrain(input.TotalDistance, input.ElevationGain);
 
         // Assert
-        act.Should().Throw<DivideByZeroException>(); // Or whatever specific exception/return you define
+        act.Should().Throw<ArgumentException>(); // Or whatever specific exception/return you define
     }
 }

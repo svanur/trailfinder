@@ -19,6 +19,11 @@ public class TerrainAnalyzer : IAnalyzer<TerrainAnalysisInput, TerrainType>
     
     public static TerrainType AnalyzeTerrain(double totalDistance, double elevationGain)
     {
+        if (totalDistance == 0)
+        {
+            throw new ArgumentException("Total distance cannot be zero.", nameof(totalDistance));       
+        }
+
         // Convert to kilometers for easier threshold comparison
         var distanceKm = totalDistance / 1000;
         

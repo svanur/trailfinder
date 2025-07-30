@@ -24,9 +24,10 @@ public class GpxService : IGpxService
 
     public async Task<GpxAnalysisResult> AnalyzeGpxTrack(Stream gpxStream)
     {
+        ValidateStream(gpxStream);
+        
         try
         {
-            ValidateStream(gpxStream);
 
             var (trackPoints, ns) = await LoadTrackPoints(gpxStream);
             var points = trackPoints.Select(p => GpxPoint.FromXElement(p, ns)).ToList();

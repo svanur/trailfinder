@@ -62,25 +62,23 @@ public readonly record struct GpxPoint
         var elevationInMeters = double.Parse(eleElement.Value);
         return elevationInMeters;
     }
-    
+
     /// <summary>
-    /// 
+    /// Determines whether the current <c>GpxPoint</c> is within a specified threshold distance from another <c>GpxPoint</c>.
     /// </summary>
-    /// <example>
-    /// var gpxInfo = await ExtractGpxInfo(gpxStream);
-    /// bool isCircularTrail = gpxInfo.StartPoint.IsNearby(gpxInfo.EndPoint);
-    /// </example>
-    /// <param name="other"></param>
-    /// <param name="thresholdMeters"></param>
-    /// <returns></returns>
-    public bool IsNearby(GpxPoint other, double thresholdMeters = 50)
+    /// <param name="that">The <c>GpxPoint</c> to compare the current point with.</param>
+    /// <param name="thresholdMeters">The distance threshold in meters. Defaults to 50 meters.</param>
+    /// <returns>
+    /// <c>true</c> if the current point is within the specified threshold distance from the that point; otherwise, <c>false</c>.
+    /// </returns>
+    public bool IsNearby(GpxPoint that, double thresholdMeters = 50)
     {
         const double radiansPerDegree = Math.PI / 180;
-        
+
         var lat1Rad = (double)(Latitude * radiansPerDegree);
         var lon1Rad = Longitude * radiansPerDegree;
-        var lat2Rad = (double)(other.Latitude * radiansPerDegree);
-        var lon2Rad = other.Longitude * radiansPerDegree;
+        var lat2Rad = (double)(that.Latitude * radiansPerDegree);
+        var lon2Rad = that.Longitude * radiansPerDegree;
 
         var latDiff = lat2Rad - lat1Rad;
         var lonDiff = lon2Rad - lon1Rad;
@@ -100,4 +98,46 @@ public readonly record struct GpxPoint
         return !double.IsNaN(distance) && distance <= thresholdMeters;
     }
 
+    public double CalculateDistance(GpxPoint that)
+    {
+        const double radiansPerDegree = Math.PI / 180;
+    
+        // Check for valid coordinate ranges
+        if (!IsValidCoordinate(this) || !IsValidCoordinate(that))
+        {
+            return 0;
+        }
+    
+        var lat1Rad = Latitude * radiansPerDegree;
+        var lon1Rad = Longitude * radiansPerDegree;
+        var lat2Rad = that.Latitude * radiansPerDegree;
+        var lon2Rad = that.Longitude * radiansPerDegree;
+
+        var latDiff = lat2Rad - lat1Rad;
+        var lonDiff = lon2Rad - lon1Rad;
+
+        var a = Math.Sin(latDiff / 2) * Math.Sin(latDiff / 2) +
+                Math.Cos(lat1Rad) * Math.Cos(lat2Rad) *
+                Math.Sin(lonDiff / 2) * Math.Sin(lonDiff / 2);
+            
+        // Check if 'a' is valid for further calculation
+        if (double.IsNaN(a) || a > 1)
+        {
+            return 0;
+        }
+
+        var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+        var distance = EarthRadiusMeters * c;
+
+        return double.IsNaN(distance) 
+            ? 0 
+            : distance;
+    }
+
+    private static bool IsValidCoordinate(GpxPoint point)
+    {
+        return point.Latitude is >= -90 and <= 90 &&
+               point.Longitude is >= -180 and <= 180 &&
+               !double.IsNaN(point.Latitude) && !double.IsNaN(point.Longitude);
+    }
 }
