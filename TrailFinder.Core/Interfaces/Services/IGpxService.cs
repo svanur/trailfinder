@@ -1,8 +1,6 @@
-// TrailFinder.Core.Interfaces.Services\IGpxService.cs (Update or create this file)
+// TrailFinder.Core.Interfaces.Services\IGpxService.cs
 
 using TrailFinder.Core.DTOs.Gpx.Responses;
-
-// Assuming GpxAnalysisResult will be here
 
 namespace TrailFinder.Core.Interfaces.Services;
 
