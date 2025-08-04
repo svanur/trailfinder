@@ -1,12 +1,13 @@
-// TrailFinder.Application/Features/GpxFiles/Commands/ProcessGpxFileAndApplyAnalysis/ProcessGpxFileAndApplyAnalysisCommand.cs
+// TrailFinder.Application/Features/GpxFiles/Commands/ProcessGpxFile/ProcessGpxFileCommand.cs
+
 using MediatR;
 using NetTopologySuite.Geometries;
-using TrailFinder.Core.DTOs.Gpx.Responses; // For GpxAnalysisResult
 using TrailFinder.Core.Enums;
+// For GpxAnalysisResult
 
-namespace TrailFinder.Application.Features.GpxFiles.Commands.ProcessGpxFileAndApplyAnalysis;
+namespace TrailFinder.Application.Features.GpxFiles.Commands.ProcessGpxFile;
 
-public record ProcessGpxFileAndApplyAnalysisCommand(
+public record ProcessGpxFileCommand(
     // Data for GpxFile metadata table
     Guid TrailId,
     string StoragePath,

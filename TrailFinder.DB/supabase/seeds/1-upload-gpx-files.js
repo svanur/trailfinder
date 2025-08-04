@@ -41,7 +41,7 @@ async function uploadGpxFilesViaApi() {
             }
 
             const trailId = result.rows[0].id;
-            const uploadApiUrl = `${apiHostAddress}/api/trails/${trailId}/gpx-files/upload`;
+            const uploadApiUrl = `${apiHostAddress}/api/trails/${trailId}/gpx-file/upload`;
 
             console.log(`Attempting to upload ${file} for Trail ID: ${trailId} via API: ${uploadApiUrl}`);
 

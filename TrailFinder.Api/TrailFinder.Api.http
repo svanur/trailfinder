@@ -10,7 +10,7 @@ GET {{hostAddress}}/api/trails/{{trailId}}
 Accept: application/json
 
 ### Get a specific trail by slug
-GET {{hostAddress}}/api/trails/esja-ultra-marathon
+GET {{hostAddress}}/api/trails/esja-ultra-marathon-43
 Accept: application/json
 
 ### Get all races

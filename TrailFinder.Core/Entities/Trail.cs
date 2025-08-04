@@ -21,6 +21,7 @@ public class Trail : BaseEntity
         RouteType routeType,
         TerrainType terrainType,
         SurfaceType surfaceType,
+        LineString routeGeom,
         Guid createdBy,
         DateTime createdAt,
         Guid updatedBy,
@@ -37,6 +38,7 @@ public class Trail : BaseEntity
         RouteType = routeType;
         TerrainType = terrainType;
         SurfaceType = surfaceType;
+        RouteGeom = routeGeom;
 
         CreatedBy = createdBy;
         CreatedAt = createdAt;

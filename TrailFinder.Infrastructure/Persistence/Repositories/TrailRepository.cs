@@ -14,7 +14,6 @@ public class TrailRepository(ApplicationDbContext context)
     public override async Task<IEnumerable<Trail>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await DbSet
-            .Where(trail => trail.RouteGeom != null ) //TODO: remove this line
             .OrderByDescending(t => t.CreatedAt)
             .ToListAsync(cancellationToken);
     }

@@ -1,9 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TrailFinder.Application.Features.GpxFiles.Commands.ProcessGpxFile;
 using TrailFinder.Core.Exceptions;
 using TrailFinder.Core.Interfaces.Services;
 using TrailFinder.Application.Features.Trails.Queries.GetTrail;
-using TrailFinder.Application.Features.GpxFiles.Commands.ProcessGpxFileAndApplyAnalysis;
 using TrailFinder.Application.Features.GpxFiles.Queries.GetGpxFileMetadata;
 
 namespace TrailFinder.Api.Controllers;
@@ -22,7 +22,7 @@ public class GpxFileController(
 ) : BaseApiController(logger)
 {
 
-    [HttpPost("upload")]
+    [HttpPost("upload")] // Route: api/trails/{trailId}/gpx-file/upload
     [Consumes("multipart/form-data")]
     public async Task<ActionResult> Upload(Guid trailId, IFormFile file)
     {
@@ -71,7 +71,7 @@ public class GpxFileController(
             // --- Step 3: Dispatch Command to Process Analysis and Update DB ---
             var createdByUserId = GetUserIdFromClaims(); // Implement this helper method
 
-            var processCommand = new ProcessGpxFileAndApplyAnalysisCommand(
+            var processCommand = new ProcessGpxFileCommand(
                 TrailId: trailId,
                 StoragePath: storagePath,
                 OriginalFileName: file.FileName,
