@@ -199,6 +199,10 @@ VALUES
     (gen_random_uuid(), 'Hleðsluhlaupið, 5km', 'hledsluhlaupid-5', '', 5000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Hleðsluhlaupið, 10km', 'hledsluhlaupid-10', '', 10000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
 
+    (gen_random_uuid(), 'Reykjavík Trail, 25km', 'reykjavik-trail-25', '', 25000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Reykjavík Trail, 15km', 'reykjavik-trail-15', '', 16000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Reykjavík Trail, 5km', 'reykjavik-trail-5', '', 5000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+
     (gen_random_uuid(), 'Súlur Vertical - Fálkinn', 'sulur-vertical-falkinn', 'Fálkinn er 19 km stígahlaup með 530 m hækkun. Skemmtileg leið sem flestir ráða við.', 18000, 543, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Súlur Vertical - Súlur', 'sulur-vertical-sulur', 'Súlur er 29 km fjallahlaup með 1410 m hækkun. Krefjandi hlaup en á flestra færi með góðum undirbúningi.', 29000, 1334, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Súlur Vertical - Tröllið', 'sulur-vertical-trollid', 'Tröllið 43 km er fjallahlaup með 1870 metra hækkun þar sem hlaupið er upp á bæjarfjallið Súlur og þaðan eftir fjallshryggnum inn á Glerárdal. Krefjandi leið í stórbrotnu umhverfi.', 43000, 1906, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
