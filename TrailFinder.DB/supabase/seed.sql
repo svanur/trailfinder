@@ -182,11 +182,23 @@ VALUES
         
     (gen_random_uuid(), 'Fimmvörðuhálshlaupið', 'fimmvorduhalshlaupid', 'Fimmvörðuháls er ein fegursta gönguleið landsins en hún er ekki síður frábær hlaupaleið.', 28000, 1048, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
 
+    (gen_random_uuid(), 'Fjarðarhlaupið, 18km', 'fjardarhlaupid-18', '', 18000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Fjarðarhlaupið, 32km', 'fjardarhlaupid-32', '', 32000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+
+    (gen_random_uuid(), 'Flensborgarhlaupið, 5km', 'flensborgarhlaupid-5', '', 5000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Flensborgarhlaupið, 10km', 'flensborgarhlaupid-10', '', 10000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+
     (gen_random_uuid(), 'Pósthlaupið 7km', 'posthlaupid-7', '7 km leið frá Búðardalsflugvelli á Kambsnesi yfir í Búðardal.', 7000, 67, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Pósthlaupið 12km', 'posthlaupid-12', '12 km hlaupið hefst í malarnámunni skammt frá veiðihúsinu við Haukadalsá.', 12000, 97, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Pósthlaupið 26km', 'posthlaupid-26', '26km hlaupið hefst við Kirkjufellsrétt, nálægt bænum Smyrlhóli í Haukadal.', 26000, 176, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Pósthlaupið 50km', 'posthlaupid-50', ' Fyrstu 15 km hlaupsins eru nokkuð á fótinn en eftir það er leiðin meira og minna niður á við eða flöt. Hækkunin er samtals um 600 m og hæsti punktur er í Haukadalsskarði.', 50000, 600, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
-            
+
+    (gen_random_uuid(), 'Hjartadagshlaupið, 5km', 'hjartadagshlaupid-5', '', 5000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hjartadagshlaupið, 10km', 'hjartadagshlaupid-10', '', 10000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+
+    (gen_random_uuid(), 'Hleðsluhlaupið, 5km', 'hledsluhlaupid-5', '', 5000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hleðsluhlaupið, 10km', 'hledsluhlaupid-10', '', 10000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+
     (gen_random_uuid(), 'Súlur Vertical - Fálkinn', 'sulur-vertical-falkinn', 'Fálkinn er 19 km stígahlaup með 530 m hækkun. Skemmtileg leið sem flestir ráða við.', 18000, 543, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Súlur Vertical - Súlur', 'sulur-vertical-sulur', 'Súlur er 29 km fjallahlaup með 1410 m hækkun. Krefjandi hlaup en á flestra færi með góðum undirbúningi.', 29000, 1334, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Súlur Vertical - Tröllið', 'sulur-vertical-trollid', 'Tröllið 43 km er fjallahlaup með 1870 metra hækkun þar sem hlaupið er upp á bæjarfjallið Súlur og þaðan eftir fjallshryggnum inn á Glerárdal. Krefjandi leið í stórbrotnu umhverfi.', 43000, 1906, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
@@ -235,6 +247,20 @@ VALUES
 
     (gen_random_uuid(), 'Stjörnuhlaupið 10km', 'stjornuhlaupid-10', '', 10840, 189, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Hraunhlaupið', 'hraunhlaupid', '', 9500, 141, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
+    (gen_random_uuid(), 'Ljósanæturhlaupið, 3km', 'ljosanaeturhlaup-3', '', 3000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Ljósanæturhlaupið, 7km', 'ljosanaeturhlaup-7', '', 7000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
+    (gen_random_uuid(), 'Þórsgatan, 4,5km', 'thorsgatan-4', '', 4500, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Þórsgatan, 12km', 'thorsgatan-12', '', 12000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
+    (gen_random_uuid(), 'Vatnsendahlaup HK', 'vatnsendahlaup-hk', '', 10000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
+    (gen_random_uuid(), 'Vestmannaeyjahlaup, 10km', 'vestmannaeyjahlaup-10', '', 10000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Vestmannaeyjahlaup, 5km', 'vestmannaeyjahlaup-5', '', 5000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
+    (gen_random_uuid(), 'Vitahlaupið, 6km', 'vitahlaupid-6', '', 6000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Vitahlaupið, 15km', 'vitahlaupid-15', '', 15000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     
     ( laugavegur_trail_id, 'Laugavegur Ultra', 'laugavegur-ultra', 'Laugavegshlaupið er 55 km utanvegahlaup en Laugavegurinn tengir saman Landmannalaugar og Þórsmörk á sunnanverðu hálendi Íslands, tvær sannkallaðar náttúruperlur. Göngugarpar eru venjulega 4 daga á leið sinni um Laugaveginn en hröðustu hlaupararnir fara leiðina á 4-5 klukkustundum.', 53000, 1293, 'unknown', 'unknown','unknown','unknown', seed_created_by, NOW()
 ) ON CONFLICT (slug) DO NOTHING;
