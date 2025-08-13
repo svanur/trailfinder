@@ -199,6 +199,10 @@ VALUES
     (gen_random_uuid(), 'Hleðsluhlaupið, 5km', 'hledsluhlaupid-5', '', 5000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Hleðsluhlaupið, 10km', 'hledsluhlaupid-10', '', 10000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
 
+    (gen_random_uuid(), 'Reykjavíkurmaraþon, 10km', 'reykjavik-marathon-10', '', 10000, 39, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Reykjavíkurmaraþon, 21km', 'reykjavik-marathon-21', '', 21100, 87, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Reykjavíkurmaraþon, 42km', 'reykjavik-marathon-42', '', 42195, 219, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
+    
     (gen_random_uuid(), 'Reykjavík Trail, 25km', 'reykjavik-trail-25', '', 25000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Reykjavík Trail, 15km', 'reykjavik-trail-15', '', 16000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Reykjavík Trail, 5km', 'reykjavik-trail-5', '', 5000, 0, 'unknown', 'unknown','unknown','unknown',  seed_created_by, NOW()),
