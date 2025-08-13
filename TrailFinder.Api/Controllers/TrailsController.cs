@@ -20,7 +20,7 @@ namespace TrailFinder.Api.Controllers;
 [Route("api/[controller]")]
 public class TrailsController : BaseApiController
 {
-    private readonly ILogger<TrailsController> _logger;
+    private new readonly ILogger<TrailsController> _logger;
     private readonly IMediator _mediator;
     private readonly ISupabaseStorageService _storageService;
 
@@ -37,11 +37,22 @@ public class TrailsController : BaseApiController
     }
 
     [HttpGet("{trailSlug}")]
-    public async Task<ActionResult<TrailListItemDto>> GetTrailBySlug(string trailSlug)
+    public async Task<ActionResult<TrailListItemDto>> GetTrailBySlug(
+        string trailSlug,
+        [FromQuery] double? userLatitude,
+        [FromQuery] double? userLongitude
+    )
     {
         try
         {
-            var result = await _mediator.Send(new GetTrailBySlugQuery(trailSlug));
+            var trailSlugQuery = new GetTrailBySlugQuery
+            {
+                Slug = trailSlug,
+                UserLatitude = userLatitude,
+                UserLongitude = userLongitude
+            };
+            
+            var result = await _mediator.Send(trailSlugQuery);
             return result != null
                 ? Ok(result)
                 : NotFound();

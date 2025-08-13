@@ -4,7 +4,6 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using NetTopologySuite.Geometries;
 using TrailFinder.Core.DTOs.Trails.Responses;
-using TrailFinder.Core.Entities;
 using TrailFinder.Core.Interfaces.Repositories;
 
 namespace TrailFinder.Application.Features.Trails.Queries.GetTrails;
@@ -40,7 +39,10 @@ public class GetTrailsQueryHandler : IRequestHandler<GetTrailsQuery, List<TrailL
         if (request is { UserLatitude: not null, UserLongitude: not null })
         {
             var userLocationPoint = _geometryFactory.CreatePoint(
-                new Coordinate(request.UserLongitude.Value, request.UserLatitude.Value)
+                new CoordinateZ(
+                    request.UserLongitude.Value, 
+                    request.UserLatitude.Value
+                )
             );
 
             foreach (var dto in trailDtos)

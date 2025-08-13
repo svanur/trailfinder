@@ -5,11 +5,11 @@ import type { Trail } from '@trailfinder/db-types'; // Your current DB type
 import axios from "axios";
 
 export const trailsApi = {
-    // Modify getAll to accept optional lat/lon
+
     getAll: async (latitude?: number | null, longitude?: number | null): Promise<Trail[]> => { // Return Trail
         let url = `${API_CONFIG.ENDPOINTS.TRAILS}`;
         const params = new URLSearchParams();
-console.log('getAll: ', latitude, longitude, '')
+
         if (latitude !== null && latitude !== undefined && longitude !== null && longitude !== undefined) {
             params.append('userLatitude', latitude.toString());
             params.append('userLongitude', longitude.toString());
@@ -23,12 +23,21 @@ console.log('getAll: ', latitude, longitude, '')
         return response.data;
     },
 
-    getBySlug: async (slug: string): Promise<Trail> => {
+    getBySlug: async (slug: string, latitude?: number | null, longitude?: number | null): Promise<Trail> => {
         try {
-            const response = await apiClient.get<Trail>(
-                `${API_CONFIG.ENDPOINTS.TRAILS}/${slug}`
-            );
+            let url = `${API_CONFIG.ENDPOINTS.TRAILS}/${slug}`;
+            
+            const params = new URLSearchParams();
+            if (latitude !== null && latitude !== undefined && longitude !== null && longitude !== undefined) {
+                params.append('userLatitude', latitude.toString());
+                params.append('userLongitude', longitude.toString());
+            }
 
+            if (params.toString()) {
+                url = `${url}?${params.toString()}`;
+            }
+
+            const response = await apiClient.get<Trail>(url);
             if (!response.data) {
                 throw new Error('Trail not found');
             }

@@ -22,12 +22,14 @@ public class TrailDetailDto : BaseDto
         double elevationGainMeters,
         double verticalRatio,
         DifficultyLevel difficultyLevel,
+        
         RouteType routeType,
         TerrainType terrainType,
         SurfaceType surfaceType,
         LineString? routeGeom,
         GpxPoint startGpxPoint,
         GpxPoint endGpxPoint,
+        
         Guid createdBy,
         DateTime createdAt,
         Guid? updatedBy,
@@ -46,16 +48,17 @@ public class TrailDetailDto : BaseDto
         RouteType = routeType;
         TerrainType = terrainType;
         SurfaceType = surfaceType;
-        RouteGeom = routeGeom;
-        CreatedBy = createdBy;
-        CreatedAt = createdAt;
-        UpdatedBy = updatedBy;
-        UpdatedAt = updatedAt;
         
+        RouteGeom = routeGeom;
         StartGpxPoint = startGpxPoint;
         EndGpxPoint = endGpxPoint;
         DistanceToUserMeters = distanceToUserMeters;
         DistanceToUserKm = distanceToUserMeters / 1000;
+        
+        CreatedBy = createdBy;
+        CreatedAt = createdAt;
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
     }
     
     public string Name { get; set; } = string.Empty;

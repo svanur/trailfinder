@@ -3,7 +3,6 @@ import { Table, Text, Group, Flex } from '@mantine/core';
 import { NavLink as MantineNavLink } from '@mantine/core';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 
-// Import the new useUserLocation hook
 import { useUserLocation } from '../hooks/useUserLocation';
 
 import { IconActivity, IconRuler, IconMountain, IconArrowUp, IconArrowDown, IconMapPin } from "@tabler/icons-react";
@@ -30,7 +29,6 @@ type SortDirection = 'asc' | 'desc';
 export function TrailsTable({ filters }: TrailsTableProps) {
     // Get user location
     const userLocation = useUserLocation();
-    console.log('userLocation', userLocation);
 
     // Pass user location to useTrails hook
     const { data: allTrails, isLoading, error } = useTrails({
@@ -232,7 +230,7 @@ export function TrailsTable({ filters }: TrailsTableProps) {
             <Table.Td>{getDifficultyLevelTranslation(trail.difficultyLevel)}</Table.Td>
             <Table.Td>{getRouteTypeTranslation(trail.routeType)}</Table.Td>
             <Table.Td>{getTerrainTypeTranslation(trail.terrainType)}</Table.Td>
-            {/* New column for distance to user */}
+            {/* New column for distance to the user */}
             <Table.Td>
                 {trail.distanceToUserKm !== null && trail.distanceToUserKm !== undefined ? (
                     <Group gap="xs">
@@ -240,7 +238,7 @@ export function TrailsTable({ filters }: TrailsTableProps) {
                         <Text size="sm">{trail.distanceToUserKm.toFixed(2)} km</Text>
                     </Group>
                 ) : (
-                    <Text size="sm" c="dimmed">Ófáanlegt</Text>
+                    <Text size="sm" c="dimmed">Ófáanleg</Text>
                 )}
             </Table.Td>
         </Table.Tr>

@@ -14,7 +14,7 @@ const queryClient = new QueryClient();
 export function App() {
     const theme = useMantineTheme();
 
-    // Callback to receive user location from UserLocation component
+    // Callback to receive user location from the UserLocation component
     const handleLocationDetected = (location: { lat: number; lng: number }) => {
         console.log("User location detected:", location);
         // Here, you would likely store this location in a global state

@@ -214,7 +214,7 @@ public class TrailsControllerTests
             .ReturnsAsync(expectedTrail);
 
         // Act
-        var result = await _controller.GetTrailBySlug(slug);
+        var result = await _controller.GetTrailBySlug(slug, null, null);
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -234,7 +234,7 @@ public class TrailsControllerTests
             .ReturnsAsync((TrailDetailDto)null!);
 
         // Act
-        var result = await _controller.GetTrailBySlug(slug);
+        var result = await _controller.GetTrailBySlug(slug, null, null);
 
         // Assert
         Assert.IsType<NotFoundResult>(result.Result);
@@ -252,7 +252,7 @@ public class TrailsControllerTests
             .ThrowsAsync(expectedException);
 
         // Act
-        var result = await _controller.GetTrailBySlug(slug);
+        var result = await _controller.GetTrailBySlug(slug, null, null);
 
         // Assert
         Assert.IsType<ObjectResult>(result.Result);
