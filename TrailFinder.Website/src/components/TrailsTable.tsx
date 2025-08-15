@@ -5,7 +5,9 @@ import { NavLink as RouterNavLink } from 'react-router-dom';
 
 import { useUserLocation } from '../hooks/useUserLocation';
 
-import { IconActivity, IconRuler, IconMountain, IconArrowUp, IconArrowDown, IconMapPin } from "@tabler/icons-react";
+import { IconActivity, IconRuler, IconMountain, IconArrowUp, IconArrowDown
+//    , IconMapPin 
+} from "@tabler/icons-react";
 
 import {
     getDifficultyLevelTranslation,
@@ -185,18 +187,21 @@ export function TrailsTable({ filters }: TrailsTableProps) {
 
 
     // Loading states based on both trail data and user location
-    if (isLoading || userLocation.isLoading) {
-        return <Text>Hleð inn hlaupaleiðum og staðsetningu notanda...</Text>;
+    //if (isLoading || userLocation.isLoading) {
+    if (isLoading) {
+        return <Text>Hleð inn hlaupaleiðum {/* og staðsetningu notanda */}...</Text>;
     }
 
     if (error) {
         return <Text c="red">Villa kom upp við að sækja hlaupaleiðir: {error.message}</Text>;
     }
 
+    {/* 
     if (userLocation.error) {
-        // Inform user if geolocation failed
+        // Inform the user if geolocation failed
         return <Text c="orange">Gat ekki náð í staðsetningu notanda: {userLocation.error.message}. Hlaupaleiðir verða ekki flokkaðar eftir fjarlægð.</Text>;
     }
+     */}
 
     if (!filteredAndSortedTrails?.length) {
         return <Text>Engar hlaupaleiðir fundust sem passa við valdar síur.</Text>;
@@ -230,7 +235,7 @@ export function TrailsTable({ filters }: TrailsTableProps) {
             <Table.Td>{getDifficultyLevelTranslation(trail.difficultyLevel)}</Table.Td>
             <Table.Td>{getRouteTypeTranslation(trail.routeType)}</Table.Td>
             <Table.Td>{getTerrainTypeTranslation(trail.terrainType)}</Table.Td>
-            {/* New column for distance to the user */}
+            {/* New column for distance to the user
             <Table.Td>
                 {trail.distanceToUserKm !== null && trail.distanceToUserKm !== undefined ? (
                     <Group gap="xs">
@@ -241,6 +246,7 @@ export function TrailsTable({ filters }: TrailsTableProps) {
                     <Text size="sm" c="dimmed">Ófáanleg</Text>
                 )}
             </Table.Td>
+             */}
         </Table.Tr>
     ));
 
@@ -283,12 +289,13 @@ export function TrailsTable({ filters }: TrailsTableProps) {
                             Landslag {renderSortIcon('terrainType')}
                         </Flex>
                     </Table.Th>
-                    {/* New sortable header for distance to user */}
+                    {/* New sortable header for distance to user
                     <Table.Th onClick={() => handleSort('distanceToUserKm')} style={{ cursor: 'pointer' }}>
                         <Flex align="center" gap="xs">
                             Fjarlægð {renderSortIcon('distanceToUserKm')}
                         </Flex>
                     </Table.Th>
+                    */}
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>{rows}</Table.Tbody>

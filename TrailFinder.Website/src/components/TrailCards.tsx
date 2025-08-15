@@ -1,4 +1,5 @@
 // src/components/TrailCards.tsx
+
 import {
     Card,
     Group,
@@ -17,10 +18,11 @@ import {
     IconMapPin // Added IconMapPin
 } from '@tabler/icons-react';
 import { useTrails } from '../hooks/useTrails';
-import { useMemo, useEffect, useState } from 'react'; // Added useEffect, useState
+import { useMemo, useEffect, useState } from 'react';
 import {type TrailFilters } from '../types/filters';
+import type { Trail } from "@trailfinder/db-types";
+
 import {useUserLocation} from "../hooks/useUserLocation.ts";
-import type { Trail } from "@trailfinder/db-types"; // Correct type import
 
 const getDifficultyColor = (difficulty: string) => {
     switch (difficulty.toLowerCase()) {
@@ -170,13 +172,16 @@ export function TrailCards({ filters }: TrailListProps) {
     ]);
 
 
-    if (isLoading || userLocation.isLoading) {
-        return <Text>Hleð inn hlaupaleiðum og staðsetningu notanda...</Text>;
+    //if (isLoading || userLocation.isLoading) {
+    if (isLoading ) {
+        return <Text>Hleð inn hlaupaleiðum {/* og staðsetningu notanda */}...</Text>;
     }
 
+    {/* 
     if (userLocation.error) {
         return <Text c="orange">Gat ekki náð í staðsetningu notanda: {userLocation.error.message}. Hlaupaleiðir verða ekki flokkaðar eftir fjarlægð.</Text>;
     }
+     */}
 
     if (error) {
         return <Text c="red">Villa kom upp við að sækja hlaupaleiðir</Text>;

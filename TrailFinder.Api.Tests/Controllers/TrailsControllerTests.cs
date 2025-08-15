@@ -102,8 +102,10 @@ public class TrailsControllerTests
             terrainType,
             surfaceType,
             routeGeom,
-            new GpxPoint(), //TODO ?
-            new GpxPoint(),
+            
+            //new GpxPoint(), // start
+            //new GpxPoint(), // end
+            
             Guid.NewGuid(),
             DateTime.Now,
             null,

@@ -49,9 +49,10 @@ public class GetTrailQueryHandler : IRequestHandler<GetTrailQuery, TrailDetailDt
                 request.UserLatitude.Value
             )
         );
+        
         // Calculate distance to user
-        trailDetailDto.DistanceToUserMeters = trail.RouteGeom?.Distance(userLocationPoint);
-        trailDetailDto.DistanceToUserKm = trailDetailDto.DistanceToUserMeters / 1000;
+        //trailDetailDto.DistanceToUserMeters = trail.RouteGeom?.Distance(userLocationPoint);
+        //trailDetailDto.DistanceToUserKm = trailDetailDto.DistanceToUserMeters / 1000;
 
         return trailDetailDto;
     }

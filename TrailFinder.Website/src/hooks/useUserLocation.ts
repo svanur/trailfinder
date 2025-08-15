@@ -1,5 +1,8 @@
-// src/hooks/useUserLocation.ts (New Hook)
-import { useState, useEffect } from 'react';
+// src/hooks/useUserLocation.ts
+
+import { useState
+    //, useEffect 
+} from 'react';
 
 interface UserLocation {
     latitude: number | null;
@@ -10,14 +13,14 @@ interface UserLocation {
 }
 
 export function useUserLocation(): UserLocation {
-    const [location, setLocation] = useState<UserLocation>({
+    const [location/*, setLocation*/] = useState<UserLocation>({
         latitude: null,
         longitude: null,
         timestamp: null,
         error: null,
         isLoading: true,
     });
-
+/*
     useEffect(() => {
         if (!navigator.geolocation) {
             setLocation(prev => ({
@@ -53,7 +56,7 @@ export function useUserLocation(): UserLocation {
             maximumAge: 0,            // Don't use a cached position
         };
 
-        // Watch position to update if user moves, or getCurrentPosition for a one-time fetch
+        // Watch position to update if the user moves, or getCurrentPosition for a one-time fetch
         const watchId = navigator.geolocation.watchPosition(handleSuccess, handleError, options);
         // Or for a single fetch: navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
 
@@ -62,6 +65,6 @@ export function useUserLocation(): UserLocation {
             navigator.geolocation.clearWatch(watchId);
         };
     }, []);
-
+*/
     return location;
 }

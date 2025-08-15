@@ -49,6 +49,7 @@ public class TrailMappings : Profile
             // And explicitly map RouteGeom
             .ForMember(dest => dest.RouteGeom, opt => opt.MapFrom(src => src.RouteGeom))
             
+            /*
             .ForMember(dest => dest.StartGpxPoint, opt => opt.MapFrom(src =>
                     src.RouteGeom != null && src.RouteGeom.NumPoints > 0
                         ? new GpxPoint(src.RouteGeom.StartPoint)
@@ -60,6 +61,7 @@ public class TrailMappings : Profile
                         ? new GpxPoint(src.RouteGeom.EndPoint)
                         : default // Or null
             ))
+            */
             ;
 
 

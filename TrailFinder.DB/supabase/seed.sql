@@ -149,7 +149,7 @@ VALUES
 
     (gen_random_uuid(), 'Puffin Run', 'puffin-run', 'Puffin Run keppnishlaupið í Vestmannaeygjum', 20000, 295, 'unknown', 'unknown','unknown','trail', seed_created_by, NOW()),
     (gen_random_uuid(), 'Bakgarður Náttúruhlaupa við Elliðavatn', 'bakgardur-ellidavatn', 'Bakgarður Náttúruhlaupa við Elliðavatn', 6700, 39, 'unknown', 'unknown','unknown','trail', seed_created_by, NOW()),
-    (gen_random_uuid(), '5km hlaup HHFH og 66°N', 'hlaupaseria-66', 'Hlaupasería 66°N og Hlaupahóps FH', 5000, 44, 'unknown', 'unknown','unknown','paved',seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hlaupasería 66°N og Hlaupahóps FH', 'hlaupaseria-66', 'Hlaupasería 66°N og Hlaupahóps FH', 5000, 44, 'unknown', 'unknown','unknown','paved',seed_created_by, NOW()),
     (gen_random_uuid(), 'Öræfahlaupið - Kristínartindar', 'oraefahlaupid', 'Náttúruhlaup í Skaftafelli', 23000, 1000, 'unknown', 'unknown','unknown','trail',  seed_created_by, NOW()),
 
     (gen_random_uuid(), 'Hafnarfjall Ultra fjölskylduhlaup', 'hafnarfjall-ultra-fjolskylduhlaup', 'Fjölskylduhlaupið í Hafnarfjall Ultra seríunni', 2300, 167, 'unknown', 'unknown','unknown','mixed',  seed_created_by, NOW()),

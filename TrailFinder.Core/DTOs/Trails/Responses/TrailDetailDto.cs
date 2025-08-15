@@ -27,8 +27,8 @@ public class TrailDetailDto : BaseDto
         TerrainType terrainType,
         SurfaceType surfaceType,
         LineString? routeGeom,
-        GpxPoint startGpxPoint,
-        GpxPoint endGpxPoint,
+        //GpxPoint startGpxPoint,
+        //GpxPoint endGpxPoint,
         
         Guid createdBy,
         DateTime createdAt,
@@ -50,10 +50,12 @@ public class TrailDetailDto : BaseDto
         SurfaceType = surfaceType;
         
         RouteGeom = routeGeom;
+        /*
         StartGpxPoint = startGpxPoint;
         EndGpxPoint = endGpxPoint;
         DistanceToUserMeters = distanceToUserMeters;
         DistanceToUserKm = distanceToUserMeters / 1000;
+        */
         
         CreatedBy = createdBy;
         CreatedAt = createdAt;
@@ -78,11 +80,13 @@ public class TrailDetailDto : BaseDto
     public RouteType? RouteType { get; set; }
     public TerrainType? TerrainType { get; set; }
     public SurfaceType? SurfaceType { get; set; }
+  
+    public LineString? RouteGeom { get; set; }
     
+    /*
     public GpxPoint? StartGpxPoint { get; set; }
     public GpxPoint? EndGpxPoint { get; set; }
     public double? DistanceToUserMeters { get; set; }
     public double? DistanceToUserKm { get; set; }
-    
-    public LineString? RouteGeom { get; set; }
+    */
 }
