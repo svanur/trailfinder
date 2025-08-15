@@ -1,6 +1,9 @@
 // TrailFinder.Application.Features.Trails.Queries.GetTrails.GetTrailsQueryHandler.cs (Update this file)
+
+using System.Diagnostics;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NetTopologySuite.Geometries;
 using TrailFinder.Core.DTOs.Trails.Responses;
@@ -13,8 +16,7 @@ public class GetTrailsQueryHandler : IRequestHandler<GetTrailsQuery, List<TrailL
     private readonly ILogger<GetTrailsQueryHandler> _logger;
     private readonly IMapper _mapper;
     private readonly ITrailRepository _trailRepository;
-    private readonly GeometryFactory _geometryFactory;
-
+    
     public GetTrailsQueryHandler(
         ILogger<GetTrailsQueryHandler> logger,
         IMapper mapper,
@@ -24,60 +26,67 @@ public class GetTrailsQueryHandler : IRequestHandler<GetTrailsQuery, List<TrailL
         _logger = logger;
         _mapper = mapper;
         _trailRepository = trailRepository;
-        _geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
     }
 
     public async Task<List<TrailListItemDto>> Handle(
         GetTrailsQuery request,
         CancellationToken cancellationToken)
     {
-        var trails = await _trailRepository.GetAllAsync(cancellationToken);
-        var trailDtos = _mapper.Map<List<TrailListItemDto>>(trails);
-        
-        _logger.LogInformation($"Request: ${request.UserLatitude}, ${request.UserLongitude}");
+        _logger.LogInformation($"Request: {request.UserLatitude}, {request.UserLongitude}");
 
         if (request is { UserLatitude: not null, UserLongitude: not null })
         {
-            var userLocationPoint = _geometryFactory.CreatePoint(
-                new CoordinateZ(
-                    request.UserLongitude.Value, 
-                    request.UserLatitude.Value
-                )
+            // Get the sorted IQueryable from the repository
+            var trailsQuery = _trailRepository.GetTrailsSortedByDistanceToUser(
+                request.UserLatitude.Value,
+                request.UserLongitude.Value
             );
 
+            // Execute the query on the database and get the list of Trail entities
+            var trails = await trailsQuery.ToListAsync(cancellationToken);
+            
+            // Map the list of Trail entities to DTOs in the handler
+            var trailDtos = _mapper.Map<List<TrailListItemDto>>(trails);
+            
+            // The distance is not automatically populated in the DTO, so we need to calculate it again here
+            // It's still efficient because we're only calculating for a few items.
+            var userPoint = new Point(request.UserLongitude.Value, request.UserLatitude.Value)
+            {
+                SRID = 4326
+            };
+            
             foreach (var dto in trailDtos)
             {
-                /*
-                if (dto.RouteGeom == null || dto.RouteGeom.NumPoints <= 0)
+                var originalTrail = trails.First(t => t.Id == dto.Id);
+                if (originalTrail.RouteGeom == null)
                 {
+                    dto.DistanceToUserMeters = null;
+                    dto.DistanceToUserKm = null;
                     continue;
                 }
-                */
 
-                // Calculate distance to user
-                var trail = trails.First(trail => trail.Id == dto.Id);
-                dto.DistanceToUserMeters = trail.RouteGeom?.Distance(userLocationPoint);
-                dto.DistanceToUserKm = dto.DistanceToUserMeters / 1000;
+                var distanceInDegrees = originalTrail.RouteGeom.Distance(userPoint);
+                var distanceInMeters = distanceInDegrees * 111320 * Math.Cos(request.UserLatitude.Value * Math.PI / 180);
+
+                dto.DistanceToUserMeters = distanceInMeters;
+                dto.DistanceToUserKm = distanceInMeters / 1000;
             }
 
-            // Sort the DTOs by distance to the user before returning
-            // Null distances (e.g., if RouteGeom was null) will be sorted to the end
-            trailDtos = trailDtos
-                .OrderBy(t => t.DistanceToUserMeters.GetValueOrDefault(double.MaxValue))
-                .ToList();
+            return trailDtos;
         }
         else
         {
-            // If no user location, ensure DistanceToUserMeters/Km are null and sort by name as default
+            // If no user location, get all trails and sort them by name as default
+            var trails = await _trailRepository.GetAllAsync(cancellationToken);
+            var trailDtos = _mapper.Map<List<TrailListItemDto>>(trails);
+            
             foreach (var dto in trailDtos)
             {
                 dto.DistanceToUserMeters = null;
                 dto.DistanceToUserKm = null;
             }
-            // If you want default sorting by name when no user location, do it here.
-            trailDtos = trailDtos.OrderBy(t => t.Name).ToList();
+            
+            return trailDtos.OrderBy(t => t.Name).ToList();
         }
-
-        return trailDtos;
     }
 }

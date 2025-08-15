@@ -232,8 +232,7 @@ VALUES
     
     (gen_random_uuid(), 'Mýrdalshlaupið 10km', 'myrdalshlaupid-10', '', 10000, 297, 'unknown', 'unknown','unknown','mixed',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Mýrdalshlaupið 22km', 'myrdalshlaupid-22', '', 22000, 1094, 'unknown', 'unknown','unknown','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Volcano Trail Run', 'volcano-trail-run', '', 12200, 659, 'unknown', 'unknown','unknown','trail',  seed_created_by, NOW()),
-
+    
     (gen_random_uuid(), 'Tindahlaupið, 1 tindur', 'tindahlaupid-1', '', 12000, 203, 'unknown', 'unknown','unknown','mixed',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Tindahlaupið, 3 tindar', 'tindahlaupid-3', '', 18000, 720, 'unknown', 'unknown','unknown','mixed',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Tindahlaupið, 5 tindar', 'tindahlaupid-5', '', 34000, 1196, 'unknown', 'unknown','unknown','mixed',  seed_created_by, NOW()),
@@ -260,8 +259,8 @@ VALUES
     (gen_random_uuid(), 'Ljósanæturhlaupið, 3km', 'ljosanaeturhlaup-3', '', 3000, 0, 'unknown', 'unknown','unknown','paved',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Ljósanæturhlaupið, 7km', 'ljosanaeturhlaup-7', '', 7000, 0, 'unknown', 'unknown','unknown','paved',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Þórsgatan, 4,5km', 'thorsgatan-4', '', 4500, 0, 'unknown', 'unknown','unknown','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Þórsgatan, 12km', 'thorsgatan-12', '', 12000, 0, 'unknown', 'unknown','unknown','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Þórsgata Volcano Trail Run, 4,5km', 'volcano-trail-run-4', '', 4500, 0, 'unknown', 'unknown','unknown','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Þórsgata Volcano Trail Run, 12km', 'volcano-trail-run-12', '', 12200, 659, 'unknown', 'unknown','unknown','trail',  seed_created_by, NOW()),
     
     (gen_random_uuid(), 'Vatnsendahlaup HK', 'vatnsendahlaup-hk', '', 10000, 0, 'unknown', 'unknown','unknown','trail',  seed_created_by, NOW()),
     

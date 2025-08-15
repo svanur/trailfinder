@@ -15,7 +15,7 @@ export function useTrail(options: UseTrailOptions) {
         queryKey: ['trail', options.slug, options?.userLatitude, options?.userLongitude],
         queryFn: async () => {
             const trail = await trailsApi.getBySlug(options.slug, options?.userLatitude, options?.userLongitude);
-            console.log('get Trail by slug:', options.slug, trail);
+            console.log('get Trail by slug:', trail);
             return trail;
         },
         enabled: !!options.slug
