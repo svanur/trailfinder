@@ -51,16 +51,6 @@ async function updateTrail() {
                     hasRouteGeom: !!sanitizedGpxInfo.routeGeom,
                     startGpxPoint: sanitizedGpxInfo.startPoint,
                     endGpxPoint: sanitizedGpxInfo.endPoint
-                   /* startPoint: {
-                        latitude: sanitizedGpxInfo.startPoint.latitude,
-                        longitude: sanitizedGpxInfo.startPoint.longitude,
-                        elevation: sanitizedGpxInfo.startPoint.elevation
-                    },
-                    endPoint: {
-                        latitude: sanitizedGpxInfo.endPoint.latitude,
-                        longitude: sanitizedGpxInfo.endPoint.longitude,
-                        elevation: sanitizedGpxInfo.endPoint.elevation
-                    }*/
                 });
             } catch (error) {
                 if (error.response) {

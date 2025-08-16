@@ -6,6 +6,13 @@ namespace TrailFinder.Core.Interfaces.Repositories;
 
 public interface ITrailRepository : IBaseRepository<Trail>
 {
+
+    IQueryable<Trail> GetTrailsSortedByDistanceToUser(
+        double userLatitude,
+        double userLongitude,
+        CancellationToken cancellationToken = default
+    );
+    
     Task<Trail?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
     
     // Add a new method to get a Trail with its related locations eagerly loaded

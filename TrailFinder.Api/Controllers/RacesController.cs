@@ -13,7 +13,7 @@ namespace TrailFinder.Api.Controllers;
 [Route("api/[controller]")]
 public class RacesController : BaseApiController
 {
-    private readonly ILogger<RacesController> _logger;
+    private new readonly ILogger<RacesController> _logger;
     private readonly IMediator _mediator;
     private readonly ISupabaseStorageService _storageService;
 

@@ -20,6 +20,8 @@ async function getItems(itemTable) {
         console.log(`GET ${url}`);
         const response = await axios.get(url);
         const data = response.data;
+        console.log(`Success: ${data.length} rows`);
+        console.log(data);
         
         for (const item of result.rows) {
             const itemId = item.id;

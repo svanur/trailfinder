@@ -1,8 +1,7 @@
 // src/pages/TrailDetails.tsx
+
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTrail } from '../hooks/useTrail';
-// Removed: useSwipeable, useTrailsList
-
 import { Container, Title, Text, Group, Stack, Badge, Tooltip, Card, Button, Divider
     //, Menu, ActionIcon 
 } from '@mantine/core';
@@ -11,13 +10,10 @@ import {
     //, IconQrcode, IconShare, IconBrandFacebook, IconBrandTwitter, IconDownload, IconSun 
 } from '@tabler/icons-react';
 
-// Import your new custom loader component
 import { TrailLoader } from '../components/TrailLoader';
 import { useEffect } from 'react';
-//import { TrailNotFound } from "./TrailNotFound.tsx";
 import { TrailNotFoundError } from "../types/api.ts";
 
-// Import the utility functions
 import {
     getRouteTypeIcon,
     getRouteTypeTranslation,
@@ -25,14 +21,23 @@ import {
     getTerrainTypeTranslation,
     getSurfaceTypeTranslation
 } from '../utils/TrailUtils';
+import { useUserLocation } from '../hooks/useUserLocation';
 
 export function TrailDetails() {
     const { slug } = useParams<{ slug: string }>();
     const navigate = useNavigate();
-    const { data: trail, isLoading, error } = useTrail(slug ?? '');
 
-    // Removed: useTrailsList and its related variables (isListLoading, previousTrailSlug, nextTrailSlug)
+    // Get user location
+    const userLocation = useUserLocation();
 
+    const { data: trail, isLoading, error } = useTrail(
+        {
+            slug: slug !== undefined ? slug : '',
+            userLatitude: userLocation.latitude,
+            userLongitude: userLocation.longitude,
+        }
+    );
+    
     const isTrailSpecificError = error instanceof TrailNotFoundError;
 
     useEffect(() => {
@@ -45,7 +50,7 @@ export function TrailDetails() {
     if (isLoading) {
         return <TrailLoader />;
     }
-
+    
     if (isTrailSpecificError || error || !trail) {
         return (
             <Container ta="center" style={{ padding: '4rem 0' }}>
@@ -73,9 +78,9 @@ export function TrailDetails() {
 
     const DynamicRouteIcon = getRouteTypeIcon(trail.routeType);
 
-    // Placeholder for user's current location and distance to trail
-    const userDistanceToTrail = 42.0; //TODO: Implement actual user location logic later
-
+    //TODO: reconsider:
+    trail.distanceToUserKm = trail.distanceToUserKm || 0; // Set rhw default value to 0 if undefined
+    
     // TODO: Implement actual QR code generation logic later
     //const handleGenerateQrCode = () => { /* ... */ };
     // TODO: Implement actual sharing logic later
@@ -132,13 +137,13 @@ export function TrailDetails() {
                             </div>
                         </Group>
 
-                        {/* Fjarlægð frá þér (Distance from you) */}
-                        {userDistanceToTrail > 0 && (
+                        {/* Fjarlægð leiðar frá staðsetningu notanta */}
+                        {trail.distanceToUserKm > 0 && (
                             <Group>
                                 <IconMapPin size={20} />
                                 <div>
                                     <Text size="sm" c="dimmed">Fjarlægð að leið</Text>
-                                    <Text>{userDistanceToTrail.toFixed(1)} km</Text>
+                                    <Text>{trail.distanceToUserKm.toFixed(1)} km</Text>
                                 </div>
                             </Group>
                         )}

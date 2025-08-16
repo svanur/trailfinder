@@ -1,21 +1,29 @@
 // src/hooks/useTrails.ts
-import { useQuery } from '@tanstack/react-query';
-import { trailsApi } from '../services/trailsApi'; // Correctly imports trailsApi
-import type {Trail} from '@trailfinder/db-types'; // Ensure Trail type is correct
 
-export function useTrails() {
-    // Explicitly define the type for the data returned by useQuery
-    // It is an array of Trail objects, as trailsApi.getAll() returns `response.data.items`
+import { useQuery } from '@tanstack/react-query';
+import { trailsApi } from '../services/trailsApi';
+import type { Trail } from '@trailfinder/db-types';
+
+interface UseTrailsOptions {
+    userLatitude?: number | null;
+    userLongitude?: number | null;
+}
+
+export function useTrails(options?: UseTrailsOptions) {
+    // Use a query key that includes the user location for re-fetching when the location changes
     return useQuery<Trail[], Error>({
-        queryKey: ['allTrailsList'], // <-- **CRITICAL: Change queryKey to something unique like 'allTrailsList'**
-        // This prevents conflict with any old, potentially misconfigured 'trails' key.
+        queryKey: ['trailsList', options?.userLatitude, options?.userLongitude],
         queryFn: async () => {
-            // trailsApi.getAll() correctly returns Promise<Trail[]>
-            const trails = await trailsApi.getAll();
-            // Optional: Sort trails here if you want a default order for client-side filtering
-            return trails.sort((a, b) => a.name.localeCompare(b.name));
+            const trails = await trailsApi.getAll(options?.userLatitude, options?.userLongitude);
+            // No need to sort here if the backend already sorts by distance
+            // If no user location, you can still sort by name as a default
+            if (!options?.userLatitude || !options?.userLongitude) {
+                return trails.sort((a, b) => a.name.localeCompare(b.name));
+            }
+            
+            return trails; // Backend will return them sorted by distance
         },
         retry: 1,
-        throwOnError: true // This will propagate errors to React Query's error handling
+        throwOnError: true,
     });
 }

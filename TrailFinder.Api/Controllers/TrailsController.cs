@@ -14,13 +14,13 @@ using TrailFinder.Core.Interfaces.Services;
 namespace TrailFinder.Api.Controllers;
 
 /// <summary>
-/// Controller responsible for handling trail-related API operations.
+///     Controller responsible for handling trail-related API operations.
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class TrailsController : BaseApiController
 {
-    private readonly ILogger<TrailsController> _logger;
+    private new readonly ILogger<TrailsController> _logger;
     private readonly IMediator _mediator;
     private readonly ISupabaseStorageService _storageService;
 
@@ -37,11 +37,22 @@ public class TrailsController : BaseApiController
     }
 
     [HttpGet("{trailSlug}")]
-    public async Task<ActionResult<TrailDto>> GetTrailBySlug(string trailSlug)
+    public async Task<ActionResult<TrailListItemDto>> GetTrailBySlug(
+        string trailSlug,
+        [FromQuery] double? userLatitude,
+        [FromQuery] double? userLongitude
+    )
     {
         try
         {
-            var result = await _mediator.Send(new GetTrailBySlugQuery(trailSlug));
+            var trailSlugQuery = new GetTrailBySlugQuery
+            {
+                Slug = trailSlug,
+                UserLatitude = userLatitude,
+                UserLongitude = userLongitude
+            };
+            
+            var result = await _mediator.Send(trailSlugQuery);
             return result != null
                 ? Ok(result)
                 : NotFound();
@@ -59,7 +70,7 @@ public class TrailsController : BaseApiController
     }
 
     [HttpGet("{trailId:guid}")]
-    public async Task<ActionResult<TrailDto?>> GetTrailById(Guid trailId)
+    public async Task<ActionResult<TrailListItemDto?>> GetTrailById(Guid trailId)
     {
         try
         {
@@ -76,16 +87,46 @@ public class TrailsController : BaseApiController
         }
     }
 
+    // GET api/trails
+    // GET api/trails?userLatitude=...&userLongitude=...
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TrailDto>>> GetAllTrails()
+    public async Task<ActionResult<List<TrailListItemDto>>> GetAllTrails(
+        [FromQuery] double? userLatitude,
+        [FromQuery] double? userLongitude
+    )
     {
         try
         {
-            var allTrails = await _mediator.Send(new GetTrailsQuery());
-            return Ok(allTrails);
+            var query = new GetTrailsQuery
+            {
+                UserLatitude = userLatitude,
+                UserLongitude = userLongitude
+            };
+
+            var trails = await _mediator.Send(query);
+            return Ok(trails);
+        }
+        catch (TrailNotFoundException ex)
+        {
+            // Catch specific custom exceptions and map them to appropriate HTTP responses.
+            return NotFound(new ErrorResponse { Message = ex.Message });
+        }
+        catch (ValidationException ex) // Catches validation errors from the pipeline
+        {
+            // If you have a custom validation error handling middleware, it might catch this.
+            // Otherwise, you can handle it explicitly here.
+            return BadRequest(new ErrorResponse
+            {
+                Message = "Validation failed",
+                Details = ex.Errors
+                    .Select(e => e.ErrorMessage)
+                    .ToString()
+            });
         }
         catch (Exception ex)
         {
+            // Catch any other unexpected exceptions.
+            // HandleException() should log the error and return a generic 500 Internal Server Error.
             return HandleException(ex);
         }
     }
@@ -147,7 +188,7 @@ public class TrailsController : BaseApiController
             return HandleException(ex);
         }
     }
-    
+
     // [HttpPost]
     // public async Task<ActionResult<int>> Create(CreateTrailDto dto)
     // {
@@ -155,7 +196,7 @@ public class TrailsController : BaseApiController
     //     var trailId = await _mediator.Send(command);
     //     return Ok(trailId);
     // }
-    
+
     [HttpPost("trails")]
     public async Task<IActionResult> CreateTrail(
         [FromBody] CreateTrailDto createTrailDto
@@ -175,7 +216,7 @@ public class TrailsController : BaseApiController
                 createTrailDto.RouteGeom,
                 createTrailDto.CreatedBy
             );
-            
+
             await _mediator.Send(createTrailCommand);
 
             return NoContent(); // Or return Ok(); if you prefer

@@ -1,4 +1,5 @@
 using TrailFinder.Core.DTOs.Gpx;
+using TrailFinder.Core.DTOs.GpxFile;
 
 namespace TrailFinder.Core.DTOs.Location.Response;
 

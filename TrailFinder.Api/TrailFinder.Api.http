@@ -10,7 +10,7 @@ GET {{hostAddress}}/api/trails/{{trailId}}
 Accept: application/json
 
 ### Get a specific trail by slug
-GET {{hostAddress}}/api/trails/esja-ultra-marathon
+GET {{hostAddress}}/api/trails/esja-ultra-marathon-43
 Accept: application/json
 
 ### Get all races
@@ -73,24 +73,24 @@ Accept: application/json
 ### Upload GPX file for a specific trail
 # Replace {{trailId}} with an actual valid Trail ID
 # Replace path/to/your/file.gpx with the actual local path to a GPX file
-POST {{hostAddress}}/api/trails/{{trailId}}/gpx-files/upload
+POST {{hostAddress}}/api/trails/{{trailId}}/gpx-file/upload
 Content-Type: multipart/form-data; boundary=----------Boundary12345
 
 ------------Boundary12345
 Content-Disposition: form-data; name="file"; filename="laugavegur-ultra.gpx"
 Content-Type: application/gpx+xml
 
-< C:\dev\trailfinder\TrailFinder.DB\supabase\seeds\gpx-files\laugavegur-ultra.gpx
+< C:\dev\trailfinder\TrailFinder.DB\supabase\seeds\gpx-file\laugavegur-ultra.gpx
 ------------Boundary12345--
 
 
 ### Get GPX file metadata for a specific trail
 # This fetches the metadata stored in your gpx_files table // TODO: add this endpoint
-GET {{hostAddress}}/api/trails/{{trailId}}/gpx-files/metadata
+GET {{hostAddress}}/api/trails/{{trailId}}/gpx-file/metadata
 Accept: application/json
 
 
 ### Download GPX file for a specific trail
 # This fetches the actual GPX file content from Supabase Storage
-GET {{hostAddress}}/api/trails/{{trailId}}/gpx-files/download
+GET {{hostAddress}}/api/trails/{{trailId}}/gpx-file/download
 Accept: application/gpx+xml

@@ -6,7 +6,7 @@ using TrailFinder.Core.Interfaces.Repositories;
 
 namespace TrailFinder.Application.Features.Trails.Queries.GetTrailBySlug;
 
-public class GetTrailBySlugQueryHandler : IRequestHandler<GetTrailBySlugQuery, TrailDto?>
+public class GetTrailBySlugQueryHandler : IRequestHandler<GetTrailBySlugQuery, TrailDetailDto?>
 {
     private readonly ITrailRepository _trailRepository;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public class GetTrailBySlugQueryHandler : IRequestHandler<GetTrailBySlugQuery, T
     }
 
 
-    public async Task<TrailDto?> Handle(
+    public async Task<TrailDetailDto?> Handle(
         GetTrailBySlugQuery request,
         CancellationToken cancellationToken)
     {
@@ -31,6 +31,6 @@ public class GetTrailBySlugQueryHandler : IRequestHandler<GetTrailBySlugQuery, T
             throw new TrailNotFoundException(request.Slug);
         }
         
-        return _mapper.Map<TrailDto>(trail);
+        return _mapper.Map<TrailDetailDto>(trail);
     }
 }

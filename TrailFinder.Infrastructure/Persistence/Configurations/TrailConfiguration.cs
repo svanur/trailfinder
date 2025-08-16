@@ -65,7 +65,7 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
 
         builder.Property(t => t.RouteGeom)
             .HasColumnName("route_geom")
-            .HasColumnType("geometry(LineStringZ, 4326)") // Changed from LineString to LineStringZ
+            .HasColumnType("geometry(LineStringZ, 4326)")
             .IsRequired(false);
         
         // Timestamps

@@ -10,6 +10,7 @@ public class DifficultyAnalysisInputBuilder
     private double _elevationGain;
     private TerrainType _terrainType;
     private RouteType _routeType;
+    private double _verticalRatio;
 
     public DifficultyAnalysisInputBuilder WithTotalDistance(double totalDistance)
     {
@@ -34,6 +35,12 @@ public class DifficultyAnalysisInputBuilder
         _routeType = routeType;
         return this;
     }
+    
+    public DifficultyAnalysisInputBuilder WithVerticalRatio(double verticalRatio)
+    {
+        _verticalRatio = verticalRatio;
+        return this;
+    }
 
     public DifficultyAnalysisInput Build()
     {
@@ -44,6 +51,7 @@ public class DifficultyAnalysisInputBuilder
         return new DifficultyAnalysisInput(
             _totalDistance,
             _elevationGain,
+            _verticalRatio,
             _terrainType,
             _routeType
         );

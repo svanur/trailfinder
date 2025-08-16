@@ -1,6 +1,6 @@
 // TrailFinder.Website\src\components\LocationPermissionModal.tsx
 import {Modal, Stack, Title, Text, Button, Center, Divider} from '@mantine/core';
-import { IconRefresh, IconInfoCircle } from '@tabler/icons-react';
+import { IconRefresh } from '@tabler/icons-react';
 
 interface LocationPermissionModalProps {
     opened: boolean;
@@ -71,8 +71,7 @@ export function LocationPermissionModal({ opened, onClose }: LocationPermissionM
                 </Text>
                 <Text>
                     Ef ekkert gerist, þá getur verið að það sé alveg slökkt á staðsetningarleyfinu. 
-                    Smelltu á <IconInfoCircle size={16} stroke={1.5} /> táknið til vinstri við address línuna, 
-                    þar er hægt að breyta stillingunni.
+                    Þú þarft að fara í stillingar vafrans og virkja staðsetningarleyfið.
                 </Text>
 
                 <Center mt="md">

@@ -48,22 +48,20 @@ async function printTheList() {
         missingSlugs.forEach(slug => {
             console.log(slug);
         })
-
-
-        const headingWidth = 15; 
-        const labelWidth = 3; 
-        console.log(' ');
-        console.log(`${padLabel(`GPX files:`, headingWidth)} ${padLabel(`${files.length}`, labelWidth)} ${getDashes(files.length)}`);
-        console.log(`${padLabel(`Trail & GPX:`, headingWidth)} ${padLabel(`${files.length - missingTrailCount}`, labelWidth)} ${getDashes(files.length - missingTrailCount)}`);
-        console.log(`${padLabel(`Missing trails:`, headingWidth)} ${padLabel(`${missingTrailCount}`, labelWidth)} ${getDashes(missingTrailCount)}`);
-        console.log(' ');
-
     }
+
+    const headingWidth = 15;
+    const labelWidth = 3;
+    console.log(`${padLabel(`GPX files:`, headingWidth)} ${padLabel(`${files.length}`, labelWidth)} ${getDashes(files.length)}`);
+    console.log(`${padLabel(`Trail & GPX:`, headingWidth)} ${padLabel(`${files.length - missingTrailCount}`, labelWidth)} ${getDashes(files.length - missingTrailCount)}`);
+    console.log(`${padLabel(`Missing trails:`, headingWidth)} ${padLabel(`${missingTrailCount}`, labelWidth)} ${getDashes(missingTrailCount)}`);
+    console.log(' ');
+
 }
 
 async function main() {
     console.log(' ');
-    console.log('All Trails having gpx file bot no entry in trails table');
+    console.log('Trails having a gpx file but no entry in trails table');
     try {
         await printTheList();
     } catch (error) {
