@@ -155,7 +155,7 @@ VALUES
     (gen_random_uuid(), 'Hafnarfjall Ultra fjölskylduhlaup', 'hafnarfjall-ultra-fjolskylduhlaup', 'Fjölskylduhlaupið í Hafnarfjall Ultra seríunni', 2300, 167, 'easy', 'outAndBack','rolling','mixed',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Hafnarfjall Ultra 1 tindur', 'hafnarfjall-ultra-tindur', '1 tindur. Keppnisleið í Hafnarfjall Ultra seríunni', 14400, 912, 'moderate', 'outAndBack','mountainous','mixed',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar', 'hafnarfjall-ultra-sjo-tindar', '7 tindar. Keppnisleið í Hafnarfjall Ultra seríunni', 22700,1377, 'hard', 'outAndBack','mountainous','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar og tveir dalir', 'hafnarfjall-ultra-sjo-tindar-og-dalir', '7 tindar og dalir. Keppnisleið í Hafnarfjall Ultra seríunni', 33000, 2453,  'extreme', 'unknown','unknown','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar og tveir dalir', 'hafnarfjall-ultra-sjo-tindar-og-dalir', '7 tindar og dalir. Keppnisleið í Hafnarfjall Ultra seríunni', 33000, 2453,  'extreme', 'outAndBack','mountainous','mixed',  seed_created_by, NOW()),
     
     (gen_random_uuid(), 'Bláfellshringur', 'blafellshringur', 'Hringur í kringum Bláfell, við Hvítárvatn.', 37000, 437, 'hard', 'circular','hilly','trail',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Tunguheiði', 'tunguheidi', 'Gömul póstleið á milli Bíldudals og Tálknafjarðar. Leiðin er að mestu vörðuð með fínum stígum Tálknafjarðarmegin en sumsstaðar mjög grýtt undirlag.', 13200, 543, 'hard', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
@@ -189,12 +189,12 @@ VALUES
     (gen_random_uuid(), 'Flensborgarhlaupið, 5km', 'flensborgarhlaupid-5', '', 5120, 44, 'easy', 'pointToPoint','rolling','paved',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Flensborgarhlaupið, 10km', 'flensborgarhlaupid-10', '', 10200, 114, 'easy', 'pointToPoint','rolling','paved',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Pósthlaupið 7km', 'posthlaupid-7', '7 km leið frá Búðardalsflugvelli á Kambsnesi yfir í Búðardal.', 7000, 67, 'easy', 'pointToPoint','unknown','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Pósthlaupið 7km', 'posthlaupid-7', '7 km leið frá Búðardalsflugvelli á Kambsnesi yfir í Búðardal.', 7000, 67, 'easy', 'pointToPoint','flat','mixed',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Pósthlaupið 12km', 'posthlaupid-12', '12 km hlaupið hefst í malarnámunni skammt frá veiðihúsinu við Haukadalsá.', 12010, 134, 'moderate', 'pointToPoint','rolling','mixed',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Pósthlaupið 26km', 'posthlaupid-26', '26km hlaupið hefst við Kirkjufellsrétt, nálægt bænum Smyrlhóli í Haukadal.', 26000, 176, 'moderate', 'pointToPoint','rolling','mixed',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Pósthlaupið 50km', 'posthlaupid-50', ' Fyrstu 15 km hlaupsins eru nokkuð á fótinn en eftir það er leiðin meira og minna niður á við eða flöt. Hækkunin er samtals um 600 m og hæsti punktur er í Haukadalsskarði.', 50000, 600, 'hard', 'pointToPoint','rolling','mixed',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Hjartadagshlaupið, 5km', 'hjartadagshlaupid-5', '', 5000, 0, 'unknown', 'unknown','unknown','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hjartadagshlaupið, 5km', 'hjartadagshlaupid-5', '', 5000, 0, 'easy', 'outAndBack','flat','paved',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Hjartadagshlaupið, 10km', 'hjartadagshlaupid-10', '', 10350, 56, 'easy', 'outAndBack','flat','paved',  seed_created_by, NOW()),
 
     (gen_random_uuid(), 'Hleðsluhlaupið, 5km', 'hledsluhlaupid-5', '', 5400, 29, 'easy', 'outAndBack','flat','paved',  seed_created_by, NOW()),
@@ -270,7 +270,7 @@ VALUES
     (gen_random_uuid(), 'Vitahlaupið, 6km', 'vitahlaupid-6', '', 6260, 13, 'easy', 'pointToPoint','flat','mixed',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Vitahlaupið, 15km', 'vitahlaupid-15', '', 15500, 35, 'moderate', 'pointToPoint','flat','mixed',  seed_created_by, NOW()),
     
-    ( laugavegur_trail_id, 'Laugavegur Ultra', 'laugavegur-ultra', 'Laugavegshlaupið er 55 km utanvegahlaup en Laugavegurinn tengir saman Landmannalaugar og Þórsmörk á sunnanverðu hálendi Íslands, tvær sannkallaðar náttúruperlur. Göngugarpar eru venjulega 4 daga á leið sinni um Laugaveginn en hröðustu hlaupararnir fara leiðina á 4-5 klukkustundum.', 53000, 1293, 'unknown', 'unknown','unknown','trail', seed_created_by, NOW()
+    ( laugavegur_trail_id, 'Laugavegur Ultra', 'laugavegur-ultra', 'Laugavegshlaupið er 55 km utanvegahlaup en Laugavegurinn tengir saman Landmannalaugar og Þórsmörk á sunnanverðu hálendi Íslands, tvær sannkallaðar náttúruperlur. Göngugarpar eru venjulega 4 daga á leið sinni um Laugaveginn en hröðustu hlaupararnir fara leiðina á 4-5 klukkustundum.', 53000, 1293, 'hard', 'pointToPoint','hilly','trail', seed_created_by, NOW()
 ) ON CONFLICT (slug) DO NOTHING;
 
 ---
