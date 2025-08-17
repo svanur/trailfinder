@@ -1,28 +1,45 @@
 // src/pages/TrailDetails.tsx
 
-import { useParams, useNavigate } from 'react-router-dom';
-import { useTrail } from '../hooks/useTrail';
-import { Container, Title, Text, Group, Stack, Badge, Tooltip, Card, Button, Divider
-    //, Menu, ActionIcon 
+import {useNavigate, useParams} from 'react-router-dom';
+import {useTrail} from '../hooks/useTrail';
+import {
+    ActionIcon,
+    Badge,
+    Box,
+    Button,
+    Card,
+    Container,
+    Divider,
+    Group,
+    Menu,
+    Stack,
+    Text,
+    Title,
+    Tooltip
 } from '@mantine/core';
 import {
-    IconRuler, IconMountain, IconMapPin, 
-    //, IconQrcode, IconShare, IconBrandFacebook, IconBrandTwitter, 
-    //IconSun 
+    IconBrandFacebook, IconBrandTelegram,
+    IconBrandWhatsapp,
+    IconDotsVertical,
+    IconDownload,
+    IconLink,
+    IconMapPin,
+    IconMountain, IconQrcode,
+    IconRuler,
 } from '@tabler/icons-react';
 
-import { TrailLoader } from '../components/TrailLoader';
-import { useEffect } from 'react';
-import { TrailNotFoundError } from "../types/api.ts";
+import {TrailLoader} from '../components/TrailLoader';
+import {useEffect} from 'react';
+import {TrailNotFoundError} from "../types/api.ts";
 
 import {
+    getDifficultyLevelTranslation,
     getRouteTypeIcon,
     getRouteTypeTranslation,
-    getDifficultyLevelTranslation,
-    getTerrainTypeTranslation,
-    getSurfaceTypeTranslation
+    getSurfaceTypeTranslation,
+    getTerrainTypeTranslation
 } from '../utils/TrailUtils';
-import { useUserLocation } from '../hooks/useUserLocation';
+import {useUserLocation} from '../hooks/useUserLocation';
 import TrailGpxDownload from "../components/TrailGpxDownload.tsx";
 
 export function TrailDetails() {
@@ -32,7 +49,7 @@ export function TrailDetails() {
     // Get user location
     const userLocation = useUserLocation();
 
-    const { data: trail, isLoading, error } = useTrail(
+    const {data: trail, isLoading, error} = useTrail(
         {
             slug: slug !== undefined ? slug : '',
             userLatitude: userLocation.latitude,
@@ -50,12 +67,12 @@ export function TrailDetails() {
 
     // Simplified loading check
     if (isLoading) {
-        return <TrailLoader />;
+        return <TrailLoader/>;
     }
     
     if (isTrailSpecificError || error || !trail) {
         return (
-            <Container ta="center" style={{ padding: '4rem 0' }}>
+            <Container ta="center" style={{padding: '4rem 0'}}>
                 <Title order={2}>Engin gögn fundust!</Title>
                 <Text mt="md">Einhver villa kom upp og engar leiðir fundust eða slóðin er bara ekki til.</Text>
                 <Button mt="lg" onClick={() => navigate('/')}>Aftur á forsíðu</Button>
@@ -82,13 +99,43 @@ export function TrailDetails() {
 
     //TODO: reconsider:
     trail.distanceToUserKm = trail.distanceToUserKm || 0; // Set rhw default value to 0 if undefined
-    
-    // TODO: Implement actual QR code generation logic later
-    //const handleGenerateQrCode = () => { /* ... */ };
-    // TODO: Implement actual sharing logic later
-    //const handleShareFacebook = () => { /* ... */ };
-    //const handleShareTwitter = () => { /* ... */ };
-    
+
+    const shareOptions = [
+        {
+            icon: IconBrandWhatsapp,
+            label: 'WhatsApp',
+            onClick: () => {
+                const text = `Skoðaðu þessa leið af hlaupaleidir.is: ${trail.name} ${window.location.href}`;
+                window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+            }
+        },
+        {
+            icon: IconBrandFacebook,
+            label: 'Facebook',
+            onClick: () => {
+                const url = encodeURIComponent(window.location.href);
+                const title = encodeURIComponent(`Skoðaðu þessa leið af hlaupaleidir.is: ${trail.name}`);
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&t=${title}`, '_blank');
+            }
+        },
+        {
+            icon: IconBrandTelegram,
+            label: 'Telegram',
+            onClick: () => {
+                const text = `Skoðaðu þessa leið af hlaupaleidir.is: ${trail.name} ${window.location.href}`;
+                window.open(`https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(text)}`, '_blank');
+            }
+        },
+        {
+            icon: IconLink,
+            label: 'Afrita hlekk',
+            onClick: () => {
+                navigator.clipboard.writeText(window.location.href)
+                    .then(() => alert('Hlekkur afritaður!'));
+            }
+        }
+    ];
+
     return (
         <Container size="lg">
             {/* Removed: div with {...handlers} and overflowX: 'hidden' */}
@@ -97,11 +144,14 @@ export function TrailDetails() {
 
                 {/* Badges with Translations */}
                 <Group gap="xs">
-                    <Tooltip label="Hvernig er leiðin?" position="bottom" offset={2} arrowOffset={14} arrowSize={4} withArrow>
+                    <Tooltip label="Hvernig er leiðin?" position="bottom" offset={2} arrowOffset={14} arrowSize={4}
+                             withArrow>
                         <Badge color="blue">{getDifficultyLevelTranslation(trail.difficultyLevel)}</Badge></Tooltip>
-                    <Tooltip label="Hvernig er landslagið?" position="bottom" offset={2} arrowOffset={14} arrowSize={4} withArrow>
+                    <Tooltip label="Hvernig er landslagið?" position="bottom" offset={2} arrowOffset={14} arrowSize={4}
+                             withArrow>
                         <Badge color="grape">{getTerrainTypeTranslation(trail.terrainType)}</Badge></Tooltip>
-                    <Tooltip label="Malbik eða mói?" position="bottom" offset={2} arrowOffset={14} arrowSize={4} withArrow>
+                    <Tooltip label="Malbik eða mói?" position="bottom" offset={2} arrowOffset={14} arrowSize={4}
+                             withArrow>
                         <Badge color="teal">{getSurfaceTypeTranslation(trail.surfaceType)}</Badge></Tooltip>
                 </Group>
 
@@ -110,7 +160,7 @@ export function TrailDetails() {
                     <Group gap="xl" wrap="wrap">
                         {/* Vegalengd (Distance) */}
                         <Group>
-                            <IconRuler size={20} />
+                            <IconRuler size={20}/>
                             <div>
                                 <Text size="sm" c="dimmed">Vegalengd</Text>
                                 <Text>{trail.distanceKm.toFixed(1)} km</Text>
@@ -119,7 +169,7 @@ export function TrailDetails() {
 
                         {/* Hækkun (Elevation) */}
                         <Group>
-                            <IconMountain size={20} />
+                            <IconMountain size={20}/>
                             <div>
                                 <Text size="sm" c="dimmed">Hækkun</Text>
                                 <Text>{trail.elevationGainMeters} m</Text>
@@ -128,7 +178,7 @@ export function TrailDetails() {
 
                         {/* Tegund leiðar (Route Type) */}
                         <Group>
-                            <DynamicRouteIcon size={20} />
+                            <DynamicRouteIcon size={20}/>
                             <div>
                                 <Text size="sm" c="dimmed">Tegund leiðar</Text>
                                 <Text>{getRouteTypeTranslation(trail.routeType)}</Text>
@@ -138,7 +188,7 @@ export function TrailDetails() {
                         {/* Fjarlægð leiðar frá staðsetningu notanta */}
                         {trail.distanceToUserKm > 0 && (
                             <Group>
-                                <IconMapPin size={20} />
+                                <IconMapPin size={20}/>
                                 <div>
                                     <Text size="sm" c="dimmed">Fjarlægð að leið</Text>
                                     <Text>{trail.distanceToUserKm.toFixed(1)} km</Text>
@@ -146,69 +196,87 @@ export function TrailDetails() {
                             </Group>
                         )}
 
-                        {/* QR Code, Social Sharing, and GPX Icons - Pushed to the right */}
                         <Group ml="auto" gap="xs">
-
-                            {/* GPX Download Icon (Conditional) */}
+                            {/* GPX download button - only visible on larger screens */}
                             {trail.routeGeom != null && (
-                                <div className="contents">
+                                <Box hiddenFrom="md">
                                     <TrailGpxDownload trail={trail} />
-                                </div>
+                                </Box>
                             )}
 
-                            {/* QR Code Icon 
-                            <ActionIcon
-                                variant="default"
-                                size="lg"
-                                radius="md"
-                                aria-label="Skanna QR kóða"
-                                onClick={handleGenerateQrCode}
-                            >
-                                <IconQrcode style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                            </ActionIcon>
-                            */}
-
-                            {/* Share Menu Icon 
+                            {/* Actions menu */}
                             <Menu shadow="md" width={200}>
                                 <Menu.Target>
                                     <ActionIcon
                                         variant="default"
                                         size="lg"
-                                        radius="md"
-                                        aria-label="Deila leiðinni"
+                                        aria-label="Aðgerðir"
                                     >
-                                        <IconShare style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                        <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={1.5} />
                                     </ActionIcon>
                                 </Menu.Target>
 
                                 <Menu.Dropdown>
+                                    <Menu.Label>Aðgerðir</Menu.Label>
+
+                                    {/* GPX download option - only visible on mobile */}
+                                    {trail.routeGeom != null && (
+                                        <Box visibleFrom="md">
+                                            <Menu.Item
+                                                leftSection={<IconDownload size={14} />}
+                                                onClick={() => document.querySelector<HTMLButtonElement>('[data-gpx-download]')?.click()}
+                                            >
+                                                Hlaða niður GPX
+                                            </Menu.Item>
+                                        </Box>
+                                    )}
+
+                                    <Menu.Item
+                                        leftSection={<IconQrcode size={14} />}
+                                        onClick={() => document.querySelector<HTMLButtonElement>('[data-qr-code]')?.click()}
+                                    >
+                                        Sýna QR kóða
+                                    </Menu.Item>
+
+                                    {/* Share options */}
+                                    <Menu.Divider />
                                     <Menu.Label>Deila</Menu.Label>
-                                    <Menu.Item leftSection={<IconBrandFacebook size={14} />} onClick={handleShareFacebook}>
-                                        Facebook
-                                    </Menu.Item>
-                                    <Menu.Item leftSection={<IconBrandTwitter size={14} />} onClick={handleShareTwitter}>
-                                        Twitter
-                                    </Menu.Item>
+                                    {shareOptions.map((option) => (
+                                        <Menu.Item
+                                            key={option.label}
+                                            leftSection={<option.icon size={14} />}
+                                            onClick={option.onClick}
+                                        >
+                                            {option.label}
+                                        </Menu.Item>
+                                    ))}
                                 </Menu.Dropdown>
                             </Menu>
-                            */}
-                            
                         </Group>
+
+
                     </Group>
                 </Card>
 
                 {/* Description Card */}
                 {trail.description !== "" && (
-                <Card withBorder>
-                    <Text size="lg" fw={500} mb="md">Um hlaupaleiðina</Text>
-                    <Text>{trail.description}</Text>
-                </Card>
+                    <Card withBorder>
+                        <Text size="lg" fw={500} mb="md">Um hlaupaleiðina</Text>
+                        <Text>{trail.description}</Text>
+                    </Card>
                 )}
 
                 {/* Elevation Graph Placeholder */}
                 <Card withBorder>
                     <Text size="lg" fw={500} mb="md">Hæðarprófíll</Text>
-                    <div style={{ height: 200, backgroundColor: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 4 }}>
+                    <div style={{
+                        height: 200,
+                        backgroundColor: '#f0f0f0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: 4
+                    }}>
                         <Text c="dimmed">Hér kemur hæðarrit (Elevation Graph)</Text>
                     </div>
                 </Card>
@@ -216,7 +284,14 @@ export function TrailDetails() {
                 {/* Route Map Placeholder */}
                 <Card withBorder>
                     <Text size="lg" fw={500} mb="md">Kort af leiðinni</Text>
-                    <div style={{ height: 300, backgroundColor: '#e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 4 }}>
+                    <div style={{
+                        height: 300,
+                        backgroundColor: '#e0e0e0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: 4
+                    }}>
                         <Text c="dimmed">Hér kemur kort af leiðinni (Route Map)</Text>
                     </div>
                 </Card>
@@ -244,7 +319,7 @@ export function TrailDetails() {
                 */}
 
                 {/* Created At - Bottom Right */}
-                <Divider my="md" />
+                <Divider my="md"/>
                 <Group justify="flex-end">
                     <Text size="sm" c="dimmed">
                         Bætt við: {trailAddedDate}

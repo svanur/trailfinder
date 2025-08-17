@@ -4,7 +4,6 @@ import { ActionIcon, Loader } from '@mantine/core';
 import { IconDownload } from '@tabler/icons-react';
 import { useGpxStorage } from '../hooks/useGpxStorage';
 
-// --- Data interfaces for the trail and GPX data ---
 interface TrailGpxDownloadProps {
     trail: Trail;
 }

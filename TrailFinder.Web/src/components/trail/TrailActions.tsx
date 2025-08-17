@@ -69,7 +69,7 @@ const TrailActions: React.FC<TrailActionsProps> = ({ trail }) => {
                 label="Deila"
                 onClick={handleShare}
             />
-            
+
             <ActionButton
                 icon={<IconQrcode className="w-5 h-5" />}
                 label="QR kóði"
