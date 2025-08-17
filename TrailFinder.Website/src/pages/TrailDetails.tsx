@@ -6,8 +6,9 @@ import { Container, Title, Text, Group, Stack, Badge, Tooltip, Card, Button, Div
     //, Menu, ActionIcon 
 } from '@mantine/core';
 import {
-    IconRuler, IconMountain, IconMapPin
-    //, IconQrcode, IconShare, IconBrandFacebook, IconBrandTwitter, IconDownload, IconSun 
+    IconRuler, IconMountain, IconMapPin, 
+    //, IconQrcode, IconShare, IconBrandFacebook, IconBrandTwitter, 
+    //IconSun 
 } from '@tabler/icons-react';
 
 import { TrailLoader } from '../components/TrailLoader';
@@ -22,6 +23,7 @@ import {
     getSurfaceTypeTranslation
 } from '../utils/TrailUtils';
 import { useUserLocation } from '../hooks/useUserLocation';
+import TrailGpxDownload from "../components/TrailGpxDownload.tsx";
 
 export function TrailDetails() {
     const { slug } = useParams<{ slug: string }>();
@@ -87,10 +89,6 @@ export function TrailDetails() {
     //const handleShareFacebook = () => { /* ... */ };
     //const handleShareTwitter = () => { /* ... */ };
     
-    // TODO: Implement actual GPX download logic later
-    //const handleDownloadGpx = () => { /* ... */ };
-
-
     return (
         <Container size="lg">
             {/* Removed: div with {...handlers} and overflowX: 'hidden' */}
@@ -151,19 +149,12 @@ export function TrailDetails() {
                         {/* QR Code, Social Sharing, and GPX Icons - Pushed to the right */}
                         <Group ml="auto" gap="xs">
 
-                            {/* GPX Download Icon (Conditional) 
+                            {/* GPX Download Icon (Conditional) */}
                             {trail.routeGeom != null && (
-                                <ActionIcon
-                                    variant="default"
-                                    size="lg"
-                                    radius="md"
-                                    aria-label="Sækja GPX skrá"
-                                    onClick={handleDownloadGpx}
-                                >
-                                    <IconDownload style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                </ActionIcon>
+                                <div className="contents">
+                                    <TrailGpxDownload trail={trail} />
+                                </div>
                             )}
-                            */}
 
                             {/* QR Code Icon 
                             <ActionIcon
