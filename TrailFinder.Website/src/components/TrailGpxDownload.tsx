@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, forwardRef, useImperativeHandle } from 'react';
 import type { Trail } from '@trailfinder/db-types';
 import { ActionIcon, Loader } from '@mantine/core';
 import { IconDownload } from '@tabler/icons-react';
@@ -12,17 +12,15 @@ interface TrailInfo {
     routeGeom: number[][]; // Corrected type to reflect the actual data
 }
 
-const TrailGpxDownload: React.FC<TrailGpxDownloadProps> = ({ trail }) => {
-    // State to track the downloading status
-    const [isDownloading, setIsDownloading] = useState(false);
+// Skilgreinum handle type fyrir ref
+export interface TrailGpxDownloadHandle {
+    handleDownload: () => Promise<void>;
+}
 
-    // Custom hook to fetch GPX content. Assumed to be a stable API.
+const TrailGpxDownload = forwardRef<TrailGpxDownloadHandle, TrailGpxDownloadProps>(({ trail }, ref) => {
+    const [isDownloading, setIsDownloading] = useState(false);
     const { getGpxContent } = useGpxStorage();
 
-    /**
-     * Handles the trail download logic.
-     * Fetches trail data, converts it to GPX XML, and triggers a file download.
-     */
     const handleDownload = async () => {
         setIsDownloading(true);
         try {
@@ -82,10 +80,14 @@ const TrailGpxDownload: React.FC<TrailGpxDownloadProps> = ({ trail }) => {
             console.error('Download failed:', error);
             // Handle error state or show a notification to the user
         } finally {
-            // Reset downloading state regardless of success or failure
             setIsDownloading(false);
         }
     };
+
+    // Gerum handleDownload aðgengilegt í gegnum ref
+    useImperativeHandle(ref, () => ({
+        handleDownload
+    }));
 
     return (
         <ActionIcon
@@ -99,6 +101,8 @@ const TrailGpxDownload: React.FC<TrailGpxDownloadProps> = ({ trail }) => {
             {isDownloading ? <Loader color="white" size="sm" /> : <IconDownload size={24} />}
         </ActionIcon>
     );
-};
+});
+
+TrailGpxDownload.displayName = 'TrailGpxDownload';
 
 export default TrailGpxDownload;

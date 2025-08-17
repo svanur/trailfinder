@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppShell, Text, Container, NavLink as MantineNavLink, Group, useMantineTheme } from '@mantine/core';
 import { IconRun } from "@tabler/icons-react";
 import { BrowserRouter, NavLink as RouterNavLink } from 'react-router-dom';
+import { Notifications } from '@mantine/notifications';
 
 import { AppRoutes } from './AppRoutes.tsx';
 import { MainMenu } from './components/MainMenu.tsx';
@@ -25,6 +26,19 @@ export function App() {
 
     return (
         <QueryClientProvider client={queryClient}>
+            <Notifications
+                position="top-right"
+                zIndex={9999}
+                autoClose={2000}
+                containerWidth={300}
+                style={{
+                    position: 'fixed',
+                    top: 56,
+                    right: 16,
+                    bottom: 'auto',
+                    left: 'auto'
+                }}
+            />
             <BrowserRouter>
                 <AppShell
                     header={{ height: 60 }}

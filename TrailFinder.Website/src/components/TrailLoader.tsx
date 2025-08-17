@@ -31,8 +31,9 @@ export function TrailLoader() {
         "Sveifla fótum", // Swing legs
         "Sveifla höndum", // Swing arms
         "Teygja smá",    // Stretch a little
-        "Draga djúpt andað", // Breathe deeply
+        "Draga djúpt andann", // Breathe deeply
         "Binda skóreimar",   // Tie shoelaces
+        "Rólegt skokk",
     ];
 
     // State to keep track of the current message index

@@ -1,5 +1,6 @@
 // src/pages/TrailDetails.tsx
 
+import { notifications } from '@mantine/notifications';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useTrail} from '../hooks/useTrail';
 import {
@@ -18,18 +19,20 @@ import {
     Tooltip
 } from '@mantine/core';
 import {
-    IconBrandFacebook, IconBrandTelegram,
+    IconBrandFacebook,
+    IconBrandTelegram,
     IconBrandWhatsapp,
     IconDotsVertical,
     IconDownload,
     IconLink,
     IconMapPin,
-    IconMountain, IconQrcode,
+    IconMountain,
+    IconQrcode,
     IconRuler,
 } from '@tabler/icons-react';
 
 import {TrailLoader} from '../components/TrailLoader';
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 import {TrailNotFoundError} from "../types/api.ts";
 
 import {
@@ -40,12 +43,20 @@ import {
     getTerrainTypeTranslation
 } from '../utils/TrailUtils';
 import {useUserLocation} from '../hooks/useUserLocation';
-import TrailGpxDownload from "../components/TrailGpxDownload.tsx";
+import type {TrailGpxDownloadHandle} from "../components/TrailGpxDownload.tsx";
+import type { TrailQrCodeButtonHandle } from '../components/TrailQrCodeButton.tsx';
+import TrailQrCodeButton from '../components/TrailQrCodeButton.tsx';
+import TrailGpxDownload from '../components/TrailGpxDownload.tsx';
+import {useMediaQuery} from "@mantine/hooks";
 
 export function TrailDetails() {
-    const { slug } = useParams<{ slug: string }>();
+    const isMobile = useMediaQuery('(max-width: 768px)');
+    const {slug} = useParams<{ slug: string }>();
     const navigate = useNavigate();
 
+    const downloadButtonRef = useRef<TrailGpxDownloadHandle>(null);
+    const qrCodeButtonRef = useRef<TrailQrCodeButtonHandle>(null);
+    
     // Get user location
     const userLocation = useUserLocation();
 
@@ -56,7 +67,7 @@ export function TrailDetails() {
             userLongitude: userLocation.longitude,
         }
     );
-    
+
     const isTrailSpecificError = error instanceof TrailNotFoundError;
 
     useEffect(() => {
@@ -69,7 +80,7 @@ export function TrailDetails() {
     if (isLoading) {
         return <TrailLoader/>;
     }
-    
+
     if (isTrailSpecificError || error || !trail) {
         return (
             <Container ta="center" style={{padding: '4rem 0'}}>
@@ -79,7 +90,7 @@ export function TrailDetails() {
             </Container>
         );
     }
-
+    
     const trailCreatedAt = new Date(trail.createdAt);
     const options: Intl.DateTimeFormatOptions = { // Explicitly define type for better type-checking
         year: 'numeric',
@@ -105,7 +116,7 @@ export function TrailDetails() {
             icon: IconBrandWhatsapp,
             label: 'WhatsApp',
             onClick: () => {
-                const text = `Skoðaðu þessa leið af hlaupaleidir.is: ${trail.name} ${window.location.href}`;
+                const text = `Skoðaðu þessa leið á hlaupaleidir.is: ${trail.name} ${window.location.href}`;
                 window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
             }
         },
@@ -114,7 +125,7 @@ export function TrailDetails() {
             label: 'Facebook',
             onClick: () => {
                 const url = encodeURIComponent(window.location.href);
-                const title = encodeURIComponent(`Skoðaðu þessa leið af hlaupaleidir.is: ${trail.name}`);
+                const title = encodeURIComponent(`Skoðaðu þessa leið á hlaupaleidir.is: ${trail.name}`);
                 window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&t=${title}`, '_blank');
             }
         },
@@ -122,7 +133,7 @@ export function TrailDetails() {
             icon: IconBrandTelegram,
             label: 'Telegram',
             onClick: () => {
-                const text = `Skoðaðu þessa leið af hlaupaleidir.is: ${trail.name} ${window.location.href}`;
+                const text = `Skoðaðu þessa leið á hlaupaleidir.is: ${trail.name} ${window.location.href}`;
                 window.open(`https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(text)}`, '_blank');
             }
         },
@@ -131,14 +142,22 @@ export function TrailDetails() {
             label: 'Afrita hlekk',
             onClick: () => {
                 navigator.clipboard.writeText(window.location.href)
-                    .then(() => alert('Hlekkur afritaður!'));
+                    .then(() => notifications.show(
+                        {
+                            title: 'Tókst!',
+                            message: 'Hlekkurinn var afritaður',
+                            color: 'green'
+                        }
+                    ));
             }
         }
     ];
 
+    // Reiknum út hvort við eigum að sýna fyrirsögnina: Aðgerðir
+    const shouldShowActionsLabel = trail.routeGeom != null && isMobile;
+
     return (
         <Container size="lg">
-            {/* Removed: div with {...handlers} and overflowX: 'hidden' */}
             <Stack gap="md">
                 <Title order={1}>{trail.name}</Title>
 
@@ -155,7 +174,7 @@ export function TrailDetails() {
                         <Badge color="teal">{getSurfaceTypeTranslation(trail.surfaceType)}</Badge></Tooltip>
                 </Group>
 
-                {/* Trail Overview Card - Now with QR, Share, and GPX icons */}
+                {/* Trail Overview Card */}
                 <Card withBorder>
                     <Group gap="xl" wrap="wrap">
                         {/* Vegalengd (Distance) */}
@@ -196,15 +215,27 @@ export function TrailDetails() {
                             </Group>
                         )}
 
+                        {/* Menu fyrir aðgerðir */}
                         <Group ml="auto" gap="xs">
-                            {/* GPX download button - only visible on larger screens */}
                             {trail.routeGeom != null && (
-                                <Box hiddenFrom="md">
-                                    <TrailGpxDownload trail={trail} />
-                                </Box>
+                                <>
+                                    <Box visibleFrom="md">
+                                        <TrailGpxDownload trail={trail} ref={downloadButtonRef} />
+                                    </Box>
+                                    <Box style={{ display: 'none' }}>
+                                        <TrailGpxDownload trail={trail} ref={downloadButtonRef} />
+                                    </Box>
+                                </>
                             )}
 
-                            {/* Actions menu */}
+                            {/* QR Code button */}
+                            <Box visibleFrom="md">
+                                <TrailQrCodeButton trail={trail} ref={qrCodeButtonRef} />
+                            </Box>
+                            <Box style={{ display: 'none' }}>
+                                <TrailQrCodeButton trail={trail} ref={qrCodeButtonRef} />
+                            </Box>
+
                             <Menu shadow="md" width={200}>
                                 <Menu.Target>
                                     <ActionIcon
@@ -217,26 +248,32 @@ export function TrailDetails() {
                                 </Menu.Target>
 
                                 <Menu.Dropdown>
-                                    <Menu.Label>Aðgerðir</Menu.Label>
+                                    {/* Sýnum 'Aðgerðir' merkið aðeins ef einhver atriði eru sýnileg í valmyndinni */}
+                                    {shouldShowActionsLabel && (
+                                        <Menu.Label>Aðgerðir</Menu.Label>
+                                    )}
 
-                                    {/* GPX download option - only visible on mobile */}
                                     {trail.routeGeom != null && (
-                                        <Box visibleFrom="md">
+                                        <Box hiddenFrom="md">
                                             <Menu.Item
                                                 leftSection={<IconDownload size={14} />}
-                                                onClick={() => document.querySelector<HTMLButtonElement>('[data-gpx-download]')?.click()}
+                                                onClick={() => downloadButtonRef.current?.handleDownload()}
                                             >
                                                 Hlaða niður GPX
                                             </Menu.Item>
                                         </Box>
                                     )}
 
-                                    <Menu.Item
-                                        leftSection={<IconQrcode size={14} />}
-                                        onClick={() => document.querySelector<HTMLButtonElement>('[data-qr-code]')?.click()}
-                                    >
-                                        Sýna QR kóða
-                                    </Menu.Item>
+                                    <Box hiddenFrom="md">
+                                        <Menu.Item
+                                            leftSection={<IconQrcode size={14}/>}
+                                            onClick={() => qrCodeButtonRef.current?.handleQrCode()}
+                                            display={qrCodeButtonRef.current?.isOpened ? 'none' : undefined}
+                                            hiddenFrom="md"
+                                        >
+                                            Sýna QR kóða
+                                        </Menu.Item>
+                                    </Box>
 
                                     {/* Share options */}
                                     <Menu.Divider />
