@@ -48,6 +48,7 @@ import type { TrailQrCodeButtonHandle } from '../components/TrailQrCodeButton.ts
 import TrailQrCodeButton from '../components/TrailQrCodeButton.tsx';
 import TrailGpxDownload from '../components/TrailGpxDownload.tsx';
 import {useMediaQuery} from "@mantine/hooks";
+import TrailMapAndElevation from "../components/TrailMapAndElevation.tsx";
 
 export function TrailDetails() {
     const isMobile = useMediaQuery('(max-width: 768px)');
@@ -302,37 +303,13 @@ export function TrailDetails() {
                         <Text>{trail.description}</Text>
                     </Card>
                 )}
-
-                {/* Elevation Graph Placeholder */}
-                <Card withBorder>
-                    <Text size="lg" fw={500} mb="md">Hæðarprófíll</Text>
-                    <div style={{
-                        height: 200,
-                        backgroundColor: '#f0f0f0',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 4
-                    }}>
-                        <Text c="dimmed">Hér kemur hæðarrit (Elevation Graph)</Text>
-                    </div>
-                </Card>
-
-                {/* Route Map Placeholder */}
-                <Card withBorder>
-                    <Text size="lg" fw={500} mb="md">Kort af leiðinni</Text>
-                    <div style={{
-                        height: 300,
-                        backgroundColor: '#e0e0e0',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 4
-                    }}>
-                        <Text c="dimmed">Hér kemur kort af leiðinni (Route Map)</Text>
-                    </div>
-                </Card>
-
+                
+                {trail.routeGeom != null && (
+                    <Card withBorder>
+                        <TrailMapAndElevation />
+                    </Card>
+                )}
+                
                 {/* Location Details Card 
                 <Card withBorder>
                     <Group mb="md">
