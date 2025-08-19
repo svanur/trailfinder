@@ -13,6 +13,7 @@
     "@emotion/react": "^11.14.0",
     "@mantine/core": "^8.1.2",
     "@mantine/hooks": "^8.1.2",
+    "@mantine/notifications": "^8.2.5",
     "@tabler/icons-react": "^3.34.1",
     "@tanstack/react-query": "^5.81.2",
     "@trailfinder/db-types": "file:../TrailFinder.DB",

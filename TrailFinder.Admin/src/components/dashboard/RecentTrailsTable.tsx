@@ -3,25 +3,26 @@ import { Table, Badge, Card, Text, ActionIcon } from '@mantine/core'; // Added A
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
 import { IconEdit } from '@tabler/icons-react'; // For the Edit icon
-import { Link } from 'react-router-dom'; // For navigation
+import { Link } from 'react-router-dom';
+import {Loading} from "../Loading.tsx"; // For navigation
 
 interface Trail {
     id: string;
     name: string;
-    distance: number; // Corrected from distance_meters based on your table schema
-    elevation_gain: number; // Corrected from elevation_gain_meters
+    distance_meters: number;
+    elevation_gain_meters: number;
     difficulty_level: 'unknown' | 'easy' | 'moderate' | 'hard' | 'extreme';
     created_at: string;
     // route_geom: any; // Not needed for this table
 }
 
 export function RecentTrailsTable() {
-    const { data: recentTrails, isLoading: recentTrailsLoading, error } = useQuery<Trail[]>({ // Added error
+    const { data: recentTrails, isLoading: recentTrailsLoading, error } = useQuery<Trail[]>({
         queryKey: ['recent-trails'],
-        queryFn: async () => {
+        queryFn: async () => { //TODO: replace this supabase query with an API call
             const { data, error } = await supabase
                 .from('trails')
-                .select('id, name, distance, elevation_gain, difficulty_level, created_at') // Select specific fields
+                .select('id, name, distance_meters, elevation_gain_meters, difficulty_level, created_at')
                 .order('created_at', { ascending: false })
                 .limit(5);
 
@@ -31,7 +32,7 @@ export function RecentTrailsTable() {
     });
 
     if (recentTrailsLoading) {
-        return <Text>Hleð inn nýjustu hlaupaleiðum...</Text>;
+        return <Loading text="Augnablik meðan við hlöðum inn nýjustu hlaupaleiðunum..." />;
     }
 
     if (error) {
@@ -39,12 +40,17 @@ export function RecentTrailsTable() {
     }
 
     const getDifficultyColor = (difficulty: Trail['difficulty_level']) => {
-        switch(difficulty) {
-            case 'easy': return 'green';
-            case 'moderate': return 'yellow';
-            case 'hard': return 'orange';
-            case 'extreme': return 'red';
-            default: return 'gray';
+        switch (difficulty) {
+            case 'easy':
+                return 'green';
+            case 'moderate':
+                return 'yellow';
+            case 'hard':
+                return 'orange';
+            case 'extreme':
+                return 'red';
+            default:
+                return 'gray';
         }
     };
 
@@ -66,8 +72,8 @@ export function RecentTrailsTable() {
                         {recentTrails.map((trail) => (
                             <Table.Tr key={trail.id}>
                                 <Table.Td>{trail.name}</Table.Td>
-                                <Table.Td>{trail.distance} km</Table.Td>
-                                <Table.Td>{trail.elevation_gain}m</Table.Td>
+                                <Table.Td>{trail.distance_meters} km</Table.Td>
+                                <Table.Td>{trail.elevation_gain_meters}m</Table.Td>
                                 <Table.Td>
                                     <Badge color={getDifficultyColor(trail.difficulty_level)}>
                                         {trail.difficulty_level}
@@ -78,7 +84,7 @@ export function RecentTrailsTable() {
                                         variant="light"
                                         color="blue"
                                         component={Link}
-                                        to={`/trails/edit/${trail.id}`} // Link to the edit page
+                                        to={`/trails/${trail.id}/edit`} // Link to the edit page
                                         aria-label={`Breyta ${trail.name}`}
                                     >
                                         <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} />

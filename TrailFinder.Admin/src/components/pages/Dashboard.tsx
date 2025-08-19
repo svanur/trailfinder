@@ -1,12 +1,11 @@
 // src/pages/Dashboard.tsx
 import { Grid, Card, Text, Group, Stack, Loader } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '../lib/supabase';
-import { IconRoute, IconUsers } from '@tabler/icons-react';
-
-// Import the new components
-import { RecentTrailsTable } from '../components/dashboard/RecentTrailsTable';
-import { TrailsOverviewMap } from '../components/dashboard/TrailsOverviewMap';
+import { supabase } from '../../lib/supabase';
+import {IconMapPlus, IconRoute, IconUsers} from '@tabler/icons-react';
+import { TrailsOverviewMap } from '../dashboard/TrailsOverviewMap';
+import {RecentTrailsTable} from "../dashboard/RecentTrailsTable.tsx";
+import {Link} from "react-router-dom";
 
 export function Dashboard() {
 
@@ -70,6 +69,38 @@ export function Dashboard() {
               </Group>
             </Card>
           </Grid.Col>
+
+          <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
+            <Link to="/trails/new" style={{ textDecoration: 'none' }}>
+              <Card
+                  withBorder
+                  padding="lg"
+                  // We use the styles prop to apply a hover effect
+                  styles={(theme) => ({
+                    root: {
+                      transition: 'background-color 0.2s ease',
+                      '&:hover': {
+                        backgroundColor: theme.colors.gray[0],
+                        cursor: 'pointer',
+                      },
+                    },
+                  })}
+              >
+                <Group justify="space-between" wrap="nowrap">
+                  <div>
+                    <Text fw={700} size="xl">
+                      Skrá nýja hlaupaleið
+                    </Text>
+                    <Text fw={500} size="sm" mt="xs" c="dimmed">
+                      Búðu til nýja hlaupaleið.
+                    </Text>
+                  </div>
+                  <IconMapPlus size={48} color="var(--mantine-color-green-filled)" />
+                </Group>
+              </Card>
+            </Link>
+          </Grid.Col>
+          
         </Grid>
 
         {/* Recent Trails Table Component */}

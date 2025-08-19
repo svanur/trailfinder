@@ -25,6 +25,7 @@ export interface Trail {
     distanceMeters: number;
     distanceKm: number;
     elevationGainMeters: number;
+    elevationLossMeters: number;
     difficultyLevel: DifficultyLevel;
     routeType: RouteType;
     terrainType: TerrainType;

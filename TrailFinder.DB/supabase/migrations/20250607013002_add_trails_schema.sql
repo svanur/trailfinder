@@ -11,6 +11,7 @@ CREATE TABLE trails (
 
                         distance_meters INTEGER,
                         elevation_gain_meters INTEGER,
+                        elevation_loss_meters INTEGER,
 
                         difficulty_level difficulty_level,
                         route_type route_type,
