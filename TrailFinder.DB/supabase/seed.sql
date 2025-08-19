@@ -157,6 +157,8 @@ VALUES
     (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar', 'hafnarfjall-ultra-sjo-tindar', '7 tindar. Keppnisleið í Hafnarfjall Ultra seríunni', 22700,1377, 'hard', 'outAndBack','mountainous','mixed',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar og tveir dalir', 'hafnarfjall-ultra-sjo-tindar-og-dalir', '7 tindar og dalir. Keppnisleið í Hafnarfjall Ultra seríunni', 33000, 2453,  'extreme', 'outAndBack','mountainous','mixed',  seed_created_by, NOW()),
     
+    (gen_random_uuid(), 'Heiðmerkurhlaupið', 'heidmerkurhlaupid', 'Heiðmerkurhlaupið byrjar við Elliðavatnsbæ og hefðbundinn Ríkishringur hlaupinn.', 12310, 171,  'easy', 'circular','rolling','trail',  seed_created_by, NOW()),
+    
     (gen_random_uuid(), 'Bláfellshringur', 'blafellshringur', 'Hringur í kringum Bláfell, við Hvítárvatn.', 37000, 437, 'hard', 'circular','hilly','trail',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Tunguheiði', 'tunguheidi', 'Gömul póstleið á milli Bíldudals og Tálknafjarðar. Leiðin er að mestu vörðuð með fínum stígum Tálknafjarðarmegin en sumsstaðar mjög grýtt undirlag.', 13200, 543, 'hard', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Jarðvarmahlaup ON', 'jardvarmahlaup-on', '', 12950, 325, 'moderate', 'circular','hilly','trail',  seed_created_by, NOW()),
@@ -258,6 +260,9 @@ VALUES
     
     (gen_random_uuid(), 'Ljósanæturhlaupið, 3km', 'ljosanaeturhlaup-3', '', 3000, 10, 'easy', 'circular','flat','paved',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Ljósanæturhlaupið, 7km', 'ljosanaeturhlaup-7', '', 7470, 103, 'easy', 'circular','flat','paved',  seed_created_by, NOW()),
+
+    (gen_random_uuid(), 'Hausmaraþon og Vormaraþon félags maraþonhlaupara, hálfmaraþon', 'marathon-felags-marathonhlaupara-21', '', 21200, 0, 'easy', 'outAndBack','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hausmaraþon og Vormaraþon félags maraþonhlaupara, maraþon', 'marathon-felags-marathonhlaupara-42', '', 42200, 0, 'hard', 'outAndBack','flat','paved',  seed_created_by, NOW()),
     
     (gen_random_uuid(), 'Þórsgata Volcano Trail Run, 4,5km', 'volcano-trail-run-4', '', 4500, 0, 'easy', 'circular','rolling','trail',  seed_created_by, NOW()),
     (gen_random_uuid(), 'Þórsgata Volcano Trail Run, 12km', 'volcano-trail-run-12', '', 12200, 659, 'moderate', 'circular','hilly','trail',  seed_created_by, NOW()),
