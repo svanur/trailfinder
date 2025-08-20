@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import type { GpxPoint } from '../types/GpxPoint';
 import { Box, LoadingOverlay } from '@mantine/core';
 

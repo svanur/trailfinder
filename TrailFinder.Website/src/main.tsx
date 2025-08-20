@@ -6,6 +6,7 @@ import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@emotion/react';
 import './index.css';
+import 'leaflet/dist/leaflet.css';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);

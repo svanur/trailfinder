@@ -1,16 +1,23 @@
-// TrailFinder.Website\src\components\TrailMapAndElevation.tsx
-
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import { useParams } from 'react-router-dom';
-import { useTrail } from '../hooks/useTrail';
-import LoadingView from './shared/LoadingView';
-import ErrorView from './shared/ErrorView';
-import NotFoundView from './shared/NotFoundView';
-import { useGpxStorage } from '../hooks/useGpxStorage';
-import type { GpxPoint } from '../types/GpxPoint.ts';
-import TrailVisualization from './TrailVisualization.tsx';
+import { Grid, Paper, Title, Center } from '@mantine/core';
+import {TrailMap} from "./TrailMap.tsx";
+import {TrailElevationProfile} from "./TrailElevationProfile.tsx";
+import {useParams} from "react-router-dom";
+import {useTrail} from "../hooks/useTrail.ts";
+import {useGpxStorage} from "../hooks/useGpxStorage.ts";
+import type {GpxPoint} from "../types/GpxPoint.ts";
+import LoadingView from "./shared/LoadingView.tsx";
+import ErrorView from "./shared/ErrorView.tsx";
+import NotFoundView from "./shared/NotFoundView.tsx";
 
-const TrailMapAndElevation: React.FC = () => {
+
+
+/**
+ * Renders a responsive container for trail charts using Mantine UI.
+ * It displays a map and elevation profile side-by-side on larger screens
+ * and stacks them vertically on mobile devices.
+ */
+const TrailCharts: React.FC = () => {
     const { slug } = useParams<{ slug: string }>();
 
     if (!slug) {
@@ -36,7 +43,7 @@ const TrailMapAndElevation: React.FC = () => {
             try {
                 setIsLoadingGpx(true);
                 const trailInfo = await getGpxContent(trail.id);
-                
+
                 if (trailInfo && trailInfo.routeGeom) {
                     // The routeGeom is a LineString where coordinates is an array of [longitude, latitude, elevation]
                     const points = trailInfo.routeGeom.map(
@@ -99,22 +106,43 @@ const TrailMapAndElevation: React.FC = () => {
     }
 
     return (
-        
-            <div className="container mx-auto px-4 py-6">
-                <div className="space-y-4">
-                    
-
-                    {trail.routeGeom != null && parsedGpxData.length > 0 && (
-                        <TrailVisualization
-                            parsedGpxData={parsedGpxData}
-                            hoveredPoint={hoveredPoint}
-                            onMapHover={handleMapHover}
-                            onProfileHover={handleProfileHover}
+        // Mantine's Grid component handles the responsive layout.
+        // On screens with a medium breakpoint (md) and larger, it acts as a row.
+        // On screens smaller than md, it automatically stacks the items vertically.
+        <Grid gutter="md">
+            {/* Trail Map Container */}
+            <Grid.Col span={{ base: 12, md: 9 }}>
+                <Paper shadow="sm" radius="md" p="md" withBorder>
+                    <Title order={3} size="h4" mb="xs">
+                        Trail Map
+                    </Title>
+                    <Center style={{ height: '360px' }}>
+                        <TrailMap
+                            points={parsedGpxData}
+                            onHoverPoint={handleMapHover}
+                            highlightedPoint={hoveredPoint !== null ? parsedGpxData[hoveredPoint] : null}
                         />
-                    )}
-                </div>
-            </div>
+                    </Center>
+                </Paper>
+            </Grid.Col>
+
+            {/* Elevation Profile Container */}
+            <Grid.Col span={{ base: 12, md: 3 }}>
+                <Paper shadow="sm" radius="md" p="md" withBorder>
+                    <Title order={3} size="h4" mb="xs">
+                        Elevation Profile
+                    </Title>
+                    <Center style={{ height: '360px' }}>
+                        <TrailElevationProfile
+                            elevationData={parsedGpxData.map(p => p.elevation)}
+                            onHoverPoint={handleProfileHover}
+                            highlightedIndex={hoveredPoint}
+                        />
+                    </Center>
+                </Paper>
+            </Grid.Col>
+        </Grid>
     );
 };
 
-export default TrailMapAndElevation;
+export default TrailCharts;

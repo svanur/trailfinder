@@ -48,7 +48,7 @@ import type { TrailQrCodeButtonHandle } from '../components/TrailQrCodeButton.ts
 import TrailQrCodeButton from '../components/TrailQrCodeButton.tsx';
 import TrailGpxDownload from '../components/TrailGpxDownload.tsx';
 import {useMediaQuery} from "@mantine/hooks";
-import TrailMapAndElevation from "../components/TrailMapAndElevation.tsx";
+import { TrailMap2 } from '../components/TrailMap2.tsx';
 
 export function TrailDetails() {
     const isMobile = useMediaQuery('(max-width: 768px)');
@@ -306,7 +306,10 @@ export function TrailDetails() {
                 
                 {trail.routeGeom != null && (
                     <Card withBorder>
-                        <TrailMapAndElevation />
+                        <TrailMap2 
+                            slug={trail.slug} 
+                            userLongitude={userLocation.longitude} 
+                            userLatitude={userLocation.latitude} />
                     </Card>
                 )}
                 

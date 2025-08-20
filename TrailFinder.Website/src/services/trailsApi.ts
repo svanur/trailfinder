@@ -1,7 +1,7 @@
 // TrailFinder.Website\src\services\trailsApi.ts
 import { apiClient } from './api';
 import { API_CONFIG } from '../config/api';
-import type { Trail } from '@trailfinder/db-types'; // Your current DB type
+import type { Trail } from '@trailfinder/db-types'; 
 import axios from "axios";
 
 export const trailsApi = {
