@@ -7,7 +7,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    include: ['@tabler/icons-react'],
+    include: [
+      '@tabler/icons-react',
+      './types/database' // Add the relative path to the problematic file here
+    ],
   },
   server: {
     port: 5173,

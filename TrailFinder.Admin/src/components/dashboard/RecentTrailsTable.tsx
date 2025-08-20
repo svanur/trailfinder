@@ -1,11 +1,13 @@
 // src/components/dashboard/RecentTrailsTable.tsx
 import { Table, Badge, Card, Text, ActionIcon } from '@mantine/core'; // Added ActionIcon, Group
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '../../lib/supabase';
 import { IconEdit } from '@tabler/icons-react'; // For the Edit icon
 import { Link } from 'react-router-dom';
 import {Loading} from "../Loading.tsx"; // For navigation
+import {type Trail } from '@trailfinder/db-types';
+import {trailsApi} from "../../services/trailsApi.ts";
 
+/*
 interface Trail {
     id: string;
     name: string;
@@ -15,8 +17,10 @@ interface Trail {
     created_at: string;
     // route_geom: any; // Not needed for this table
 }
+*/
 
 export function RecentTrailsTable() {
+    /*
     const { data: recentTrails, isLoading: recentTrailsLoading, error } = useQuery<Trail[]>({
         queryKey: ['recent-trails'],
         queryFn: async () => { //TODO: replace this supabase query with an API call
@@ -30,6 +34,11 @@ export function RecentTrailsTable() {
             return data as Trail[];
         }
     });
+     */
+    const { data: recentTrails, isLoading: recentTrailsLoading, error } = useQuery<Trail[]>({
+        queryKey: ['recent-trails'],
+        queryFn: () => trailsApi.getAll(),
+    });
 
     if (recentTrailsLoading) {
         return <Loading text="Augnablik meðan við hlöðum inn nýjustu hlaupaleiðunum..." />;
@@ -39,7 +48,7 @@ export function RecentTrailsTable() {
         return <Text c="red">Gat ekki hlaðið nýjustu hlaupaleiðum: {error.message}</Text>;
     }
 
-    const getDifficultyColor = (difficulty: Trail['difficulty_level']) => {
+    const getDifficultyColor = (difficulty: Trail['difficultyLevel']) => {
         switch (difficulty) {
             case 'easy':
                 return 'green';
@@ -72,11 +81,11 @@ export function RecentTrailsTable() {
                         {recentTrails.map((trail) => (
                             <Table.Tr key={trail.id}>
                                 <Table.Td>{trail.name}</Table.Td>
-                                <Table.Td>{trail.distance_meters} km</Table.Td>
-                                <Table.Td>{trail.elevation_gain_meters}m</Table.Td>
+                                <Table.Td>{trail.distanceMeters} km</Table.Td>
+                                <Table.Td>{trail.elevationGainMeters}m</Table.Td>
                                 <Table.Td>
-                                    <Badge color={getDifficultyColor(trail.difficulty_level)}>
-                                        {trail.difficulty_level}
+                                    <Badge color={getDifficultyColor(trail.difficultyLevel)}>
+                                        {trail.difficultyLevel}
                                     </Badge>
                                 </Table.Td>
                                 <Table.Td>

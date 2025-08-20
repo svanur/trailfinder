@@ -36,6 +36,7 @@ export interface Trail {
     endGpxPoint: number | null;
     webUrl: string | null;
     distanceToUserKm: number | null;
+    isActive: boolean;
     gpxFilePath: string | null;
     createdBy: string | null;
     createdAt: string; // ISO date string

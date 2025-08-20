@@ -80,6 +80,11 @@ export const trailsApi = {
         return response.data;
     },
 
+    delete: async (id: string): Promise<void> => {
+        // Perform a soft delete by updating the 'is_active' column to false
+        await apiClient.put(`${API_CONFIG.ENDPOINTS.TRAILS}/${id}`, { is_active: false });
+    },
+    
     uploadGpxFile: async (trailId: string, file: File): Promise<any> => {
         const formData = new FormData();
         formData.append('file', file);
