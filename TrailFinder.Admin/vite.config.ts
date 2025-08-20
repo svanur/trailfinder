@@ -9,7 +9,7 @@ export default defineConfig({
   optimizeDeps: {
     include: [
       '@tabler/icons-react',
-      './types/database' // Add the relative path to the problematic file here
+      '@trailfinder/db-types'
     ],
   },
   server: {
