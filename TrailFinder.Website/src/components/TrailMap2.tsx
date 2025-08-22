@@ -9,7 +9,7 @@ import "leaflet/dist/leaflet.css";
 import {useTrail} from "../hooks/useTrail";
 
 import {
-    CategoryScale,
+    CategoryScale, Chart,
     Chart as ChartJS,
     Legend,
     LinearScale,
@@ -30,6 +30,9 @@ ChartJS.register(
     Legend,
     annotationPlugin
 );
+
+import CrosshairPlugin from 'chartjs-plugin-crosshair';
+Chart.register(CrosshairPlugin);
 
 export type RoutePointTuple = [number, number, number]; // [lon, lat, ele]
 
@@ -145,46 +148,45 @@ export const TrailMap2: React.FC<TrailMapProps> = ({
     const chartOptions: any = {
         responsive: true,
         interaction: {
-            mode: "index",
+            mode: 'index',
             intersect: false,
         },
         plugins: {
+            crosshair: {
+                line: { color: '#888', width: 1 },
+                sync: { enabled: false },
+            },
             tooltip: {
                 enabled: true,
+                displayColors: false,
                 callbacks: {
-                    label: (context: any) => {
-                        const km = distancePoints[context.dataIndex].distance.toFixed(2);
-                        const ele = distancePoints[context.dataIndex].ele.toFixed(0);
-                        return `${km} km — ${ele} m`;
+                    title: (items: any[]) => {
+                        if (!items.length) return '';
+                        const i = items[0].dataIndex;
+                        const km = distancePoints[i].distance.toFixed(2);
+                        return `Vegalengd: ${km} km`;
                     },
-                },
-            },
-            annotation: {
-                annotations: {
-                    hoverLine: {
-                        type: "line",
-                        borderColor: "#666",
-                        borderWidth: 1,
-                        scaleID: "x",
-                        value: null,
+                    label: (context: any) => {
+                        const ele = Math.round(distancePoints[context.dataIndex].ele);
+                        return `Hæð: ${ele} m`;
                     },
                 },
             },
         },
-        // Virkar á mús og touch
         onHover: (event: any) => {
             const chart = event.chart;
             const activePoints = chart.getElementsAtEventForMode(
                 event,
-                "index",
+                'index',
                 { intersect: false },
                 true
             );
+
             if (activePoints.length) {
                 const idx = activePoints[0].index;
-                chart.options.plugins.annotation.annotations.hoverLine.value = chart.data.labels[idx];
-                setHoverIndex(idx);
-                chart.update("none");
+                setHoverIndex(idx); // still drives the Leaflet live marker
+            } else {
+                setHoverIndex(null);
             }
         },
     };
