@@ -1,3 +1,5 @@
+// TrailFinder.Website\src\components\TrailMap2.tsx
+
 import React from "react";
 import {MapContainer, Marker, Polyline, Popup, TileLayer,} from "react-leaflet";
 import {Loader, Paper, Title} from "@mantine/core";
@@ -203,7 +205,7 @@ export const TrailMap2: React.FC<TrailMapProps> = ({
                         pathOptions={{ color: "#1976d2", weight: 4 }}
                     />
                     <Marker position={coords[0]} icon={startIcon}>
-                        <Popup>Byrjun</Popup>
+                        <Popup>Byrjun ({})</Popup>
                     </Marker>
                     <Marker position={coords[coords.length - 1]} icon={endIcon}>
                         <Popup>Endir</Popup>
