@@ -138,9 +138,11 @@ export const TrailMap2: React.FC<TrailMapProps> = ({
             {
                 label: "Hæð (m)",
                 data: distancePoints.map((p) => p.ele),
-                borderColor: "#1976d2",
-                backgroundColor: "rgba(25, 118, 210, 0.1)",
-                tension: 0.3,
+                borderColor: '#1976d2',             // main line color (blue)
+                borderWidth: 3,                     // thinner line (default is usually 3)
+                backgroundColor: '#90caf9',         // lighter blue for fill
+                fill: true,                         // enable area fill
+                fillColor: '#90caf9',               // Fill color
             },
         ],
     };
