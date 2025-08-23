@@ -1,28 +1,43 @@
-// TrailFinder.Website\src\App.tsx
+// src/App.tsx
 
+import { useEffect } from 'react';
+import {
+    MantineProvider,
+    useMantineColorScheme,
+    useMantineTheme,
+} from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AppShell, Text, Container, NavLink as MantineNavLink, Group, useMantineTheme } from '@mantine/core';
-import { IconRun } from "@tabler/icons-react";
 import { BrowserRouter, NavLink as RouterNavLink } from 'react-router-dom';
 import { Notifications } from '@mantine/notifications';
+import { AppShell, Group, Text, Container, NavLink as MantineNavLink } from '@mantine/core';
+import { IconRun } from '@tabler/icons-react';
 
-import { AppRoutes } from './AppRoutes.tsx';
-import { MainMenu } from './components/MainMenu.tsx';
+import { MainMenu } from './components/MainMenu';
+import { AppRoutes } from './AppRoutes';
+import { theme as baseTheme } from './theme';
 
 const queryClient = new QueryClient();
 
 export function App() {
+    return (
+        <MantineProvider
+            theme={baseTheme}
+            defaultColorScheme="light"
+        >
+            <ColorSchemeAutoSetter />
+        </MantineProvider>
+    );
+}
+
+// Sér component sem keyrir auto‑skiptingu + renderar allt appið
+function ColorSchemeAutoSetter() {
+    const { setColorScheme } = useMantineColorScheme();
     const theme = useMantineTheme();
 
-    // Callback to receive user location from the UserLocation component
-    {/* 
-    const handleLocationDetected = (location: { lat: number; lng: number }) => {
-        console.log("User location detected:", location);
-        // Here, you would likely store this location in a global state
-        // (e.g., using React Context, Zustand, Jotai, or Redux)
-        // so that your HomePage or SearchSection can access it to filter/sort trails.
-    };
-     */}
+    useEffect(() => {
+        const hour = new Date().getHours();
+        setColorScheme(hour >= 7 && hour < 19 ? 'light' : 'light'); // hold on with the dark ;)
+    }, [setColorScheme]);
 
     return (
         <QueryClientProvider client={queryClient}>
@@ -36,20 +51,19 @@ export function App() {
                     top: 56,
                     right: 16,
                     bottom: 'auto',
-                    left: 'auto'
+                    left: 'auto',
                 }}
             />
             <BrowserRouter>
-                <AppShell
-                    header={{ height: 60 }}
-                    padding="md"
-                >
+                <AppShell header={{ height: 60 }} padding="md">
                     <AppShell.Header p="xs">
-                        {/* Main header Group with space-between to push location to the right */}
-                        <Group h="100%" px="md" justify="space-between" wrap="nowrap">
-                            {/* Left side: Logo + Main Menu Items */}
-                            <Group gap="lg" wrap="nowrap"> {/* New inner Group for logo and menu */}
-                                {/* Logo/Title */}
+                        <Group
+                            h="100%"
+                            px="md"
+                            justify="space-between"
+                            wrap="nowrap"
+                        >
+                            <Group gap="lg" wrap="nowrap">
                                 <Text size="xl" fw={700} component="div">
                                     <MantineNavLink
                                         component={RouterNavLink}
@@ -62,13 +76,8 @@ export function App() {
                                         c={theme.colors.gray[8]}
                                     />
                                 </Text>
-                                {/* Main Menu Items */}
                                 <MainMenu />
                             </Group>
-
-                            {/* Right side: User Location Component */}
-                            {/* Removed, for now... */}
-                            {/* <UserLocation onLocationDetected={handleLocationDetected} /> */}
                         </Group>
                     </AppShell.Header>
 
