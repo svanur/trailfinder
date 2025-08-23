@@ -18,7 +18,7 @@ const TrailVisualization: React.FC<TrailVisualizationProps> = ({
                                                                }) => (
     <div className="space-y-4">
         <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Kort</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Kort af leiðinni</h2>
             <TrailMap
                 points={parsedGpxData}
                 onHoverPoint={onMapHover}

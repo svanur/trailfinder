@@ -1,7 +1,6 @@
 // components/map/RunningMap.tsx
 //import { useEffect } from 'react';
 import { MapContainer, TileLayer/*, useMap*/ } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
 
 export function RunningMap() {
     return (

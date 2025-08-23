@@ -9,5 +9,5 @@ public record GpxFileMetadataDto(
     string FileName,
     long FileSize,
     string ContentType
-    // Add other relevant metadata
+    // Add other relevant metadata?
 );
