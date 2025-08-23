@@ -33,6 +33,15 @@ ChartJS.register(
 
 import CrosshairPlugin from 'chartjs-plugin-crosshair';
 Chart.register(CrosshairPlugin);
+import runnerUrl from '/run.svg'; // stilltu slóðina eftir þínu alias/uppsetningu
+
+const runnerIcon = L.icon({
+    iconUrl: runnerUrl,
+    iconSize: [28, 28],     // stilltu stærð að smekk
+    iconAnchor: [14, 14],   // miðja ikonsins sitji yfir punktinum
+    popupAnchor: [0, -14],
+    // shadowUrl: ...        // yfirleitt sleppt fyrir tákn
+});
 
 export type RoutePointTuple = [number, number, number]; // [lon, lat, ele]
 
@@ -219,12 +228,9 @@ export const TrailMap2: React.FC<TrailMapProps> = ({
                     {hoverIndex !== null && coords[hoverIndex] && (
                         <Marker
                             position={coords[hoverIndex]}
-                            icon={L.divIcon({
-                                className: "hover-marker",
-                                html: `<div style="background:#ff5722;width:12px;height:12px;border-radius:50%;border:2px solid white"></div>`,
-                                iconSize: [12, 12],
-                                iconAnchor: [6, 6],
-                            })}
+                            icon={runnerIcon}
+                            zIndexOffset={1000}     // alltaf ofan á leiðarlínu
+                            interactive={false}     // kortið taki ekki við events frá þessum
                         />
                     )}
                 </MapContainer>
