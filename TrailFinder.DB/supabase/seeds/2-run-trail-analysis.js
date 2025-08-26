@@ -1,6 +1,9 @@
-const axios = require('axios');
-const { Pool } = require('pg');
+// TrailFinder.DB\supabase\seeds\2-run-trail-analysis.js
 
+import axios from 'axios';
+import pg from 'pg';
+
+const { Pool } = pg;
 const API_BASE_URL = 'http://localhost:5263/api';
 
 const pool = new Pool({

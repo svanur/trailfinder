@@ -11,6 +11,7 @@ CREATE TABLE trails (
 
                         distance_meters INTEGER,
                         elevation_gain_meters INTEGER,
+                        elevation_loss_meters INTEGER,
 
                         difficulty_level difficulty_level,
                         route_type route_type,
@@ -18,6 +19,7 @@ CREATE TABLE trails (
                         surface_type surface_type,
 
                         route_geom geometry(LINESTRINGZ, 4326),
+                        is_active BOOLEAN DEFAULT TRUE NOT NULL,
 
                         created_at TIMESTAMPTZ DEFAULT NOW(),
                         created_by UUID REFERENCES auth.users(id) NOT NULL,
