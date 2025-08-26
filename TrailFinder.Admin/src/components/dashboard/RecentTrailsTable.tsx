@@ -20,21 +20,6 @@ interface Trail {
 */
 
 export function RecentTrailsTable() {
-    /*
-    const { data: recentTrails, isLoading: recentTrailsLoading, error } = useQuery<Trail[]>({
-        queryKey: ['recent-trails'],
-        queryFn: async () => { //TODO: replace this supabase query with an API call
-            const { data, error } = await supabase
-                .from('trails')
-                .select('id, name, distance_meters, elevation_gain_meters, difficulty_level, created_at')
-                .order('created_at', { ascending: false })
-                .limit(5);
-
-            if (error) throw error;
-            return data as Trail[];
-        }
-    });
-     */
     const { data: recentTrails, isLoading: recentTrailsLoading, error } = useQuery<Trail[]>({
         queryKey: ['recent-trails'],
         queryFn: () => trailsApi.getAll(),
@@ -43,9 +28,14 @@ export function RecentTrailsTable() {
     if (recentTrailsLoading) {
         return <Loading text="Augnablik meðan við hlöðum inn nýjustu hlaupaleiðunum..." />;
     }
-
     if (error) {
         return <Text c="red">Gat ekki hlaðið nýjustu hlaupaleiðum: {error.message}</Text>;
+    }
+
+    if (typeof recentTrails !== 'object') {
+        // Code to run if recentTrails is NOT an object
+        console.log("The variable recentTrails is not an object.");
+        return <Text c="red">Gat ekki hlaðið nýjustu hlaupaleiðum.</Text>;
     }
 
     const getDifficultyColor = (difficulty: Trail['difficultyLevel']) => {

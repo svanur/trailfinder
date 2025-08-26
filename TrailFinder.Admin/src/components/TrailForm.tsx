@@ -69,13 +69,13 @@ export function TrailForm({ trailId, onSuccess }: TrailFormProps) {
             name: '',
             slug: '',
             description: '',
-            distance_meters: null,
-            elevation_gain_meters: null,
-            elevation_loss_meters: null,
-            difficulty_level: 'unknown',
-            route_type: 'unknown',
-            terrain_type: 'unknown',
-            surface_type: 'unknown',
+            distanceMeters: null,
+            elevationGainMeters: null,
+            elevationLossMeters: null,
+            difficultyLevel: 'unknown',
+            routeType: 'unknown',
+            terrainType: 'unknown',
+            surfaceType: 'unknown',
         },
         validate: {
             name: isNotEmpty('Trail name is required.'),
@@ -95,9 +95,9 @@ export function TrailForm({ trailId, onSuccess }: TrailFormProps) {
                 form.setValues({
                     ...data,
                     description: data.description || '',
-                    distance_meters: data.distanceMeters,
-                    elevation_gain_meters: data.elevationGainMeters,
-                    //elevation_loss_meters: data.elevationLossMeters,
+                    distanceMeters: data.distanceMeters,
+                    elevationGainMeters: data.elevationGainMeters,
+                    elevationLossMeters: data.elevationLossMeters,
                 });
             } catch (e: any) {
                 setError(e.message || 'Failed to load trail data.');

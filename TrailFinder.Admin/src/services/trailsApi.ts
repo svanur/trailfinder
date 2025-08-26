@@ -10,18 +10,18 @@ export type CreateTrailDto = {
     name: string;
     slug: string;
     description: string | null;
-    distance_meters: number | null;
-    elevation_gain_meters: number | null;
-    elevation_loss_meters: number | null;
-    difficulty_level: 'unknown' | 'easy' | 'moderate' | 'hard' | 'extreme';
-    route_type: 'unknown' | 'circular' | 'outAndBack' | 'pointToPoint';
-    terrain_type: 'unknown' | 'flat' | 'rolling' | 'hilly' | 'mountainous';
-    surface_type: 'unknown' | 'trail' | 'paved' | 'mixed';
+    distanceMeters: number | null;
+    elevationGainMeters: number | null;
+    elevationLossMeters: number | null;
+    difficultyLevel: 'unknown' | 'easy' | 'moderate' | 'hard' | 'extreme';
+    routeType: 'unknown' | 'circular' | 'outAndBack' | 'pointToPoint';
+    terrainType: 'unknown' | 'flat' | 'rolling' | 'hilly' | 'mountainous';
+    surfaceType: 'unknown' | 'trail' | 'paved' | 'mixed';
 };
 
 export const trailsApi = {
     getAll: async (latitude?: number | null, longitude?: number | null): Promise<Trail[]> => {
-        let url = `${API_CONFIG.ENDPOINTS.TRAILS}`;
+        let url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.TRAILS}`;
         const params = new URLSearchParams();
 
         if (latitude !== null && latitude !== undefined && longitude !== null && longitude !== undefined) {
@@ -30,7 +30,7 @@ export const trailsApi = {
         }
 
         if (params.toString()) {
-            url = `${url}?${params.toString()}`;
+            url += `${url}?${params.toString()}`;
         }
 
         const response = await axios.get<Trail[]>(url);

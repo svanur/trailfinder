@@ -1,17 +1,21 @@
-// TrailFinder.DB\supabase\seeds\1-upload-gpx-files.js
-const fs = require('fs');
-const path = require('path');
-const fetch = require('node-fetch');  
-const FormData = require('form-data'); 
-const {Pool} = require('pg');
+// TrailFinder.DB/supabase/seeds/1-upload-gpx-files.js
+
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import fetch from 'node-fetch';
+import FormData from 'form-data';
+import pg from 'pg';
+
+const { Pool } = pg;
+
+// Get the directory name using import.meta.url
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // --- API Configuration ---
-const apiHostAddress = 'http://localhost:5263'; 
-const serviceUserId = '00000000-0000-0000-0000-000000000001'; // Valid UUID for the user performing the upload
-
-// If your API requires authentication, uncomment and configure these:
-// const authToken = 'YOUR_API_AUTH_TOKEN'; // e.g., a JWT token
-// const authHeader = authToken ? { 'Authorization': `Bearer ${authToken}` } : {};
+const apiHostAddress = 'http://localhost:5263';
+const serviceUserId = '00000000-0000-0000-0000-000000000001';
 
 // PostgreSQL connection for querying trail IDs
 const pool = new Pool({
@@ -23,6 +27,7 @@ const pool = new Pool({
 });
 
 async function uploadGpxFilesViaApi() {
+    // Use the new __dirname variable here
     const gpxDir = path.join(__dirname, 'gpx-files');
     const files = fs.readdirSync(gpxDir);
     console.log(`Found ${files.length} GPX files in ${gpxDir}.`);

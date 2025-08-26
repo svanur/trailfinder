@@ -2,7 +2,6 @@
 
 using System.Text.Json.Serialization;
 using NetTopologySuite.Geometries;
-using TrailFinder.Core.DTOs.GpxFile;
 using TrailFinder.Core.Enums;
 
 namespace TrailFinder.Core.DTOs.Trails.Responses;

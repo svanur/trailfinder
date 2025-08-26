@@ -36,8 +36,8 @@ export interface Trail {
     endGpxPoint: number | null;
     webUrl: string | null;
     distanceToUserKm: number | null;
-    isActive: boolean;
     gpxFilePath: string | null;
+    isActive: boolean;
     createdBy: string | null;
     createdAt: string; // ISO date string
     updatedBy: string | null;
@@ -96,12 +96,13 @@ export interface CreateTrailDTO {
     name: string;
     slug: string;
     description: string;
-    distance: number;
-    elevation_gain_meters: number;
-    difficulty_level?: string;
-    route_geom: unknown;
-    start_point: unknown;
-    web_url?: string;
-    gpx_file_path?: string;
+    distanceMeters: number;
+    elevationGainMeters: number;
+    elevationLossMeters: number;
+    difficultyLevel?: string;
+    routeGeom: unknown;
+    startPoint: unknown;
+    webUrl?: string;
+    gpxFilePath?: string;
     createdBy: string | null;
 }

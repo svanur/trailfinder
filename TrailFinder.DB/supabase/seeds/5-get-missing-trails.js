@@ -1,7 +1,10 @@
 // TrailFinder.DB\supabase\seeds\1-upload-gpx-files.js
-const fs = require('fs');
-const path = require('path');
-const {Pool} = require('pg');
+
+import fs from 'fs';
+import path from 'path';
+import pg from 'pg';
+
+const { Pool } = pg;
 
 // PostgreSQL connection for querying trail IDs
 const pool = new Pool({
@@ -13,7 +16,7 @@ const pool = new Pool({
 });
 
 async function printTheList() {
-    const gpxDir = path.join(__dirname, 'gpx-files');
+    const gpxDir = 'gpx-files';
     const files = fs.readdirSync(gpxDir);
     
     console.log(`Found ${files.length} GPX files in ${gpxDir}.`);
