@@ -51,6 +51,12 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
             .HasConversion<int>()
             .IsRequired();
 
+
+        builder.Property(t => t.ElevationLossMeters)
+            .HasColumnName("elevation_loss_meters")
+            .HasConversion<int>()
+            .IsRequired();
+
         builder.Property(t => t.DifficultyLevel)
             .HasColumnName("difficulty_level");
         
@@ -62,6 +68,9 @@ public class TrailConfiguration : IEntityTypeConfiguration<Trail>
         
         builder.Property(t => t.SurfaceType)
             .HasColumnName("surface_type");
+
+        builder.Property(t => t.IsActive)
+            .HasColumnName("is_active");
 
         builder.Property(t => t.RouteGeom)
             .HasColumnName("route_geom")

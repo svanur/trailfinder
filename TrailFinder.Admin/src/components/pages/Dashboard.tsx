@@ -89,10 +89,10 @@ export function Dashboard() {
                 <Group justify="space-between" wrap="nowrap">
                   <div>
                     <Text fw={700} size="xl">
-                      Skrá nýja hlaupaleið
+                      Skrá
                     </Text>
                     <Text fw={500} size="sm" mt="xs" c="dimmed">
-                      Búðu til nýja hlaupaleið.
+                      hlaupaleið
                     </Text>
                   </div>
                   <IconMapPlus size={48} color="var(--mantine-color-green-filled)" />

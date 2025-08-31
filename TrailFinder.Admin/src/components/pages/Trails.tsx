@@ -21,8 +21,9 @@ import {
 import { IconEdit, IconTrash } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { trailsApi } from '../../services/trailsApi';
-import { Loading } from '../Loading'; // Your existing loading component
-import {type Trail } from '@trailfinder/db-types'; // Use the imported type
+import { Loading } from '../Loading';
+import { IconEye, IconEyeClosed } from '@tabler/icons-react';
+import {type Trail } from '@trailfinder/db-types';
 
 const getDifficultyColor = (difficulty: Trail['difficultyLevel']) => {
     switch (difficulty) {
@@ -107,7 +108,9 @@ export function Trails() {
                                     <Table.Th>Nafn</Table.Th>
                                     <Table.Th>Vegalengd</Table.Th>
                                     <Table.Th>Hækkun</Table.Th>
+                                    <Table.Th>Lækkun</Table.Th>
                                     <Table.Th>Erfiðleikastig</Table.Th>
+                                    <Table.Th>Birta á vef</Table.Th>
                                     <Table.Th>Aðgerðir</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
@@ -117,10 +120,17 @@ export function Trails() {
                                         <Table.Td>{trail.name}</Table.Td>
                                         <Table.Td>{trail.distanceMeters} m</Table.Td>
                                         <Table.Td>{trail.elevationGainMeters} m</Table.Td>
+                                        <Table.Td>{trail.elevationLossMeters} m</Table.Td>
                                         <Table.Td>
                                             <Badge color={getDifficultyColor(trail.difficultyLevel)}>
                                                 {trail.difficultyLevel}
                                             </Badge>
+                                        </Table.Td>
+                                        <Table.Td>
+                                                {trail.isActive
+                                                    ? <IconEye />
+                                                    : <IconEyeClosed />
+                                                }
                                         </Table.Td>
                                         <Table.Td>
                                             <Group gap="xs" wrap="nowrap">

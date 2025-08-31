@@ -36,7 +36,7 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
 
         if (trailToUpdate == null)
         {
-            _logger.LogWarning($"Trail with ID {request.TrailId} not found for update.");
+            _logger.LogWarning("Trail with ID {RequestTrailId} not found for update.", request.TrailId);
             throw new TrailNotFoundException(request.TrailId);
         }
 
@@ -60,18 +60,25 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
                 request.TrailId, trailToUpdate.Description, request.Description, request.UpdatedBy);
         }
         
-        if (request.Distance.HasValue && !request.Distance.Value.Equals(trailToUpdate.DistanceMeters))
+        if (request.DistanceMeters.HasValue && !request.DistanceMeters.Value.Equals(trailToUpdate.DistanceMeters))
         {
-            trailToUpdate.DistanceMeters = request.Distance.Value;
-            _logger.LogInformation("Trail {RequestTrailId}: Distance changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
-                request.TrailId, trailToUpdate.DistanceMeters, request.Distance, request.UpdatedBy);
+            trailToUpdate.DistanceMeters = request.DistanceMeters.Value;
+            _logger.LogInformation("Trail {RequestTrailId}: DistanceMeters changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
+                request.TrailId, trailToUpdate.DistanceMeters, request.DistanceMeters, request.UpdatedBy);
         }
 
-        if (request.ElevationGain.HasValue && !request.ElevationGain.Value.Equals((trailToUpdate.ElevationGainMeters)))
+        if (request.ElevationGainMeters.HasValue && !request.ElevationGainMeters.Value.Equals((trailToUpdate.ElevationGainMeters)))
         {
-            trailToUpdate.ElevationGainMeters = request.ElevationGain.Value;
-            _logger.LogInformation("Trail {RequestTrailId}: ElevationGain changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
-                request.TrailId, trailToUpdate.ElevationGainMeters, request.ElevationGain, request.UpdatedBy);
+            trailToUpdate.ElevationGainMeters = request.ElevationGainMeters.Value;
+            _logger.LogInformation("Trail {RequestTrailId}: ElevationGainMeters changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
+                request.TrailId, trailToUpdate.ElevationGainMeters, request.ElevationGainMeters, request.UpdatedBy);
+        }
+
+        if (request.ElevationLossMeters.HasValue && !request.ElevationLossMeters.Value.Equals((trailToUpdate.ElevationLossMeters)))
+        {
+            trailToUpdate.ElevationLossMeters = request.ElevationLossMeters.Value;
+            _logger.LogInformation("Trail {RequestTrailId}: ElevationLossMeters changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
+                request.TrailId, trailToUpdate.ElevationLossMeters, request.ElevationLossMeters, request.UpdatedBy);
         }
 
         if (request.DifficultyLevel.HasValue && request.DifficultyLevel.Value != trailToUpdate.DifficultyLevel)
@@ -102,17 +109,11 @@ public class UpdateTrailCommandHandler : IRequestHandler<UpdateTrailCommand, Uni
                 request.TrailId, trailToUpdate.SurfaceType, request.SurfaceType, request.UpdatedBy);
         }
 
-        // For RouteGeom, we need to ensure it has Z coordinates as well
-        if (request.RouteGeom != null)
+        if (request.isActive != trailToUpdate.IsActive)
         {
-            // Create a new LineString with Z coordinates if the incoming one doesn't have them
-            var coordinates = request.RouteGeom.Coordinates;
-            var coordsWithZ = coordinates.Select(c =>
-                c is CoordinateZ ? c : new CoordinateZ(c.X, c.Y, 0)).ToArray();
-
-            trailToUpdate.RouteGeom = _geometryFactory.CreateLineString(coordsWithZ);
-            _logger.LogInformation("Trail {RequestTrailId}: RouteGeom changed by {RequestUpdatedBy}", 
-                request.TrailId, request.UpdatedBy);
+            trailToUpdate.IsActive = request.isActive;
+            _logger.LogInformation("Trail {RequestTrailId}: IsActive changed from '{OldValue}' to '{NewValue}' by {RequestUpdatedBy}", 
+                request.TrailId, trailToUpdate.IsActive, request.isActive, request.UpdatedBy);
         }
 
         // Set audit fields

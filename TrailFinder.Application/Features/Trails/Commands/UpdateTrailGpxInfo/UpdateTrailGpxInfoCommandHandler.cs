@@ -30,8 +30,8 @@ public class UpdateTrailGpxInfoCommandHandler : IRequestHandler<UpdateTrailGpxIn
                 throw new TrailNotFoundException(request.TrailId);
             }
     
-            // trail.Distance = request.Distance;
-            // trail.ElevationGain = request.ElevationGain;
+            // trail.DistanceMeters = request.DistanceMeters;
+            // trail.ElevationGainMeters = request.ElevationGainMeters;
             
             trail.RouteGeom = request.RouteGeom;
             trail.UpdatedAt = DateTime.UtcNow;

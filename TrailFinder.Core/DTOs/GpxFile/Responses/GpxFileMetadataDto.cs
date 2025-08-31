@@ -8,6 +8,8 @@ public record GpxFileMetadataDto(
     string OriginalFileName,
     string FileName,
     long FileSize,
-    string ContentType
-    // Add other relevant metadata?
+    string ContentType,
+    bool isActive,
+    Guid createdBy,
+    DateTime createdAt
 );

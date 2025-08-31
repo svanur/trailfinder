@@ -21,7 +21,7 @@ public class DifficultyAnalyzerTests
     ] 
     // Dist:5, Elev:5, Terrain:5, Route:8 = 23 (Hmm, this might be Moderate. Re-evaluate test data based on scores)
     // Let's re-align the test data to match the score ranges
-    // Distance Score: <=5000=5, <=10000=15, <=21000=23, >21000=30
+    // DistanceMeters Score: <=5000=5, <=10000=15, <=21000=23, >21000=30
     // Elevation Score: <=200=5, <=500=15, <=1000=23, >1000=30
     // Terrain Score: Flat=5, Rolling=12, Hilly=18, Mountainous=25
     // Route Score: Circular=8, OutAndBack=10, PointToPoint=15
@@ -48,7 +48,7 @@ public class DifficultyAnalyzerTests
     // Dist(2km):5, Elev(50m):5, Flat:5, Circular:8 = 23 (Still too high)
     
     // To get Easy (<20), we need very low scores. Example:
-    // Distance 100m (5), Elevation 10m (5), Flat (5), Circular (8) = 23.
+    // DistanceMeters 100m (5), Elevation 10m (5), Flat (5), Circular (8) = 23.
     // If you want actual easy, you need to adjust your scoring weights/thresholds.
     // Assuming your thresholds are correct and "Easy" is truly for very low numbers.
     // Let's create a scenario that matches *your defined* thresholds if possible.
@@ -76,7 +76,7 @@ public class DifficultyAnalyzerTests
     // My previous calculation was off. Let's re-calculate to fit the ranges.
 
     // Scenario 1: Should be Moderate (20-39)
-    // Distance (10km): 15 points
+    // DistanceMeters (10km): 15 points
     // Elevation Gain (100m): 5 points
     // Terrain (Flat): 5 points
     // Route (Circular): 8 points
@@ -84,13 +84,13 @@ public class DifficultyAnalyzerTests
     [InlineData(10000, 100, TerrainType.Flat, RouteType.Circular, DifficultyLevel.Moderate)]
 
     // Scenario 2: Should be Hard (40-59)
-    // Distance (15km): 23 points
+    // DistanceMeters (15km): 23 points
     // Elevation Gain (400m): 15 points
     // Terrain (Rolling): 12 points
     // Route (OutAndBack): 10 points
     // Total: 23 + 15 + 12 + 10 = 60 -> Extreme (Just hit the boundary, need to be <60)
     // Let's adjust to be definitely Hard.
-    // Distance (12km): 23 points (still in LongDistance range)
+    // DistanceMeters (12km): 23 points (still in LongDistance range)
     // Elevation Gain (300m): 15 points
     // Terrain (Rolling): 12 points
     // Route (Circular): 8 points
@@ -98,7 +98,7 @@ public class DifficultyAnalyzerTests
     [InlineData(12000, 300, TerrainType.Rolling, RouteType.Circular, DifficultyLevel.Hard)]
 
     // Scenario 3: Should be Extreme (60-100)
-    // Distance (25km): 30 points
+    // DistanceMeters (25km): 30 points
     // Elevation Gain (1200m): 30 points
     // Terrain (Mountainous): 25 points
     // Route (PointToPoint): 15 points
@@ -106,13 +106,13 @@ public class DifficultyAnalyzerTests
     [InlineData(25000, 1200, TerrainType.Mountainous, RouteType.PointToPoint, DifficultyLevel.Extreme)]
 
     // Scenario 4: Edge case for Moderate (just under 40)
-    // Distance (10km): 15
+    // DistanceMeters (10km): 15
     // Elevation Gain (400m): 15
     // Terrain (Rolling): 12
     // Route (Unknown/default for testing): 10 (from RouteType.Unknown fallback)
     // Total: 15 + 15 + 12 + 10 = 52. Still too high.
     // Let's target 39 for Moderate.
-    // Distance (8km): 15
+    // DistanceMeters (8km): 15
     // Elevation Gain (300m): 15
     // Terrain (Flat): 5
     // Route (Circular): 8

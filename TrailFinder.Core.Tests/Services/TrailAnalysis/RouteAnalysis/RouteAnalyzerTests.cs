@@ -53,7 +53,7 @@ public class RouteAnalyzerTests
         };
         
         // For the above example, if the circular threshold is 50m:
-        // Distance from (0,0) to (0.0002, 0) is ~22.2 meters. This would cause it to be CIRCULAR!
+        // DistanceMeters from (0,0) to (0.0002, 0) is ~22.2 meters. This would cause it to be CIRCULAR!
         // You need to make the END point sufficiently far from the START point for this test to be valid.
 
         // Let's create a more distinct out-and-back where end is NOT near start for Circular check
@@ -66,7 +66,7 @@ public class RouteAnalyzerTests
             new(0.0006, 0.0006, 11),    // B'
             new(0.0003, 0.0003, 3)      // A'' - end point, not near A, but indicates return
         };
-        // Distance from (0,0) to (0.0003, 0.0003) is roughly 47 meters.
+        // DistanceMeters from (0,0) to (0.0003, 0.0003) is roughly 47 meters.
         // If CircularThresholdMeters is 50, this would still be CIRCULAR.
         // Let's make it clearly NOT circular by making the end point further away
         // Or ensure the IsOutAndBack logic is checked AFTER IsCircular and it's robust.
@@ -81,7 +81,7 @@ public class RouteAnalyzerTests
             new(0.002, 0.002, 20),      // Middle 2 (Turnaround point)
             new(0.0018, 0.0018, 18),    // Return 1
             new(0.001, 0.001, 10),      // Return 2
-            new(0.0005, 0.0005, 5)      // End point. Distance from (0,0) to (0.0005, 0.0005) is ~78m.
+            new(0.0005, 0.0005, 5)      // End point. DistanceMeters from (0,0) to (0.0005, 0.0005) is ~78m.
                                         // This should be *outside* a 50m CircularThreshold.
         };
 

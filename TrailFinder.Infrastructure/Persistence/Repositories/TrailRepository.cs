@@ -29,7 +29,7 @@ public class TrailRepository(ApplicationDbContext context)
             SRID = 4326
         };
 
-        // Use the Distance method directly on the geometry object.
+        // Use the DistanceMeters method directly on the geometry object.
         // EF Core will translate this into the correct ST_Distance(geometry, geometry) call.
         return Context.Trails
             .OrderBy(t => t.RouteGeom!.Distance(userPoint));

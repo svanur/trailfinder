@@ -19,7 +19,6 @@ CREATE TABLE trails (
                         surface_type surface_type,
 
                         route_geom geometry(LINESTRINGZ, 4326),
-                        is_active BOOLEAN DEFAULT TRUE NOT NULL,
 
                         is_active BOOLEAN DEFAULT TRUE NOT NULL,
                         

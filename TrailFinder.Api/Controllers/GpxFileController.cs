@@ -81,8 +81,8 @@ public class GpxFileController(
                 CreatedBy: createdByUserId, // This user is the 'CreatedBy' for GpxFile and 'UpdatedBy' for Trail
 
                 // Analysis results
-                AnalyzedDistance: gpxAnalysisInfo.Distance,
-                AnalyzedElevationGain: gpxAnalysisInfo.ElevationGain,
+                AnalyzedDistance: gpxAnalysisInfo.DistanceMeters,
+                AnalyzedElevationGain: gpxAnalysisInfo.ElevationGainMeters,
                 AnalyzedDifficultyLevel: gpxAnalysisInfo.DifficultyLevel,
                 AnalyzedRouteType: gpxAnalysisInfo.RouteType,
                 AnalyzedTerrainType: gpxAnalysisInfo.TerrainType,

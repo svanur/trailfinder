@@ -1,9 +1,9 @@
 // src/components/dashboard/RecentTrailsTable.tsx
 import { Table, Badge, Card, Text, ActionIcon } from '@mantine/core'; // Added ActionIcon, Group
 import { useQuery } from '@tanstack/react-query';
-import { IconEdit } from '@tabler/icons-react'; // For the Edit icon
+import { IconEdit, IconEye, IconEyeClosed } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
-import {Loading} from "../Loading.tsx"; // For navigation
+import {Loading} from "../Loading.tsx";
 import {type Trail } from '@trailfinder/db-types';
 import {trailsApi} from "../../services/trailsApi.ts";
 
@@ -61,22 +61,31 @@ export function RecentTrailsTable() {
                     <Table.Thead>
                         <Table.Tr>
                             <Table.Th>Nafn</Table.Th>
-                            <Table.Th>Vegalengd</Table.Th>
-                            <Table.Th>Hækkun</Table.Th>
+                            <Table.Th>Vegalengd(km)</Table.Th>
+                            <Table.Th>Hækkun(m)</Table.Th>
+                            <Table.Th>Lækkun(m)</Table.Th>
                             <Table.Th>Erfiðleikastig</Table.Th>
-                            <Table.Th>Aðgerðir</Table.Th> {/* New header for actions */}
+                            <Table.Th>Birta á vef?</Table.Th>
+                            <Table.Th>Aðgerðir</Table.Th>
                         </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
                         {recentTrails.map((trail) => (
                             <Table.Tr key={trail.id}>
                                 <Table.Td>{trail.name}</Table.Td>
-                                <Table.Td>{trail.distanceMeters} km</Table.Td>
-                                <Table.Td>{trail.elevationGainMeters}m</Table.Td>
+                                <Table.Td>{trail.distanceKm}</Table.Td>
+                                <Table.Td>{trail.elevationGainMeters}</Table.Td>
+                                <Table.Td>{trail.elevationLossMeters}</Table.Td>
                                 <Table.Td>
                                     <Badge color={getDifficultyColor(trail.difficultyLevel)}>
                                         {trail.difficultyLevel}
                                     </Badge>
+                                </Table.Td>
+                                <Table.Td>
+                                    {trail.isActive
+                                        ? <IconEye />
+                                        : <IconEyeClosed />
+                                    }
                                 </Table.Td>
                                 <Table.Td>
                                     <ActionIcon

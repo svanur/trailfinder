@@ -17,6 +17,7 @@ export type CreateTrailDto = {
     routeType: 'unknown' | 'circular' | 'outAndBack' | 'pointToPoint';
     terrainType: 'unknown' | 'flat' | 'rolling' | 'hilly' | 'mountainous';
     surfaceType: 'unknown' | 'trail' | 'paved' | 'mixed';
+    isActive: boolean;
 };
 
 export const trailsApi = {
