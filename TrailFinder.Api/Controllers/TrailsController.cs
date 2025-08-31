@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,8 @@ namespace TrailFinder.Api.Controllers;
 /// <summary>
 ///     Controller responsible for handling trail-related API operations.
 /// </summary>
-[ApiController]
-[Route("api/[controller]")]
+[ApiVersion(1.0)]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class TrailsController : BaseApiController
 {
     private new readonly ILogger<TrailsController> _logger;
@@ -87,8 +88,8 @@ public class TrailsController : BaseApiController
         }
     }
 
-    // GET api/trails
-    // GET api/trails?userLatitude=...&userLongitude=...
+    // GET api/v1/trails
+    // GET api/v1/trails?userLatitude=...&userLongitude=...
     [HttpGet]
     public async Task<ActionResult<List<TrailListItemDto>>> GetAllTrails(
         [FromQuery] double? userLatitude,

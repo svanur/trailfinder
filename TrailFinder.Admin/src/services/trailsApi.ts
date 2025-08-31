@@ -77,7 +77,9 @@ export const trailsApi = {
     },
 
     update: async (id: string, trailData: Partial<CreateTrailDto>): Promise<Trail> => {
-        const response = await apiClient.put<Trail>(`${API_CONFIG.ENDPOINTS.TRAILS}/${id}`, trailData);
+        const url = `${API_CONFIG.ENDPOINTS.TRAILS}/${id}`;
+        console.info('url', url, trailData);
+        const response = await apiClient.put<Trail>(url, trailData);
         return response.data;
     },
 

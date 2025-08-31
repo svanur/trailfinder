@@ -25,7 +25,7 @@ const TrailQrCodeButton = forwardRef<TrailQrCodeButtonHandle, TrailQrCodeButtonP
         if (qrType === 'share') {
             return window.location.href;
         } else {
-            return `${baseUrl}/api/trails/${trail.id}/gpx/${encodeURIComponent(trail.name)}.gpx`;
+            return `${baseUrl}/api/v1/trails/${trail.id}/gpx/${encodeURIComponent(trail.name)}.gpx`;
         }
     };
 
