@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Asp.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Supabase;
 using TrailFinder.Api.Converters;
@@ -19,6 +20,23 @@ builder.Logging.AddFilter("Npgsql", LogLevel.Information);
 builder.Services
     .AddCore()
     .AddInfrastructure(builder.Configuration);
+
+// Add versioning support
+builder.Services.AddApiVersioning(options =>
+    {
+        options.DefaultApiVersion = new ApiVersion(1, 0);
+        options.AssumeDefaultVersionWhenUnspecified = true;
+        options.ReportApiVersions = true;
+    })
+    .AddApiExplorer(options =>
+    {
+        // The name of the format for API version groups.
+        // 'v' for version, 'VVV' for the major, minor, and status.
+        options.GroupNameFormat = "'v'VVV";
+
+        // This option substitutes the version value in the URL.
+        options.SubstituteApiVersionInUrl = true;
+    });
 
 // Add controllers with all JSON options configured once
 builder.Services.AddControllers()
@@ -43,11 +61,11 @@ var dataSource = NpgsqlTrailFinderExtensions.CreateTrailFinderDataSource(connect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseNpgsql(dataSource,
-            x => 
+            x =>
             {
                 x.UseNetTopologySuite();
                 x.EnableRetryOnFailure();
-                
+
                 // Map the enums
                 x.MapEnum<DifficultyLevel>();
                 x.MapEnum<RouteType>();

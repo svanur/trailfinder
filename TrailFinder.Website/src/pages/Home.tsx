@@ -23,7 +23,7 @@ export function Home() {
     const { data, isLoading, isError, error } = useQuery<Trail[], Error>({
         queryKey: ['allTrails'],
         queryFn: async () => {
-            const response = await axios.get<Trail[]>('/api/trails');
+            const response = await axios.get<Trail[]>('/api/v1/trails');
             // Your backend returns an array directly, so we just return response.data
             // Add console.log here to verify what response.data looks like at this point
             // console.log("API Response Data:", response.data);

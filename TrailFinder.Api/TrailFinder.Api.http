@@ -2,58 +2,58 @@
 ## See: TrailFinder.Api/http-client.env.json
 
 ### Get all trails
-GET {{hostAddress}}/api/trails
+GET {{hostAddress}}/api/v1/trails
 Accept: application/json
 
 ### Get a specific trail by id
-GET {{hostAddress}}/api/trails/{{trailId}}
+GET {{hostAddress}}/api/v1/trails/{{trailId}}
 Accept: application/json
 
 ### Get a specific trail by slug
-GET {{hostAddress}}/api/trails/esja-ultra-marathon-43
+GET {{hostAddress}}/api/v1/trails/esja-ultra-marathon-43
 Accept: application/json
 
 ### Get all races
-GET {{hostAddress}}/api/races
+GET {{hostAddress}}/api/v1/races
 Accept: application/json
 
 ### Get a specific race by id
-GET {{hostAddress}}/api/races/{{raceId}}
+GET {{hostAddress}}/api/v1/races/{{raceId}}
 Accept: application/json
 
 ### Get a specific race by slug
-GET {{hostAddress}}/api/races/laugavegur-ultra
+GET {{hostAddress}}/api/v1/races/laugavegur-ultra
 Accept: application/json
 
 ### Get all locations
-GET {{hostAddress}}/api/locations
+GET {{hostAddress}}/api/v1/locations
 Accept: application/json
 
 ### Get a specific location by id
-GET {{hostAddress}}/api/locations/{{locationId}}
+GET {{hostAddress}}/api/v1/locations/{{locationId}}
 Accept: application/json
 
 ### Get a specific location by slug
-GET {{hostAddress}}/api/locations/landmannalaugar
+GET {{hostAddress}}/api/v1/locations/landmannalaugar
 Accept: application/json
 
 ### When trail/s do not exist
 
 ### Guid does not exist
-GET {{hostAddress}}/api/trails/1.2.3.4
+GET {{hostAddress}}/api/v1/trails/1.2.3.4
 Accept: application/json
 
 ### slug does not exist
-GET {{hostAddress}}/api/trails/slug-does-not-exist
+GET {{hostAddress}}/api/v1/trails/slug-does-not-exist
 Accept: application/json
 
 ### Update trail info by id
-PUT {{hostAddress}}/api/trails/{{trailId}}
+PUT {{hostAddress}}/api/v1/trails/{{trailId}}
 Content-Type: application/json
 
 {
-  "distance": 15500.50,
-  "elevationGain": 850.0,
+  "distanceMeters": 15500.50,
+  "elevationGainMeters": 850.0,
   "difficultyLevel": "extreme",
   "updatedBy": "{{userId}}"
 }
@@ -62,7 +62,7 @@ Content-Type: application/json
 ### When validation error occur
 
 ### guid is not the right length
-GET {{hostAddress}}/api/trails/366-66fba19c4240
+GET {{hostAddress}}/api/v1/trails/366-66fba19c4240
 Accept: application/json
 
 
@@ -73,7 +73,7 @@ Accept: application/json
 ### Upload GPX file for a specific trail
 # Replace {{trailId}} with an actual valid Trail ID
 # Replace path/to/your/file.gpx with the actual local path to a GPX file
-POST {{hostAddress}}/api/trails/{{trailId}}/gpx-file/upload
+POST {{hostAddress}}/api/v1/trails/{{trailId}}/gpx-file/upload
 Content-Type: multipart/form-data; boundary=----------Boundary12345
 
 ------------Boundary12345
@@ -86,11 +86,11 @@ Content-Type: application/gpx+xml
 
 ### Get GPX file metadata for a specific trail
 # This fetches the metadata stored in your gpx_files table // TODO: add this endpoint
-GET {{hostAddress}}/api/trails/{{trailId}}/gpx-file/metadata
+GET {{hostAddress}}/api/v1/trails/{{trailId}}/gpx-file/metadata
 Accept: application/json
 
 
 ### Download GPX file for a specific trail
 # This fetches the actual GPX file content from Supabase Storage
-GET {{hostAddress}}/api/trails/{{trailId}}/gpx-file/download
+GET {{hostAddress}}/api/v1/trails/{{trailId}}/gpx-file/download
 Accept: application/gpx+xml

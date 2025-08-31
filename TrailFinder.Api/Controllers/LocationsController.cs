@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TrailFinder.Application.Features.Locations.GetLocation;
@@ -10,8 +11,8 @@ using TrailFinder.Core.Interfaces.Services;
 
 namespace TrailFinder.Api.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
+[ApiVersion(1.0)]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class LocationsController : BaseApiController
 {
     private new readonly ILogger<LocationsController> _logger;
