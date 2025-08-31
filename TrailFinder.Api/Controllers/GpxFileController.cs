@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TrailFinder.Application.Features.GpxFiles.Commands.ProcessGpxFile;
@@ -12,8 +13,8 @@ namespace TrailFinder.Api.Controllers;
 /// Controller responsible for managing GPX files associated with trails.
 /// Provides endpoints to upload, download, and retrieve metadata for GPX files.
 /// </summary>
-[ApiController]
-[Route("api/trails/{trailId:guid}/gpx-file")] // Updated route to be more precise
+[ApiVersion(1.0)]
+[Route("api/v{version:apiVersion}/trails/{trailId:guid}/gpx-file")]
 public class GpxFileController(
     ILogger<BaseApiController> logger,
     IMediator mediator,
@@ -22,7 +23,7 @@ public class GpxFileController(
 ) : BaseApiController(logger)
 {
 
-    [HttpPost("upload")] // Route: api/trails/{trailId}/gpx-file/upload
+    [HttpPost("upload")] // Route: api/v1/trails/{trailId}/gpx-file/upload
     [Consumes("multipart/form-data")]
     public async Task<ActionResult> Upload(Guid trailId, IFormFile file)
     {
@@ -108,7 +109,7 @@ public class GpxFileController(
         }
     }
 
-    [HttpGet("download")] // Route: api/trails/{trailId}/gpx-file/download
+    [HttpGet("download")] // Route: api/v1/trails/{trailId}/gpx-file/download
     public async Task<ActionResult> Download(Guid trailId)
     {
         try
@@ -143,7 +144,7 @@ public class GpxFileController(
         }
     }
 
-    [HttpGet("metadata")] // Route: api/trails/{trailId}/gpx-file/metadata
+    [HttpGet("metadata")] // Route: api/v1/trails/{trailId}/gpx-file/metadata
     public async Task<ActionResult> GetMetadata(Guid trailId)
     {
         try
