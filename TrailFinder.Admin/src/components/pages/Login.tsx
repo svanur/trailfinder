@@ -1,7 +1,7 @@
 // src/pages/Login.tsx (Example modification for password reset link)
 import { TextInput, PasswordInput, Button, Paper, Title, Container, Text, Anchor } from '@mantine/core'; // Added Anchor
 import { useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
 import { useNavigate } from 'react-router-dom';
 
 export function Login() {

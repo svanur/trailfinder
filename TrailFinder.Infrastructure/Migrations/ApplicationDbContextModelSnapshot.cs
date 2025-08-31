@@ -249,13 +249,13 @@ namespace TrailFinder.Infrastructure.Migrations
                         .HasColumnType("difficulty_level")
                         .HasColumnName("difficulty_level");
 
-                    b.Property<double>("Distance")
+                    b.Property<double>("DistanceMeters")
                         .HasColumnType("int")
                         .HasColumnName("distance_meters")
                         .HasConversion<DoubleToIntConverter>()
                         .IsRequired();
 
-                    b.Property<double>("ElevationGain")
+                    b.Property<double>("ElevationGainMeters")
                         .HasColumnType("int")
                         .HasColumnName("elevation_gain")
                         .HasConversion<int>()

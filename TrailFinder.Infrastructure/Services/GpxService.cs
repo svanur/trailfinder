@@ -48,6 +48,7 @@ public class GpxService : IGpxService
             return new GpxAnalysisResult(
                 analysisResult.TotalDistance,
                 analysisResult.TotalElevationGain,
+                analysisResult.TotalElevationLoss,
                 analysisResult.VerticalRatio,
                 analysisResult.DifficultyLevel,
                 analysisResult.RouteType,

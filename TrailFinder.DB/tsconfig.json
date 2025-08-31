@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "module": "commonjs",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "declaration": true,
     "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,
-    "rootDir": "." // Ensure rootDir is '.' to maintain relative paths in dist
+    "rootDir": "."
   },
   "include": [
-    "index.ts",     // <--- Explicitly include the root index.ts
-    "types/**/*.ts" // <--- Include all .ts files under the types folder
+    "index.ts",
+    "types/**/*.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }

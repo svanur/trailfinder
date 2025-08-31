@@ -1,19 +1,13 @@
 // src/components/dashboard/TrailsOverviewMap.tsx
 import { Card, Text } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '../../lib/supabase';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import type { Feature, Geometry } from 'geojson';
 import { Layer } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../../styles/map.css';
-
-interface Trail {
-    id: string;
-    name: string;
-    difficulty_level: 'unknown' | 'easy' | 'moderate' | 'hard' | 'extreme';
-    route_geom: any; // GeoJSON geometry
-}
+import type { Trail } from '@trailfinder/db-types';
+import {trailsApi} from "../../services/trailsApi.ts";
 
 interface TrailStyle {
     color: string;
@@ -24,14 +18,7 @@ interface TrailStyle {
 export function TrailsOverviewMap() {
     const { data: allTrails, isLoading: allTrailsLoading, error } = useQuery<Trail[]>({ // Added error
         queryKey: ['all-trails-map'],
-        queryFn: async () => {
-            const { data, error } = await supabase
-                .from('trails')
-                .select('id, name, route_geom, difficulty_level');
-
-            if (error) throw error;
-            return data as Trail[];
-        }
+        queryFn: () => trailsApi.getAll(),
     });
 
     if (allTrailsLoading) {
@@ -42,7 +29,7 @@ export function TrailsOverviewMap() {
         return <Text c="red">Gat ekki hlaðið korti yfir hlaupaleiðir: {error.message}</Text>;
     }
 
-    const getTrailStyle = (difficulty: Trail['difficulty_level']): TrailStyle => ({
+    const getTrailStyle = (difficulty: Trail['difficultyLevel']): TrailStyle => ({
         color: difficulty === 'easy' ? '#2ecc71' :
             difficulty === 'moderate' ? '#f1c40f' : '#e74c3c',
         weight: 3,
@@ -78,8 +65,8 @@ export function TrailsOverviewMap() {
                         allTrails.map((trail) => (
                             <GeoJSON
                                 key={trail.id}
-                                data={trail.route_geom}
-                                pathOptions={getTrailStyle(trail.difficulty_level)}
+                                data={trail.routeGeom}
+                                pathOptions={getTrailStyle(trail.difficultyLevel)}
                                 onEachFeature={onEachFeature}
                             />
                         ))

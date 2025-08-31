@@ -7,8 +7,9 @@ namespace TrailFinder.Application.Features.Trails.Commands.CreateTrail;
 public record CreateTrailCommand(
     string Name,
     string? Description,
-    double Distance,
-    double ElevationGain,
+    double DistanceMeters,
+    double ElevationGainMeters,
+    double ElevationLossMeters,
     DifficultyLevel? DifficultyLevel,
     RouteType? RouteType,
     TerrainType? TerrainType,

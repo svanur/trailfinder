@@ -56,14 +56,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 x.MapEnum<SurfaceType>();
                 x.MapEnum<RaceStatus>();
             })
-        .EnableSensitiveDataLogging()
+        /*
+            .EnableSensitiveDataLogging()
         .LogTo(message =>
             {
                 var logPath = Path.Combine(builder.Environment.ContentRootPath, "logs", "ef-sql.log");
                 File.AppendAllText(logPath, $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}{Environment.NewLine}");
             },
             [DbLoggerCategory.Database.Command.Name],
-            LogLevel.Information);
+            LogLevel.Information)
+        */
+        ;
 });
 
 // Configure health checks

@@ -6,12 +6,14 @@ namespace TrailFinder.Core.DTOs.Trails.Requests;
 public record UpdateTrailDto(
     string? Name,
     string? Description,
-    double? Distance,
-    double? ElevationGain,
+    double? DistanceMeters,
+    double? ElevationGainMeters,
+    double? ElevationLossMeters,
     DifficultyLevel? DifficultyLevel,
     RouteType? RouteType,
     TerrainType? TerrainType,
     SurfaceType? SurfaceType,
-    LineString? RouteGeom,
+    bool IsActive,
+//    LineString? RouteGeom,
     Guid UpdatedBy
 );

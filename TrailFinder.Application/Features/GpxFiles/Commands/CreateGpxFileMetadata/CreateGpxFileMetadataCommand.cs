@@ -13,8 +13,8 @@ public record CreateGpxFileMetadataCommand(
     string ContentType,
     Guid CreatedBy // The ID of the user who uploaded the file
     // You might also pass extracted GPX info here if you process it during upload:
-    // double? Distance,
-    // double? ElevationGain,
+    // double? DistanceMeters,
+    // double? ElevationGainMeters,
     // DifficultyLevel? DifficultyLevel,
     // RouteType? RouteType,
     // TerrainType? TerrainType,

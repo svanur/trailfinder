@@ -1,17 +1,20 @@
-// src/App.tsx
 import { BrowserRouter, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { AppShell, MantineProvider } from '@mantine/core';
 import { AdminNavigation } from './components/AdminNavigation';
 import { AdminHeader } from './components/AdminHeader';
-import { Dashboard } from './pages/Dashboard';
-import { Trails } from './pages/Trails';
-import { Users } from './pages/Users';
-import { Login } from './pages/Login';
+import { Dashboard } from './components/pages/Dashboard';
+import { Trails } from './components/pages/Trails';
+import { Users } from './components/pages/Users';
+import { Login } from './components/pages/Login';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { NavigationProvider } from './contexts/NavigationContext'; // NEW IMPORT
-import { UserSettingsPage } from './pages/UserSettingsPage'; // Ensure this is imported for the route
+import { NavigationProvider } from './contexts/NavigationContext';
+import { UserSettingsPage } from './components/pages/UserSettingsPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@mantine/core/styles.css';
+
+// Import the new components
+import { NewTrailPage } from './components/pages/NewTrailPage';
+import { EditTrailPage } from './components/pages/EditTrailPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
     const { user, loading } = useAuth();
@@ -50,6 +53,8 @@ function AppLayout() {
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/trails" element={<Trails />} />
+                    <Route path="/trails/new" element={<NewTrailPage />} /> {/* New route for creating */}
+                    <Route path="/trails/:trailId/edit" element={<EditTrailPage />} /> {/* New route for editing */}
                     <Route path="/users" element={<Users />} />
                     <Route path="/settings" element={<UserSettingsPage />} />
                 </Routes>
@@ -64,7 +69,7 @@ function App() {
             <AuthProvider>
                 <BrowserRouter>
                     <MantineProvider>
-                        <NavigationProvider> {/* WRAP HERE */}
+                        <NavigationProvider>
                             <Routes>
                                 <Route path="/login" element={<Login />} />
                                 <Route

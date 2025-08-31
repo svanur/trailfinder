@@ -25,7 +25,7 @@ export function AdminHeader() {
     return (
         <Group h="100%" px="md" justify="space-between">
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-            <Text fw={700}>Hlaupaleiðir {'>'} {selectedPageName}</Text> {/* USE THE VARIABLE HERE */}
+            <Text fw={700}>Hlaupaleiðir {'>'} {selectedPageName}</Text>
 
             <Group>
                 {user && (

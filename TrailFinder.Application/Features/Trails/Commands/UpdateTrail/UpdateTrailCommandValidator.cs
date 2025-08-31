@@ -28,17 +28,17 @@ public class UpdateTrailCommandValidator : AbstractValidator<UpdateTrailCommand>
             .WithMessage("Description cannot exceed 2000 characters.")
             .When(x => x.Description is not null); // Apply if Description is provided
 
-        // 4. Validate 'Distance'
-        RuleFor(x => x.Distance)
+        // 4. Validate 'DistanceMeters'
+        RuleFor(x => x.DistanceMeters)
             .GreaterThan(0)
-            .WithMessage("Distance must be greater than 0.") // Assuming it's decimal/double, no specific unit in validation
-            .When(x => x.Distance.HasValue); // Apply if Distance is provided
+            .WithMessage("DistanceMeters must be greater than 0.") // Assuming it's decimal/double, no specific unit in validation
+            .When(x => x.DistanceMeters.HasValue); // Apply if DistanceMeters is provided
 
-        // 5. Validate 'ElevationGain'
-        RuleFor(x => x.ElevationGain)
+        // 5. Validate 'ElevationGainMeters'
+        RuleFor(x => x.ElevationGainMeters)
             .GreaterThanOrEqualTo(0)
             .WithMessage("Elevation gain cannot be negative.")
-            .When(x => x.ElevationGain.HasValue); // Apply if ElevationGain is provided
+            .When(x => x.ElevationGainMeters.HasValue); // Apply if ElevationGainMeters is provided
 
         // 7. Validate 'UpdatedBy' (mandatory for audit)
         RuleFor(x => x.UpdatedBy)
@@ -68,12 +68,6 @@ public class UpdateTrailCommandValidator : AbstractValidator<UpdateTrailCommand>
             .IsInEnum()
             .WithMessage("Invalid terrain type.")
             .When(x => x.TerrainType.HasValue);
-
-        // 9. Validate 'RouteGeom' (if present)
-        RuleFor(x => x.RouteGeom)
-            .Must(geom => geom != null && geom.Coordinates.Length >= 2) // Basic LineString validation
-            .When(x => x.RouteGeom is not null) // Only validate if LineString is provided in the update
-            .WithMessage("Trail geometry must be a valid LineString with at least two coordinates.");
 
         // You could also add more advanced geometry validation if needed, e.g.:
         // .Must(geom => geom.IsValid) // Requires NetTopologySuite's IsValid property/method

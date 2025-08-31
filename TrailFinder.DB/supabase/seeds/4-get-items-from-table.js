@@ -1,5 +1,9 @@
-const axios = require('axios');
-const { Pool } = require('pg');
+// TrailFinder.DB\supabase\seeds\4-get-items-from-table.js 
+
+import axios from 'axios';
+import pg from 'pg';
+
+const { Pool } = pg;
 
 const API_BASE_URL = 'http://localhost:5263/api';
 

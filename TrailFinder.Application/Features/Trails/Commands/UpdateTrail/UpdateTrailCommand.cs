@@ -8,12 +8,14 @@ public record UpdateTrailCommand(
     Guid TrailId,
     string? Name,
     string? Description,
-    double? Distance,
-    double? ElevationGain,
+    double? DistanceMeters,
+    double? ElevationGainMeters,
+    double? ElevationLossMeters,
     DifficultyLevel? DifficultyLevel,
     RouteType? RouteType,
     TerrainType? TerrainType,
     SurfaceType? SurfaceType,
-    LineString? RouteGeom,
+    bool isActive,
+    //LineString? RouteGeom,
     Guid? UpdatedBy
 ) : IRequest<Unit>;

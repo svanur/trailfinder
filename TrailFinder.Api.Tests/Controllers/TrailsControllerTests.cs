@@ -42,6 +42,7 @@ public class TrailsControllerTests
         string description = "",
         double distance = 0,
         double elevationGain = 0,
+        double elevationLoss = 0,
         
         DifficultyLevel difficultyLevel = DifficultyLevel.Unknown,
         RouteType routeType = RouteType.Unknown,
@@ -58,6 +59,7 @@ public class TrailsControllerTests
             description,
             distance,
             elevationGain,
+            elevationLoss,
             difficultyLevel,
             routeType,
             terrainType,
@@ -65,6 +67,7 @@ public class TrailsControllerTests
             routeGeom,
             new GpxPoint(), //TODO ?
             new GpxPoint(),
+            true,
             Guid.NewGuid(),
             DateTime.Now,
             null,
@@ -79,6 +82,7 @@ public class TrailsControllerTests
         string description = "",
         double distance = 0,
         double elevationGain = 0,
+        double elevationLoss = 0,
         double verticalRatio = 0,
         
         DifficultyLevel difficultyLevel = DifficultyLevel.Unknown,
@@ -96,6 +100,7 @@ public class TrailsControllerTests
             description,
             distance,
             elevationGain,
+            elevationLoss,
             verticalRatio,
             difficultyLevel,
             routeType,
@@ -106,6 +111,7 @@ public class TrailsControllerTests
             //new GpxPoint(), // start
             //new GpxPoint(), // end
             
+            true,
             Guid.NewGuid(),
             DateTime.Now,
             null,

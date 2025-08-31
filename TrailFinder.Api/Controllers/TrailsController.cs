@@ -131,7 +131,7 @@ public class TrailsController : BaseApiController
         }
     }
 
-    [HttpPut("trails/{trailId:guid}")]
+    [HttpPut("{trailId:guid}")]
     public async Task<IActionResult> UpdateTrail(
         Guid trailId,
         [FromBody] UpdateTrailDto updateTrailDto
@@ -144,13 +144,15 @@ public class TrailsController : BaseApiController
                 trailId, // Pass the trailId from the route
                 updateTrailDto.Name,
                 updateTrailDto.Description,
-                updateTrailDto.Distance,
-                updateTrailDto.ElevationGain,
+                updateTrailDto.DistanceMeters,
+                updateTrailDto.ElevationGainMeters,
+                updateTrailDto.ElevationLossMeters,
                 updateTrailDto.DifficultyLevel,
                 updateTrailDto.RouteType,
                 updateTrailDto.TerrainType,
                 updateTrailDto.SurfaceType,
-                updateTrailDto.RouteGeom,
+                updateTrailDto.IsActive,
+                //updateTrailDto.RouteGeom,
                 updateTrailDto.UpdatedBy
             );
 
@@ -207,8 +209,9 @@ public class TrailsController : BaseApiController
             var createTrailCommand = new CreateTrailCommand(
                 createTrailDto.Name,
                 createTrailDto.Description,
-                createTrailDto.Distance,
-                createTrailDto.ElevationGain,
+                createTrailDto.DistanceMeters,
+                createTrailDto.ElevationGainMeters,
+                createTrailDto.ElevationLossMeters,
                 createTrailDto.DifficultyLevel,
                 createTrailDto.RouteType,
                 createTrailDto.TerrainType,
