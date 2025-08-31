@@ -12,8 +12,8 @@ import {
     Group,
     Loader,
 } from '@mantine/core'; // Add any other Mantine components you need
-import { useAuth } from '../contexts/AuthContext';
-import { supabase } from '../lib/supabase';
+import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
 import { IconUser, IconLock, IconMail } from '@tabler/icons-react'; // For tab icons (npm install @tabler/icons-react)
 
 export function UserSettingsPage() {

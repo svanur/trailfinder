@@ -19,6 +19,7 @@ interface TrailGpxInfo {
 }
 
 const TrailGpxDownload: React.FC<TrailGpxDownloadProps> = ({ trail }) => {
+    console.log('TrailGpxDownload rendering with trail:', trail);
     const [isDownloading, setIsDownloading] = useState(false);
     const { getGpxContent } = useGpxStorage();
 

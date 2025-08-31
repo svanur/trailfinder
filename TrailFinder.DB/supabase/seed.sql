@@ -133,144 +133,144 @@ VALUES (
 ---
 --- Insert sample trails
 ---
-INSERT INTO public.trails (id, name, slug, description, distance_meters, elevation_gain_meters, difficulty_Level, route_type, terrain_type, surface_type, created_by, created_at)
+INSERT INTO public.trails (id, name, slug, description, distance_meters, elevation_gain_meters, elevation_loss_meters, difficulty_Level, route_type, terrain_type, surface_type, created_by, created_at)
 VALUES
-    (gen_random_uuid(), 'Mt Esja Ultra maraþon', 'esja-ultra-marathon-43', 'Maraþon keppnisleiðin í hlíðum Esjunnar.', 43000, 3245, 'extreme', 'outAndBack','mountainous','trail',seed_created_by, NOW()),
-    (gen_random_uuid(), 'Mt Esja Ultra hálfmaraþon', 'esja-ultra-marathon-21', 'Hálfmaraþon keppnisleiðin í hlíðum Esjunnar', 21000, 1433, 'hard', 'outAndBack','mountainous','trail', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Mt Esja Ultra maraþon', 'esja-ultra-marathon-43', 'Maraþon keppnisleiðin í hlíðum Esjunnar.', 43000, 3245, 0,'extreme', 'outAndBack','mountainous','trail',seed_created_by, NOW()),
+    (gen_random_uuid(), 'Mt Esja Ultra hálfmaraþon', 'esja-ultra-marathon-21', 'Hálfmaraþon keppnisleiðin í hlíðum Esjunnar', 21000, 1433, 0, 'hard', 'outAndBack','mountainous','trail', seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Hengill Ultra 10', 'hengill-ultra-10', 'Hengill Ultra 10km keppnishlaupið í Hveragerði', 10600, 140, 'easy', 'outAndBack','mountainous','trail', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hengill Ultra 25', 'hengill-ultra-25', 'Hengill Ultra 25km keppnishlaupið í Hveragerði', 24400, 690, 'moderate', 'outAndBack','mountainous','trail', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hengill Ultra 52', 'hengill-ultra-52', 'Hengill Ultra 52km keppnishlaupið í Hveragerði', 51600, 1960, 'hard', 'outAndBack','mountainous','trail', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hengill Ultra 104', 'hengill-ultra-104', 'Hengill Ultra 100km keppnishlaupið í Hveragerði', 104000, 3920, 'extreme', 'outAndBack','mountainous','trail', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hengill Ultra 10', 'hengill-ultra-10', 'Hengill Ultra 10km keppnishlaupið í Hveragerði', 10600, 140, 0, 'easy', 'outAndBack','mountainous','trail', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hengill Ultra 25', 'hengill-ultra-25', 'Hengill Ultra 25km keppnishlaupið í Hveragerði', 24400, 690, 0, 'moderate', 'outAndBack','mountainous','trail', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hengill Ultra 52', 'hengill-ultra-52', 'Hengill Ultra 52km keppnishlaupið í Hveragerði', 51600, 1960, 0, 'hard', 'outAndBack','mountainous','trail', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hengill Ultra 104', 'hengill-ultra-104', 'Hengill Ultra 100km keppnishlaupið í Hveragerði', 104000, 3920, 0, 'extreme', 'outAndBack','mountainous','trail', seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 14km', 'hvitasunnuhlaup-hauka-14', '14km keppnisleiðin í Hvítasunnuhlaupi Hauka', 14000, 122, 'moderate', 'outAndBack','rolling','trail', seed_created_by, NOW()),    
-    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 17km', 'hvitasunnuhlaup-hauka-17', '17km keppnisleiðin í Hvítasunnuhlaupi Hauka', 17000, 137, 'moderate', 'outAndBack','rolling','trail', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 22km', 'hvitasunnuhlaup-hauka-22', '22km keppnisleiðin í Hvítasunnuhlaupi Hauka', 22000, 451, 'hard', 'outAndBack','hilly','trail', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 14km', 'hvitasunnuhlaup-hauka-14', '14km keppnisleiðin í Hvítasunnuhlaupi Hauka', 14000, 122, 0, 'moderate', 'outAndBack','rolling','trail', seed_created_by, NOW()),    
+    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 17km', 'hvitasunnuhlaup-hauka-17', '17km keppnisleiðin í Hvítasunnuhlaupi Hauka', 17000, 137, 0, 'moderate', 'outAndBack','rolling','trail', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hvítasunnuhlaup Hauka 22km', 'hvitasunnuhlaup-hauka-22', '22km keppnisleiðin í Hvítasunnuhlaupi Hauka', 22000, 451, 0, 'hard', 'outAndBack','hilly','trail', seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Puffin Run', 'puffin-run', 'Puffin Run keppnishlaupið í Vestmannaeygjum', 20000, 295, 'moderate', 'unknown','unknown','trail', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Bakgarður Náttúruhlaupa við Elliðavatn', 'bakgardur-ellidavatn', 'Bakgarður Náttúruhlaupa við Elliðavatn', 6700, 39, 'easy', 'circular','flat','trail', seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hlaupasería 66°N og Hlaupahóps FH', 'hlaupaseria-66', 'Hlaupasería 66°N og Hlaupahóps FH', 5000, 44, 'easy', 'outAndBack','flat','paved',seed_created_by, NOW()),
-    (gen_random_uuid(), 'Öræfahlaupið - Kristínartindar', 'oraefahlaupid', 'Náttúruhlaup í Skaftafelli', 23000, 1000, 'hard', 'circular','mountainous','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Puffin Run', 'puffin-run', 'Puffin Run keppnishlaupið í Vestmannaeygjum', 20000, 295, 0, 'moderate', 'unknown','unknown','trail', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Bakgarður Náttúruhlaupa við Elliðavatn', 'bakgardur-ellidavatn', 'Bakgarður Náttúruhlaupa við Elliðavatn', 6700, 39, 0, 'easy', 'circular','flat','trail', seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hlaupasería 66°N og Hlaupahóps FH', 'hlaupaseria-66', 'Hlaupasería 66°N og Hlaupahóps FH', 5000, 44, 0, 'easy', 'outAndBack','flat','paved',seed_created_by, NOW()),
+    (gen_random_uuid(), 'Öræfahlaupið - Kristínartindar', 'oraefahlaupid', 'Náttúruhlaup í Skaftafelli', 23000, 1000, 0, 'hard', 'circular','mountainous','trail',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Hafnarfjall Ultra fjölskylduhlaup', 'hafnarfjall-ultra-fjolskylduhlaup', 'Fjölskylduhlaupið í Hafnarfjall Ultra seríunni', 2300, 167, 'easy', 'outAndBack','rolling','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hafnarfjall Ultra 1 tindur', 'hafnarfjall-ultra-tindur', '1 tindur. Keppnisleið í Hafnarfjall Ultra seríunni', 14400, 912, 'moderate', 'outAndBack','mountainous','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar', 'hafnarfjall-ultra-sjo-tindar', '7 tindar. Keppnisleið í Hafnarfjall Ultra seríunni', 22700,1377, 'hard', 'outAndBack','mountainous','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar og tveir dalir', 'hafnarfjall-ultra-sjo-tindar-og-dalir', '7 tindar og dalir. Keppnisleið í Hafnarfjall Ultra seríunni', 33000, 2453,  'extreme', 'outAndBack','mountainous','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hafnarfjall Ultra fjölskylduhlaup', 'hafnarfjall-ultra-fjolskylduhlaup', 'Fjölskylduhlaupið í Hafnarfjall Ultra seríunni', 2300, 167, 0, 'easy', 'outAndBack','rolling','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hafnarfjall Ultra 1 tindur', 'hafnarfjall-ultra-tindur', '1 tindur. Keppnisleið í Hafnarfjall Ultra seríunni', 14400, 912, 0, 'moderate', 'outAndBack','mountainous','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar', 'hafnarfjall-ultra-sjo-tindar', '7 tindar. Keppnisleið í Hafnarfjall Ultra seríunni', 22700,1377, 0, 'hard', 'outAndBack','mountainous','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hafnarfjall Ultra sjö tindar og tveir dalir', 'hafnarfjall-ultra-sjo-tindar-og-dalir', '7 tindar og dalir. Keppnisleið í Hafnarfjall Ultra seríunni', 33000, 2453,  0, 'extreme', 'outAndBack','mountainous','mixed',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Bláfellshringur', 'blafellshringur', 'Hringur í kringum Bláfell, við Hvítárvatn.', 37000, 437, 'hard', 'circular','hilly','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Tunguheiði', 'tunguheidi', 'Gömul póstleið á milli Bíldudals og Tálknafjarðar. Leiðin er að mestu vörðuð með fínum stígum Tálknafjarðarmegin en sumsstaðar mjög grýtt undirlag.', 13200, 543, 'hard', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Jarðvarmahlaup ON', 'jardvarmahlaup-on', '', 12950, 325, 'moderate', 'circular','hilly','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Bláfellshringur', 'blafellshringur', 'Hringur í kringum Bláfell, við Hvítárvatn.', 37000, 437, 0, 'hard', 'circular','hilly','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Tunguheiði', 'tunguheidi', 'Gömul póstleið á milli Bíldudals og Tálknafjarðar. Leiðin er að mestu vörðuð með fínum stígum Tálknafjarðarmegin en sumsstaðar mjög grýtt undirlag.', 13200, 543, 0, 'hard', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Jarðvarmahlaup ON', 'jardvarmahlaup-on', '', 12950, 325, 0, 'moderate', 'circular','hilly','trail',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Hellisheiði sunnan vega', 'hellisheidi-sunnan-vega', '', 21100, 752, 'hard', 'circular','hilly','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Sveifluháls', 'sveifluhals', '', 21900, 987, 'hard', 'circular','hilly','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Úlfarsfellsslaufan', 'ulfarsfellsslaufan', '3 Úllar, mismunandi leiðir upp og niður', 11100, 686, 'moderate', 'outAndBack','hilly','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hellisheiði sunnan vega', 'hellisheidi-sunnan-vega', '', 21100, 752, 0, 'hard', 'circular','hilly','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Sveifluháls', 'sveifluhals', '', 21900, 987, 0, 'hard', 'circular','hilly','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Úlfarsfellsslaufan', 'ulfarsfellsslaufan', '3 Úllar, mismunandi leiðir upp og niður', 11100, 686, 0, 'moderate', 'outAndBack','hilly','trail',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Adidas boost', 'adidas-boost', '', 10000, 65, 'moderate', 'outAndBack','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Adidas boost', 'adidas-boost', '', 10000, 65, 0, 'moderate', 'outAndBack','flat','paved',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Austur Ultra 9km', 'austur-ultra-9', '', 9000, 216, 'moderate', 'pointToPoint','rolling','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Austur Ultra 18km', 'austur-ultra-18', '', 18000, 577, 'hard', 'pointToPoint','hilly','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Austur Ultra 53km', 'austur-ultra-53', '', 53000, 1890, 'extreme', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Austur Ultra 9km', 'austur-ultra-9', '', 9000, 216, 0, 'moderate', 'pointToPoint','rolling','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Austur Ultra 18km', 'austur-ultra-18', '', 18000, 577, 0, 'hard', 'pointToPoint','hilly','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Austur Ultra 53km', 'austur-ultra-53', '', 53000, 1890, 0, 'extreme', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Bláskógaskokk 8km', 'blaskogaskokk-8', '', 8045, 150, 'moderate', 'pointToPoint','rolling','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Bláskógaskokk 16km', 'blaskogaskokk-16', 'Hlaupið er frá Gjábakka, austan Þingvallavatns eftir gamla Gjábakkavegi til Laugarvatns.', 16090, 300, 'moderate', 'pointToPoint','rolling','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Bláskógaskokk 8km', 'blaskogaskokk-8', '', 8045, 150, 0, 'moderate', 'pointToPoint','rolling','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Bláskógaskokk 16km', 'blaskogaskokk-16', 'Hlaupið er frá Gjábakka, austan Þingvallavatns eftir gamla Gjábakkavegi til Laugarvatns.', 16090, 300, 0, 'moderate', 'pointToPoint','rolling','trail',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Botnsvatnshlaup 3km', 'botnsvatnshlaup-3', 'Hefst við norðanvert Botnsvatn og farið er meðfram vatninu að norðanverðu og síðan niður Búðarárstíginn meðfram Búðará, fram hjá vatnsveitu og niður í Skrúðgarðinn á Húsavík, þar sem endamarkið er við Kvíabekk. Nokkur lækkun er frá Botnsvatni og niður í Skrúðgarð. Þægilegur stígur við allra hæfi í fallegu umhverfi.', 3300, 9, 'easy', 'pointToPoint','rolling','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Botnvatnshlaup 8km', 'botnvatnshlaup-8', 'Hefst við norðanvert Botnsvatn, farinn er rúmlega einn hringur rangsælis um vatnið, síðan niður Búðarárstíginn meðfram Búðará og niður í Skrúðgarðinn þar sem endamarkið er við Kvíabekk.', 8300, 60, 'moderate', 'pointToPoint','rolling','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Botnsvatnshlaup 3km', 'botnsvatnshlaup-3', 'Hefst við norðanvert Botnsvatn og farið er meðfram vatninu að norðanverðu og síðan niður Búðarárstíginn meðfram Búðará, fram hjá vatnsveitu og niður í Skrúðgarðinn á Húsavík, þar sem endamarkið er við Kvíabekk. Nokkur lækkun er frá Botnsvatni og niður í Skrúðgarð. Þægilegur stígur við allra hæfi í fallegu umhverfi.', 3300, 9, 0, 'easy', 'pointToPoint','rolling','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Botnvatnshlaup 8km', 'botnvatnshlaup-8', 'Hefst við norðanvert Botnsvatn, farinn er rúmlega einn hringur rangsælis um vatnið, síðan niður Búðarárstíginn meðfram Búðará og niður í Skrúðgarðinn þar sem endamarkið er við Kvíabekk.', 8300, 60, 0, 'moderate', 'pointToPoint','rolling','trail',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Eldslóðin 5km', 'eldslodin-5', 'Passleg leið fyrir byrjendur og áhugasama unga göngugarpa.', 5220, 25, 'easy', 'circular','flat','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Eldslóðin 10km', 'eldslodin-10', 'Hentar vönum hlaupagörpum', 10000, 160, 'moderate', 'circular','rolling','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Eldslóðin 29km', 'eldslodin-29', 'Frábær hlaupaleið í kringum Helgafellið fyrir vana og afreks hlaupara.', 28800, 438, 'hard', 'outAndBack','rolling','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Eldslóðin 5km', 'eldslodin-5', 'Passleg leið fyrir byrjendur og áhugasama unga göngugarpa.', 5220, 25, 0, 'easy', 'circular','flat','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Eldslóðin 10km', 'eldslodin-10', 'Hentar vönum hlaupagörpum', 10000, 160, 0, 'moderate', 'circular','rolling','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Eldslóðin 29km', 'eldslodin-29', 'Frábær hlaupaleið í kringum Helgafellið fyrir vana og afreks hlaupara.', 28800, 438, 0, 'hard', 'outAndBack','rolling','trail',  seed_created_by, NOW()),
         
-    (gen_random_uuid(), 'Fimmvörðuhálshlaupið', 'fimmvorduhalshlaupid', 'Fimmvörðuháls er ein fegursta gönguleið landsins en hún er ekki síður frábær hlaupaleið.', 28000, 1048, 'hard', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Fimmvörðuhálshlaupið', 'fimmvorduhalshlaupid', 'Fimmvörðuháls er ein fegursta gönguleið landsins en hún er ekki síður frábær hlaupaleið.', 28000, 1048, 0, 'hard', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Fjarðarhlaupið, 18km', 'fjardarhlaupid-18', '', 18000, 692, 'moderate', 'pointToPoint','mountainous','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Fjarðarhlaupið, 32km', 'fjardarhlaupid-32', '', 32000, 1395, 'hard', 'pointToPoint','mountainous','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Fjarðarhlaupið, 18km', 'fjardarhlaupid-18', '', 18000, 692, 0, 'moderate', 'pointToPoint','mountainous','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Fjarðarhlaupið, 32km', 'fjardarhlaupid-32', '', 32000, 1395, 0, 'hard', 'pointToPoint','mountainous','mixed',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Flensborgarhlaupið, 5km', 'flensborgarhlaupid-5', '', 5120, 44, 'easy', 'pointToPoint','rolling','paved',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Flensborgarhlaupið, 10km', 'flensborgarhlaupid-10', '', 10200, 114, 'easy', 'pointToPoint','rolling','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Flensborgarhlaupið, 5km', 'flensborgarhlaupid-5', '', 5120, 44, 0, 'easy', 'pointToPoint','rolling','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Flensborgarhlaupið, 10km', 'flensborgarhlaupid-10', '', 10200, 114, 0, 'easy', 'pointToPoint','rolling','paved',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Pósthlaupið 7km', 'posthlaupid-7', '7 km leið frá Búðardalsflugvelli á Kambsnesi yfir í Búðardal.', 7000, 67, 'easy', 'pointToPoint','flat','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Pósthlaupið 12km', 'posthlaupid-12', '12 km hlaupið hefst í malarnámunni skammt frá veiðihúsinu við Haukadalsá.', 12010, 134, 'moderate', 'pointToPoint','rolling','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Pósthlaupið 26km', 'posthlaupid-26', '26km hlaupið hefst við Kirkjufellsrétt, nálægt bænum Smyrlhóli í Haukadal.', 26000, 176, 'moderate', 'pointToPoint','rolling','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Pósthlaupið 50km', 'posthlaupid-50', ' Fyrstu 15 km hlaupsins eru nokkuð á fótinn en eftir það er leiðin meira og minna niður á við eða flöt. Hækkunin er samtals um 600 m og hæsti punktur er í Haukadalsskarði.', 50000, 600, 'hard', 'pointToPoint','rolling','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Pósthlaupið 7km', 'posthlaupid-7', '7 km leið frá Búðardalsflugvelli á Kambsnesi yfir í Búðardal.', 7000, 67, 0, 'easy', 'pointToPoint','flat','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Pósthlaupið 12km', 'posthlaupid-12', '12 km hlaupið hefst í malarnámunni skammt frá veiðihúsinu við Haukadalsá.', 12010, 134, 0, 'moderate', 'pointToPoint','rolling','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Pósthlaupið 26km', 'posthlaupid-26', '26km hlaupið hefst við Kirkjufellsrétt, nálægt bænum Smyrlhóli í Haukadal.', 26000, 176, 0, 'moderate', 'pointToPoint','rolling','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Pósthlaupið 50km', 'posthlaupid-50', ' Fyrstu 15 km hlaupsins eru nokkuð á fótinn en eftir það er leiðin meira og minna niður á við eða flöt. Hækkunin er samtals um 600 m og hæsti punktur er í Haukadalsskarði.', 50000, 600, 0, 'hard', 'pointToPoint','rolling','mixed',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Hjartadagshlaupið, 5km', 'hjartadagshlaupid-5', '', 5000, 0, 'easy', 'outAndBack','flat','paved',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hjartadagshlaupið, 10km', 'hjartadagshlaupid-10', '', 10350, 56, 'easy', 'outAndBack','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hjartadagshlaupið, 5km', 'hjartadagshlaupid-5', '', 5000, 0, 0, 'easy', 'outAndBack','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hjartadagshlaupið, 10km', 'hjartadagshlaupid-10', '', 10350, 56, 0, 'easy', 'outAndBack','flat','paved',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Hleðsluhlaupið, 5km', 'hledsluhlaupid-5', '', 5400, 29, 'easy', 'outAndBack','flat','paved',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hleðsluhlaupið, 10km', 'hledsluhlaupid-10', '', 10350, 56, 'easy', 'outAndBack','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hleðsluhlaupið, 5km', 'hledsluhlaupid-5', '', 5400, 29, 0, 'easy', 'outAndBack','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hleðsluhlaupið, 10km', 'hledsluhlaupid-10', '', 10350, 56, 0, 'easy', 'outAndBack','flat','paved',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Reykjavíkurmaraþon, 10km', 'reykjavik-marathon-10', '', 10000, 39, 'easy', 'pointToPoint','flat','paved',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Reykjavíkurmaraþon, 21km', 'reykjavik-marathon-21', '', 21100, 87, 'moderate', 'pointToPoint','flat','paved',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Reykjavíkurmaraþon, 42km', 'reykjavik-marathon-42', '', 42195, 219, 'hard', 'pointToPoint','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Reykjavíkurmaraþon, 10km', 'reykjavik-marathon-10', '', 10000, 39, 0, 'easy', 'pointToPoint','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Reykjavíkurmaraþon, 21km', 'reykjavik-marathon-21', '', 21100, 87, 0, 'moderate', 'pointToPoint','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Reykjavíkurmaraþon, 42km', 'reykjavik-marathon-42', '', 42195, 219, 0, 'hard', 'pointToPoint','flat','paved',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Reykjavík Trail, 5km', 'reykjavik-trail-5', '', 5390, 87, 'easy', 'outAndBack','rolling','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Reykjavík Trail, 15km', 'reykjavik-trail-15', '', 16490, 181, 'moderate', 'outAndBack','rolling','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Reykjavík Trail, 25km', 'reykjavik-trail-25', '', 27180, 309, 'hard', 'outAndBack','rolling','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Reykjavík Trail, 5km', 'reykjavik-trail-5', '', 5390, 87, 0, 'easy', 'outAndBack','rolling','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Reykjavík Trail, 15km', 'reykjavik-trail-15', '', 16490, 181, 0, 'moderate', 'outAndBack','rolling','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Reykjavík Trail, 25km', 'reykjavik-trail-25', '', 27180, 309, 0, 'hard', 'outAndBack','rolling','mixed',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Súlur Vertical - Fálkinn', 'sulur-vertical-falkinn', 'Fálkinn er 19 km stígahlaup með 530 m hækkun. Skemmtileg leið sem flestir ráða við.', 18000, 543, 'moderate', 'pointToPoint','hilly','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Súlur Vertical - Súlur', 'sulur-vertical-sulur', 'Súlur er 29 km fjallahlaup með 1410 m hækkun. Krefjandi hlaup en á flestra færi með góðum undirbúningi.', 29000, 1334, 'hard', 'pointToPoint','hilly','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Súlur Vertical - Tröllið', 'sulur-vertical-trollid', 'Tröllið 43 km er fjallahlaup með 1870 metra hækkun þar sem hlaupið er upp á bæjarfjallið Súlur og þaðan eftir fjallshryggnum inn á Glerárdal. Krefjandi leið í stórbrotnu umhverfi.', 43000, 1906, 'hard', 'pointToPoint','hilly','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Súlur Vertical - Gyðjan', 'sulur-vertical-gydjan', 'Gyðjan er 100 km fjallahlaup með 3580 m hækkun. Hlaupið hefst við Goðafoss og þaðan er hlaupið yfir Belgsárfjall og Vaðlaheiði til Akureyrar, upp á bæjarfjallið Súlur, inn á Glerárdal og að lokum niður í miðbæ Akureyrar.', 100000, 3920, 'extreme', 'pointToPoint','mountainous','mixed',  seed_created_by, NOW()),    
+    (gen_random_uuid(), 'Súlur Vertical - Fálkinn', 'sulur-vertical-falkinn', 'Fálkinn er 19 km stígahlaup með 530 m hækkun. Skemmtileg leið sem flestir ráða við.', 18000, 543, 0, 'moderate', 'pointToPoint','hilly','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Súlur Vertical - Súlur', 'sulur-vertical-sulur', 'Súlur er 29 km fjallahlaup með 1410 m hækkun. Krefjandi hlaup en á flestra færi með góðum undirbúningi.', 29000, 1334, 0, 'hard', 'pointToPoint','hilly','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Súlur Vertical - Tröllið', 'sulur-vertical-trollid', 'Tröllið 43 km er fjallahlaup með 1870 metra hækkun þar sem hlaupið er upp á bæjarfjallið Súlur og þaðan eftir fjallshryggnum inn á Glerárdal. Krefjandi leið í stórbrotnu umhverfi.', 43000, 1906, 0, 'hard', 'pointToPoint','hilly','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Súlur Vertical - Gyðjan', 'sulur-vertical-gydjan', 'Gyðjan er 100 km fjallahlaup með 3580 m hækkun. Hlaupið hefst við Goðafoss og þaðan er hlaupið yfir Belgsárfjall og Vaðlaheiði til Akureyrar, upp á bæjarfjallið Súlur, inn á Glerárdal og að lokum niður í miðbæ Akureyrar.', 100000, 3920, 0, 'extreme', 'pointToPoint','mountainous','mixed',  seed_created_by, NOW()),    
         
-    (gen_random_uuid(), 'Vatnsmýrarhlaupið', 'vatnsmyrarhlaupid', 'Hlaupið er í Vatnsmýrinni og Skerjafirði. Upphaf og endir er í nágrenni Háskóla Íslands.', 5000, 17, 'easy', 'circular','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Vatnsmýrarhlaupið', 'vatnsmyrarhlaupid', 'Hlaupið er í Vatnsmýrinni og Skerjafirði. Upphaf og endir er í nágrenni Háskóla Íslands.', 5000, 17, 0, 'easy', 'circular','flat','paved',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Vatnsnes Trail run - 10km', 'vatnsnes-trail-run-10', ' Leiðin fer í gegnum skógræktarsvæði og yfir í Hvamminn með útsýni yfir mýri og árfarvegi. Þaðan liggur leiðin meðfram Ytri-Hvammsá og niður í mark aftur við Félagsheimilið.', 9890, 370, 'moderate', 'outAndBack','hilly','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Vatnsnes Trail run- 20km', 'vatnsnes-trail-run-20', 'Ræst við Félagsheimilið á Hvammstanga kl. 14. Hlaupið liggur upp með Syðri-Hvammsá, í gegnum Kirkjuhvamm og áfram yfir Efstaberg. Þaðan liggur leiðin norður í Hvamminn. Frá Hvamminum heldur hlaupið áfram að Káraborg og að Fjalagilslæk, þar sem er drykkjarstöð. Leiðin snýr svo aftur og sameinast síðasta hluta 10 km hlaupsins.', 22000, 844   , 'hard', 'outAndBack','hilly','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Vatnsnes Trail run - 10km', 'vatnsnes-trail-run-10', ' Leiðin fer í gegnum skógræktarsvæði og yfir í Hvamminn með útsýni yfir mýri og árfarvegi. Þaðan liggur leiðin meðfram Ytri-Hvammsá og niður í mark aftur við Félagsheimilið.', 9890, 370, 0, 'moderate', 'outAndBack','hilly','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Vatnsnes Trail run- 20km', 'vatnsnes-trail-run-20', 'Ræst við Félagsheimilið á Hvammstanga kl. 14. Hlaupið liggur upp með Syðri-Hvammsá, í gegnum Kirkjuhvamm og áfram yfir Efstaberg. Þaðan liggur leiðin norður í Hvamminn. Frá Hvamminum heldur hlaupið áfram að Káraborg og að Fjalagilslæk, þar sem er drykkjarstöð. Leiðin snýr svo aftur og sameinast síðasta hluta 10 km hlaupsins.', 22000, 844, 0, 'hard', 'outAndBack','hilly','mixed',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Akranes Ultra 10', 'akrafjall-ultra-10', '', 10000, 30, 'easy', 'pointToPoint','flat','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Akranes Ultra 20', 'akrafjall-ultra-20', '', 20000, 560, 'moderate', 'pointToPoint','mountainous','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Akranes Ultra 27', 'akrafjall-ultra-27', '', 27000, 1150, 'hard', 'pointToPoint','mountainous','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Akranes Ultra 10', 'akrafjall-ultra-10', '', 10000, 30, 0, 'easy', 'pointToPoint','flat','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Akranes Ultra 20', 'akrafjall-ultra-20', '', 20000, 560, 0, 'moderate', 'pointToPoint','mountainous','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Akranes Ultra 27', 'akrafjall-ultra-27', '', 27000, 1150, 0, 'hard', 'pointToPoint','mountainous','mixed',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Hólmsheiðarhlaup 6km', 'holmsheidarhlaup-6', '', 6100, 70, 'easy', 'pointToPoint','flat','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hólmsheiðarhlaup 10km', 'holmsheidarhlaup-10', '', 10300, 140, 'moderate', 'pointToPoint','hilly','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hólmsheiðarhlaup 22km', 'holmsheidarhlaup-22', '', 22000, 610, 'hard', 'pointToPoint','mountainous','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hólmsheiðarhlaup 6km', 'holmsheidarhlaup-6', '', 6100, 70, 0, 'easy', 'pointToPoint','flat','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hólmsheiðarhlaup 10km', 'holmsheidarhlaup-10', '', 10300, 140, 0, 'moderate', 'pointToPoint','hilly','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hólmsheiðarhlaup 22km', 'holmsheidarhlaup-22', '', 22000, 610, 0, 'hard', 'pointToPoint','mountainous','mixed',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Kerlingarfjöll Ultra 12', 'kerlingarfjoll-ultra-12', '', 12000, 560, 'moderate', 'circular','hilly','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Kerlingarfjöll Ultra 22', 'kerlingarfjoll-ultra-22', '', 22000, 1206, 'hard', 'circular','hilly','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Kerlingarfjöll Ultra 63', 'kerlingarfjoll-ultra-63', '', 63000, 2377, 'extreme', 'circular','mountainous','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Kerlingarfjöll Ultra 12', 'kerlingarfjoll-ultra-12', '', 12000, 560, 0, 'moderate', 'circular','hilly','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Kerlingarfjöll Ultra 22', 'kerlingarfjoll-ultra-22', '', 22000, 1206, 0, 'hard', 'circular','hilly','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Kerlingarfjöll Ultra 63', 'kerlingarfjoll-ultra-63', '', 63000, 2377, 0, 'extreme', 'circular','mountainous','trail',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Mýrdalshlaupið 10km', 'myrdalshlaupid-10', '', 10000, 297, 'moderate', 'pointToPoint','hilly','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Mýrdalshlaupið 22km', 'myrdalshlaupid-22', '', 22000, 1094, 'hard', 'pointToPoint','mountainous','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Mýrdalshlaupið 10km', 'myrdalshlaupid-10', '', 10000, 297, 0, 'moderate', 'pointToPoint','hilly','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Mýrdalshlaupið 22km', 'myrdalshlaupid-22', '', 22000, 1094, 0, 'hard', 'pointToPoint','mountainous','mixed',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Tindahlaupið, 1 tindur', 'tindahlaupid-1', '', 12000, 203, 'moderate', 'circular','mountainous','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Tindahlaupið, 3 tindar', 'tindahlaupid-3', '', 18000, 720, 'hard', 'circular','mountainous','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Tindahlaupið, 5 tindar', 'tindahlaupid-5', '', 34000, 1196, 'hard', 'circular','mountainous','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Tindahlaupið, 7 tindar', 'tindahlaupid-7', '', 37000, 1569, 'hard', 'circular','mountainous','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Tindahlaupið, 1 tindur', 'tindahlaupid-1', '', 12000, 203, 0, 'moderate', 'circular','mountainous','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Tindahlaupið, 3 tindar', 'tindahlaupid-3', '', 18000, 720, 0, 'hard', 'circular','mountainous','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Tindahlaupið, 5 tindar', 'tindahlaupid-5', '', 34000, 1196, 0, 'hard', 'circular','mountainous','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Tindahlaupið, 7 tindar', 'tindahlaupid-7', '', 37000, 1569, 0, 'hard', 'circular','mountainous','mixed',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Dyrfjallahlaup Ultra, 12km', 'dyrfjallahlaup-ultra-12', '', 11620, 711, 'moderate', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Dyrfjallahlaup Ultra, 24km', 'dyrfjallahlaup-ultra-24', '', 23500, 1120, 'hard', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Dyrfjallahlaup Ultra, 50km', 'dyrfjallahlaup-ultra-50', '', 50000, 2450, 'extreme', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Dyrfjallahlaup Ultra, 12km', 'dyrfjallahlaup-ultra-12', '', 11620, 711, 0, 'moderate', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Dyrfjallahlaup Ultra, 24km', 'dyrfjallahlaup-ultra-24', '', 23500, 1120, 0, 'hard', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Dyrfjallahlaup Ultra, 50km', 'dyrfjallahlaup-ultra-50', '', 50000, 2450, 0, 'extreme', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Trékyllisheiðin Junior', 'trekyllisheidin-junior', '', 3700, 70, 'easy', 'pointToPoint','flat','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Trékyllisheiðin Mini', 'trekyllisheidin-mini', '', 16500, 310, 'moderate', 'pointToPoint','hilly','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Trékyllisheiðin Midi', 'trekyllisheidin-midi', '', 26300, 960, 'hard', 'pointToPoint','hilly','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Trékyllisheiðin Ultra', 'trekyllisheidin-ultra', '', 48400, 1160, 'extreme', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Trékyllisheiðin Junior', 'trekyllisheidin-junior', '', 3700, 70, 0, 'easy', 'pointToPoint','flat','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Trékyllisheiðin Mini', 'trekyllisheidin-mini', '', 16500, 310, 0, 'moderate', 'pointToPoint','hilly','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Trékyllisheiðin Midi', 'trekyllisheidin-midi', '', 26300, 960, 0, 'hard', 'pointToPoint','hilly','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Trékyllisheiðin Ultra', 'trekyllisheidin-ultra', '', 48400, 1160, 0, 'extreme', 'pointToPoint','mountainous','trail',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Hálft Mývatnsmaraþon', 'myvatnsmarathon-21', '', 21200, 135, 'moderate', 'pointToPoint','flat','paved',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Mývatnsmaraþon', 'myvatnsmarathon-42', '', 42200, 180, 'hard', 'circular','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hálft Mývatnsmaraþon', 'myvatnsmarathon-21', '', 21200, 135, 0, 'moderate', 'pointToPoint','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Mývatnsmaraþon', 'myvatnsmarathon-42', '', 42200, 180, 0, 'hard', 'circular','flat','paved',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Hlaupárshringurinn, 5km', 'hlauparshringur-5', '', 5000, 130, 'easy', 'circular','rolling','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hlaupárshringurinn, 10km', 'hlauparshringur-10', '', 9700, 265, 'moderate', 'circular','rolling','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hlaupárshringurinn, 5km', 'hlauparshringur-5', '', 5000, 130, 0, 'easy', 'circular','rolling','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hlaupárshringurinn, 10km', 'hlauparshringur-10', '', 9700, 265, 0, 'moderate', 'circular','rolling','trail',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Stjörnuhlaupið 10km', 'stjornuhlaupid-10', '', 10840, 189, 'moderate', 'circular','rolling','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Hraunhlaupið', 'hraunhlaupid', '', 9500, 141, 'moderate', 'pointToPoint','rolling','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Stjörnuhlaupið 10km', 'stjornuhlaupid-10', '', 10840, 189, 0, 'moderate', 'circular','rolling','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Hraunhlaupið', 'hraunhlaupid', '', 9500, 141, 0, 'moderate', 'pointToPoint','rolling','trail',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Ljósanæturhlaupið, 3km', 'ljosanaeturhlaup-3', '', 3000, 10, 'easy', 'circular','flat','paved',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Ljósanæturhlaupið, 7km', 'ljosanaeturhlaup-7', '', 7470, 103, 'easy', 'circular','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Ljósanæturhlaupið, 3km', 'ljosanaeturhlaup-3', '', 3000, 10, 0, 'easy', 'circular','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Ljósanæturhlaupið, 7km', 'ljosanaeturhlaup-7', '', 7470, 103, 0, 'easy', 'circular','flat','paved',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Þórsgata Volcano Trail Run, 4,5km', 'volcano-trail-run-4', '', 4500, 0, 'easy', 'circular','rolling','trail',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Þórsgata Volcano Trail Run, 12km', 'volcano-trail-run-12', '', 12200, 659, 'moderate', 'circular','hilly','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Þórsgata Volcano Trail Run, 4,5km', 'volcano-trail-run-4', '', 4500, 0, 0, 'easy', 'circular','rolling','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Þórsgata Volcano Trail Run, 12km', 'volcano-trail-run-12', '', 12200, 659, 0, 'moderate', 'circular','hilly','trail',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Vatnsendahlaup HK', 'vatnsendahlaup-hk', '', 9900, 161, 'moderate', 'circular','hilly','trail',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Vatnsendahlaup HK', 'vatnsendahlaup-hk', '', 9900, 161, 0, 'moderate', 'circular','hilly','trail',  seed_created_by, NOW()),
 
-    (gen_random_uuid(), 'Vestmannaeyjahlaup, 5km', 'vestmannaeyjahlaup-5', '', 4570, 57, 'easy', 'circular','flat','paved',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Vestmannaeyjahlaup, 10km', 'vestmannaeyjahlaup-10', '', 9710, 179, 'moderate', 'circular','rolling','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Vestmannaeyjahlaup, 5km', 'vestmannaeyjahlaup-5', '', 4570, 57, 0, 'easy', 'circular','flat','paved',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Vestmannaeyjahlaup, 10km', 'vestmannaeyjahlaup-10', '', 9710, 179, 0, 'moderate', 'circular','rolling','paved',  seed_created_by, NOW()),
     
-    (gen_random_uuid(), 'Vitahlaupið, 6km', 'vitahlaupid-6', '', 6260, 13, 'easy', 'pointToPoint','flat','mixed',  seed_created_by, NOW()),
-    (gen_random_uuid(), 'Vitahlaupið, 15km', 'vitahlaupid-15', '', 15500, 35, 'moderate', 'pointToPoint','flat','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Vitahlaupið, 6km', 'vitahlaupid-6', '', 6260, 13, 0, 'easy', 'pointToPoint','flat','mixed',  seed_created_by, NOW()),
+    (gen_random_uuid(), 'Vitahlaupið, 15km', 'vitahlaupid-15', '', 15500, 35, 0, 'moderate', 'pointToPoint','flat','mixed',  seed_created_by, NOW()),
     
-    ( laugavegur_trail_id, 'Laugavegur Ultra', 'laugavegur-ultra', 'Laugavegshlaupið er 55 km utanvegahlaup en Laugavegurinn tengir saman Landmannalaugar og Þórsmörk á sunnanverðu hálendi Íslands, tvær sannkallaðar náttúruperlur. Göngugarpar eru venjulega 4 daga á leið sinni um Laugaveginn en hröðustu hlaupararnir fara leiðina á 4-5 klukkustundum.', 53000, 1293, 'hard', 'pointToPoint','hilly','trail', seed_created_by, NOW()
+    ( laugavegur_trail_id, 'Laugavegur Ultra', 'laugavegur-ultra', 'Laugavegshlaupið er 55 km utanvegahlaup en Laugavegurinn tengir saman Landmannalaugar og Þórsmörk á sunnanverðu hálendi Íslands, tvær sannkallaðar náttúruperlur. Göngugarpar eru venjulega 4 daga á leið sinni um Laugaveginn en hröðustu hlaupararnir fara leiðina á 4-5 klukkustundum.', 53000, 1293, 0, 'hard', 'pointToPoint','hilly','trail', seed_created_by, NOW()
 ) ON CONFLICT (slug) DO NOTHING;
 
 ---

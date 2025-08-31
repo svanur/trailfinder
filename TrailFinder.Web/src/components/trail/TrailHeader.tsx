@@ -1,7 +1,7 @@
 import React from 'react';
-import { Trail } from '@trailfinder/db-types';
 import TrailActions from './TrailActions';
 import TrailStats from './TrailStats';
+import {Trail} from "@trailfinder/db-types/database";
 
 interface TrailHeaderProps {
     trail: Trail;

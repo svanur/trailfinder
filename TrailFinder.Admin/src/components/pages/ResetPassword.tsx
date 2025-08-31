@@ -1,6 +1,6 @@
 // src/pages/ResetPassword.tsx (Conceptual)
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
 import { useNavigate } from 'react-router-dom';
 import { PasswordInput, Button, Container, Title, Text, Paper } from '@mantine/core';
 

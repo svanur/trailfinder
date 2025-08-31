@@ -13,7 +13,7 @@ namespace TrailFinder.Core.Services.TrailAnalysis.DifficultyAnalysis;
 /// <remarks>
 /// This difficulty rating system:
 /// 1. Uses a 100-point scoring system based on four main factors:
-/// - Distance (30 points)
+/// - DistanceMeters (30 points)
 /// - Elevation gain (30 points)
 /// - Terrain type (25 points)
 /// - Route type (15 points)
@@ -40,7 +40,7 @@ public class DifficultyAnalyzer: IAnalyzer<DifficultyAnalysisInput, DifficultyLe
 {
     //private const int MaxScore = 100;
     
-    // Distance factors (in meters)
+    // DistanceMeters factors (in meters)
     private const double ShortDistance = 10000;     // 10 km
     private const double ModerateDistance = 21000;  // 21 km
     private const double LongDistance = 42000;      // 42 km
@@ -63,7 +63,7 @@ public class DifficultyAnalyzer: IAnalyzer<DifficultyAnalysisInput, DifficultyLe
     {
         var score = 0;
 
-        // Distance Score (0-30 points)
+        // DistanceMeters Score (0-30 points)
         score += CalculateDistanceScore(totalDistance);
 
         // Elevation Score (0-30 points)

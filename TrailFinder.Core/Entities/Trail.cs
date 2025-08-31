@@ -23,6 +23,8 @@ public class Trail : BaseEntity
         SurfaceType surfaceType,
         LineString routeGeom,
         
+        bool isActive,
+        
         Guid createdBy,
         DateTime createdAt,
         Guid updatedBy,
@@ -40,6 +42,8 @@ public class Trail : BaseEntity
         TerrainType = terrainType;
         SurfaceType = surfaceType;
         RouteGeom = routeGeom;
+        
+        IsActive = isActive;
 
         CreatedBy = createdBy;
         CreatedAt = createdAt;
@@ -56,6 +60,7 @@ public class Trail : BaseEntity
     public double DistanceMeters { get; set; }
 
     public double ElevationGainMeters { get; set; }
+    public double ElevationLossMeters { get; set; }
 
     public DifficultyLevel DifficultyLevel { get; set; }
     public RouteType RouteType { get; set; }
@@ -63,6 +68,8 @@ public class Trail : BaseEntity
     public SurfaceType SurfaceType { get; set; }
 
     public LineString? RouteGeom { get; set; }
+    
+    public bool IsActive { get; set; }
 
     // For EF Core to understand the relationships and use Include,
     // one needs navigation properties in the entity classes

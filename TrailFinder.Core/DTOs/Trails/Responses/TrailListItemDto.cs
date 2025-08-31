@@ -21,6 +21,7 @@ public class TrailListItemDto : BaseDto
         string description,
         double distanceMeters,
         double elevationGainMeters,
+        double elevationLossMeters,
         DifficultyLevel difficultyLevel,
         RouteType routeType,
         TerrainType terrainType,
@@ -28,6 +29,7 @@ public class TrailListItemDto : BaseDto
         LineString? routeGeom,
         GpxPoint startGpxPoint,
         GpxPoint endGpxPoint,
+        bool isActive,
         Guid createdBy,
         DateTime createdAt,
         Guid? updatedBy,
@@ -41,13 +43,15 @@ public class TrailListItemDto : BaseDto
         Description = description;
         DistanceMeters = distanceMeters;
         ElevationGainMeters = elevationGainMeters;
+        ElevationLossMeters = elevationLossMeters;
         DifficultyLevel = difficultyLevel;
         RouteType = routeType;
         TerrainType = terrainType;
         SurfaceType = surfaceType;
         
         //RouteGeom = routeGeom;
-
+        IsActive = isActive;
+        
         CreatedBy = createdBy;
         CreatedAt = createdAt;
         UpdatedBy = updatedBy;
@@ -70,6 +74,9 @@ public class TrailListItemDto : BaseDto
     [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
     public double? ElevationGainMeters { get; set; }
 
+    [JsonNumberHandling(JsonNumberHandling.AllowNamedFloatingPointLiterals)]
+    public double? ElevationLossMeters { get; set; }
+
     public DifficultyLevel? DifficultyLevel { get; set; }
     public RouteType? RouteType { get; set; }
     public TerrainType? TerrainType { get; set; }
@@ -82,6 +89,8 @@ public class TrailListItemDto : BaseDto
     
     public double? DistanceToUserMeters { get; set; }
     public double? DistanceToUserKm { get; set; }
+    
+    public bool IsActive { get; set; }
     
     public IEnumerable<TrailLocationDto> TrailLocations { get; set; }
     

@@ -17,11 +17,11 @@ public class CreateTrailCommandValidator : AbstractValidator<CreateTrailCommand>
             .MaximumLength(2000)
             .WithMessage("Description must not be empty and cannot exceed 2000 characters");
 
-        RuleFor(x => x.Distance)
+        RuleFor(x => x.DistanceMeters)
             .GreaterThan(0)
-            .WithMessage("Distance must be greater than 0 meters");
+            .WithMessage("DistanceMeters must be greater than 0 meters");
 
-        RuleFor(x => x.ElevationGain)
+        RuleFor(x => x.ElevationGainMeters)
             .GreaterThanOrEqualTo(0)
             .WithMessage("Elevation gain cannot be negative");
 

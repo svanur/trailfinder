@@ -147,13 +147,13 @@ public class GpxFileAnalysisTests
         result.EndGpxPoint.Longitude.Should().BeApproximately(-21.8310620, 0.0001); // Allow some tolerance
         result.EndGpxPoint.Elevation.Should().BeApproximately(180, 0.0001); // Allow some tolerance
         
-        result.ElevationGain.Should().BeApproximately(expectedElevationGain, 2); // Allow some tolerance
+        result.ElevationGainMeters.Should().BeApproximately(expectedElevationGain, 2); // Allow some tolerance
         
         result.DifficultyLevel.Should().Be(expectedDifficulty);
         result.RouteType.Should().Be(expectedRouteType);
         result.TerrainType.Should().Be(expectedTerrainType);
-        result.Distance.Should().BeApproximately(expectedDistanceMeters, 50); // Allow some tolerance
-        // result.ElevationGain.Should().BeApproximately(expectedElevationGain, 50); // Allow some tolerance
+        result.DistanceMeters.Should().BeApproximately(expectedDistanceMeters, 50); // Allow some tolerance
+        // result.ElevationGainMeters.Should().BeApproximately(expectedElevationGain, 50); // Allow some tolerance
 
         // You could also assert on start/end points if you have specific expectations
         result.StartGpxPoint.Should().NotBeNull();

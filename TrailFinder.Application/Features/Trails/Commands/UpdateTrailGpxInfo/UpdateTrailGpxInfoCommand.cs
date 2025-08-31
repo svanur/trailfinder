@@ -7,8 +7,9 @@ namespace TrailFinder.Application.Features.Trails.Commands.UpdateTrailGpxInfo;
 
 public record UpdateTrailGpxInfoCommand(
     Guid TrailId,
-    double? Distance,
-    double? ElevationGain,
+    double? DistanceMeters,
+    double? ElevationGainMeters,
+    double? ElevationLossMeters,
     DifficultyLevel? DifficultyLevel,
     RouteType? RouteType,
     TerrainType? TerrainType,
