@@ -1,9 +1,12 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
 using Asp.Versioning;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Supabase;
 using TrailFinder.Api.Converters;
+using TrailFinder.Api.Middleware;
 using TrailFinder.Application;
 using TrailFinder.Core;
 using TrailFinder.Core.Enums;
@@ -166,8 +169,49 @@ builder.Services.AddCors(options =>
                 .GetSection("Cors:AllowedOrigins")
                 .Get<string[]>() ?? [])
             .AllowAnyMethod()
-            .AllowAnyHeader();
+            .AllowAnyHeader()
+            .AllowCredentials();
     });
+});
+
+
+// Configure Rate Limiting (built-in .NET 9)
+builder.Services.AddRateLimiter(options =>
+{
+    var permitLimit = builder.Configuration.GetValue<int>("RateLimiting:PermitLimit");
+    var windowInSeconds = builder.Configuration.GetValue<int>("RateLimiting:WindowInSeconds");
+
+    options.AddFixedWindowLimiter("fixed", opt =>
+    {
+        opt.PermitLimit = permitLimit;
+        opt.Window = TimeSpan.FromSeconds(windowInSeconds);
+        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        opt.QueueLimit = 10;
+    });
+
+    // Rate limit by IP address
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+    {
+        var ipAddress = httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        
+        return RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: ipAddress,
+            factory: partition => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = permitLimit,
+                Window = TimeSpan.FromSeconds(windowInSeconds),
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                QueueLimit = 5
+            });
+    });
+
+    options.OnRejected = async (context, token) =>
+    {
+        context.HttpContext.Response.StatusCode = 429;
+        await context.HttpContext.Response.WriteAsync(
+            "Too many requests. Please try again later.", 
+            token);
+    };
 });
 
 // Register Supabase client
@@ -224,7 +268,16 @@ app.MapHealthChecks("/health/live", new HealthCheckOptions
 */
 
 app.UseHttpsRedirection();
-app.UseCors("DefaultPolicy");
+
+// Apply CORS before authentication
+app.UseCors("AllowFrontend");
+
+// Apply rate limiting
+app.UseRateLimiter();
+
+// Apply API Key authentication middleware
+app.UseApiKeyAuthentication();
+
 app.UseAuthorization();
 app.MapControllers();
 //app.MapHealthChecks("/health");
