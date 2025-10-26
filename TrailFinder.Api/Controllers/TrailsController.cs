@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrailFinder.Application.Features.Trails.Commands.CreateTrail;
 using TrailFinder.Application.Features.Trails.Commands.UpdateTrail;
@@ -15,8 +16,9 @@ using TrailFinder.Core.Interfaces.Services;
 namespace TrailFinder.Api.Controllers;
 
 /// <summary>
-///     Controller responsible for handling trail-related API operations.
+/// Controller responsible for handling trail-related API operations.
 /// </summary>
+[Authorize]
 [ApiVersion(1.0)]
 [Route("api/v{version:apiVersion}/[controller]")]
 public class TrailsController : BaseApiController
@@ -98,6 +100,7 @@ public class TrailsController : BaseApiController
     {
         try
         {
+            var tokenGenerator = TokenGenerator.GenerateJwtToken();
             var query = new GetTrailsQuery
             {
                 UserLatitude = userLatitude,

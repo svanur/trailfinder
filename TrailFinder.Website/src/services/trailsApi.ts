@@ -9,7 +9,7 @@ export const trailsApi = {
     getAll: async (latitude?: number | null, longitude?: number | null): Promise<Trail[]> => { // Return Trail
         let url = `${API_CONFIG.ENDPOINTS.TRAILS}`;
         const params = new URLSearchParams();
-
+console.info('url:', url)
         if (latitude !== null && latitude !== undefined && longitude !== null && longitude !== undefined) {
             params.append('userLatitude', latitude.toString());
             params.append('userLongitude', longitude.toString());

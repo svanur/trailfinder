@@ -1,7 +1,10 @@
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Supabase;
 using TrailFinder.Api.Converters;
 using TrailFinder.Application;
@@ -37,6 +40,25 @@ builder.Services.AddApiVersioning(options =>
         // This option substitutes the version value in the URL.
         options.SubstituteApiVersionInUrl = true;
     });
+
+// Add Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"], //TODO: 
+            ValidAudience = builder.Configuration["Jwt:Audience"], //TODO: 
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty) //TODO: 
+            )
+        };
+    });
+
 
 // Add controllers with all JSON options configured once
 builder.Services.AddControllers()
@@ -225,6 +247,7 @@ app.MapHealthChecks("/health/live", new HealthCheckOptions
 
 app.UseHttpsRedirection();
 app.UseCors("DefaultPolicy");
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 //app.MapHealthChecks("/health");

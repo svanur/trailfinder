@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrailFinder.Application.Features.Races.Queries.GetRace;
 using TrailFinder.Application.Features.Races.Queries.GetRaceBySlug;
@@ -10,6 +11,7 @@ using TrailFinder.Core.Interfaces.Services;
 
 namespace TrailFinder.Api.Controllers;
 
+[Authorize]
 [ApiVersion(1.0)]
 [Route("api/v{version:apiVersion}/[controller]")]
 public class RacesController : BaseApiController

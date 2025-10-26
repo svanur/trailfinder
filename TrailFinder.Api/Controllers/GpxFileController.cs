@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrailFinder.Application.Features.GpxFiles.Commands.ProcessGpxFile;
 using TrailFinder.Core.Exceptions;
@@ -13,6 +14,7 @@ namespace TrailFinder.Api.Controllers;
 /// Controller responsible for managing GPX files associated with trails.
 /// Provides endpoints to upload, download, and retrieve metadata for GPX files.
 /// </summary>
+[Authorize]
 [ApiVersion(1.0)]
 [Route("api/v{version:apiVersion}/trails/{trailId:guid}/gpx-file")]
 public class GpxFileController(
