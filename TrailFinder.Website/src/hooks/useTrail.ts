@@ -1,6 +1,6 @@
 // src/hooks/useTrail.ts
 import { useQuery } from '@tanstack/react-query';
-import { trailsApi } from '../services/trailsApi';
+import {trailsService} from "../services/trailsService.ts";
 
 interface UseTrailOptions {
     slug: string;
@@ -14,9 +14,8 @@ export function useTrail(options: UseTrailOptions) {
         //queryFn: () => trailsApi.getBySlug(slug),
         queryKey: ['trail', options.slug, options?.userLatitude, options?.userLongitude],
         queryFn: async () => {
-            const trail = await trailsApi.getBySlug(options.slug, options?.userLatitude, options?.userLongitude);
-            console.log('get Trail by slug:', trail);
-            return trail;
+            //const trail = await trailsApi.getBySlug(options.slug, options?.userLatitude, options?.userLongitude);
+            return await trailsService.getTrailBySlug(options.slug);
         },
         enabled: !!options.slug
     });
