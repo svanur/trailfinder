@@ -4,52 +4,64 @@
 ### Get all trails
 GET {{hostAddress}}/api/v1/trails
 Accept: application/json
+X-API-key: {{apiKey}}
 
 ### Get a specific trail by id
 GET {{hostAddress}}/api/v1/trails/{{trailId}}
 Accept: application/json
+X-API-key: {{apiKey}}
 
 ### Get a specific trail by slug
 GET {{hostAddress}}/api/v1/trails/esja-ultra-marathon-43
 Accept: application/json
+X-API-key: {{apiKey}}
 
 ### Get all races
 GET {{hostAddress}}/api/v1/races
 Accept: application/json
+X-API-key: {{apiKey}}
 
 ### Get a specific race by id
 GET {{hostAddress}}/api/v1/races/{{raceId}}
 Accept: application/json
+X-API-key: {{apiKey}}
 
 ### Get a specific race by slug
 GET {{hostAddress}}/api/v1/races/laugavegur-ultra
 Accept: application/json
+X-API-key: {{apiKey}}
 
 ### Get all locations
 GET {{hostAddress}}/api/v1/locations
 Accept: application/json
+X-API-key: {{apiKey}}
 
 ### Get a specific location by id
 GET {{hostAddress}}/api/v1/locations/{{locationId}}
 Accept: application/json
+X-API-key: {{apiKey}}
 
 ### Get a specific location by slug
 GET {{hostAddress}}/api/v1/locations/landmannalaugar
 Accept: application/json
+X-API-key: {{apiKey}}
 
 ### When trail/s do not exist
 
 ### Guid does not exist
 GET {{hostAddress}}/api/v1/trails/1.2.3.4
 Accept: application/json
+X-API-key: {{apiKey}}
 
 ### slug does not exist
 GET {{hostAddress}}/api/v1/trails/slug-does-not-exist
 Accept: application/json
+X-API-key: {{apiKey}}
 
 ### Update trail info by id
 PUT {{hostAddress}}/api/v1/trails/{{trailId}}
 Content-Type: application/json
+X-API-key: {{apiKey}}
 
 {
   "distanceMeters": 15500.50,
@@ -64,6 +76,7 @@ Content-Type: application/json
 ### guid is not the right length
 GET {{hostAddress}}/api/v1/trails/366-66fba19c4240
 Accept: application/json
+X-API-key: {{apiKey}}
 
 
 #############################################################
@@ -75,10 +88,12 @@ Accept: application/json
 # Replace path/to/your/file.gpx with the actual local path to a GPX file
 POST {{hostAddress}}/api/v1/trails/{{trailId}}/gpx-file/upload
 Content-Type: multipart/form-data; boundary=----------Boundary12345
+X-API-key: {{apiKey}}
 
 ------------Boundary12345
 Content-Disposition: form-data; name="file"; filename="laugavegur-ultra.gpx"
 Content-Type: application/gpx+xml
+X-API-key: {{apiKey}}
 
 < C:\dev\trailfinder\TrailFinder.DB\supabase\seeds\gpx-file\laugavegur-ultra.gpx
 ------------Boundary12345--
@@ -88,9 +103,10 @@ Content-Type: application/gpx+xml
 # This fetches the metadata stored in your gpx_files table // TODO: add this endpoint
 GET {{hostAddress}}/api/v1/trails/{{trailId}}/gpx-file/metadata
 Accept: application/json
-
+X-API-key: {{apiKey}}
 
 ### Download GPX file for a specific trail
 # This fetches the actual GPX file content from Supabase Storage
 GET {{hostAddress}}/api/v1/trails/{{trailId}}/gpx-file/download
 Accept: application/gpx+xml
+X-API-key: {{apiKey}}
