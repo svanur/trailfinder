@@ -2,8 +2,11 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
 using Asp.Versioning;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Supabase;
 using TrailFinder.Api.Converters;
 using TrailFinder.Api.Middleware;
@@ -12,6 +15,7 @@ using TrailFinder.Core;
 using TrailFinder.Core.Enums;
 using TrailFinder.Infrastructure;
 using TrailFinder.Infrastructure.Configuration;
+using TrailFinder.Infrastructure.HealthChecks;
 using TrailFinder.Infrastructure.Persistence;
 using TrailFinder.Infrastructure.Persistence.Extensions;
 
@@ -91,59 +95,48 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 // Configure health checks
-
-/*
 builder.Services.AddHealthChecks()
 
     // Database health checks
-
-    .AddDbContextCheck<ApplicationDbContext>("database")
-    .AddNpgSql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),  // Use "DefaultConnection" to match config
-        name: "database",
-        tags: new[] { "db", "postgresql" }
-    )
+    .AddDbContextCheck<ApplicationDbContext>("database", tags: ["db", "postgresql", "ready"])
 
 
     // Supabase health check
     .AddUrlGroup(
-        new Uri(builder.Configuration["VITE_SUPABASE_URL"]!),
+        new Uri(new Uri(builder.Configuration.GetSection("Supabase")["Url"]!), "rest/v1/"), // Point to a known PostgREST endpoint
         name: "supabase-api",
-        tags: ["external-service"])
+        tags: ["external-service", "ready"])
 
     .AddTypeActivatedCheck<SupabaseStorageHealthCheck>(
-        name: "supabase-storage", "storage", "supabase"
+        name: "supabase-storage",
+        failureStatus: null, // Use null to default to Unhealthy on failure
+        tags: ["storage", "supabase", "ready"],
+        timeout: TimeSpan.FromSeconds(30) // Set a reasonable timeout, e.g., 30 seconds
     )
 
-    // Custom GPX directory access check
-    .AddCheck("gpx-directory-access", () =>
+    // Configuration integrity check
+    .AddCheck("configuration-check", () =>
         {
-            try
+            var isSupabaseUrlConfigured = !string.IsNullOrEmpty(builder.Configuration.GetSection("Supabase")["Url"]);
+            var isSupabaseKeyConfigured = !string.IsNullOrEmpty(builder.Configuration.GetSection("Supabase")["Key"]);
+            var isApiKeyConfigured = !string.IsNullOrEmpty(builder.Configuration.GetSection("ApiSettings")["ApiKey"]);
+            var isDefaultConnectionStringConfigured = !string.IsNullOrEmpty(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+            if (isSupabaseUrlConfigured && isSupabaseKeyConfigured && isApiKeyConfigured && isDefaultConnectionStringConfigured)
             {
-                var gpxPath = Path.Combine(builder.Environment.ContentRootPath, "storage", "gpx");
-
-                // Check if the directory exists
-                if (!Directory.Exists(gpxPath))
-                {
-                    return HealthCheckResult.Unhealthy($"GPX directory does not exist at: {gpxPath}");
-                }
-
-                // Test write permissions
-                var testFile = Path.Combine(gpxPath, $"test_{Guid.NewGuid()}.tmp");
-                File.WriteAllText(testFile, "test");
-                File.Delete(testFile);
-
-                // Test read permissions by listing files
-                _ = Directory.GetFiles(gpxPath);
-
-                return HealthCheckResult.Healthy("GPX directory is accessible with read/write permissions");
+                return HealthCheckResult.Healthy("Critical configurations are present.");
             }
-            catch (Exception ex)
+            else
             {
-                return HealthCheckResult.Unhealthy("GPX directory access check failed", ex);
+                var issues = new List<string>();
+                if (!isSupabaseUrlConfigured) issues.Add("Supabase:Url");
+                if (!isSupabaseKeyConfigured) issues.Add("Supabase:Key");
+                if (!isApiKeyConfigured) issues.Add("ApiSettings:ApiKey");
+                if (!isDefaultConnectionStringConfigured) issues.Add("ConnectionStrings:DefaultConnection");
+                return HealthCheckResult.Unhealthy($"Missing critical configurations: {string.Join(", ", issues)}");
             }
         },
-        tags: ["storage", "gpx"])
+        tags: ["configuration", "ready"])
 
     // Disk storage health check
     .AddDiskStorageHealthCheck(options =>
@@ -157,8 +150,6 @@ builder.Services.AddHealthChecks()
         maximumMegabytesAllocated: 1024, // 1GB maximum
         name: "memory",
         tags: ["resources"]);
-
-*/
 
 // Configure CORS if needed
 builder.Services.AddCors(options =>
@@ -193,10 +184,10 @@ builder.Services.AddRateLimiter(options =>
     options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
     {
         var ipAddress = httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
-        
+
         return RateLimitPartition.GetFixedWindowLimiter(
-            partitionKey: ipAddress,
-            factory: partition => new FixedWindowRateLimiterOptions
+            ipAddress,
+            partition => new FixedWindowRateLimiterOptions
             {
                 PermitLimit = permitLimit,
                 Window = TimeSpan.FromSeconds(windowInSeconds),
@@ -209,7 +200,7 @@ builder.Services.AddRateLimiter(options =>
     {
         context.HttpContext.Response.StatusCode = 429;
         await context.HttpContext.Response.WriteAsync(
-            "Too many requests. Please try again later.", 
+            "Too many requests. Please try again later.",
             token);
     };
 });
@@ -217,11 +208,13 @@ builder.Services.AddRateLimiter(options =>
 // Register Supabase client
 builder.Services.AddSingleton(provider =>
 {
-    var supabaseUrl = builder.Configuration["VITE_SUPABASE_URL"];
-    var supabaseKey = builder.Configuration["VITE_SUPABASE_ANON_KEY"];
+    var supabaseUrl = builder.Configuration.GetSection("Supabase")["Url"]; // searches appsettings.json
+    var supabaseKey = builder.Configuration.GetSection("Supabase")["Key"];
 
     if (string.IsNullOrEmpty(supabaseUrl) || string.IsNullOrEmpty(supabaseKey))
+    {
         throw new InvalidOperationException("Supabase configuration is missing");
+    }
 
     return new Client(supabaseUrl, supabaseKey);
 });
@@ -239,33 +232,28 @@ if (app.Environment.IsDevelopment())
 }
 
 // Configure the health check endpoint with detailed responses
-
-/*
 app.MapHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
     AllowCachingResponses = false,
     Predicate = _ => true
 });
-*/
 
 // Add specialized endpoints for different check types
-
-/*
+// This endpoint will show the status of health checks tagged with "ready"
 app.MapHealthChecks("/health/ready", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
-    Predicate = (check) => check.Tags.Contains("ready")
+    Predicate = check => check.Tags.Contains("ready")
 });
-*/
 
-/*
+// This endpoint will show the status of all registered health checks, similar to /health,
+// but typically used for liveness probes
 app.MapHealthChecks("/health/live", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
     Predicate = _ => true
 });
-*/
 
 app.UseHttpsRedirection();
 

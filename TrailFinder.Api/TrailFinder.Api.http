@@ -110,3 +110,16 @@ X-API-key: {{apiKey}}
 GET {{hostAddress}}/api/v1/trails/{{trailId}}/gpx-file/download
 Accept: application/gpx+xml
 X-API-key: {{apiKey}}
+
+### Health
+GET {{hostAddress}}/health
+Accept: application/json
+
+### Health ready
+GET {{hostAddress}}/health/ready
+Accept: application/json
+
+### Health live
+GET {{hostAddress}}/health/live
+Accept: application/json
+
