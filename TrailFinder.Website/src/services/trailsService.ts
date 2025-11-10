@@ -16,7 +16,7 @@ export const trailsService = {
         try {
             return await apiClient.get<Trail>(`/trails/${slug}`);
         } catch (error){
-            console.error(`Failed to fetch trail by slug: ${slug}`, error);
+            console.error('Failed to fetch trail by slug: %s', slug, error);
             throw error;
         }
     },
