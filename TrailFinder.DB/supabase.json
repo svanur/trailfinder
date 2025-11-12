@@ -11,7 +11,7 @@
       "db_url": "your-staging-db-url"
     },
     "production": {
-      "db_url": "your-production-db-url"
+      "db_url": "postgresql://postgres:V4Wtn3bYqJddyZgT@db.ycyzexjmgbqqszcsolji.supabase.co:5432/postgres"
     }
   }
 }

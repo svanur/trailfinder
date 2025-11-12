@@ -1,7 +1,6 @@
 // src/components/TrailsTable.tsx (Update this file)
 import { Table, Text, Group, Flex } from '@mantine/core';
-import { NavLink as MantineNavLink } from '@mantine/core';
-import { NavLink as RouterNavLink } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 
 import { useUserLocation } from '../hooks/useUserLocation';
 
@@ -31,6 +30,7 @@ type SortDirection = 'asc' | 'desc';
 export function TrailsTable({ filters }: TrailsTableProps) {
     // Get user location
     const userLocation = useUserLocation();
+    const navigate = useNavigate();
 
     // Pass user location to useTrails hook
     const { data: allTrails, isLoading, error } = useTrails({
@@ -185,6 +185,18 @@ export function TrailsTable({ filters }: TrailsTableProps) {
         sortDirection,
     ]);
 
+    // Helper function to extract the first sentence from a text string
+    const getFirstSentence = (text: string | null | undefined): string | null => {
+        if (!text) {
+            return "";
+        }
+        const sentenceEndings = /[.!?]/;
+        const match = text.match(sentenceEndings);
+        if (match && match.index !== undefined) {
+            return text.substring(0, match.index + 1);
+        }
+        return text; // If no sentence ending, return the whole text
+    };
 
     // Loading states based on both trail data and user location
     //if (isLoading || userLocation.isLoading) {
@@ -208,17 +220,25 @@ export function TrailsTable({ filters }: TrailsTableProps) {
     }
 
     const rows = filteredAndSortedTrails.map((trail) => (
-        <Table.Tr key={trail.id}>
+        <Table.Tr
+            key={trail.id}
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate(`/hlaup/${trail.slug}`)} // Make the whole row clickable
+        >
             <Table.Td>
-                <MantineNavLink
-                    component={RouterNavLink}
-                    to={`/hlaup/${trail.slug}`}
-                    label={trail.name}
-                    description={trail.description}
-                    leftSection={<IconActivity size={16} stroke={1.5} />}
-                />
+                <Group wrap="nowrap"> {/* Use Group to display icon, name, and description */}
+                    <IconActivity size={16} stroke={1.5} />
+                    <div>
+                        <Text size="sm" fw={500}>{trail.name}</Text>
+                        {trail.description && (
+                            <Text size="xs" c="dimmed">
+                                {getFirstSentence(trail.description)} {/* Display only the first sentence */}
+                            </Text>
+                        )}
+                    </div>
+                </Group>
             </Table.Td>
-            {/* Display distance to user if available */}
+            {/* Display distance to the user if available */}
             <Table.Td>
                 <Group gap="xs">
                     <IconRuler size={16} />

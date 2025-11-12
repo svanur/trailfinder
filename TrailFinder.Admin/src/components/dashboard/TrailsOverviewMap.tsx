@@ -42,7 +42,7 @@ export function TrailsOverviewMap() {
                 <strong>${_feature.properties.name}</strong><br>
                 Erfiðleikastig: ${
                 _feature.properties.difficulty_level === 'easy' ? 'Létt' :
-                    _feature.properties.difficulty_level === 'moderate' ? 'Miðlungs' : 'Erfið'
+                    _feature.properties.difficulty_level === 'moderate' ? 'Miðlungs' : 'Erfitt'
             }
             `);
         }

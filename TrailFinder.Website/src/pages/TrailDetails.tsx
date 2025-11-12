@@ -19,6 +19,7 @@ import {
     Tooltip
 } from '@mantine/core';
 import {
+    IconArrowLeft,
     IconBrandFacebook,
     IconBrandTelegram,
     IconBrandWhatsapp,
@@ -164,15 +165,18 @@ export function TrailDetails() {
 
                 {/* Badges with Translations */}
                 <Group gap="xs">
-                    <Tooltip label="Hvernig er leiðin?" position="bottom" offset={2} arrowOffset={14} arrowSize={4}
+                    <Tooltip label="Erfiðleikastigið?" position="bottom" offset={2} arrowOffset={14} arrowSize={4}
                              withArrow>
-                        <Badge color="blue">{getDifficultyLevelTranslation(trail.difficultyLevel)}</Badge></Tooltip>
-                    <Tooltip label="Hvernig er landslagið?" position="bottom" offset={2} arrowOffset={14} arrowSize={4}
-                             withArrow>
-                        <Badge color="grape">{getTerrainTypeTranslation(trail.terrainType)}</Badge></Tooltip>
+                        <Badge color="blue">{getDifficultyLevelTranslation(trail.difficultyLevel)}</Badge>
+                    </Tooltip>
                     <Tooltip label="Malbik eða mói?" position="bottom" offset={2} arrowOffset={14} arrowSize={4}
                              withArrow>
-                        <Badge color="teal">{getSurfaceTypeTranslation(trail.surfaceType)}</Badge></Tooltip>
+                        <Badge color="teal">{getSurfaceTypeTranslation(trail.surfaceType)}</Badge>
+                    </Tooltip>
+                    <Tooltip label="Hvernig er landslagið?" position="bottom" offset={2} arrowOffset={14} arrowSize={4}
+                             withArrow>
+                        <Badge color="grape">{getTerrainTypeTranslation(trail.terrainType)}</Badge>
+                    </Tooltip>
                 </Group>
 
                 {/* Trail Overview Card */}
@@ -337,11 +341,21 @@ export function TrailDetails() {
 
                 {/* Created At - Bottom Right */}
                 <Divider my="md"/>
-                <Group justify="flex-end">
+
+                <Group justify="space-between">
+                    <Button
+                        variant="subtle"
+                        leftSection={<IconArrowLeft size={16} />}
+                        c="dimmed"
+                        onClick={() => navigate(-1)} // Navigate back to the previous page
+                    >
+                        Til baka
+                    </Button>
                     <Text size="sm" c="dimmed">
                         Bætt við: {trailAddedDate}
                     </Text>
                 </Group>
+                
             </Stack>
         </Container>
     );

@@ -38,3 +38,4 @@ packages/
 *.user
 *.userosscache
 *.sln.docstates
+/appsettings.Production.json
