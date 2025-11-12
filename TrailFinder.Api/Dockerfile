@@ -1,6 +1,6 @@
 # Dockerfile for Render.com
 # Stage 1: Build the .NET application
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 
 # Set the working directory inside the container to /src or /app
 WORKDIR /app
@@ -14,7 +14,7 @@ COPY . .
 RUN dotnet publish "TrailFinder.Api.csproj" -c Release -o /app/publish
 
 # Stage 2: Run the published application
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 EXPOSE 8080 
 # Copy published output from the build stage
