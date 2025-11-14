@@ -4,7 +4,7 @@ import axios from 'axios';
 import pg from 'pg';
 
 const { Pool } = pg;
-const API_BASE_URL = 'http://localhost:5263/api';
+const API_BASE_URL = 'http://localhost:5263/api/v1';
 
 const pool = new Pool({
     host: 'localhost',
