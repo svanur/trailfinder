@@ -164,7 +164,7 @@ export function TrailDetails() {
 
                 {/* Badges with Translations */}
                 <Group gap="xs">
-                    <Tooltip label="Hvernig er leiðin?" position="bottom" offset={2} arrowOffset={14} arrowSize={4}
+                    <Tooltip label="Er leiðin erfið?" position="bottom" offset={2} arrowOffset={14} arrowSize={4}
                              withArrow>
                         <Badge color="blue">{getDifficultyLevelTranslation(trail.difficultyLevel)}</Badge></Tooltip>
                     <Tooltip label="Hvernig er landslagið?" position="bottom" offset={2} arrowOffset={14} arrowSize={4}

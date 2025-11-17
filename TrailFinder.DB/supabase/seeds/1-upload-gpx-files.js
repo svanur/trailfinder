@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // --- API Configuration ---
-const apiHostAddress = 'http://localhost:5263';
+const apiHostAddress = 'http://localhost:5263/api/v1';
 const serviceUserId = '00000000-0000-0000-0000-000000000001';
 
 // PostgreSQL connection for querying trail IDs
@@ -46,7 +46,7 @@ async function uploadGpxFilesViaApi() {
             }
 
             const trailId = result.rows[0].id;
-            const uploadApiUrl = `${apiHostAddress}/api/v1/trails/${trailId}/gpx-file/upload`;
+            const uploadApiUrl = `${apiHostAddress}/trails/${trailId}/gpx-file/upload`;
 
             console.log(`Attempting to upload ${file} for Trail ID: ${trailId} via API: ${uploadApiUrl}`);
 
