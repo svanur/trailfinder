@@ -222,6 +222,10 @@ builder.Services.AddSingleton(provider =>
 var logsPath = Path.Combine(builder.Environment.ContentRootPath, "logs");
 Directory.CreateDirectory(logsPath);
 
+/* railway*/
+builder.WebHost.UseUrls($"http://0.0.0.0:{Environment.GetEnvironmentVariable("PORT") ?? "8080"}");
+/* railway*/
+
 var app = builder.Build();
 
 // Configure middleware pipeline
