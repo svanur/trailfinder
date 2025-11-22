@@ -3,12 +3,12 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Copy csproj and restore (faster caching)
-COPY TrailFinder.Api.csproj .
-RUN dotnet restore TrailFinder.Api.csproj
+COPY . .
+RUN dotnet restore
 
 # Copy everything else and build
 COPY . .
-RUN dotnet publish TrailFinder.Api.csproj -c Release -o /app/publish --no-restore
+RUN dotnet publish TrailFinder.Api/TrailFinder.Api.csproj -c Release -o /app/publish --no-restore
 
 # ---------- Runtime Stage ----------
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
